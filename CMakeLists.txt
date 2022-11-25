@@ -716,8 +716,7 @@ target_include_directories(${APP_PROJECT_NAME} SYSTEM
 )
 
 # Use the Widgets module from Qt 5.
-qt5_use_modules(${APP_PROJECT_NAME} Widgets)
-qt5_use_modules(${APP_PROJECT_NAME} Network)
+target_link_libraries(${APP_PROJECT_NAME} Qt5::Widgets Qt5::Network)
 
 # add platform specific libraries
 if (APPLE)
@@ -826,6 +825,11 @@ if (WIN32)
       "${CMAKE_SOURCE_DIR}/bin/test")
 endif ()
 
+enable_testing()
+add_test(
+  ${TEST_PROJECT_NAME}
+  ${TEST_PROJECT_NAME}
+)
 
 # symlinks for data
 message(STATUS "create symlink: "
