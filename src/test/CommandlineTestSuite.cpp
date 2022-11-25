@@ -28,7 +28,37 @@ TEST_CASE("command line")
 		REQUIRE(redStream.str() == "Sourcetrail Version 2016.1\n");
 	}
 
-	SECTION("command config help") {}
+	SECTION("command config help") {
+		std::vector<std::string> args({"--help"});
+
+		std::stringstream redStream;
+		auto oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+		commandline::CommandLineParser parser("2016.1");
+		parser.preparse(args);
+		parser.parse();
+
+		constexpr auto expected = R"(Usage:
+  Sourcetrail [command] [option...] [positional arguments]
+
+Commands:
+  config                 Change preferences relevant to project indexing.*
+  index                  Index a certain project.*
+
+  * has its own --help
+
+Options:
+  -h [ --help ]          Print this help message
+  -v [ --version ]       Version of Sourcetrail
+  --project-file arg     Open Sourcetrail with this project (.srctrlprj)
+
+Positional Arguments: 
+  1: project-file
+)";
+		std::cout.rdbuf(oldBuf);
+
+		REQUIRE(redStream.str() == expected);
+	}
 
 	SECTION("command config filepathVector")
 	{
