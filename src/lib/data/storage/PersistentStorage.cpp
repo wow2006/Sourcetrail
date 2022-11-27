@@ -152,7 +152,7 @@ void PersistentStorage::addElementComponents(const std::vector<StorageElementCom
 
 Id PersistentStorage::addError(const StorageErrorData& data)
 {
-	return m_sqliteIndexStorage.addError(data).id;
+	return m_sqliteIndexStorage.addError(data).m_id;
 }
 
 void PersistentStorage::removeElement(const Id id)

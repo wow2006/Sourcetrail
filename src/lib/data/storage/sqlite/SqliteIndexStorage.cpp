@@ -427,12 +427,12 @@ void SqliteIndexStorage::addElementComponents(const std::vector<StorageElementCo
 
 StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
 {
-	const std::wstring sanitizedMessage = utility::replace(data.message, L"'", L"''");
+	const std::wstring sanitizedMessage = utility::replace(data.m_message, L"'", L"''");
 
 	Id id = 0;
 	{
 		m_checkErrorExistsStmt.bind(1, utility::encodeToUtf8(sanitizedMessage).c_str());
-		m_checkErrorExistsStmt.bind(2, int(data.fatal));
+		m_checkErrorExistsStmt.bind(2, int(data.m_fatal));
 
 		CppSQLite3Query checkQuery = executeQuery(m_checkErrorExistsStmt);
 		if (!checkQuery.eof() && checkQuery.numFields() > 0)
@@ -449,9 +449,9 @@ StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
 
 		m_insertErrorStmt.bind(1, int(id));
 		m_insertErrorStmt.bind(2, utility::encodeToUtf8(sanitizedMessage).c_str());
-		m_insertErrorStmt.bind(3, data.fatal);
-		m_insertErrorStmt.bind(4, data.indexed);
-		m_insertErrorStmt.bind(5, utility::encodeToUtf8(data.translationUnit).c_str());
+		m_insertErrorStmt.bind(3, data.m_fatal);
+		m_insertErrorStmt.bind(4, data.m_indexed);
+		m_insertErrorStmt.bind(5, utility::encodeToUtf8(data.m_translationUnit).c_str());
 
 		const bool success = executeStatement(m_insertErrorStmt);
 		if (success)
