@@ -21,7 +21,7 @@ void Storage::inject(Storage* injected)
 		for (const StorageError& error: injected->getErrors())
 		{
 			Id errorId = addError(error);
-			injectedIdToOwnElementId.emplace(error.id, errorId);
+			injectedIdToOwnElementId.emplace(error.m_id, errorId);
 		}
 	}
 

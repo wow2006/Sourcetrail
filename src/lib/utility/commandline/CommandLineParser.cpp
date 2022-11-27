@@ -16,7 +16,7 @@ namespace po = boost::program_options;
 
 namespace commandline
 {
-CommandLineParser::CommandLineParser(const std::string& version): m_version(version)
+CommandLineParser::CommandLineParser(std::string version): m_version(std::move(version))
 {
 	po::options_description options("Options");
 	options.add_options()("help,h", "Print this help message")(
@@ -35,7 +35,7 @@ CommandLineParser::CommandLineParser(const std::string& version): m_version(vers
 	}
 }
 
-CommandLineParser::~CommandLineParser() {}
+CommandLineParser::~CommandLineParser() = default;
 
 void CommandLineParser::preparse(int argc, char** argv)
 {
@@ -50,7 +50,7 @@ void CommandLineParser::preparse(int argc, char** argv)
 
 void CommandLineParser::preparse(std::vector<std::string>& args)
 {
-	if (args.size() < 1)
+	if (args.empty())
 	{
 		return;
 	}
@@ -68,7 +68,7 @@ void CommandLineParser::preparse(std::vector<std::string>& args)
 			}
 		}
 
-		po::variables_map vm;
+		po::variables_map variablesMap;
 		po::positional_options_description positional;
 		positional.add("project-file", 1);
 		po::store(
@@ -77,25 +77,25 @@ void CommandLineParser::preparse(std::vector<std::string>& args)
 				.positional(positional)
 				.allow_unregistered()
 				.run(),
-			vm);
-		po::notify(vm);
+			variablesMap);
+		po::notify(variablesMap);
 
-		if (vm.count("version"))
+		if (variablesMap.find("version") != variablesMap.end())
 		{
 			std::cout << "Sourcetrail Version " << m_version << std::endl;
 			m_quit = true;
 			return;
 		}
 
-		if (vm.count("help"))
+		if (variablesMap.find("help") != variablesMap.end())
 		{
 			printHelp();
 			m_quit = true;
 		}
 
-		if (vm.count("project-file"))
+		if (variablesMap.find("project-file") != variablesMap.end())
 		{
-			m_projectFile = FilePath(vm["project-file"].as<std::string>());
+			m_projectFile = FilePath(variablesMap["project-file"].as<std::string>());
 			processProjectfile();
 		}
 	}

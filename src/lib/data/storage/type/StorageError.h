@@ -8,54 +8,54 @@
 
 struct StorageErrorData
 {
-	StorageErrorData(): message(L""), translationUnit(L""), fatal(0), indexed(0) {}
+	StorageErrorData(): m_message(L""), m_translationUnit(L""), m_fatal(0), m_indexed(0) {}
 
 	StorageErrorData(std::wstring message, std::wstring translationUnit, bool fatal, bool indexed)
-		: message(std::move(message))
-		, translationUnit(std::move(translationUnit))
-		, fatal(fatal)
-		, indexed(indexed)
+		: m_message(std::move(message))
+		, m_translationUnit(std::move(translationUnit))
+		, m_fatal(fatal)
+		, m_indexed(indexed)
 	{
 	}
 
 	bool operator<(const StorageErrorData& other) const
 	{
-		if (message != other.message)
+		if (m_message != other.m_message)
 		{
-			return message < other.message;
+			return m_message < other.m_message;
 		}
-		else if (translationUnit != other.translationUnit)
+		else if (m_translationUnit != other.m_translationUnit)
 		{
-			return translationUnit < other.translationUnit;
+			return m_translationUnit < other.m_translationUnit;
 		}
-		else if (fatal != other.fatal)
+		else if (m_fatal != other.m_fatal)
 		{
-			return fatal < other.fatal;
+			return m_fatal < other.m_fatal;
 		}
 		else
 		{
-			return indexed < other.indexed;
+			return m_indexed < other.m_indexed;
 		}
 	}
 
-	std::wstring message;
-	std::wstring translationUnit;
-	bool fatal;
-	bool indexed;
+	std::wstring m_message;
+	std::wstring m_translationUnit;
+	bool m_fatal;
+	bool m_indexed;
 };
 
 struct StorageError: public StorageErrorData
 {
-	StorageError(): StorageErrorData(), id(0) {}
+	StorageError(): StorageErrorData(), m_id(0) {}
 
-	StorageError(Id id, const StorageErrorData& data): StorageErrorData(data), id(id) {}
+	StorageError(Id id, const StorageErrorData& data): StorageErrorData(data), m_id(id) {}
 
 	StorageError(Id id, std::wstring message, std::wstring translationUnit, bool fatal, bool indexed)
-		: StorageErrorData(std::move(message), std::move(translationUnit), fatal, indexed), id(id)
+		: StorageErrorData(std::move(message), std::move(translationUnit), fatal, indexed), m_id(id)
 	{
 	}
 
-	Id id;
+	Id m_id;
 };
 
 #endif	  // STORAGE_ERROR_H

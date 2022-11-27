@@ -1,5 +1,4 @@
-#ifndef COMMAND_LINE_PARSER_H
-#define COMMAND_LINE_PARSER_H
+#pragma once
 
 #include <memory>
 #include <string>
@@ -10,8 +9,6 @@
 #include "FilePath.h"
 #include "RefreshInfo.h"
 
-namespace po = boost::program_options;
-
 namespace commandline
 {
 class CommandlineCommand;
@@ -19,8 +16,13 @@ class CommandlineCommand;
 class CommandLineParser
 {
 public:
-	CommandLineParser(const std::string& version);
+	explicit CommandLineParser(std::string version);
 	~CommandLineParser();
+
+	CommandLineParser(const CommandLineParser&) = delete;
+	CommandLineParser& operator=(const CommandLineParser&) = delete;
+	CommandLineParser(CommandLineParser&&) = delete;
+	CommandLineParser& operator=(CommandLineParser&&) = delete;
 
 	void preparse(int argc, char** argv);
 	void preparse(std::vector<std::string>& args);
@@ -64,5 +66,3 @@ private:
 };
 
 }	 // namespace commandline
-
-#endif	  // COMMAND_LINE_PARSER_H

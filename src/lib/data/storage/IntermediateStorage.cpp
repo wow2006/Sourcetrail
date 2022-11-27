@@ -45,8 +45,8 @@ size_t IntermediateStorage::getByteSize(size_t stringSize) const
 	for (const StorageErrorData& storageError: getErrors())
 	{
 		byteSize += sizeof(StorageErrorData);
-		byteSize += stringSize + storageError.message.size();
-		byteSize += stringSize + storageError.translationUnit.size();
+		byteSize += stringSize + storageError.m_message.size();
+		byteSize += stringSize + storageError.m_translationUnit.size();
 	}
 
 	for (const StorageNode& storageNode: getStorageNodes())
@@ -79,7 +79,7 @@ bool IntermediateStorage::hasFatalErrors() const
 {
 	for (const StorageErrorData& error: m_errors)
 	{
-		if (error.fatal)
+		if (error.m_fatal)
 		{
 			return true;
 		}
@@ -313,7 +313,7 @@ Id IntermediateStorage::addError(const StorageErrorData& errorData)
 	auto it = m_errorsIndex.find(errorData);
 	if (it != m_errorsIndex.end())
 	{
-		return m_errors[it->second].id;
+		return m_errors[it->second].m_id;
 	}
 
 	Id errorId = m_nextId++;

@@ -161,11 +161,11 @@ struct SharedStorageError
 inline SharedStorageError toShared(const StorageError& error, SharedMemory::Allocator* allocator)
 {
 	return SharedStorageError(
-		error.id,
-		utility::encodeToUtf8(error.message),
-		utility::encodeToUtf8(error.translationUnit),
-		error.fatal,
-		error.indexed,
+		error.m_id,
+		utility::encodeToUtf8(error.m_message),
+		utility::encodeToUtf8(error.m_translationUnit),
+		error.m_fatal,
+		error.m_indexed,
 		allocator);
 }
 

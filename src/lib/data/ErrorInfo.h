@@ -1,8 +1,9 @@
 #ifndef ERROR_INFO_H
 #define ERROR_INFO_H
 
-#include "StorageError.h"
+#include <limits>
 
+#include "StorageError.h"
 
 struct ErrorInfo
 {
@@ -10,8 +11,8 @@ struct ErrorInfo
 		: id(0)
 		, message(L"")
 		, filePath(L"")
-		, lineNumber(-1)
-		, columnNumber(-1)
+		, lineNumber(std::numeric_limits<size_t>::max())
+		, columnNumber(std::numeric_limits<size_t>::max())
 		, translationUnit(L"")
 		, fatal(0)
 		, indexed(0)
