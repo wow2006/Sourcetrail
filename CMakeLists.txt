@@ -8,7 +8,7 @@ set(BUILD_CXX_LANGUAGE_PACKAGE    OFF CACHE BOOL "Add C and C++ support to the S
 set(BUILD_JAVA_LANGUAGE_PACKAGE   OFF CACHE BOOL "Add Java support to the Sourcetrail indexer.")
 set(BUILD_PYTHON_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Python support to the Sourcetrail indexer.")
 set(DOCKER_BUILD                  OFF CACHE BOOL "Build runs in Docker")
-set(TREAT_WARNINGS_AS_ERRORS      ON  CACHE BOOL "Treat compiler warnings as errors")
+set(TREAT_WARNINGS_AS_ERRORS      OFF CACHE BOOL "Treat compiler warnings as errors")
 set(BUILD_COVERAGE                OFF CACHE BOOL "Generate a coverage report")
 
 include(cmake/add_files.cmake)
@@ -16,6 +16,7 @@ include(cmake/create_source_groups.cmake)
 include(cmake/version.cmake)
 include(cmake/version_setup.cmake)
 include(cmake/licenses.cmake)
+include(cmake/compiler_warnings.cmake)
 
 # prohibit in-source-builds
 if (${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
@@ -79,6 +80,7 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_REQUIRED   ON)
+set(CMAKE_CXX_EXTENSIONS          OFF)
 set(CMAKE_CXX_STANDARD            17)
 set(CMAKE_C_STANDARD              11)
 
@@ -94,47 +96,10 @@ if(BUILD_COVERAGE)
   )
 endif()
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -fcolor-diagnostics -fvisibility-inlines-hidden")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  ADD_COMPILE_OPTIONS(/MP)
-endif()
-
 # FIXME: necessary to fix build in Docker
 if (DOCKER_BUILD)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
 endif()
-
-if (TREAT_WARNINGS_AS_ERRORS)
-  if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    # Visual Studio 2017 version 15.9 <= Version <= Visual Studio 2019 Version 16.4
-    if ((MSVC_VERSION GREATER_EQUAL 1916) AND (MSVC_VERSION LESS_EQUAL 1924))
-      # Warning 4003: not enough actual parameters for macro 'identifier'
-      # Warning 4250: 'class1' inherits 'class2::member' via dominance
-      set(WARNINGS_LIST "/wd4003 /wd4250")
-      set(CMAKE_CXX_WARNINGS_FLAGS "/experimental:external /external:anglebrackets /external:W0 /WX")
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_WARNINGS_FLAGS} ${WARNINGS_LIST}")
-
-      # Treat linker warnings as errors
-      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX")
-      set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /WX")
-      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WX")
-      set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /WX")
-
-      message(STATUS "'Treat warnings as errors' policy is enabled")
-    else()
-      message(STATUS "'Treat warnings as errors' policy is disabled")
-    endif()
-  else()
-    message(STATUS "'Treat warnings as errors' policy is disabled")
-  endif()
-endif()
-
-# For debugging the release build on linux
-#if (UNIX AND "${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-  #add_definitions(-fno-omit-frame-pointer)
-#endif ()
-
 
 # Clang ------------------------------------------------------------------------
 
@@ -181,7 +146,6 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
   endif()
 endif()
 
-
 # Boost ------------------------------------------------------------------------
 
 set(Boost_USE_MULTITHREAD ON)
@@ -220,7 +184,6 @@ if(Qt5Widgets_FOUND)
   #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=${QT_MIN_VERSION_HEX}    # disables all the APIs deprecated at or before the specified Qt version
   add_definitions (-DQT_DISABLE_DEPRECATED_BEFORE=${QT_MIN_VERSION_HEX})
 endif()
-
 
 # Setup ---------------------------------------------------------------------------
 
@@ -323,6 +286,8 @@ endif()
 if (WIN32)
   target_link_libraries(${LIB_UTILITY_PROJECT_NAME} Qt5::WinExtras)
 endif()
+
+set_project_warnings(${LIB_UTILITY_PROJECT_NAME})
 
 # Lib --------------------------------------------------------------------------
 
@@ -782,7 +747,6 @@ if (APPLE)
   )
 endif ()
 
-
 # Test ----------------------------------------------------------------------
 
 if (UNIX)
@@ -868,4 +832,3 @@ elseif(WIN32)
     endif()
   endforeach()
 endif ()
-
