@@ -12,9 +12,26 @@ TEST_CASE("command line")
 	FilePath appSettingsPath = ApplicationSettings::getInstance()->getFilePath();
 	ApplicationSettings::getInstance()->load(FilePath(L"data/CommandlineTestSuite/settings.xml"));
 
+	SECTION("empty commandline")
+	{
+		char* args[] = {"./sourcetrail"};
+		char** argv = &args[0];
+
+		std::stringstream redStream;
+		auto oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+		commandline::CommandLineParser parser("2016.1");
+		parser.preparse(1, args);
+		parser.parse();
+
+		std::cout.rdbuf(oldBuf);
+
+		REQUIRE(redStream.str().empty());
+	}
+
 	SECTION("commandline version")
 	{
-		std::vector<std::string> args({"--version", "help"});
+		std::vector<std::string> args({"--version"});
 
 		std::stringstream redStream;
 		auto oldBuf = std::cout.rdbuf(redStream.rdbuf());
@@ -126,6 +143,55 @@ Positional Arguments:
 
 		processes = ApplicationSettings::getInstance()->getMultiProcessIndexingEnabled();
 		REQUIRE(processes == true);
+	}
+
+	SECTION("pass two project-file to command-line")
+	{
+		std::vector<std::string> args({"--project-file", "somewhere", "--project-file", "anothersomewhere"});
+
+		std::stringstream outStream;
+		auto oldOutBuf = std::cout.rdbuf(outStream.rdbuf());
+		std::stringstream errStream;
+		auto oldErrBuf = std::cerr.rdbuf(errStream.rdbuf());
+
+		commandline::CommandLineParser parser("2016.1");
+		parser.preparse(args);
+		parser.parse();
+
+		std::cout.rdbuf(oldOutBuf);
+		std::cout.rdbuf(oldErrBuf);
+
+		REQUIRE(outStream.str().empty());
+		constexpr auto errorString = R"(ERROR: option '--project-file' cannot be specified more than once
+
+
+Options:
+  -h [ --help ]          Print this help message
+  -v [ --version ]       Version of Sourcetrail
+  --project-file arg     Open Sourcetrail with this project (.srctrlprj)
+
+)";
+		REQUIRE(errStream.str() == errorString);
+	}
+
+	SECTION("unregisted command-line")
+	{
+		std::vector<std::string> args({"--something"});
+
+		std::stringstream outStream;
+		auto oldOutBuf = std::cout.rdbuf(outStream.rdbuf());
+		std::stringstream errStream;
+		auto oldErrBuf = std::cerr.rdbuf(errStream.rdbuf());
+
+		commandline::CommandLineParser parser("2016.1");
+		parser.preparse(args);
+		parser.parse();
+
+		std::cout.rdbuf(oldOutBuf);
+		std::cout.rdbuf(oldErrBuf);
+
+		REQUIRE(outStream.str().empty());
+		REQUIRE(errStream.str().empty());
 	}
 
 	ApplicationSettings::getInstance()->load(appSettingsPath);
