@@ -1,6 +1,7 @@
 #include "CommandLineParser.h"
 
 #include <iostream>
+#include <memory>
 #include <utility>
 
 #include <boost/program_options.hpp>
@@ -11,12 +12,67 @@
 #include "ConfigManager.h"
 #include "TextAccess.h"
 #include "utilityString.h"
+#include "RefreshInfo.h"
+#include "FilePath.h"
 
 namespace po = boost::program_options;
 
 namespace commandline
 {
-CommandLineParser::CommandLineParser(std::string version): m_version(std::move(version))
+
+class CommandLineParserImpl
+{
+public:
+	explicit CommandLineParserImpl(std::string version);
+	~CommandLineParserImpl();
+
+	CommandLineParserImpl(const CommandLineParserImpl&) = delete;
+	CommandLineParserImpl& operator=(const CommandLineParserImpl&) = delete;
+	CommandLineParserImpl(CommandLineParserImpl&&) = delete;
+	CommandLineParserImpl& operator=(CommandLineParserImpl&&) = delete;
+
+	void preparse(int argc, char** argv);
+	void preparse(std::vector<std::string>& args);
+	void parse();
+
+	bool runWithoutGUI() const;
+	bool exitApplication() const;
+
+	bool hasError() const;
+	std::wstring getError();
+
+	void fullRefresh();
+	void incompleteRefresh();
+	void setShallowIndexingRequested(bool enabled = true);
+
+	const FilePath& getProjectFilePath() const;
+	void setProjectFile(const FilePath& filepath);
+
+	RefreshMode getRefreshMode() const;
+	bool getShallowIndexingRequested() const;
+
+private:
+	void processProjectfile();
+	void printHelp() const;
+
+	boost::program_options::options_description m_options;
+	boost::program_options::positional_options_description m_positional;
+
+	std::vector<std::shared_ptr<CommandlineCommand>> m_commands;
+	std::vector<std::string> m_args;
+
+	const std::string m_version;
+	FilePath m_projectFile;
+	RefreshMode m_refreshMode = RefreshMode::REFRESH_UPDATED_FILES;
+	bool m_shallowIndexingRequested = false;
+
+	bool m_quit = false;
+	bool m_withoutGUI = false;
+
+	std::wstring m_errorString;
+};
+
+CommandLineParserImpl::CommandLineParserImpl(std::string version): m_version(std::move(version))
 {
 	po::options_description options("Options");
 	options.add_options()("help,h", "Print this help message")(
@@ -26,8 +82,8 @@ CommandLineParser::CommandLineParser(std::string version): m_version(std::move(v
 	m_options.add(options);
 	m_positional.add("project-file", 1);
 
-	m_commands.push_back(std::make_unique<commandline::CommandlineCommandConfig>(this));
-	m_commands.push_back(std::make_unique<commandline::CommandlineCommandIndex>(this));
+	// m_commands.push_back(std::make_unique<commandline::CommandlineCommandConfig>(this));
+	// m_commands.push_back(std::make_unique<commandline::CommandlineCommandIndex>(this));
 
 	for (auto& command: m_commands)
 	{
@@ -35,9 +91,9 @@ CommandLineParser::CommandLineParser(std::string version): m_version(std::move(v
 	}
 }
 
-CommandLineParser::~CommandLineParser() = default;
+CommandLineParserImpl::~CommandLineParserImpl() = default;
 
-void CommandLineParser::preparse(int argc, char** argv)
+void CommandLineParserImpl::preparse(int argc, char** argv)
 {
 	std::vector<std::string> args;
 	for (int i = 1; i < argc; i++)
@@ -48,7 +104,7 @@ void CommandLineParser::preparse(int argc, char** argv)
 	preparse(args);
 }
 
-void CommandLineParser::preparse(std::vector<std::string>& args)
+void CommandLineParserImpl::preparse(std::vector<std::string>& args)
 {
 	if (args.empty())
 	{
@@ -106,7 +162,7 @@ void CommandLineParser::preparse(std::vector<std::string>& args)
 	}
 }
 
-void CommandLineParser::parse()
+void CommandLineParserImpl::parse()
 {
 	if (m_args.size() < 1)
 	{
@@ -137,13 +193,13 @@ void CommandLineParser::parse()
 	}
 }
 
-void CommandLineParser::setProjectFile(const FilePath& filepath)
+void CommandLineParserImpl::setProjectFile(const FilePath& filepath)
 {
 	m_projectFile = filepath;
 	processProjectfile();
 }
 
-void CommandLineParser::printHelp() const
+void CommandLineParserImpl::printHelp() const
 {
 	std::cout << "Usage:\n  Sourcetrail [command] [option...] [positional arguments]\n\n";
 
@@ -170,27 +226,27 @@ void CommandLineParser::printHelp() const
 	}
 }
 
-bool CommandLineParser::runWithoutGUI() const
+bool CommandLineParserImpl::runWithoutGUI() const
 {
 	return m_withoutGUI;
 }
 
-bool CommandLineParser::exitApplication() const
+bool CommandLineParserImpl::exitApplication() const
 {
 	return m_quit;
 }
 
-bool CommandLineParser::hasError() const
+bool CommandLineParserImpl::hasError() const
 {
 	return !m_errorString.empty();
 }
 
-std::wstring CommandLineParser::getError()
+std::wstring CommandLineParserImpl::getError()
 {
 	return m_errorString;
 }
 
-void CommandLineParser::processProjectfile()
+void CommandLineParserImpl::processProjectfile()
 {
 	m_projectFile.makeAbsolute();
 
@@ -220,34 +276,66 @@ void CommandLineParser::processProjectfile()
 	}
 }
 
-void CommandLineParser::fullRefresh()
+void CommandLineParserImpl::fullRefresh()
 {
-	m_refreshMode = REFRESH_ALL_FILES;
+	m_refreshMode = RefreshMode::REFRESH_ALL_FILES;
 }
 
-void CommandLineParser::incompleteRefresh()
+void CommandLineParserImpl::incompleteRefresh()
 {
-	m_refreshMode = REFRESH_UPDATED_AND_INCOMPLETE_FILES;
+	m_refreshMode = RefreshMode::REFRESH_UPDATED_AND_INCOMPLETE_FILES;
 }
 
-void CommandLineParser::setShallowIndexingRequested(bool enabled)
+void CommandLineParserImpl::setShallowIndexingRequested(bool enabled)
 {
 	m_shallowIndexingRequested = enabled;
 }
 
-const FilePath& CommandLineParser::getProjectFilePath() const
+const FilePath& CommandLineParserImpl::getProjectFilePath() const
 {
 	return m_projectFile;
 }
 
-RefreshMode CommandLineParser::getRefreshMode() const
+RefreshMode CommandLineParserImpl::getRefreshMode() const
 {
 	return m_refreshMode;
 }
 
-bool CommandLineParser::getShallowIndexingRequested() const
+bool CommandLineParserImpl::getShallowIndexingRequested() const
 {
 	return m_shallowIndexingRequested;
 }
+
+CommandLineParser::CommandLineParser(std::string version) : m_pImpl(std::make_unique<CommandLineParserImpl>(std::move(version))) {}
+
+CommandLineParser::~CommandLineParser() = default;
+
+void CommandLineParser::preparse(int argc, char** argv) { m_pImpl->preparse(argc, argv); }
+
+void CommandLineParser::preparse(std::vector<std::string>& args) { m_pImpl->preparse(args); }
+
+void CommandLineParser::parse() { m_pImpl->parse(); }
+
+bool CommandLineParser::runWithoutGUI() const { return m_pImpl->runWithoutGUI(); }
+
+bool CommandLineParser::exitApplication() const { return m_pImpl->exitApplication(); }
+
+bool CommandLineParser::hasError() const { return m_pImpl->hasError(); }
+
+std::wstring CommandLineParser::getError() { return m_pImpl->getError(); }
+
+void CommandLineParser::fullRefresh() { m_pImpl->fullRefresh(); }
+
+void CommandLineParser::incompleteRefresh() { m_pImpl->incompleteRefresh(); }
+
+void CommandLineParser::setShallowIndexingRequested(bool enabled) { m_pImpl->setShallowIndexingRequested(enabled); }
+
+const FilePath& CommandLineParser::getProjectFilePath() const { return m_pImpl->getProjectFilePath(); }
+
+void CommandLineParser::setProjectFile(const FilePath& filepath) { return m_pImpl->setProjectFile(filepath); }
+
+RefreshMode CommandLineParser::getRefreshMode() const { return m_pImpl->getRefreshMode(); }
+
+bool CommandLineParser::getShallowIndexingRequested() const { return m_pImpl->getShallowIndexingRequested(); }
 
 }	 // namespace commandline

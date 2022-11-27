@@ -12,7 +12,7 @@ public:
 	MessageLoadProject(
 		const FilePath& filePath,
 		bool settingsChanged = false,
-		RefreshMode refreshMode = REFRESH_NONE,
+		RefreshMode refreshMode = RefreshMode::REFRESH_NONE,
 		bool shallowIndexingRequested = false)
 		: projectSettingsFilePath(filePath)
 		, settingsChanged(settingsChanged)
@@ -30,7 +30,7 @@ public:
 	{
 		os << projectSettingsFilePath.wstr();
 		os << L", settingsChanged: " << std::boolalpha << settingsChanged;
-		os << L", refreshMode: " << refreshMode;
+		// TODO()os << L", refreshMode: " << refreshMode;
 	}
 
 	const FilePath projectSettingsFilePath;

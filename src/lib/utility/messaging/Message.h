@@ -1,5 +1,4 @@
-#ifndef MESSAGE_H
-#define MESSAGE_H
+#pragma once
 
 #include <memory>
 #include <string>
@@ -8,17 +7,17 @@
 #include "MessageQueue.h"
 
 template <typename MessageType>
-class Message: public MessageBase
+class Message : public MessageBase
 {
 public:
-	virtual ~Message() = default;
+	~Message() override = default;
 
-	virtual std::string getType() const
+	std::string getType() const override
 	{
 		return MessageType::getStaticType();
 	}
 
-	virtual void dispatch()
+	void dispatch() override
 	{
 		std::shared_ptr<MessageBase> message = std::make_shared<MessageType>(
 			*dynamic_cast<MessageType*>(this));
@@ -32,7 +31,6 @@ public:
 		MessageQueue::getInstance()->processMessage(message, true);
 	}
 
-	virtual void print(std::wostream& os) const {}
-};
+	void print([[maybe_unused]] std::wostream& out) const override {}
 
-#endif	  // MESSAGE_H
+};
