@@ -5,14 +5,11 @@ set -e
 SOURCE_DIR=@CMAKE_SOURCE_DIR@
 BUILD_DIR=@CMAKE_BINARY_DIR@
 
-mkdir $BUILD_DIR/coverage
+if [ ! -d $BUILD_DIR/coverage ]
+then
+    mkdir $BUILD_DIR/coverage
+fi
 cd $BUILD_DIR/coverage
 
-lcov -b $SOURCE_DIR -c -i -d $BUILD_DIR -o .coverage.wtest.base
 ctest
-lcov -b $SOURCE_DIR -c -d $BUILD_DIR -o .coverage.wtest.run
-lcov -a .coverage.wtest.base -a .coverage.wtest.run  -o .coverage.total
-lcov -e .coverage.total $SOURCE_DIR/src/\* -o .coverage.total.filtered
-lcov -r .coverage.total.filtered $BUILD_DIR/\* -o .coverage.total.filtered
-lcov -r .coverage.total.filtered $SOURCE_DIR/src/test/\* -o .coverage.total.filtered
-genhtml --dark-mode -o ./html/ .coverage.total
+gcovr -r $SOURCE_DIR/src/lib -e $SOURCE_DIR/src/external --html-details coverage/coverage.html -j 12 .
