@@ -71,8 +71,8 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 	status += std::to_wstring(indexedSourceFileCount) + L"/" + std::to_wstring(sourceFileCount) +
 		L" source files indexed; ";
 	status += utility::decodeFromUtf8(TimeStamp::secondsToString(time));
-	status += L"; " + std::to_wstring(errorInfo.total) + L" error" +
-		(errorInfo.total != 1 ? L"s" : L"");
+	status += L"; " + std::to_wstring(errorInfo.m_total) + L" error" +
+		(errorInfo.m_total != 1 ? L"s" : L"");
 	if (errorInfo.fatal > 0)
 	{
 		status += L" (" + std::to_wstring(errorInfo.fatal) + L" fatal)";

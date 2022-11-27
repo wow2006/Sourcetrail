@@ -469,7 +469,7 @@ void Application::logStorageStats() const
 	ErrorCountInfo errorCount = m_storageCache->getErrorCount();
 
 	ss << "\nErrors:\n";
-	ss << "\t" << errorCount.total << " Errors\n";
+	ss << "\t" << errorCount.m_total << " Errors\n";
 	ss << "\t" << errorCount.fatal << " Fatal Errors\n";
 
 	LOG_INFO(ss.str());

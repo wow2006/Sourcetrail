@@ -484,21 +484,21 @@ void TaskExecuteCustomCommands::runIndexerCommand(
 		{
 			std::vector<ErrorInfo> errors = storage->getErrorInfos();
 			const ErrorCountInfo currentErrorCount(errors);
-			if (currentErrorCount.total > previousErrorCount.total)
+			if (currentErrorCount.m_total > previousErrorCount.m_total)
 			{
 				const ErrorCountInfo diff(
-					currentErrorCount.total - previousErrorCount.total,
+					currentErrorCount.m_total - previousErrorCount.m_total,
 					currentErrorCount.fatal - previousErrorCount.fatal);
 
 				ErrorCountInfo errorCount;	  // local copy to release lock early
 				{
 					std::lock_guard<std::mutex> lock(m_errorCountMutex);
-					m_errorCount.total += diff.total;
+					m_errorCount.m_total += diff.m_total;
 					m_errorCount.fatal += diff.fatal;
 					errorCount = m_errorCount;
 				}
 
-				errors.erase(errors.begin(), errors.begin() + previousErrorCount.total);
+				errors.erase(errors.begin(), errors.begin() + previousErrorCount.m_total);
 				MessageErrorCountUpdate(errorCount, errors).dispatch();
 			}
 		}

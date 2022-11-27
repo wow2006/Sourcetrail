@@ -185,4 +185,8 @@ CommandlineCommand::ReturnStatus CommandlineCommandConfig::parse(std::vector<std
 	return ReturnStatus::CMD_QUIT;
 }
 
+bool CommandlineCommandConfig::hasHelp() const {
+	return true;
+}
+
 }	 // namespace commandline

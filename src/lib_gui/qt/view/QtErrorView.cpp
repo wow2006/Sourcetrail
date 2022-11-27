@@ -182,19 +182,19 @@ void QtErrorView::addErrors(
 			m_table->showFirstRow();
 		}
 
-		bool limited = m_errorFilter.limit > 0 && errorCount.total > m_errorFilter.limit;
+		bool limited = m_errorFilter.limit > 0 && errorCount.m_total > m_errorFilter.limit;
 
 		m_allLabel->setVisible(limited);
 		m_allLabel->setText(
 			"<b>Only displaying first " + QString::number(m_errorFilter.limit) + " errors</b>");
 
 		m_allButton->setVisible(limited);
-		m_allButton->setText("Show all " + QString::number(errorCount.total));
+		m_allButton->setText("Show all " + QString::number(errorCount.m_total));
 
 		m_errorLabel->setVisible(!limited);
 		m_errorLabel->setText(
-			"<b>displaying " + QString::number(errorCount.total) + " error" +
-			(errorCount.total != 1 ? "s" : "") +
+			"<b>displaying " + QString::number(errorCount.m_total) + " error" +
+			(errorCount.m_total != 1 ? "s" : "") +
 			(errorCount.fatal > 0 ? " (" + QString::number(errorCount.fatal) + " fatal)"
 								  : QLatin1String("")) +
 			"</b>");

@@ -375,7 +375,7 @@ void UndoRedoController::handleMessage(MessageRefreshUIState* message)
 	if (startIterator == m_list.begin() ||
 		(message->isAfterIndexing &&
 		 dynamic_cast<MessageActivateErrors*>(startIterator->message.get()) &&
-		 m_storageAccess->getErrorCount().total == 0))
+		 m_storageAccess->getErrorCount().m_total == 0))
 	{
 		MessageActivateOverview msg;
 		msg.setSchedulerId(getSchedulerId());
