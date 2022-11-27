@@ -9,6 +9,7 @@ set(BUILD_JAVA_LANGUAGE_PACKAGE   OFF CACHE BOOL "Add Java support to the Source
 set(BUILD_PYTHON_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Python support to the Sourcetrail indexer.")
 set(DOCKER_BUILD                  OFF CACHE BOOL "Build runs in Docker")
 set(TREAT_WARNINGS_AS_ERRORS      ON  CACHE BOOL "Treat compiler warnings as errors")
+set(BUILD_COVERAGE                OFF CACHE BOOL "Generate a coverage report")
 
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
@@ -81,8 +82,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED   ON)
 set(CMAKE_CXX_STANDARD            17)
 set(CMAKE_C_STANDARD              11)
 
-
 # Settings ---------------------------------------------------------------------
+
+if(BUILD_COVERAGE)
+  set(CMAKE_CXX_FLAGS        "${CMAKE_CXX_FLAGS} -O0 --coverage -fprofile-arcs -ftest-coverage")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs")
+
+  configure_file(
+    ${CMAKE_SOURCE_DIR}/cmake/coverage.sh.in
+    ${CMAKE_BINARY_DIR}/coverage.sh
+  )
+endif()
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -fcolor-diagnostics -fvisibility-inlines-hidden")
