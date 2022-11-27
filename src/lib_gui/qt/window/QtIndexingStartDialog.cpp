@@ -68,11 +68,11 @@ QtIndexingStartDialog::QtIndexingStartDialog(
 	modeLayout->addSpacing(5);
 
 	m_refreshModeButtons.emplace(
-		REFRESH_UPDATED_FILES, new QRadioButton(QStringLiteral("Updated files")));
+		RefreshMode::REFRESH_UPDATED_FILES, new QRadioButton(QStringLiteral("Updated files")));
 	m_refreshModeButtons.emplace(
-		REFRESH_UPDATED_AND_INCOMPLETE_FILES,
+		RefreshMode::REFRESH_UPDATED_AND_INCOMPLETE_FILES,
 		new QRadioButton(QStringLiteral("Incomplete && updated files")));
-	m_refreshModeButtons.emplace(REFRESH_ALL_FILES, new QRadioButton(QStringLiteral("All files")));
+	m_refreshModeButtons.emplace(RefreshMode::REFRESH_ALL_FILES, new QRadioButton(QStringLiteral("All files")));
 
 	std::function<void(bool)> func = [=](bool checked) {
 		if (!checked)
@@ -163,7 +163,7 @@ void QtIndexingStartDialog::updateRefreshInfo(const RefreshInfo& info)
 	m_clearLabel->setText("Files to clear: " + QString::number(clearCount));
 	m_indexLabel->setText("Source files to index: " + QString::number(indexCount));
 
-	m_clearLabel->setVisible(clearCount && info.mode != REFRESH_ALL_FILES);
+	m_clearLabel->setVisible(clearCount && info.mode != RefreshMode::REFRESH_ALL_FILES);
 	m_indexLabel->setVisible(true);
 }
 

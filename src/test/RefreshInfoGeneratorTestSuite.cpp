@@ -174,7 +174,7 @@ TEST_CASE("refresh info for all files is empty for empty project")
 
 	const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForAllFiles(sourceGroups);
 
-	REQUIRE(REFRESH_ALL_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_ALL_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -194,7 +194,7 @@ TEST_CASE("refresh info for all files clears nothing and indexes previously unkn
 
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForAllFiles(sourceGroups);
 
-		REQUIRE(REFRESH_ALL_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_ALL_FILES == refreshInfo.mode);
 		REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(0 == refreshInfo.filesToClear.size());
 		REQUIRE(1 == refreshInfo.filesToIndex.size());
@@ -221,7 +221,7 @@ TEST_CASE("refresh info for all files is empty for disabled source group")
 
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForAllFiles(sourceGroups);
 
-		REQUIRE(REFRESH_ALL_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_ALL_FILES == refreshInfo.mode);
 		REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(0 == refreshInfo.filesToClear.size());
 		REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -252,7 +252,7 @@ TEST_CASE("refresh info for all files is clears indexed files of disabled source
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 			sourceGroups, storage);
 
-		REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 		REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(1 == refreshInfo.filesToClear.size());
 		REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -298,7 +298,7 @@ TEST_CASE("refresh info for all files is clears nonindexed files of disabled sou
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 			sourceGroups, storage);
 
-		REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 		REQUIRE(1 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(1 == refreshInfo.filesToClear.size());
 		REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -328,7 +328,7 @@ TEST_CASE("refresh info for updated files is empty for empty storage and empty s
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 			sourceGroups, storage);
 
-		REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 		REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(0 == refreshInfo.filesToClear.size());
 		REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -439,7 +439,7 @@ RefreshInfo getRefreshInfo(
 TEST_CASE("unknown unchanged sourcefile that is nottoindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(UNKNOWN, UNCHANGED, SOURCE_FILE, NOT_TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -448,7 +448,7 @@ TEST_CASE("unknown unchanged sourcefile that is nottoindex")
 TEST_CASE("unknown unchanged sourcefile that is toindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(UNKNOWN, UNCHANGED, SOURCE_FILE, TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(1 == refreshInfo.filesToIndex.size());
@@ -457,7 +457,7 @@ TEST_CASE("unknown unchanged sourcefile that is toindex")
 TEST_CASE("unknown unchanged headerfile that is nottoindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(UNKNOWN, UNCHANGED, HEADER_FILE, NOT_TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -466,7 +466,7 @@ TEST_CASE("unknown unchanged headerfile that is nottoindex")
 TEST_CASE("unknown unchanged headerfile that is toindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(UNKNOWN, UNCHANGED, HEADER_FILE, TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -476,7 +476,7 @@ TEST_CASE("unknown unchanged headerfile that is toindex")
 TEST_CASE("unknown changed sourcefile that is nottoindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(UNKNOWN, CHANGED, SOURCE_FILE, NOT_TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -485,7 +485,7 @@ TEST_CASE("unknown changed sourcefile that is nottoindex")
 TEST_CASE("unknown changed sourcefile that is toindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(UNKNOWN, CHANGED, SOURCE_FILE, TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(1 == refreshInfo.filesToIndex.size());
@@ -494,7 +494,7 @@ TEST_CASE("unknown changed sourcefile that is toindex")
 TEST_CASE("unknown changed headerfile that is nottoindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(UNKNOWN, CHANGED, HEADER_FILE, NOT_TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -503,7 +503,7 @@ TEST_CASE("unknown changed headerfile that is nottoindex")
 TEST_CASE("unknown changed headerfile that is toindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(UNKNOWN, CHANGED, HEADER_FILE, TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -513,7 +513,7 @@ TEST_CASE("unknown changed headerfile that is toindex")
 TEST_CASE("nonindexed unchanged sourcefile that is nottoindex")	   // this test does not really make sense
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(NON_INDEXED, UNCHANGED, SOURCE_FILE, NOT_TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -522,7 +522,7 @@ TEST_CASE("nonindexed unchanged sourcefile that is nottoindex")	   // this test 
 TEST_CASE("nonindexed unchanged sourcefile that is toindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(NON_INDEXED, UNCHANGED, SOURCE_FILE, TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(1 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(1 == refreshInfo.filesToIndex.size());
@@ -532,7 +532,7 @@ TEST_CASE("nonindexed unchanged headerfile that is nottoindex")	   // this test 
 																   // sense without source files
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(NON_INDEXED, UNCHANGED, HEADER_FILE, NOT_TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -541,7 +541,7 @@ TEST_CASE("nonindexed unchanged headerfile that is nottoindex")	   // this test 
 TEST_CASE("nonindexed unchanged headerfile that is toindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(NON_INDEXED, UNCHANGED, HEADER_FILE, TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(1 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -551,7 +551,7 @@ TEST_CASE("nonindexed unchanged headerfile that is toindex")
 TEST_CASE("nonindexed changed sourcefile that is nottoindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(NON_INDEXED, CHANGED, SOURCE_FILE, NOT_TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(1 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -560,7 +560,7 @@ TEST_CASE("nonindexed changed sourcefile that is nottoindex")
 TEST_CASE("nonindexed changed sourcefile that is toindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(NON_INDEXED, CHANGED, SOURCE_FILE, TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(1 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(1 == refreshInfo.filesToIndex.size());
@@ -569,7 +569,7 @@ TEST_CASE("nonindexed changed sourcefile that is toindex")
 TEST_CASE("nonindexed changed headerfile that is nottoindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(NON_INDEXED, CHANGED, HEADER_FILE, NOT_TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(1 == refreshInfo.nonIndexedFilesToClear.size());
 	;	 // must be cleared here and will be re-indexed on demand
 	REQUIRE(0 == refreshInfo.filesToClear.size());
@@ -579,7 +579,7 @@ TEST_CASE("nonindexed changed headerfile that is nottoindex")
 TEST_CASE("nonindexed changed headerfile that is toindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(NON_INDEXED, CHANGED, HEADER_FILE, TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(1 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());	  // the header file will only be indexed on demand
@@ -588,7 +588,7 @@ TEST_CASE("nonindexed changed headerfile that is toindex")
 TEST_CASE("indexed unchanged sourcefile that is nottoindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(INDEXED, UNCHANGED, SOURCE_FILE, NOT_TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(1 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -597,7 +597,7 @@ TEST_CASE("indexed unchanged sourcefile that is nottoindex")
 TEST_CASE("indexed unchanged sourcefile that is toindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(INDEXED, UNCHANGED, SOURCE_FILE, TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -607,7 +607,7 @@ TEST_CASE("indexed unchanged headerfile that is nottoindex")	// TODO: check if d
 																// file gets reindexed
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(INDEXED, UNCHANGED, HEADER_FILE, NOT_TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(1 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -616,7 +616,7 @@ TEST_CASE("indexed unchanged headerfile that is nottoindex")	// TODO: check if d
 TEST_CASE("indexed unchanged headerfile that is toindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(INDEXED, UNCHANGED, HEADER_FILE, TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -625,7 +625,7 @@ TEST_CASE("indexed unchanged headerfile that is toindex")
 TEST_CASE("indexed changed sourcefile that is nottoindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(INDEXED, CHANGED, SOURCE_FILE, NOT_TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(1 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -634,7 +634,7 @@ TEST_CASE("indexed changed sourcefile that is nottoindex")
 TEST_CASE("indexed changed sourcefile that is toindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(INDEXED, CHANGED, SOURCE_FILE, TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(1 == refreshInfo.filesToClear.size());
 	REQUIRE(1 == refreshInfo.filesToIndex.size());
@@ -643,7 +643,7 @@ TEST_CASE("indexed changed sourcefile that is toindex")
 TEST_CASE("indexed changed headerfile that is nottoindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(INDEXED, CHANGED, HEADER_FILE, NOT_TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(1 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -652,7 +652,7 @@ TEST_CASE("indexed changed headerfile that is nottoindex")
 TEST_CASE("indexed changed headerfile that is toindex")
 {
 	const RefreshInfo refreshInfo = getRefreshInfo(INDEXED, CHANGED, HEADER_FILE, TO_INDEX);
-	REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+	REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 	REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 	REQUIRE(1 == refreshInfo.filesToClear.size());
 	REQUIRE(0 == refreshInfo.filesToIndex.size());	  // the header file will only be indexed on demand
@@ -694,7 +694,7 @@ TEST_CASE(
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 			sourceGroups, storage);
 
-		REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 		REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(2 == refreshInfo.filesToClear.size());
 		REQUIRE(2 == refreshInfo.filesToIndex.size());
@@ -744,7 +744,7 @@ TEST_CASE(
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 			sourceGroups, storage);
 
-		REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 		REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(2 == refreshInfo.filesToClear.size());
 		REQUIRE(1 == refreshInfo.filesToIndex.size());
@@ -792,7 +792,7 @@ TEST_CASE(
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 			sourceGroups, storage);
 
-		REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 		REQUIRE(1 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(1 == refreshInfo.filesToClear.size());
 		REQUIRE(1 == refreshInfo.filesToIndex.size());
@@ -839,7 +839,7 @@ TEST_CASE("refresh info for updated files does not clear unknown uptodate header
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 			sourceGroups, storage);
 
-		REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 		REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(0 == refreshInfo.filesToClear.size());
 		REQUIRE(0 == refreshInfo.filesToIndex.size());
@@ -880,7 +880,7 @@ TEST_CASE(
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 			sourceGroups, storage);
 
-		REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 		REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(2 == refreshInfo.filesToClear.size());
 		REQUIRE(1 == refreshInfo.filesToIndex.size());
@@ -936,7 +936,7 @@ TEST_CASE(
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 			sourceGroups, storage);
 
-		REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 		REQUIRE(0 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(1 == refreshInfo.filesToClear.size());
 		REQUIRE(1 == refreshInfo.filesToIndex.size());
@@ -993,7 +993,7 @@ TEST_CASE(
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 			sourceGroups, storage);
 
-		REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 		REQUIRE(1 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(2 == refreshInfo.filesToClear.size());
 		REQUIRE(1 == refreshInfo.filesToIndex.size());
@@ -1054,7 +1054,7 @@ TEST_CASE(
 		const RefreshInfo refreshInfo = RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 			sourceGroups, storage);
 
-		REQUIRE(REFRESH_UPDATED_FILES == refreshInfo.mode);
+		REQUIRE(RefreshMode::REFRESH_UPDATED_FILES == refreshInfo.mode);
 		REQUIRE(1 == refreshInfo.nonIndexedFilesToClear.size());
 		REQUIRE(2 == refreshInfo.filesToClear.size());
 		REQUIRE(1 == refreshInfo.filesToIndex.size());

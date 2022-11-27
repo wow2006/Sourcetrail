@@ -129,7 +129,7 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
 
 	// 4) Store and return this information
 	RefreshInfo info;
-	info.mode = REFRESH_UPDATED_FILES;
+	info.mode = RefreshMode::REFRESH_UPDATED_FILES;
 	info.filesToIndex = filesToIndex;
 	for (const FilePath fileToClear: filesToClear)
 	{
@@ -151,7 +151,7 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForIncompleteFiles(
 	std::shared_ptr<const PersistentStorage> storage)
 {
 	RefreshInfo info = getRefreshInfoForUpdatedFiles(sourceGroups, storage);
-	info.mode = REFRESH_UPDATED_AND_INCOMPLETE_FILES;
+	info.mode = RefreshMode::REFRESH_UPDATED_AND_INCOMPLETE_FILES;
 
 	std::set<FilePath> incompleteFiles;
 	{
@@ -203,7 +203,7 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForAllFiles(
 	const std::vector<std::shared_ptr<SourceGroup>>& sourceGroups)
 {
 	RefreshInfo info;
-	info.mode = REFRESH_ALL_FILES;
+	info.mode = RefreshMode::REFRESH_ALL_FILES;
 	info.filesToIndex = getAllSourceFilePaths(sourceGroups);
 	return info;
 }
