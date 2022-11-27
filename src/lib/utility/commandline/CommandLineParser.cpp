@@ -1,7 +1,6 @@
 #include "CommandLineParser.h"
 
 #include <iostream>
-#include <memory>
 #include <utility>
 
 #include <boost/program_options.hpp>
@@ -10,10 +9,10 @@
 #include "CommandlineCommandIndex.h"
 #include "CommandlineHelper.h"
 #include "ConfigManager.h"
+#include "FilePath.h"
+#include "RefreshInfo.h"
 #include "TextAccess.h"
 #include "utilityString.h"
-#include "RefreshInfo.h"
-#include "FilePath.h"
 
 namespace po = boost::program_options;
 
@@ -23,7 +22,7 @@ namespace commandline
 class CommandLineParserImpl
 {
 public:
-	explicit CommandLineParserImpl(std::string version);
+	CommandLineParserImpl(std::string version, CommandLineParser* pParent);
 	~CommandLineParserImpl();
 
 	CommandLineParserImpl(const CommandLineParserImpl&) = delete;
@@ -45,7 +44,7 @@ public:
 	void incompleteRefresh();
 	void setShallowIndexingRequested(bool enabled = true);
 
-	const FilePath& getProjectFilePath() const;
+	FilePath getProjectFilePath() const;
 	void setProjectFile(const FilePath& filepath);
 
 	RefreshMode getRefreshMode() const;
@@ -55,6 +54,8 @@ private:
 	void processProjectfile();
 	void printHelp() const;
 
+private:
+	CommandLineParser *m_pParent;
 	boost::program_options::options_description m_options;
 	boost::program_options::positional_options_description m_positional;
 
@@ -72,7 +73,7 @@ private:
 	std::wstring m_errorString;
 };
 
-CommandLineParserImpl::CommandLineParserImpl(std::string version): m_version(std::move(version))
+CommandLineParserImpl::CommandLineParserImpl(std::string version, CommandLineParser* pParent): m_pParent(pParent), m_version(std::move(version))
 {
 	po::options_description options("Options");
 	options.add_options()("help,h", "Print this help message")(
@@ -82,8 +83,8 @@ CommandLineParserImpl::CommandLineParserImpl(std::string version): m_version(std
 	m_options.add(options);
 	m_positional.add("project-file", 1);
 
-	// m_commands.push_back(std::make_unique<commandline::CommandlineCommandConfig>(this));
-	// m_commands.push_back(std::make_unique<commandline::CommandlineCommandIndex>(this));
+	m_commands.push_back(std::make_unique<commandline::CommandlineCommandConfig>(m_pParent));
+	m_commands.push_back(std::make_unique<commandline::CommandlineCommandIndex>(m_pParent));
 
 	for (auto& command: m_commands)
 	{
@@ -291,7 +292,7 @@ void CommandLineParserImpl::setShallowIndexingRequested(bool enabled)
 	m_shallowIndexingRequested = enabled;
 }
 
-const FilePath& CommandLineParserImpl::getProjectFilePath() const
+FilePath CommandLineParserImpl::getProjectFilePath() const
 {
 	return m_projectFile;
 }
@@ -306,7 +307,7 @@ bool CommandLineParserImpl::getShallowIndexingRequested() const
 	return m_shallowIndexingRequested;
 }
 
-CommandLineParser::CommandLineParser(std::string version) : m_pImpl(std::make_unique<CommandLineParserImpl>(std::move(version))) {}
+CommandLineParser::CommandLineParser(std::string version) : m_pImpl(std::make_unique<CommandLineParserImpl>(std::move(version), this)) {}
 
 CommandLineParser::~CommandLineParser() = default;
 
@@ -330,7 +331,7 @@ void CommandLineParser::incompleteRefresh() { m_pImpl->incompleteRefresh(); }
 
 void CommandLineParser::setShallowIndexingRequested(bool enabled) { m_pImpl->setShallowIndexingRequested(enabled); }
 
-const FilePath& CommandLineParser::getProjectFilePath() const { return m_pImpl->getProjectFilePath(); }
+FilePath CommandLineParser::getProjectFilePath() const { return m_pImpl->getProjectFilePath(); }
 
 void CommandLineParser::setProjectFile(const FilePath& filepath) { return m_pImpl->setProjectFile(filepath); }
 

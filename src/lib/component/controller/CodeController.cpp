@@ -151,7 +151,7 @@ void CodeController::handleMessage(MessageActivateOverview* message)
 	ss << "\t" + std::to_string(stats.nodeCount) + " symbols\n";
 	ss << "\t" + std::to_string(stats.edgeCount) + " references\n";
 	ss << "\n";
-	ss << "\t" + std::to_string(errorCount.total) + " errors (" + std::to_string(errorCount.fatal) +
+	ss << "\t" + std::to_string(errorCount.m_total) + " errors (" + std::to_string(errorCount.fatal) +
 			" fatal)\n";
 	ss << "\n";
 

@@ -2,28 +2,23 @@
 
 #include <iostream>
 
-namespace commandline
-{
+namespace commandline {
+
 CommandlineCommand::CommandlineCommand(
 	const std::string& name, const std::string& description, CommandLineParser* parser)
-	: m_name(name), m_description(description), m_parser(parser)
-{
-}
+	: m_name(name), m_description(description), m_parser(parser) {}
 
-CommandlineCommand::~CommandlineCommand() {}
+CommandlineCommand::~CommandlineCommand() = default;
 
-const std::string& CommandlineCommand::name()
-{
+const std::string& CommandlineCommand::name() {
 	return m_name;
 }
 
-const std::string& CommandlineCommand::description()
-{
+const std::string& CommandlineCommand::description() {
 	return m_description;
 }
 
-void CommandlineCommand::printHelp()
-{
+void CommandlineCommand::printHelp() {
 	std::cout << "Usage:\n\n  Sourcetrail " << m_name << " [option...]\n\n";
 	std::cout << m_description << "\n\n";
 	std::cout << m_options << std::endl;

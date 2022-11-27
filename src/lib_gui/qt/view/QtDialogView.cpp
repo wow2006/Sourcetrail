@@ -279,7 +279,7 @@ DatabasePolicy QtDialogView::finishedIndexingDialog(
 			time,
 			interrupted,
 			shallow);
-		window->updateErrorCount(errorInfo.total, errorInfo.fatal);
+		window->updateErrorCount(errorInfo.m_total, errorInfo.fatal);
 		connect(window, &QtIndexingDialog::finished, [this, &policy]() {
 			setUIBlocked(false);
 			policy = DATABASE_POLICY_KEEP;
@@ -445,7 +445,7 @@ void QtDialogView::handleMessage(MessageErrorCountUpdate* message)
 {
 	ErrorCountInfo errorInfo = message->errorCount;
 
-	m_onQtThread3([=]() { updateErrorCount(errorInfo.total, errorInfo.fatal); });
+	m_onQtThread3([=]() { updateErrorCount(errorInfo.m_total, errorInfo.fatal); });
 }
 
 void QtDialogView::handleMessage(MessageWindowClosed* message)

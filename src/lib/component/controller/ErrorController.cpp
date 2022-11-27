@@ -132,7 +132,7 @@ void ErrorController::handleMessage(MessageErrorsHelpMessage* message)
 		}
 
 		ErrorCountInfo info = m_storageAccess->getErrorCount();
-		if (!info.total)
+		if (!info.m_total)
 		{
 			return;
 		}

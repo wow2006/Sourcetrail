@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 
-#include <boost/program_options.hpp>
-
 class FilePath;
 enum class RefreshMode;
 
@@ -15,37 +13,58 @@ class CommandLineParserImpl;
 
 class CommandLineParser {
 public:
-	explicit CommandLineParser(std::string version);
-	~CommandLineParser();
+  /**
+   * @brief Default consturctor
+   *
+   * @param version application version
+   */
+  explicit CommandLineParser(std::string version);
 
-	CommandLineParser(const CommandLineParser&) = delete;
-	CommandLineParser& operator=(const CommandLineParser&) = delete;
-	CommandLineParser(CommandLineParser&&) = delete;
-	CommandLineParser& operator=(CommandLineParser&&) = delete;
+  /**
+   * @brief Default deconstructor
+   */
+  ~CommandLineParser();
 
-	void preparse(int argc, char** argv);
-	void preparse(std::vector<std::string>& args);
-	void parse();
+  CommandLineParser(const CommandLineParser&) = delete;
+  CommandLineParser& operator=(const CommandLineParser&) = delete;
+  CommandLineParser(CommandLineParser&&) = delete;
+  CommandLineParser& operator=(CommandLineParser&&) = delete;
 
-	bool runWithoutGUI() const;
-	bool exitApplication() const;
+  /**
+   * @brief Parse program input
+   *
+   * @param argc count of argments. first one should program name
+   * @param argv array of strings of the argments
+   */
+  void preparse(int argc, char** argv);
 
-	bool hasError() const;
-	std::wstring getError();
+  /**
+   * @brief Parse program input
+   *
+   * @param args array of strings of the argments
+   */
+  void preparse(std::vector<std::string>& args);
+  void parse();
 
-	void fullRefresh();
-	void incompleteRefresh();
-	void setShallowIndexingRequested(bool enabled = true);
+  bool runWithoutGUI() const;
+  bool exitApplication() const;
 
-	const FilePath& getProjectFilePath() const;
-	void setProjectFile(const FilePath& filepath);
+  bool hasError() const;
+  std::wstring getError();
 
-	RefreshMode getRefreshMode() const;
-	bool getShallowIndexingRequested() const;
+  void fullRefresh();
+  void incompleteRefresh();
+  void setShallowIndexingRequested(bool enabled = true);
+
+  FilePath getProjectFilePath() const;
+  void setProjectFile(const FilePath& filepath);
+
+  RefreshMode getRefreshMode() const;
+  bool getShallowIndexingRequested() const;
 
 private:
-	std::unique_ptr<CommandLineParserImpl> m_pImpl;
+  std::unique_ptr<CommandLineParserImpl> m_pImpl;
 
 };
 
-}	 // namespace commandline
+}  // namespace commandline

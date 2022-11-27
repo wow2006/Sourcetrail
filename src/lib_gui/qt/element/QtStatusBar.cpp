@@ -126,10 +126,10 @@ void QtStatusBar::setText(const std::wstring& text, bool isError, bool showLoade
 
 void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 {
-	if (errorCount.total > 0)
+	if (errorCount.m_total > 0)
 	{
 		m_errorButton.setText(
-			QString::number(errorCount.total) + " error" + (errorCount.total > 1 ? "s" : "") +
+			QString::number(errorCount.m_total) + " error" + (errorCount.m_total > 1 ? "s" : "") +
 			(errorCount.fatal > 0 ? " (" + QString::number(errorCount.fatal) + " fatal)"
 								  : QLatin1String("")));
 

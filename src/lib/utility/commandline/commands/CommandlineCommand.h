@@ -1,5 +1,4 @@
-#ifndef COMMANDLINE_COMMAND_H
-#define COMMANDLINE_COMMAND_H
+#pragma once
 
 #include <memory>
 
@@ -7,12 +6,11 @@
 
 namespace po = boost::program_options;
 
-namespace commandline
-{
+namespace commandline {
+
 class CommandLineParser;
 
-class CommandlineCommand
-{
+class CommandlineCommand {
 public:
 	enum class ReturnStatus
 	{
@@ -21,17 +19,20 @@ public:
 		CMD_FAILURE
 	};
 
-	CommandlineCommand(
-		const std::string& name, const std::string& description, CommandLineParser* parser);
+	CommandlineCommand(const std::string& name, const std::string& description, CommandLineParser* parser);
+
 	virtual ~CommandlineCommand();
 
 	const std::string& name();
+
 	const std::string& description();
 
 	virtual void setup() = 0;
+
 	virtual ReturnStatus parse(std::vector<std::string>& args) = 0;
 
 	virtual bool hasHelp() const = 0;
+
 	virtual void printHelp();
 
 protected:
@@ -44,5 +45,3 @@ protected:
 };
 
 }	 // namespace commandline
-
-#endif	  // COMMANDLINE_COMMAND_H

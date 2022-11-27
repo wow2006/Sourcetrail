@@ -21,7 +21,7 @@ public:
 
 	virtual void print(std::wostream& os) const
 	{
-		os << errorCount.total << '/' << errorCount.fatal << L" - " << newErrors.size()
+		os << errorCount.m_total << '/' << errorCount.fatal << L" - " << newErrors.size()
 		   << L" new errors";
 	}
 
