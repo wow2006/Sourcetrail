@@ -12,7 +12,7 @@ namespace commandline {
 class CommandLineParserImpl;
 
 class CommandLineParser {
-public:
+ public:
   /**
    * @brief Default consturctor
    *
@@ -62,9 +62,8 @@ public:
   RefreshMode getRefreshMode() const;
   bool getShallowIndexingRequested() const;
 
-private:
+ private:
   std::unique_ptr<CommandLineParserImpl> m_pImpl;
-
 };
 
 }  // namespace commandline
