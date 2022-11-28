@@ -12,4 +12,4 @@ fi
 cd $BUILD_DIR/coverage
 
 ctest
-gcovr -r $SOURCE_DIR/src/lib -e $SOURCE_DIR/src/external --html-details coverage/coverage.html -j 12 .
+gcovr -r $SOURCE_DIR/src/lib -e $SOURCE_DIR/src/external --html-details coverage.html -j 12 ..
