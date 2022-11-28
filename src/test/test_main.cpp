@@ -12,7 +12,7 @@ struct EventListener: Catch::TestEventListenerBase
 {
 	using TestEventListenerBase::TestEventListenerBase;	   // inherit constructor
 
-	void testRunStarting(const Catch::TestRunInfo& testRunInfo) override
+	void testRunStarting([[maybe_unused]] const Catch::TestRunInfo& testRunInfo) override
 	{
 #ifdef __linux__
 		const std::string homedir = getenv("HOME");
