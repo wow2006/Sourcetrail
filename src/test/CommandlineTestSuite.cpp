@@ -1,11 +1,11 @@
-#include "catch.hpp"
-
-#include "ApplicationSettings.h"
-#include "CommandLineParser.h"
-
 #include <iostream>
 #include <sstream>
 #include <string>
+
+#include "ApplicationSettings.h"
+#include "CommandLineParser.h"
+#include "RefreshInfo.h"
+#include "catch.hpp"
 
 namespace {
 
@@ -46,7 +46,8 @@ Positional Arguments:
   1: project-file
 )";
 
-constexpr auto errorTwoProjectFileString = R"(ERROR: option '--project-file' cannot be specified more than once
+constexpr auto errorTwoProjectFileString =
+    R"(ERROR: option '--project-file' cannot be specified more than once
 
 
 Options:
@@ -56,38 +57,43 @@ Options:
 
 )";
 
-}
+}  // namespace
 
-TEST_CASE("command line") // NOLINT(readability-function-cognitive-complexity)
+TEST_CASE("command line")  // NOLINT(readability-function-cognitive-complexity)
 {
   auto appSettingsPath = ApplicationSettings::getInstance()->getFilePath();
-  ApplicationSettings::getInstance()->load(FilePath(L"data/CommandlineTestSuite/settings.xml"));
+  ApplicationSettings::getInstance()->load(
+      FilePath(L"data/CommandlineTestSuite/settings.xml"));
 
-  SECTION("empty commandline")
-  {
-    char* args[] = {"./sourcetrail"}; // NOLINT(hicpp-avoid-c-arrays, modernize-avoid-c-arrays, cppcoreguidelines-avoid-c-arrays)
+  SECTION("empty commandline") {
+    char* args[] = {"./sourcetrail"};  // NOLINT(hicpp-avoid-c-arrays,
+                                       // modernize-avoid-c-arrays,
+                                       // cppcoreguidelines-avoid-c-arrays)
 
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
     commandline::CommandLineParser parser("2016.1");
-    parser.preparse(1, args); // NOLINT(hicpp-no-array-decay, cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+    parser.preparse(
+        1, args);  // NOLINT(hicpp-no-array-decay,
+                   // cppcoreguidelines-pro-bounds-array-to-pointer-decay)
     parser.parse();
 
     std::cout.rdbuf(oldBuf);
 
     REQUIRE(redStream.str().empty());
+    REQUIRE_FALSE(parser.runWithoutGUI());
+    REQUIRE_FALSE(parser.exitApplication());
   }
 
-  SECTION("version commandline")
-  {
-    std::vector<std::string> args({"--version"});
+  SECTION("version commandline") {
+    char* args[] = {"./sourcetrail", "--version"};
 
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
     commandline::CommandLineParser parser("2016.1");
-    parser.preparse(args);
+    parser.preparse(2, args);
     parser.parse();
 
     std::cout.rdbuf(oldBuf);
@@ -95,113 +101,30 @@ TEST_CASE("command line") // NOLINT(readability-function-cognitive-complexity)
     REQUIRE(redStream.str() == "Sourcetrail Version 2016.1\n");
   }
 
-  SECTION("commands") {
-    SECTION("config") {
-      SECTION("command config help") {
-        std::vector<std::string> args({"--help"});
+  SECTION("pass a project-file") {
+    std::vector<std::string> args({"--project-file", "something.srctrlprj"});
 
-        std::stringstream redStream;
-        const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
+    std::stringstream outStream;
+    const auto& oldOutBuf = std::cout.rdbuf(outStream.rdbuf());
+    std::stringstream errStream;
+    const auto& oldErrBuf = std::cerr.rdbuf(errStream.rdbuf());
 
-        commandline::CommandLineParser parser("2016.1");
-        parser.preparse(args);
-        parser.parse();
+    commandline::CommandLineParser parser("2016.1");
+    parser.preparse(args);
+    parser.parse();
 
-        std::cout.rdbuf(oldBuf);
+    std::cout.rdbuf(oldOutBuf);
+    std::cout.rdbuf(oldErrBuf);
 
-        REQUIRE_THAT(redStream.str(), Catch::Equals(helpExpected));
-      }
+    REQUIRE(outStream.str().empty());
+    REQUIRE(errStream.str().empty());
 
-      SECTION("command config filepathVector")
-      {
-        std::vector<std::string> args(
-          {"config", "-g", "/usr", "-g", "/usr/share/include", "-g", "/opt/test/include"});
-
-        commandline::CommandLineParser parser("2");
-        parser.preparse(args);
-        parser.parse();
-
-        std::vector<FilePath> paths = ApplicationSettings::getInstance()->getHeaderSearchPaths();
-        REQUIRE(paths[0].wstr() == L"/usr");
-        REQUIRE(paths[1].wstr() == L"/usr/share/include");
-        REQUIRE(paths[2].wstr() == L"/opt/test/include");
-      }
-
-      SECTION("command config string filepath option")
-      {
-        std::vector<std::string> args({"config", "--maven-path", "/opt/testpath/mvn"});
-
-        std::stringstream redStream;
-        const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
-
-        commandline::CommandLineParser parser("2");
-        parser.preparse(args);
-        parser.parse();
-
-        std::cout.rdbuf(oldBuf);
-
-        FilePath path = ApplicationSettings::getInstance()->getMavenPath();
-        REQUIRE(path.wstr() == L"/opt/testpath/mvn");
-      }
-
-      SECTION("command config filepathVector comma separated")
-      {
-        std::vector<std::string> args(
-          {"config", "--global-header-search-paths", "/usr,/usr/include,/include,/opt/include"});
-
-        commandline::CommandLineParser parser("2");
-        parser.preparse(args);
-        parser.parse();
-
-        std::vector<FilePath> paths = ApplicationSettings::getInstance()->getHeaderSearchPaths();
-        REQUIRE(paths[0].wstr() == L"/usr");
-        REQUIRE(paths[1].wstr() == L"/usr/include");
-        REQUIRE(paths[2].wstr() == L"/include");
-        REQUIRE(paths[3].wstr() == L"/opt/include");
-      }
-
-      SECTION("command config bool options")
-      {
-        std::vector<std::string> args({"config", "--use-processes", "false"});
-
-        commandline::CommandLineParser parser("2");
-        parser.preparse(args);
-        parser.parse();
-
-        bool processes = ApplicationSettings::getInstance()->getMultiProcessIndexingEnabled();
-        REQUIRE(processes == false);
-
-        std::vector<std::string> args1({"config", "--use-processes", "true"});
-
-        parser.preparse(args1);
-        parser.parse();
-
-        processes = ApplicationSettings::getInstance()->getMultiProcessIndexingEnabled();
-        REQUIRE(processes == true);
-      }
-    }
-
-    SECTION("index") {
-      SECTION("command index help") {
-        std::vector<std::string> args({"index", "--help"});
-
-        std::stringstream redStream;
-        const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
-
-        commandline::CommandLineParser parser("2016.1");
-        parser.preparse(args);
-        parser.parse();
-
-        std::cout.rdbuf(oldBuf);
-
-        REQUIRE(redStream.str() == indexHelpExpected);
-      }
-    }
+    REQUIRE(parser.getProjectFilePath().fileName() == L"something.srctrlprj");
   }
 
-  SECTION("pass two project-file to command-line")
-  {
-    std::vector<std::string> args({"--project-file", "somewhere", "--project-file", "anothersomewhere"});
+  SECTION("pass two project-file to command-line") {
+    std::vector<std::string> args(
+        {"--project-file", "somewhere", "--project-file", "anothersomewhere"});
 
     std::stringstream outStream;
     const auto& oldOutBuf = std::cout.rdbuf(outStream.rdbuf());
@@ -219,8 +142,7 @@ TEST_CASE("command line") // NOLINT(readability-function-cognitive-complexity)
     CHECK_THAT(errStream.str(), Catch::Equals(errorTwoProjectFileString));
   }
 
-  SECTION("unregisted command-line")
-  {
+  SECTION("unregisted command-line") {
     std::vector<std::string> args({"--something"});
 
     std::stringstream outStream;
@@ -237,6 +159,210 @@ TEST_CASE("command line") // NOLINT(readability-function-cognitive-complexity)
 
     REQUIRE(outStream.str().empty());
     REQUIRE(errStream.str().empty());
+  }
+
+  ApplicationSettings::getInstance()->load(appSettingsPath);
+}
+
+TEST_CASE("commands")  // NOLINT(readability-function-cognitive-complexity)
+{
+  auto appSettingsPath = ApplicationSettings::getInstance()->getFilePath();
+  ApplicationSettings::getInstance()->load(
+      FilePath(L"data/CommandlineTestSuite/settings.xml"));
+
+  SECTION("config") {
+    SECTION("command config help") {
+      std::vector<std::string> args({"--help"});
+
+      std::stringstream redStream;
+      const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+      commandline::CommandLineParser parser("2016.1");
+      parser.preparse(args);
+      parser.parse();
+
+      std::cout.rdbuf(oldBuf);
+
+      REQUIRE_THAT(redStream.str(), Catch::Equals(helpExpected));
+    }
+
+    SECTION("command config filepathVector") {
+      std::vector<std::string> args({"config", "-g", "/usr", "-g",
+                                     "/usr/share/include", "-g",
+                                     "/opt/test/include"});
+
+      commandline::CommandLineParser parser("2");
+      parser.preparse(args);
+      parser.parse();
+
+      std::vector<FilePath> paths =
+          ApplicationSettings::getInstance()->getHeaderSearchPaths();
+      REQUIRE(paths[0].wstr() == L"/usr");
+      REQUIRE(paths[1].wstr() == L"/usr/share/include");
+      REQUIRE(paths[2].wstr() == L"/opt/test/include");
+    }
+
+    SECTION("command config string filepath option") {
+      std::vector<std::string> args(
+          {"config", "--maven-path", "/opt/testpath/mvn"});
+
+      std::stringstream redStream;
+      const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+      commandline::CommandLineParser parser("2");
+      parser.preparse(args);
+      parser.parse();
+
+      std::cout.rdbuf(oldBuf);
+
+      FilePath path = ApplicationSettings::getInstance()->getMavenPath();
+      REQUIRE(path.wstr() == L"/opt/testpath/mvn");
+    }
+
+    SECTION("command config filepathVector comma separated") {
+      std::vector<std::string> args(
+          {"config", "--global-header-search-paths",
+           "/usr,/usr/include,/include,/opt/include"});
+
+      commandline::CommandLineParser parser("2");
+      parser.preparse(args);
+      parser.parse();
+
+      std::vector<FilePath> paths =
+          ApplicationSettings::getInstance()->getHeaderSearchPaths();
+      REQUIRE(paths[0].wstr() == L"/usr");
+      REQUIRE(paths[1].wstr() == L"/usr/include");
+      REQUIRE(paths[2].wstr() == L"/include");
+      REQUIRE(paths[3].wstr() == L"/opt/include");
+    }
+
+    SECTION("command config bool options") {
+      std::vector<std::string> args({"config", "--use-processes", "false"});
+
+      commandline::CommandLineParser parser("2");
+      parser.preparse(args);
+      parser.parse();
+
+      bool processes =
+          ApplicationSettings::getInstance()->getMultiProcessIndexingEnabled();
+      REQUIRE(processes == false);
+
+      std::vector<std::string> args1({"config", "--use-processes", "true"});
+
+      parser.preparse(args1);
+      parser.parse();
+
+      processes =
+          ApplicationSettings::getInstance()->getMultiProcessIndexingEnabled();
+      REQUIRE(processes == true);
+    }
+  }
+
+  SECTION("index") {
+    SECTION("help") {
+      std::vector<std::string> args({"index", "--help"});
+
+      std::stringstream redStream;
+      const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+      commandline::CommandLineParser parser("2016.1");
+      parser.preparse(args);
+      parser.parse();
+
+      std::cout.rdbuf(oldBuf);
+
+      REQUIRE(redStream.str() == indexHelpExpected);
+    }
+
+    SECTION("project-file") {
+      std::vector<std::string> args(
+          {"index", "--project-file", "something.srctrlprj"});
+
+      // std::stringstream redStream;
+      // const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+      commandline::CommandLineParser parser("2016.1");
+      parser.preparse(args);
+      parser.parse();
+
+      // std::cout.rdbuf(oldBuf);
+
+      REQUIRE(parser.getProjectFilePath().fileName() ==
+              std::wstring(L"something.srctrlprj"));
+    }
+
+    SECTION("incomplete") {
+      std::vector<std::string> args({"index", "--incomplete"});
+
+      std::stringstream outStream;
+      const auto& oldOutBuf = std::cout.rdbuf(outStream.rdbuf());
+      std::stringstream errStream;
+      const auto& oldErrBuf = std::cerr.rdbuf(errStream.rdbuf());
+
+      commandline::CommandLineParser parser("2016.1");
+      parser.preparse(args);
+      parser.parse();
+
+      std::cout.rdbuf(oldOutBuf);
+      std::cout.rdbuf(oldErrBuf);
+
+      REQUIRE(outStream.str() == "");
+      REQUIRE(errStream.str() == "");
+
+      REQUIRE(parser.getRefreshMode() ==
+              RefreshMode::REFRESH_UPDATED_AND_INCOMPLETE_FILES);
+
+      REQUIRE_FALSE(parser.hasError());
+      REQUIRE(parser.getError().empty());
+    }
+
+    SECTION("full") {
+      std::vector<std::string> args({"index", "--full"});
+
+      std::stringstream outStream;
+      const auto& oldOutBuf = std::cout.rdbuf(outStream.rdbuf());
+      std::stringstream errStream;
+      const auto& oldErrBuf = std::cerr.rdbuf(errStream.rdbuf());
+
+      commandline::CommandLineParser parser("2016.1");
+      parser.preparse(args);
+      parser.parse();
+
+      std::cout.rdbuf(oldOutBuf);
+      std::cout.rdbuf(oldErrBuf);
+
+      REQUIRE(outStream.str() == "");
+      REQUIRE(errStream.str() == "");
+
+      REQUIRE(parser.getRefreshMode() == RefreshMode::REFRESH_ALL_FILES);
+
+      REQUIRE_FALSE(parser.hasError());
+      REQUIRE(parser.getError().empty());
+    }
+
+    SECTION("shallow") {
+      std::vector<std::string> args({"index", "--shallow"});
+
+      std::stringstream outStream;
+      const auto& oldOutBuf = std::cout.rdbuf(outStream.rdbuf());
+      std::stringstream errStream;
+      const auto& oldErrBuf = std::cerr.rdbuf(errStream.rdbuf());
+
+      commandline::CommandLineParser parser("2016.1");
+      parser.preparse(args);
+      parser.parse();
+
+      std::cout.rdbuf(oldOutBuf);
+      std::cout.rdbuf(oldErrBuf);
+
+      REQUIRE(outStream.str() == "");
+      REQUIRE(errStream.str() == "");
+
+      REQUIRE(parser.getShallowIndexingRequested());
+
+      REQUIRE_FALSE(parser.hasError());
+      REQUIRE(parser.getError().empty());
+    }
   }
 
   ApplicationSettings::getInstance()->load(appSettingsPath);
