@@ -1,6 +1,10 @@
 name: CMake Build Matrix
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ "formating" ]
+  pull_request:
+    branches: [ "formating" ]
 
 env:
   CMAKE_VERSION: 3.24.3
