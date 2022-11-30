@@ -4,25 +4,17 @@
 #include <string>
 #include <vector>
 
-class FilePath;
-enum class RefreshMode;
+#include <boost/program_options.hpp>
+
+#include <RefreshInfo.h>
 
 namespace commandline {
 
-class CommandLineParserImpl;
+class CommandlineCommand;
 
 class CommandLineParser {
  public:
-  /**
-   * @brief Default consturctor
-   *
-   * @param version application version
-   */
-  explicit CommandLineParser(std::string version);
-
-  /**
-   * @brief Default deconstructor
-   */
+  CommandLineParser(std::string version);
   ~CommandLineParser();
 
   CommandLineParser(const CommandLineParser&) = delete;
@@ -30,19 +22,7 @@ class CommandLineParser {
   CommandLineParser(CommandLineParser&&) = delete;
   CommandLineParser& operator=(CommandLineParser&&) = delete;
 
-  /**
-   * @brief Parse program input
-   *
-   * @param argc count of argments. first one should program name
-   * @param argv array of strings of the argments
-   */
   void preparse(int argc, char** argv);
-
-  /**
-   * @brief Parse program input
-   *
-   * @param args array of strings of the argments
-   */
   void preparse(std::vector<std::string>& args);
   void parse();
 
@@ -63,7 +43,25 @@ class CommandLineParser {
   bool getShallowIndexingRequested() const;
 
  private:
-  std::unique_ptr<CommandLineParserImpl> m_pImpl;
+  void processProjectfile();
+  void printHelp() const;
+
+ private:
+  boost::program_options::options_description m_options;
+  boost::program_options::positional_options_description m_positional;
+
+  std::vector<std::shared_ptr<CommandlineCommand>> m_commands;
+  std::vector<std::string> m_args;
+
+  const std::string m_version;
+  FilePath m_projectFile;
+  RefreshMode m_refreshMode = RefreshMode::REFRESH_UPDATED_FILES;
+  bool m_shallowIndexingRequested = false;
+
+  bool m_quit = false;
+  bool m_withoutGUI = false;
+
+  std::wstring m_errorString;
 };
 
 }  // namespace commandline
