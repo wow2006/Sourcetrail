@@ -1,17 +1,9 @@
 #include "CommandLineParser.h"
 
-#include <boost/program_options.hpp>
 #include <iostream>
-#include <utility>
 
-#include "CommandlineCommandConfig.h"
-#include "CommandlineCommandIndex.h"
+#include "CommandlineCommand.h"
 #include "CommandlineHelper.h"
-#include "ConfigManager.h"
-#include "FilePath.h"
-#include "RefreshInfo.h"
-#include "TextAccess.h"
-#include "utilityString.h"
 
 namespace po = boost::program_options;
 
@@ -27,18 +19,16 @@ CommandLineParser::CommandLineParser(std::string version)
 
   m_options.add(options);
   m_positional.add("project-file", 1);
-
-  m_commands.push_back(
-      std::make_shared<commandline::CommandlineCommandConfig>(this));
-  m_commands.push_back(
-      std::make_shared<commandline::CommandlineCommandIndex>(this));
-
-  for (auto& command : m_commands) {
-    command->setup();
-  }
 }
 
 CommandLineParser::~CommandLineParser() = default;
+
+void CommandLineParser::registerCommands(std::vector<std::shared_ptr<CommandlineCommand>> commands) {
+  m_commands = std::move(commands);
+  for(const auto& command : m_commands) {
+    command->setup();
+  }
+}
 
 void CommandLineParser::preparse(int argc, char** argv) {
   std::vector<std::string> args;
@@ -87,8 +77,7 @@ void CommandLineParser::preparse(std::vector<std::string>& args) {
     }
 
     if (variablesMap.find("project-file") != variablesMap.end()) {
-      m_projectFile = FilePath(variablesMap["project-file"].as<std::string>());
-      processProjectfile();
+      m_projectFile = variablesMap["project-file"].as<std::string>();
     }
   } catch (boost::program_options::error& e) {
     std::cerr << "ERROR: " << e.what() << std::endl << std::endl;
@@ -119,9 +108,8 @@ void CommandLineParser::parse() {
   }
 }
 
-void CommandLineParser::setProjectFile(const FilePath& filepath) {
+void CommandLineParser::setProjectFile(const std::filesystem::path& filepath) {
   m_projectFile = filepath;
-  processProjectfile();
 }
 
 void CommandLineParser::printHelp() const {
@@ -158,32 +146,6 @@ bool CommandLineParser::hasError() const { return !m_errorString.empty(); }
 
 std::wstring CommandLineParser::getError() { return m_errorString; }
 
-void CommandLineParser::processProjectfile() {
-  m_projectFile.makeAbsolute();
-
-  const std::wstring errorstring =
-      L"Provided Projectfile is not valid:\n* Provided Projectfile('" +
-      m_projectFile.fileName() + L"') ";
-  if (!m_projectFile.exists()) {
-    m_errorString = errorstring + L" does not exist";
-    m_projectFile = FilePath();
-    return;
-  }
-
-  if (m_projectFile.extension() != L".srctrlprj") {
-    m_errorString = errorstring + L" has a wrong file ending";
-    m_projectFile = FilePath();
-    return;
-  }
-
-  std::shared_ptr<ConfigManager> configManager = ConfigManager::createEmpty();
-  if (!configManager->load(TextAccess::createFromFile(m_projectFile))) {
-    m_errorString = errorstring + L" could not be loaded (invalid)";
-    m_projectFile = FilePath();
-    return;
-  }
-}
-
 void CommandLineParser::fullRefresh() {
   m_refreshMode = RefreshMode::REFRESH_ALL_FILES;
 }
@@ -196,7 +158,7 @@ void CommandLineParser::setShallowIndexingRequested(bool enabled) {
   m_shallowIndexingRequested = enabled;
 }
 
-FilePath CommandLineParser::getProjectFilePath() const {
+std::filesystem::path CommandLineParser::getProjectFilePath() const {
   return m_projectFile;
 }
 

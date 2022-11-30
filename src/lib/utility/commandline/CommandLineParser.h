@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 #include <boost/program_options.hpp>
 
@@ -22,6 +23,8 @@ class CommandLineParser {
   CommandLineParser(CommandLineParser&&) = delete;
   CommandLineParser& operator=(CommandLineParser&&) = delete;
 
+  void registerCommands(std::vector<std::shared_ptr<CommandlineCommand>> commands);
+
   void preparse(int argc, char** argv);
   void preparse(std::vector<std::string>& args);
   void parse();
@@ -36,14 +39,13 @@ class CommandLineParser {
   void incompleteRefresh();
   void setShallowIndexingRequested(bool enabled = true);
 
-  FilePath getProjectFilePath() const;
-  void setProjectFile(const FilePath& filepath);
+  std::filesystem::path getProjectFilePath() const;
+  void setProjectFile(const std::filesystem::path& filepath);
 
   RefreshMode getRefreshMode() const;
   bool getShallowIndexingRequested() const;
 
  private:
-  void processProjectfile();
   void printHelp() const;
 
  private:
@@ -54,7 +56,7 @@ class CommandLineParser {
   std::vector<std::string> m_args;
 
   const std::string m_version;
-  FilePath m_projectFile;
+  std::filesystem::path m_projectFile;
   RefreshMode m_refreshMode = RefreshMode::REFRESH_UPDATED_FILES;
   bool m_shallowIndexingRequested = false;
 

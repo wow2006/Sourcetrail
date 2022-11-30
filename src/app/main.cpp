@@ -10,6 +10,8 @@
 #include "ApplicationSettingsPrefiller.h"
 #include "CommandLineParser.h"
 #include "ConsoleLogger.h"
+#include "CommandlineCommandIndex.h"
+#include "CommandlineCommandConfig.h"
 #include "FileLogger.h"
 #include "LanguagePackageManager.h"
 #include "LogManager.h"
@@ -31,6 +33,7 @@
 #include "utility.h"
 #include "utilityApp.h"
 #include "utilityQt.h"
+
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 #	include "LanguagePackageCxx.h"
@@ -130,16 +133,18 @@ int main(int argc, char* argv[])
 		.dispatch();
 
 	commandline::CommandLineParser commandLineParser(version.toDisplayString());
+	commandLineParser.registerCommands({
+		std::make_shared<commandline::CommandlineCommandConfig>(&commandLineParser),
+		std::make_shared<commandline::CommandlineCommandIndex>(&commandLineParser)
+	});
 	commandLineParser.preparse(argc, argv);
-	if (commandLineParser.exitApplication())
-	{
+	if (commandLineParser.exitApplication()) {
 		return 0;
 	}
 
 	setupPlatform(argc, argv);
 
-	if (commandLineParser.runWithoutGUI())
-	{
+	if (commandLineParser.runWithoutGUI()) {
 		// headless Sourcetrail
 		QtCoreApplication qtApp(argc, argv);
 
@@ -171,7 +176,7 @@ int main(int argc, char* argv[])
 		else
 		{
 			MessageLoadProject(
-				commandLineParser.getProjectFilePath(),
+				FilePath(commandLineParser.getProjectFilePath()),
 				false,
 				commandLineParser.getRefreshMode(),
 				commandLineParser.getShallowIndexingRequested())
@@ -220,7 +225,7 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
-			MessageLoadProject(commandLineParser.getProjectFilePath(), false, RefreshMode::REFRESH_NONE).dispatch();
+			MessageLoadProject(FilePath(commandLineParser.getProjectFilePath()), false, RefreshMode::REFRESH_NONE).dispatch();
 		}
 
 		return qtApp.exec();

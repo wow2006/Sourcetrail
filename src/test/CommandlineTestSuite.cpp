@@ -61,10 +61,6 @@ Options:
 
 TEST_CASE("command line")  // NOLINT(readability-function-cognitive-complexity)
 {
-  auto appSettingsPath = ApplicationSettings::getInstance()->getFilePath();
-  ApplicationSettings::getInstance()->load(
-      FilePath(L"data/CommandlineTestSuite/settings.xml"));
-
   SECTION("empty commandline") {
     char* args[] = {"./sourcetrail"};  // NOLINT(hicpp-avoid-c-arrays,
                                        // modernize-avoid-c-arrays,
@@ -114,12 +110,12 @@ TEST_CASE("command line")  // NOLINT(readability-function-cognitive-complexity)
     parser.parse();
 
     std::cout.rdbuf(oldOutBuf);
-    std::cout.rdbuf(oldErrBuf);
+    std::cerr.rdbuf(oldErrBuf);
 
     REQUIRE(outStream.str().empty());
     REQUIRE(errStream.str().empty());
 
-    REQUIRE(parser.getProjectFilePath().fileName() == L"something.srctrlprj");
+    REQUIRE(parser.getProjectFilePath() == "something.srctrlprj");
   }
 
   SECTION("pass two project-file to command-line") {
@@ -136,7 +132,7 @@ TEST_CASE("command line")  // NOLINT(readability-function-cognitive-complexity)
     parser.parse();
 
     std::cout.rdbuf(oldOutBuf);
-    std::cout.rdbuf(oldErrBuf);
+    std::cerr.rdbuf(oldErrBuf);
 
     REQUIRE(outStream.str().empty());
     CHECK_THAT(errStream.str(), Catch::Equals(errorTwoProjectFileString));
@@ -155,11 +151,9 @@ TEST_CASE("command line")  // NOLINT(readability-function-cognitive-complexity)
     parser.parse();
 
     std::cout.rdbuf(oldOutBuf);
-    std::cout.rdbuf(oldErrBuf);
+    std::cerr.rdbuf(oldErrBuf);
 
     REQUIRE(outStream.str().empty());
     REQUIRE(errStream.str().empty());
   }
-
-  ApplicationSettings::getInstance()->load(appSettingsPath);
 }
