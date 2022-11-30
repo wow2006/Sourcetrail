@@ -4,6 +4,8 @@
 
 #include "ApplicationSettings.h"
 #include "CommandLineParser.h"
+#include "CommandlineCommandConfig.h"
+#include "CommandlineCommandIndex.h"
 #include "RefreshInfo.h"
 #include "catch.hpp"
 
@@ -59,19 +61,16 @@ Options:
 
 }  // namespace
 
-TEST_CASE("command line")  // NOLINT(readability-function-cognitive-complexity)
+TEST_CASE("Commandline Parser")  // NOLINT(readability-function-cognitive-complexity)
 {
   SECTION("empty commandline") {
-    char* args[] = {"./sourcetrail"};  // NOLINT(hicpp-avoid-c-arrays,
-                                       // modernize-avoid-c-arrays,
-                                       // cppcoreguidelines-avoid-c-arrays)
+    std::vector<std::string> args({"./sourcetrail"});
 
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
     commandline::CommandLineParser parser("2016.1");
-    parser.preparse(
-        1, args);  // NOLINT(hicpp-no-array-decay,
+    parser.preparse(args);
                    // cppcoreguidelines-pro-bounds-array-to-pointer-decay)
     parser.parse();
 
@@ -83,13 +82,13 @@ TEST_CASE("command line")  // NOLINT(readability-function-cognitive-complexity)
   }
 
   SECTION("version commandline") {
-    char* args[] = {"./sourcetrail", "--version"};
+    std::vector<std::string> args({"./sourcetrail", "--version"});
 
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
     commandline::CommandLineParser parser("2016.1");
-    parser.preparse(2, args);
+    parser.preparse(args);
     parser.parse();
 
     std::cout.rdbuf(oldBuf);
@@ -156,4 +155,76 @@ TEST_CASE("command line")  // NOLINT(readability-function-cognitive-complexity)
     REQUIRE(outStream.str().empty());
     REQUIRE(errStream.str().empty());
   }
+}
+
+TEST_CASE("Command Index")  // NOLINT(readability-function-cognitive-complexity)
+{
+  commandline::CommandLineParser mocParser("2016.1");
+   SECTION("empty args") {
+    auto args = std::vector<std::string>();
+    commandline::CommandlineCommandIndex command(&mocParser);
+    command.setup();
+
+    std::stringstream redStream;
+    const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+    REQUIRE(command.parse(args) == commandline::CommandlineCommandIndex::ReturnStatus::CMD_QUIT);
+
+    std::cout.rdbuf(oldBuf);
+
+    REQUIRE_FALSE(redStream.str().empty());
+   }
+
+   SECTION("help args") {
+    auto args = std::vector<std::string>{
+      "--help"
+    };
+    commandline::CommandlineCommandIndex command(&mocParser);
+    command.setup();
+
+    std::stringstream redStream;
+    const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+    REQUIRE(command.parse(args) == commandline::CommandlineCommandIndex::ReturnStatus::CMD_QUIT);
+
+    std::cout.rdbuf(oldBuf);
+
+    REQUIRE_FALSE(redStream.str().empty());
+   }
+}
+
+TEST_CASE("Command Config")  // NOLINT(readability-function-cognitive-complexity)
+{
+  commandline::CommandLineParser mocParser("2016.1");
+   SECTION("empty args") {
+    auto args = std::vector<std::string>();
+    commandline::CommandlineCommandConfig command(&mocParser);
+    command.setup();
+
+    std::stringstream redStream;
+    const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+    REQUIRE(command.parse(args) == commandline::CommandlineCommandIndex::ReturnStatus::CMD_QUIT);
+
+    std::cout.rdbuf(oldBuf);
+
+    REQUIRE_FALSE(redStream.str().empty());
+   }
+
+   SECTION("help args") {
+    auto args = std::vector<std::string>{
+      "--help"
+    };
+    commandline::CommandlineCommandIndex command(&mocParser);
+    command.setup();
+
+    std::stringstream redStream;
+    const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+    REQUIRE(command.parse(args) == commandline::CommandlineCommandIndex::ReturnStatus::CMD_QUIT);
+
+    std::cout.rdbuf(oldBuf);
+
+    REQUIRE_FALSE(redStream.str().empty());
+   }
 }

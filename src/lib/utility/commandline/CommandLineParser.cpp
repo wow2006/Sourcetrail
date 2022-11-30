@@ -11,11 +11,13 @@ namespace commandline {
 
 CommandLineParser::CommandLineParser(std::string version)
     : m_version(std::move(version)) {
+  // clang-format off
   po::options_description options("Options");
-  options.add_options()("help,h", "Print this help message")(
-      "version,v", "Version of Sourcetrail")(
-      "project-file", po::value<std::string>(),
-      "Open Sourcetrail with this project (.srctrlprj)");
+  options.add_options()
+    ("help,h", "Print this help message")
+    ("version,v", "Version of Sourcetrail")
+    ("project-file", po::value<std::string>(),"Open Sourcetrail with this project (.srctrlprj)");
+  // clang-format on
 
   m_options.add(options);
   m_positional.add("project-file", 1);
