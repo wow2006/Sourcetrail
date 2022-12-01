@@ -12,7 +12,6 @@ namespace commandline {
 CommandlineCommandIndex::CommandlineCommandIndex(CommandLineParser* parser)
     : CommandlineCommand("index", "Index a certain project.", parser) {}
 
-
 CommandlineCommandIndex::~CommandlineCommandIndex() = default;
 
 void CommandlineCommandIndex::setup() {
@@ -23,7 +22,7 @@ void CommandlineCommandIndex::setup() {
 	("incomplete,i", "Also reindex incomplete files (files with errors)")
 	("full,f",       "Index full project (omit to only index new/changed files)")
 	("shallow,s",    "Build a shallow index is supported by the project")
-	("project-to-index", po::value<std::string>(), "Project file to index (.srctrlprj)");
+	("project-file", po::value<std::string>(), "Project file to index (.srctrlprj)");
 
   m_options.add(options);
   m_positional.add("project-file", 1);
