@@ -12,8 +12,7 @@ class CommandLineParser;
 
 class CommandlineCommand {
 public:
-	enum class ReturnStatus
-	{
+	enum class ReturnStatus {
 		CMD_OK,
 		CMD_QUIT,
 		CMD_FAILURE

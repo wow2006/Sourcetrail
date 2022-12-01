@@ -77,16 +77,16 @@ void CommandlineCommandConfig::setup() {
   po::options_description options("Config Options");
   options.add_options()
   	("help,h", "Print this help message")
-	("indexer-threads,t", po::value<int>(),  "Set the number of threads used for indexing (0 uses ideal thread count)")
-	("use-processes,p", po::value<bool>(), "Enable C/C++ Indexer threads to run in different processes. <true/false>")
-	("logging-enabled,l", po::value<bool>(), "Enable file/console logging <true/false>")
-	("verbose-indexer-logging-enabled,L", po::value<bool>(), "Enable additional log of abstract syntax tree during the indexing. <true/false> WARNING Slows down indexing speed")
-	("jvm-path,j", po::value<std::string>(), "Path to the location of the jvm library")
-	("maven-path,m", po::value<std::string>(), "Path to the maven binary")
-	("jre-system-library-paths,J", po::value<std::vector<std::string>>(), "paths to the jars of the JRE system library. These jars can be found inside your JRE install directory (once per path or comma separated)")
-	("global-header-search-paths,g",po::value<std::vector<std::string>>(), "Global include paths (once per path or comma separated)")
-	("global-framework-search-paths,F", po::value<std::vector<std::string>>(), "Global include paths (once per path or comma separated)")
-	("show,s", "displays all settings");
+    ("indexer-threads,t", po::value<int>(),  "Set the number of threads used for indexing (0 uses ideal thread count)")
+    ("use-processes,p", po::value<bool>(), "Enable C/C++ Indexer threads to run in different processes. <true/false>")
+    ("logging-enabled,l", po::value<bool>(), "Enable file/console logging <true/false>")
+    ("verbose-indexer-logging-enabled,L", po::value<bool>(), "Enable additional log of abstract syntax tree during the indexing. <true/false> WARNING Slows down indexing speed")
+    ("jvm-path,j", po::value<std::string>(), "Path to the location of the jvm library")
+    ("maven-path,m", po::value<std::string>(), "Path to the maven binary")
+    ("jre-system-library-paths,J", po::value<std::vector<std::string>>(), "paths to the jars of the JRE system library. These jars can be found inside your JRE install directory (once per path or comma separated)")
+    ("global-header-search-paths,g",po::value<std::vector<std::string>>(), "Global include paths (once per path or comma separated)")
+    ("global-framework-search-paths,F", po::value<std::vector<std::string>>(), "Global include paths (once per path or comma separated)")
+    ("show,s", "displays all settings");
   m_options.add(options);
   // clang-format on
 }
