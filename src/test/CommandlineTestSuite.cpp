@@ -19,8 +19,6 @@ constexpr auto helpExpected = R"(Usage:
   Sourcetrail [command] [option...] [positional arguments]
 
 Commands:
-  config                 Change preferences relevant to project indexing.*
-  index                  Index a certain project.*
 
   * has its own --help
 
@@ -82,6 +80,20 @@ public:
 TEST_CASE("Commandline Parser") // NOLINT(readability-function-cognitive-complexity)
 {
   SECTION("empty commandline") {
+    std::string programName = "./sourcetrail";
+    char* argv = programName.data();
+
+    std::stringstream redStream;
+    const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+    commandline::CommandLineParser parser("2016.1");
+    parser.preparse(1, &argv);
+    parser.parse();
+
+    std::cout.rdbuf(oldBuf);
+  }
+
+  SECTION("empty commandline vector") {
     std::vector<std::string> args({"./sourcetrail"});
 
     std::stringstream redStream;
@@ -89,7 +101,6 @@ TEST_CASE("Commandline Parser") // NOLINT(readability-function-cognitive-complex
 
     commandline::CommandLineParser parser("2016.1");
     parser.preparse(args);
-    // cppcoreguidelines-pro-bounds-array-to-pointer-decay)
     parser.parse();
 
     std::cout.rdbuf(oldBuf);
@@ -100,6 +111,25 @@ TEST_CASE("Commandline Parser") // NOLINT(readability-function-cognitive-complex
   }
 
   SECTION("version commandline") {
+    std::vector<std::string> args({"./sourcetrail", "--version"});
+    char* argv[] = {
+      args[0].data(),
+      args[1].data(),
+    };
+
+    std::stringstream redStream;
+    const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+    commandline::CommandLineParser parser("2016.1");
+    parser.preparse(2, argv);
+    parser.parse();
+
+    std::cout.rdbuf(oldBuf);
+
+    REQUIRE(redStream.str() == "Sourcetrail Version 2016.1\n");
+  }
+
+  SECTION("version commandline vector") {
     std::vector<std::string> args({"./sourcetrail", "--version"});
 
     std::stringstream redStream;
@@ -112,6 +142,21 @@ TEST_CASE("Commandline Parser") // NOLINT(readability-function-cognitive-complex
     std::cout.rdbuf(oldBuf);
 
     REQUIRE(redStream.str() == "Sourcetrail Version 2016.1\n");
+  }
+
+  SECTION("help commandline") {
+    std::vector<std::string> args({"./sourcetrail", "--help"});
+
+    std::stringstream redStream;
+    const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
+
+    commandline::CommandLineParser parser("2016.1");
+    parser.preparse(args);
+    parser.parse();
+
+    std::cout.rdbuf(oldBuf);
+
+    REQUIRE(redStream.str() == helpExpected);
   }
 
   SECTION("pass a project-file") {

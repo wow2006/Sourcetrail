@@ -75,3 +75,5 @@ CMakeLists.txt.user*
 
 .cache/
 compile_commands.json
+
+testing/helloWorld.tar.gz

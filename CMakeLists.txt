@@ -7,16 +7,30 @@ endif()
 set(BUILD_CXX_LANGUAGE_PACKAGE    OFF CACHE BOOL "Add C and C++ support to the Sourcetrail indexer.")
 set(BUILD_JAVA_LANGUAGE_PACKAGE   OFF CACHE BOOL "Add Java support to the Sourcetrail indexer.")
 set(BUILD_PYTHON_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Python support to the Sourcetrail indexer.")
-set(DOCKER_BUILD                  OFF CACHE BOOL "Build runs in Docker")
+set(BUILD_UNIT_TESTS              ON  CACHE BOOL "Build unit tests")
+set(BUILD_FUNC_TESTS              ON  CACHE BOOL "Build func tests")
+set(BUILD_EXPORT_UML              ON  CACHE BOOL "Build export_uml app")
+set(ENABLE_MEMORY_ASAN            ON  CACHE BOOL "Build with memory sanitizers")
+set(ENABLE_ADDRESS_ASAN           OFF CACHE BOOL "Build with address sanitizers")
+
 set(TREAT_WARNINGS_AS_ERRORS      OFF CACHE BOOL "Treat compiler warnings as errors")
+set(DOCKER_BUILD                  OFF CACHE BOOL "Build runs in Docker")
 set(BUILD_COVERAGE                OFF CACHE BOOL "Generate a coverage report")
 
+if(ENABLE_MEMORY_ASAN AND ENABLE_ADDRESS_ASAN)
+  message(FATAL_ERROR "Cannot enable both memory and address sanitizers")
+endif()
+
 include(cmake/add_files.cmake)
+include(cmake/compiler_warnings.cmake)
 include(cmake/create_source_groups.cmake)
+include(cmake/licenses.cmake)
 include(cmake/version.cmake)
 include(cmake/version_setup.cmake)
-include(cmake/licenses.cmake)
-include(cmake/compiler_warnings.cmake)
+
+if(ENABLE_MEMORY_ASAN OR ENABLE_ADDRESS_ASAN)
+  include(cmake/sanitizers.cmake)
+endif()
 
 # prohibit in-source-builds
 if (${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
@@ -259,7 +273,11 @@ add_subdirectory(src/lib_gui)
 add_subdirectory(src/lib_java)
 add_subdirectory(src/lib_python)
 add_subdirectory(src/lib_utility)
-add_subdirectory(src/test)
+if(BUILD_FUNC_TESTS OR BUILD_UNIT_TESTS)
+  add_subdirectory(testing)
+  enable_testing()
+  add_subdirectory(src/test)
+endif()
 
 # Lib Utility ------------------------------------------------------------------
 
@@ -273,19 +291,34 @@ set_property(
     "${LIB_UTILITY_INCLUDE_PATHS}"
 )
 
-target_include_directories(${LIB_UTILITY_PROJECT_NAME} SYSTEM
-  PUBLIC ${Boost_INCLUDE_DIR}
+target_link_libraries(
+  ${LIB_UTILITY_PROJECT_NAME}
+  PUBLIC
+  ${Boost_LIBRARIES}
+  Boost::program_options
+  Boost::filesystem
+  Boost::date_time
+  Qt5::Widgets
+  Qt5::Network
 )
-
-target_link_libraries(${LIB_UTILITY_PROJECT_NAME} ${Boost_LIBRARIES} Qt5::Widgets Qt5::Network)
 
 if (UNIX AND NOT APPLE)
   find_package(Threads REQUIRED)
-  target_link_libraries(${LIB_UTILITY_PROJECT_NAME} ${CMAKE_DL_LIBS} rt ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries(
+    ${LIB_UTILITY_PROJECT_NAME}
+    PRIVATE
+    ${CMAKE_DL_LIBS}
+    rt
+    ${CMAKE_THREAD_LIBS_INIT}
+  )
 endif()
 
 if (WIN32)
-  target_link_libraries(${LIB_UTILITY_PROJECT_NAME} Qt5::WinExtras)
+  target_link_libraries(
+    ${LIB_UTILITY_PROJECT_NAME}
+    PRIVATE
+    Qt5::WinExtras
+  )
 endif()
 
 set_project_warnings(${LIB_UTILITY_PROJECT_NAME})
@@ -806,7 +839,6 @@ endif ()
 #       "${CMAKE_SOURCE_DIR}/bin/test")
 # endif ()
 
-enable_testing()
 # add_test(
 #   NAME ${TEST_PROJECT_NAME}
 #   COMMAND ${CMAKE_BINARY_DIR}/test/${TEST_PROJECT_NAME}
