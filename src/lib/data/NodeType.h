@@ -1,5 +1,4 @@
-#ifndef NODE_TYPE_H
-#define NODE_TYPE_H
+#pragma once
 
 #include <functional>
 #include <map>
@@ -28,22 +27,22 @@ public:
 		BundleInfo() {}
 
 		BundleInfo(std::wstring bundleName)
-			: nameMatcher([](const std::wstring&) { return true; }), bundleName(bundleName)
+			: m_nameMatcher([](const std::wstring&) { return true; }), m_bundleName(bundleName)
 		{
 		}
 
 		BundleInfo(std::function<bool(std::wstring)> nameMatcher, std::wstring bundleName)
-			: nameMatcher(nameMatcher), bundleName(bundleName)
+			: m_nameMatcher(nameMatcher), m_bundleName(bundleName)
 		{
 		}
 
 		bool isValid() const
 		{
-			return bundleName.size() > 0;
+			return m_bundleName.size() > 0;
 		}
 
-		std::function<bool(const std::wstring&)> nameMatcher = nullptr;
-		std::wstring bundleName;
+		std::function<bool(const std::wstring&)> m_nameMatcher = nullptr;
+		std::wstring m_bundleName;
 	};
 
 	static std::vector<NodeType> getOverviewBundleNodeTypesOrdered();
@@ -87,5 +86,3 @@ public:
 private:
 	NodeKind m_kind;
 };
-
-#endif	  // NODE_TYPE_H

@@ -1,5 +1,4 @@
-#ifndef USER_PATHS_H
-#define USER_PATHS_H
+#pragma once
 
 #include <string>
 
@@ -19,4 +18,3 @@ private:
 	static FilePath s_userDataDirectoryPath;
 };
 
-#endif	  // USER_PATHS_H

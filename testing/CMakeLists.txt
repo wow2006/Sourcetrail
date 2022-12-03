@@ -8,11 +8,18 @@ if(NOT EXISTS ${helloWorld_PATH})
                   SHOW_PROGRESS
                   EXPECTED_MD5 eeb2359d2533ebf945f3fc922a701381
     )
+
 endif()
 
 add_custom_target(
+    CreateTestDataDir
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/tests/data/"
+)
+add_custom_target(
     ExtractHelloWorld
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/tests/data/"
     COMMAND ${CMAKE_COMMAND} -E tar xf ${helloWorld_PATH}
     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/tests/data/"
     DEPENDS ${helloWorld_PATH}
+            CreateTestDataDir
 )

@@ -48,9 +48,9 @@ void CompositeView::removeView(View* view)
 	m_views.erase(it);
 }
 
-void CompositeView::showView(View* view) {}
+void CompositeView::showView([[maybe_unused]] View* view) {}
 
-void CompositeView::hideView(View* view) {}
+void CompositeView::hideView([[maybe_unused]] View* view) {}
 
 void CompositeView::setViewEnabled(View* view, bool enabled)
 {
@@ -59,5 +59,5 @@ void CompositeView::setViewEnabled(View* view, bool enabled)
 
 void CompositeView::handleMessage(MessageFocusedSearchView* message)
 {
-	showFocusIndicator(message->focusIn);
+	showFocusIndicator(message->m_focusIn);
 }

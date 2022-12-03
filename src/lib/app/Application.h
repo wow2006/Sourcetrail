@@ -1,5 +1,4 @@
-#ifndef APPLICATION_H
-#define APPLICATION_H
+#pragma once
 
 #include <memory>
 
@@ -96,4 +95,3 @@ private:
 	std::shared_ptr<IDECommunicationController> m_ideCommunicationController;
 };
 
-#endif	  // APPLICATION_H

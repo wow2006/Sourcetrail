@@ -1,5 +1,4 @@
-#ifndef MESSAGE_FOCUSED_SEARCH_VIEW_H
-#define MESSAGE_FOCUSED_SEARCH_VIEW_H
+#pragma once
 
 #include "Message.h"
 #include "TabId.h"
@@ -7,7 +6,7 @@
 class MessageFocusedSearchView: public Message<MessageFocusedSearchView>
 {
 public:
-	MessageFocusedSearchView(bool focusIn): focusIn(focusIn)
+	MessageFocusedSearchView(bool focusIn): m_focusIn(focusIn)
 	{
 		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());
@@ -18,7 +17,5 @@ public:
 		return "MessageFocusedSearchView";
 	}
 
-	const bool focusIn;
+	const bool m_focusIn;
 };
-
-#endif	  // MESSAGE_FOCUSED_SEARCH_VIEW_H

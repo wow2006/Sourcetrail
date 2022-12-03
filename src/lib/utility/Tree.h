@@ -1,13 +1,10 @@
-#ifndef TREE_H
-#define TREE_H
+#pragma once
 
 template <typename T>
 struct Tree
 {
 	Tree() {}
-	Tree(T data): data(data) {}
+	Tree([[maybe_unused]] T data): data(data) {}
 	T data;
 	std::vector<Tree<T>> children;
 };
-
-#endif	  // TREE_H

@@ -1398,9 +1398,9 @@ std::shared_ptr<DummyNode> GraphController::bundleByType(
 		nodes,
 		[&](const DummyNode* node) {
 			return (considerInvisibleNodes || node->visible) && node->isGraphNode() &&
-				node->data->getType() == type && bundleInfoTree.data.nameMatcher(node->name);
+				node->data->getType() == type && bundleInfoTree.data.m_nameMatcher(node->name);
 		},
-		bundleInfoTree.data.bundleName);
+		bundleInfoTree.data.m_bundleName);
 
 	if (bundleNode)
 	{

@@ -1,5 +1,4 @@
-#ifndef RESOURCE_PATHS_H
-#define RESOURCE_PATHS_H
+#pragma once
 
 #include <string>
 
@@ -20,4 +19,3 @@ public:
 	static FilePath getPythonIndexerFilePath();
 };
 
-#endif	  // RESOURCE_PATHS_H

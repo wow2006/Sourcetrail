@@ -418,7 +418,7 @@ bool FilePath::contains(const FilePath& other) const
 
 std::string FilePath::str() const
 {
-	return m_path->generic_string();
+	return m_path->string();
 }
 
 std::wstring FilePath::wstr() const
