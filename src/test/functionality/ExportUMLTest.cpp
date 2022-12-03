@@ -12,7 +12,8 @@ namespace fs = std::filesystem;
 SCENARIO("Simple helloWorld project", "[functionality]") {
   std::cout << "Export_UML" << Export_UML << '\n';
   GIVEN("The exportUML process exists") {
-    const auto processPath = "../app/exportUML";
+    constexpr auto processPath = "../app/exportUML";
+
     std::error_code errorCode;
     REQUIRE(fs::exists(processPath, errorCode));
 
@@ -26,18 +27,23 @@ SCENARIO("Simple helloWorld project", "[functionality]") {
         // REQUIRE(project.isValid());
 
         WHEN("Pass the helloWorld project path to the process") {
+          constexpr auto svgPath = "output.svg";
+
           bp::ipstream errorStream;
           bp::ipstream outStream;
 
           auto childProcess = bp::child(bp::exe=processPath,
-                                        bp::args={"--project-path", projectPath.string()},
+                                        bp::args={
+                                          "--project", projectPath.string(),
+                                          "--output",  svgPath,
+                                        },
                                         bp::std_out > errorStream,
                                         bp::std_err > outStream);
           childProcess.wait(errorCode);
           REQUIRE_FALSE(errorCode);
 
           THEN("A SVG file will be exported") {
-            REQUIRE(false);
+            REQUIRE(fs::exists(svgPath, errorCode));
           }
         }
       }

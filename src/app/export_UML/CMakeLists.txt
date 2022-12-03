@@ -11,5 +11,11 @@ target_link_libraries(
   Boost::program_options
 )
 
+set_target_properties(
+  exportUML
+  PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app"
+)
+
 set_project_warnings(exportUML)
 
