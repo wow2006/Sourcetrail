@@ -1,5 +1,4 @@
-#ifndef CXX_INDEXER_COMMAND_PROVIDER_H
-#define CXX_INDEXER_COMMAND_PROVIDER_H
+#pragma once
 
 #include <map>
 #include <set>
@@ -11,22 +10,28 @@
 
 class IndexerCommandCxx;
 
-class CxxIndexerCommandProvider: public IndexerCommandProvider
-{
+class CxxIndexerCommandProvider final : public IndexerCommandProvider {
 public:
 	CxxIndexerCommandProvider();
+
 	void addCommand(const std::shared_ptr<IndexerCommandCxx>& command);
+
 	std::vector<FilePath> getAllSourceFilePaths() const override;
+
 	std::shared_ptr<IndexerCommand> consumeCommand() override;
+
 	std::shared_ptr<IndexerCommand> consumeCommandForSourceFilePath(const FilePath& filePath) override;
+
 	std::vector<std::shared_ptr<IndexerCommand>> consumeAllCommands() override;
+
 	void clear() override;
+
 	size_t size() const override;
+
 	void logStats() const;
 
 private:
-	struct CommandRepresentation
-	{
+	struct CommandRepresentation {
 		std::set<Id> m_indexedPathIds;
 		std::set<Id> m_excludeFilterIds;
 		std::set<Id> m_includeFilterIds;
@@ -35,6 +40,7 @@ private:
 	};
 
 	Id getId();
+
 	std::shared_ptr<IndexerCommandCxx> representationToCommand(
 		const FilePath& sourceFilePath, std::shared_ptr<CommandRepresentation> representation);
 
@@ -53,5 +59,3 @@ private:
 	std::map<Id, std::wstring> m_idsToCompilerFlags;
 	std::unordered_map<std::wstring, Id> m_compilerFlagsToIds;
 };
-
-#endif	  // CXX_INDEXER_COMMAND_PROVIDER_H

@@ -1,12 +1,14 @@
-#ifndef LANGUAGE_PACKAGE_CXX_H
-#define LANGUAGE_PACKAGE_CXX_H
+#pragma once
+// STL
+#include <memory>
+#include <vector>
 
 #include "LanguagePackage.h"
 
-class LanguagePackageCxx: public LanguagePackage
-{
-public:
-	virtual std::vector<std::shared_ptr<IndexerBase>> instantiateSupportedIndexers() const;
-};
+class LanguagePackageCxx : public LanguagePackage {
+ public:
+  using IndexerBasePtr = std::shared_ptr<IndexerBase>;
 
-#endif	  // LANGUAGE_PACKAGE_CXX_H
+  [[nodiscard]] std::vector<IndexerBasePtr> instantiateSupportedIndexers() const override;
+
+};

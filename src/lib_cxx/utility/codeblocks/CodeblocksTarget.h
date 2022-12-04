@@ -1,5 +1,4 @@
-#ifndef CODEBLOCKS_TARGET_H
-#define CODEBLOCKS_TARGET_H
+#pragma once
 
 #include <memory>
 #include <string>
@@ -9,27 +8,23 @@
 
 class TiXmlElement;
 
-namespace Codeblocks
-{
+namespace Codeblocks {
 class Compiler;
 
-class Target
-{
-public:
-	static std::string getXmlElementName();
-	static std::shared_ptr<Target> create(const TiXmlElement* element);
+class Target {
+ public:
+  static std::string getXmlElementName();
+  static std::shared_ptr<Target> create(const TiXmlElement* element);
 
-	std::wstring getTitle() const;
-	std::shared_ptr<const Compiler> getCompiler() const;
+  std::wstring getTitle() const;
+  std::shared_ptr<const Compiler> getCompiler() const;
 
-private:
-	Target();
+ private:
+  Target();
 
-	std::wstring m_title;
-	TargetRelationType m_projectCompilerOptionsRelation;
-	TargetRelationType m_projectIncludeDirsRelation;
-	std::shared_ptr<Compiler> m_compiler;
+  std::wstring m_title;
+  TargetRelationType m_projectCompilerOptionsRelation;
+  TargetRelationType m_projectIncludeDirsRelation;
+  std::shared_ptr<Compiler> m_compiler;
 };
-}	 // namespace Codeblocks
-
-#endif	  // CODEBLOCKS_TARGET_H
+}  // namespace Codeblocks
