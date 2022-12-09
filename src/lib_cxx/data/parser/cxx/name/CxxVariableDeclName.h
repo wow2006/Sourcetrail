@@ -7,20 +7,16 @@
 #include "CxxDeclName.h"
 #include "CxxTypeName.h"
 
-class CxxVariableDeclName: public CxxDeclName
-{
-public:
-	CxxVariableDeclName(
-		std::wstring name,
-		std::vector<std::wstring> templateParameterNames,
-		std::unique_ptr<CxxTypeName> typeName,
-		bool isStatic);
+class CxxVariableDeclName : public CxxDeclName {
+ public:
+  CxxVariableDeclName(std::wstring name, std::vector<std::wstring> templateParameterNames,
+                      std::unique_ptr<CxxTypeName> typeName, bool isStatic);
 
-	NameHierarchy toNameHierarchy() const override;
+  NameHierarchy toNameHierarchy() const override;
 
-private:
-	std::unique_ptr<CxxTypeName> m_typeName;
-	const bool m_isStatic;
+ private:
+  std::unique_ptr<CxxTypeName> m_typeName;
+  const bool m_isStatic;
 };
 
-#endif	  // CXX_VARIABLE_DECL_NAME_H
+#endif  // CXX_VARIABLE_DECL_NAME_H

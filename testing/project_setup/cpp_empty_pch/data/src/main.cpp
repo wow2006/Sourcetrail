@@ -1,7 +1,6 @@
 #include "pch.h"
 
-void test()
-{
-	Foo foo;
-	Bar bar;
+void test() {
+  Foo foo;
+  Bar bar;
 }

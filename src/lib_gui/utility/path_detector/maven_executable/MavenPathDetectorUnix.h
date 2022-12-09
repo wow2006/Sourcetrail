@@ -3,13 +3,12 @@
 
 #include "PathDetector.h"
 
-class MavenPathDetectorUnix: public PathDetector
-{
-public:
-	MavenPathDetectorUnix();
+class MavenPathDetectorUnix : public PathDetector {
+ public:
+  MavenPathDetectorUnix();
 
-private:
-	std::vector<FilePath> doGetPaths() const override;
+ private:
+  std::vector<FilePath> doGetPaths() const override;
 };
 
-#endif	  // MAVEN_PATH_DETECTOR_UNIX_H
+#endif  // MAVEN_PATH_DETECTOR_UNIX_H

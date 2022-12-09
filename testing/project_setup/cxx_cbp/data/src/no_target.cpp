@@ -1,4 +1,1 @@
-void no_target()
-{
-	int b = 7;
-}
+void no_target() { int b = 7; }

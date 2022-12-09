@@ -3,18 +3,13 @@
 
 #include "Message.h"
 
+class MessageSaveAsImage : public Message<MessageSaveAsImage> {
+ public:
+  MessageSaveAsImage(QString path) : path(path) {}
 
-class MessageSaveAsImage: public Message<MessageSaveAsImage>
-{
-public:
-	MessageSaveAsImage(QString path) : path(path) {}
+  static const std::string getStaticType() { return "MessageSaveAsImage"; }
 
-	static const std::string getStaticType()
-	{
-		return "MessageSaveAsImage";
-	}
-
-	QString path;
+  QString path;
 };
 
 #endif /* MESSAGE_SAVE_AS_IMAGE_H */

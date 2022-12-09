@@ -3,8 +3,6 @@
 
 #include "FooBar.h"
 
-class Bar : public FooBar
-{
-};
+class Bar : public FooBar {};
 
-#endif // BAR_H
+#endif  // BAR_H

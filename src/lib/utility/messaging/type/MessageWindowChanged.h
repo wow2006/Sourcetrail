@@ -3,13 +3,9 @@
 
 #include "Message.h"
 
-class MessageWindowChanged: public Message<MessageWindowChanged>
-{
-public:
-	static const std::string getStaticType()
-	{
-		return "MessageWindowChanged";
-	}
+class MessageWindowChanged : public Message<MessageWindowChanged> {
+ public:
+  static const std::string getStaticType() { return "MessageWindowChanged"; }
 };
 
-#endif	  // MESSAGE_WINDOW_CHANGED_H
+#endif  // MESSAGE_WINDOW_CHANGED_H

@@ -3,15 +3,11 @@
 
 #include "Message.h"
 
-class MessageIndexingStarted: public Message<MessageIndexingStarted>
-{
-public:
-	static const std::string getStaticType()
-	{
-		return "MessageIndexingStarted";
-	}
+class MessageIndexingStarted : public Message<MessageIndexingStarted> {
+ public:
+  static const std::string getStaticType() { return "MessageIndexingStarted"; }
 
-	MessageIndexingStarted() {}
+  MessageIndexingStarted() {}
 };
 
-#endif	  // MESSAGE_INDEXING_STARTED_H
+#endif  // MESSAGE_INDEXING_STARTED_H

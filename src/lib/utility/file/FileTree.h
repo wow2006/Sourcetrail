@@ -7,20 +7,19 @@
 
 #include "FilePath.h"
 
-class FileTree
-{
-public:
-	FileTree(const FilePath& rootPath);
+class FileTree {
+ public:
+  FileTree(const FilePath& rootPath);
 
-	FilePath getAbsoluteRootPathForRelativeFilePath(const FilePath& relativeFilePath);
-	std::vector<FilePath> getAbsoluteRootPathsForRelativeFilePath(const FilePath& relativeFilePath);
+  FilePath getAbsoluteRootPathForRelativeFilePath(const FilePath& relativeFilePath);
+  std::vector<FilePath> getAbsoluteRootPathsForRelativeFilePath(const FilePath& relativeFilePath);
 
-private:
-	std::vector<FilePath> doGetAbsoluteRootPathsForRelativeFilePath(
-		const FilePath& relativeFilePath, bool allowMultipleResults);
+ private:
+  std::vector<FilePath> doGetAbsoluteRootPathsForRelativeFilePath(const FilePath& relativeFilePath,
+                                                                  bool allowMultipleResults);
 
-	FilePath m_rootPath;
-	std::unordered_map<std::wstring, std::set<FilePath>> m_files;
+  FilePath m_rootPath;
+  std::unordered_map<std::wstring, std::set<FilePath>> m_files;
 };
 
-#endif	  // FILE_TREE_H
+#endif  // FILE_TREE_H

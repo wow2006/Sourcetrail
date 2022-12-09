@@ -5,14 +5,10 @@
 
 class FilePath;
 
-namespace utility
-{
-bool gradleCopyDependencies(
-	const FilePath& projectDirectoryPath,
-	const FilePath& outputDirectoryPath,
-	bool addTestDependencies);
-std::vector<FilePath> gradleGetAllSourceDirectories(
-	const FilePath& projectDirectoryPath, bool addTestDirectories);
-}	 // namespace utility
+namespace utility {
+bool gradleCopyDependencies(const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath,
+                            bool addTestDependencies);
+std::vector<FilePath> gradleGetAllSourceDirectories(const FilePath& projectDirectoryPath, bool addTestDirectories);
+}  // namespace utility
 
-#endif	  // UTILITY_GRADLE_H
+#endif  // UTILITY_GRADLE_H

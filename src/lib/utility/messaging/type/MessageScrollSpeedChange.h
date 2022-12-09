@@ -3,22 +3,15 @@
 
 #include "Message.h"
 
-class MessageScrollSpeedChange: public Message<MessageScrollSpeedChange>
-{
-public:
-	MessageScrollSpeedChange(float scrollSpeed): scrollSpeed(scrollSpeed) {}
+class MessageScrollSpeedChange : public Message<MessageScrollSpeedChange> {
+ public:
+  MessageScrollSpeedChange(float scrollSpeed) : scrollSpeed(scrollSpeed) {}
 
-	static const std::string getStaticType()
-	{
-		return "MessageScrollSpeedChange";
-	}
+  static const std::string getStaticType() { return "MessageScrollSpeedChange"; }
 
-	virtual void print(std::wostream& os) const
-	{
-		os << scrollSpeed;
-	}
+  virtual void print(std::wostream& os) const { os << scrollSpeed; }
 
-	const float scrollSpeed;
+  const float scrollSpeed;
 };
 
-#endif	  // MESSAGE_SCROLL_SPEED_CHANGE_H
+#endif  // MESSAGE_SCROLL_SPEED_CHANGE_H

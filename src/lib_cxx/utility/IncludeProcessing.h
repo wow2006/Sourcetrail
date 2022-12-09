@@ -38,5 +38,4 @@ class IncludeProcessing {
 
   static FilePath resolveIncludeDirective(const IncludeDirective& includeDirective,
                                           const std::set<FilePath>& headerSearchDirectories);
-
 };

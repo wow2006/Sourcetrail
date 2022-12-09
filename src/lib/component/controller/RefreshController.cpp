@@ -8,7 +8,4 @@ RefreshController::~RefreshController() {}
 
 void RefreshController::clear() {}
 
-RefreshView* RefreshController::getView()
-{
-	return Controller::getView<RefreshView>();
-}
+RefreshView* RefreshController::getView() { return Controller::getView<RefreshView>(); }

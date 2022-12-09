@@ -4,14 +4,11 @@
 #include "FooBar.h"
 
 #ifndef COMPILER_FLAG
-	#error "COMPILER_FLAG not defined"
+#error "COMPILER_FLAG not defined"
 #else
 
-class Bar : public FooBar
-{
-};
+class Bar : public FooBar {};
 
 #endif
 
-
-#endif // FOO_H
+#endif  // FOO_H

@@ -3,18 +3,17 @@
 
 #include <QLineEdit>
 
-class QtLineEdit: public QLineEdit
-{
-	Q_OBJECT
+class QtLineEdit : public QLineEdit {
+  Q_OBJECT
 
-public:
-	QtLineEdit(QWidget* parent = nullptr);
+ public:
+  QtLineEdit(QWidget* parent = nullptr);
 
-signals:
-	void focus();
+ signals:
+  void focus();
 
-protected:
-	void focusInEvent(QFocusEvent* event);
+ protected:
+  void focusInEvent(QFocusEvent* event);
 };
 
-#endif	  // QT_LINE_EDIT_H
+#endif  // QT_LINE_EDIT_H

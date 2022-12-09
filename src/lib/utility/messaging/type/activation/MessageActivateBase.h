@@ -3,12 +3,11 @@
 
 #include "SearchMatch.h"
 
-class MessageActivateBase
-{
-public:
-	virtual ~MessageActivateBase() = default;
+class MessageActivateBase {
+ public:
+  virtual ~MessageActivateBase() = default;
 
-	virtual std::vector<SearchMatch> getSearchMatches() const = 0;
+  virtual std::vector<SearchMatch> getSearchMatches() const = 0;
 };
 
-#endif	  // MESSAGE_ACTIVATE_BASE_H
+#endif  // MESSAGE_ACTIVATE_BASE_H

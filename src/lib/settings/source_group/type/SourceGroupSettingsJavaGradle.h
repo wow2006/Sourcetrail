@@ -8,22 +8,16 @@
 #include "SourceGroupSettingsWithSourceExtensionsJava.h"
 
 class SourceGroupSettingsJavaGradle
-	: public SourceGroupSettingsWithComponents<
-		  SourceGroupSettingsWithExcludeFilters,
-		  SourceGroupSettingsWithJavaGradle,
-		  SourceGroupSettingsWithJavaStandard,
-		  SourceGroupSettingsWithSourceExtensionsJava>
-{
-public:
-	SourceGroupSettingsJavaGradle(const std::string& id, const ProjectSettings* projectSettings)
-		: SourceGroupSettingsWithComponents(SOURCE_GROUP_JAVA_GRADLE, id, projectSettings)
-	{
-	}
+    : public SourceGroupSettingsWithComponents<SourceGroupSettingsWithExcludeFilters, SourceGroupSettingsWithJavaGradle,
+                                               SourceGroupSettingsWithJavaStandard,
+                                               SourceGroupSettingsWithSourceExtensionsJava> {
+ public:
+  SourceGroupSettingsJavaGradle(const std::string& id, const ProjectSettings* projectSettings)
+      : SourceGroupSettingsWithComponents(SOURCE_GROUP_JAVA_GRADLE, id, projectSettings) {}
 
-	std::shared_ptr<SourceGroupSettings> createCopy() const override
-	{
-		return std::make_shared<SourceGroupSettingsJavaGradle>(*this);
-	}
+  std::shared_ptr<SourceGroupSettings> createCopy() const override {
+    return std::make_shared<SourceGroupSettingsJavaGradle>(*this);
+  }
 };
 
-#endif	  // SOURCE_GROUP_SETTINGS_JAVA_GRADLE_H
+#endif  // SOURCE_GROUP_SETTINGS_JAVA_GRADLE_H

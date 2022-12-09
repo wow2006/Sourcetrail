@@ -1,8 +1,6 @@
 #ifndef SEARCH_TUTORIAL_4_H
 #define SEARCH_TUTORIAL_4_H
 
-
-
 #include "utility.h"
 
 //------------------------------------------------------------------------------
@@ -13,7 +11,7 @@
 //
 // 5 - FORWARD AND BACKWARD
 //  You can use the buttons to the very left to go forward and backward, like
-//	in a web browser. They really come in handy in case you ask yourself 
+//	in a web browser. They really come in handy in case you ask yourself
 //	something like "How did I end up here?"
 //
 // 6 - REFRESH
@@ -28,14 +26,8 @@
 //
 //------------------------------------------------------------------------------
 
-namespace a
-{
-	class NameConflict
-	{
-	};
-}
+namespace a {
+class NameConflict {};
+}  // namespace a
 
-
-
-#endif // SEARCH_TUTORIAL_4_H
-
+#endif  // SEARCH_TUTORIAL_4_H

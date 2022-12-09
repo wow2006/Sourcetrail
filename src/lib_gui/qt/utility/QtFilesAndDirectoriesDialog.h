@@ -5,18 +5,17 @@
 
 class QListView;
 
-class QtFilesAndDirectoriesDialog: public QFileDialog
-{
-	Q_OBJECT
-public:
-	QtFilesAndDirectoriesDialog(QWidget* parent);
-	virtual ~QtFilesAndDirectoriesDialog();
+class QtFilesAndDirectoriesDialog : public QFileDialog {
+  Q_OBJECT
+ public:
+  QtFilesAndDirectoriesDialog(QWidget* parent);
+  virtual ~QtFilesAndDirectoriesDialog();
 
-public slots:
-	void chooseClicked();
+ public slots:
+  void chooseClicked();
 
-private:
-	bool eventFilter(QObject* obj, QEvent* event);
+ private:
+  bool eventFilter(QObject* obj, QEvent* event);
 };
 
-#endif	  // QT_FILES_AND_DIRECTORIES_DIALOG
+#endif  // QT_FILES_AND_DIRECTORIES_DIALOG

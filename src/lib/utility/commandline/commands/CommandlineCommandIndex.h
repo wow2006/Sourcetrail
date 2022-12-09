@@ -14,8 +14,7 @@ class CommandlineCommandIndex final : public CommandlineCommand {
 
   ReturnStatus parse(std::vector<std::string>& args) override;
 
-  bool hasHelp() const  override;
-
+  bool hasHelp() const override;
 };
 
 }  // namespace commandline

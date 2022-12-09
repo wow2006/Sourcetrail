@@ -6,24 +6,23 @@
 class QCheckBox;
 class SourceGroupSettingsJavaMaven;
 
-class QtProjectWizardContentPathSettingsMaven: public QtProjectWizardContentPath
-{
-	Q_OBJECT
+class QtProjectWizardContentPathSettingsMaven : public QtProjectWizardContentPath {
+  Q_OBJECT
 
-public:
-	QtProjectWizardContentPathSettingsMaven(
-		std::shared_ptr<SourceGroupSettingsJavaMaven> settings, QtProjectWizardWindow* window);
+ public:
+  QtProjectWizardContentPathSettingsMaven(std::shared_ptr<SourceGroupSettingsJavaMaven> settings,
+                                          QtProjectWizardWindow* window);
 
-	// QtProjectWizardContent implementation
-	void populate(QGridLayout* layout, int& row) override;
+  // QtProjectWizardContent implementation
+  void populate(QGridLayout* layout, int& row) override;
 
-	void load() override;
-	void save() override;
+  void load() override;
+  void save() override;
 
-private:
-	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
+ private:
+  std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
 
-	std::shared_ptr<SourceGroupSettingsJavaMaven> m_settings;
+  std::shared_ptr<SourceGroupSettingsJavaMaven> m_settings;
 };
 
-#endif	  // QT_PROJECT_WIZARD_CONTENT_PATH_SETTINGS_MAVEN_H
+#endif  // QT_PROJECT_WIZARD_CONTENT_PATH_SETTINGS_MAVEN_H

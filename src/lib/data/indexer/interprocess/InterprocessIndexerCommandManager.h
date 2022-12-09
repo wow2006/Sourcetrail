@@ -6,21 +6,20 @@
 
 class IndexerCommand;
 
-class InterprocessIndexerCommandManager: public BaseInterprocessDataManager
-{
-public:
-	InterprocessIndexerCommandManager(const std::string& instanceUuid, Id processId, bool isOwner);
-	virtual ~InterprocessIndexerCommandManager();
+class InterprocessIndexerCommandManager final : public BaseInterprocessDataManager {
+ public:
+  InterprocessIndexerCommandManager(const std::string& instanceUuid, Id processId, bool isOwner);
+  ~InterprocessIndexerCommandManager() override;
 
-	void pushIndexerCommands(const std::vector<std::shared_ptr<IndexerCommand>>& indexerCommands);
-	std::shared_ptr<IndexerCommand> popIndexerCommand();
+  void pushIndexerCommands(const std::vector<std::shared_ptr<IndexerCommand>>& indexerCommands);
+  std::shared_ptr<IndexerCommand> popIndexerCommand();
 
-	void clearIndexerCommands();
-	size_t indexerCommandCount();
+  void clearIndexerCommands();
+  size_t indexerCommandCount();
 
-private:
-	static const char* s_sharedMemoryNamePrefix;
-	static const char* s_indexerCommandsKeyName;
+ private:
+  static constexpr std::string_view s_sharedMemoryNamePrefix = "icmd_";
+  static constexpr std::string_view s_indexerCommandsKeyName = "indexer_commands";
 };
 
-#endif	  // INTERPROCESS_INDEXER_COMMAND_MANAGER_H
+#endif  // INTERPROCESS_INDEXER_COMMAND_MANAGER_H

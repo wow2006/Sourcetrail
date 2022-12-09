@@ -1,8 +1,8 @@
 #include <map>
+
 #include "interaction_files/include.h"
 
 #define INTERACTION_TESTS
-
 
 // TEST: hover nodes
 // START ----------------------------------------------------------------------
@@ -12,8 +12,6 @@
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: hover edge
 // START ----------------------------------------------------------------------
 
@@ -22,27 +20,23 @@
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: expand/collapse nodes
 // START ----------------------------------------------------------------------
 
-class CollapsedClass
-{
-	void foo();
-	void bar();
+class CollapsedClass {
+  void foo();
+  void bar();
 };
 
-class ExpandedClass
-{
-public:
-	void method1();
-	void method2();
-	void method3();
-	int member;
+class ExpandedClass {
+ public:
+  void method1();
+  void method2();
+  void method3();
+  int member;
 
-private:
-	CollapsedClass field; // <- ACTION1: activate member;
+ private:
+  CollapsedClass field;  // <- ACTION1: activate member;
 };
 
 // RESULTS 1:
@@ -63,33 +57,26 @@ private:
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: click node
 // START ----------------------------------------------------------------------
 
-namespace interaction
-{
-	class User
-		: public Class
-	{
-		void method() // <- ACTION 1: activate function
-		{
-			member = 1;
-			Struct s;
-			Enum e = ENUM_CONSTANT;
-			TypeDef d;
-			using namespace package;
-		}
-	};
-}
+namespace interaction {
+class User : public Class {
+  void method()  // <- ACTION 1: activate function
+  {
+    member = 1;
+    Struct s;
+    Enum e = ENUM_CONSTANT;
+    TypeDef d;
+    using namespace package;
+  }
+};
+}  // namespace interaction
 
 // ACTION 2: Click each node in the graph
 // RESULT 2: Each node is activated
 
 // END ------------------------------------------------------------------------
-
-
 
 // TEST: click namespace
 // START ----------------------------------------------------------------------
@@ -103,8 +90,6 @@ namespace interaction
 // RESULT 3: namespace 'interaction' is active
 
 // END ------------------------------------------------------------------------
-
-
 
 // TEST: click edge
 // START ----------------------------------------------------------------------
@@ -126,8 +111,6 @@ namespace interaction
 // - inheritance edge is active
 
 // END ------------------------------------------------------------------------
-
-
 
 // TEST: move nodes
 // START ----------------------------------------------------------------------
@@ -152,8 +135,6 @@ namespace interaction
 // ACTION 8: repeat ACTION 5 to bottom
 
 // END ------------------------------------------------------------------------
-
-
 
 // TEST: hide nodes and edges
 // START ----------------------------------------------------------------------
@@ -186,32 +167,36 @@ namespace interaction
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: bundle expand
 // START ----------------------------------------------------------------------
 
-namespace interaction
+namespace interaction {
+struct BundleBase  // <- ACTION 1: activate node
 {
-	struct BundleBase // <- ACTION 1: activate node
-	{
-		void bundles()
-		{
-			Class c; Struct s; Enum e = ENUM_CONSTANT; TypeDef d;
-			CollapsedClass c1; ExpandedClass e1; User u;
-			Str1 st1; Str2 st2; Str3 st3; Str4 st4; Str5 st5;
+  void bundles() {
+    Class c;
+    Struct s;
+    Enum e = ENUM_CONSTANT;
+    TypeDef d;
+    CollapsedClass c1;
+    ExpandedClass e1;
+    User u;
+    Str1 st1;
+    Str2 st2;
+    Str3 st3;
+    Str4 st4;
+    Str5 st5;
 
-			e1.method1();
-			e1.method2();
-			e1.method3();
-			e1.member;
+    e1.method1();
+    e1.method2();
+    e1.method3();
+    e1.member;
 
-			std::map<int, int> m;
-			for (auto it = m.begin(); it != m.end(); it++)
-				m.find(1);
-		}
-	};
-}
+    std::map<int, int> m;
+    for (auto it = m.begin(); it != m.end(); it++) m.find(1);
+  }
+};
+}  // namespace interaction
 
 // RESULT 1: graph shows 2 bundles
 
@@ -222,8 +207,6 @@ namespace interaction
 // RESULT 3: bundle is split
 
 // END ------------------------------------------------------------------------
-
-
 
 // TEST: bundled edges expand
 // START ----------------------------------------------------------------------
@@ -241,24 +224,20 @@ namespace interaction
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: copy name
 // START ----------------------------------------------------------------------
 
-void copy_this_name(); // <- ACTION 1: Activate function
+void copy_this_name();  // <- ACTION 1: Activate function
 
 // ACTION 2: Use context menu action 'Copy Name' and paste to text editor
 // RESULT 2: 'copy_this_name' is pasted
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: file node actions
 // START ----------------------------------------------------------------------
 
-#include "interaction_files/file.h" // <- ACTION 1: Activate file
+#include "interaction_files/file.h"  // <- ACTION 1: Activate file
 
 // ACTION 2: Context menu action 'Copy Full Path' on file node, paste to editor
 // ACTION 2: Absolute file path is pasted

@@ -1,6 +1,5 @@
 #include "header.h"
 
-
 // TEST: edge click switches to file - continued
 // START ----------------------------------------------------------------------
 
@@ -8,7 +7,4 @@
 
 // END ------------------------------------------------------------------------
 
-void ref_func2()
-{
-	Reference2 ref;
-}
+void ref_func2() { Reference2 ref; }

@@ -9,13 +9,9 @@
 
 // END ------------------------------------------------------------------------
 
-
 #ifndef __HEADER__
 #define __HEADER__
 
-int sum(int a, int b)
-{
-	return a + b;
-}
+int sum(int a, int b) { return a + b; }
 
 #endif

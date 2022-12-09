@@ -9,29 +9,28 @@
 #include "QtThreadedFunctor.h"
 #include "StatusBarView.h"
 
-class QtStatusBarView: public StatusBarView
-{
-public:
-	QtStatusBarView(ViewLayout* viewLayout);
-	~QtStatusBarView() = default;
+class QtStatusBarView : public StatusBarView {
+ public:
+  QtStatusBarView(ViewLayout* viewLayout);
+  ~QtStatusBarView() = default;
 
-	// View implementation
-	void createWidgetWrapper() override;
-	void refreshView() override;
+  // View implementation
+  void createWidgetWrapper() override;
+  void refreshView() override;
 
-	// StatusBar view implementation
-	void showMessage(const std::wstring& message, bool isError, bool showLoader) override;
-	void setErrorCount(ErrorCountInfo errorCount) override;
+  // StatusBar view implementation
+  void showMessage(const std::wstring& message, bool isError, bool showLoader) override;
+  void setErrorCount(ErrorCountInfo errorCount) override;
 
-	void showIdeStatus(const std::wstring& message) override;
+  void showIdeStatus(const std::wstring& message) override;
 
-	void showIndexingProgress(size_t progressPercent) override;
-	void hideIndexingProgress() override;
+  void showIndexingProgress(size_t progressPercent) override;
+  void hideIndexingProgress() override;
 
-private:
-	QtThreadedLambdaFunctor m_onQtThread;
+ private:
+  QtThreadedLambdaFunctor m_onQtThread;
 
-	QtStatusBar* m_widget;
+  QtStatusBar* m_widget;
 };
 
-#endif	  // !QT_STATUS_BAR_VIEW_H
+#endif  // !QT_STATUS_BAR_VIEW_H

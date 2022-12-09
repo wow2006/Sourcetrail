@@ -8,10 +8,7 @@
 class One;
 int two;
 struct Three;
-enum Four
-{
-	FIVE
-};
+enum Four { FIVE };
 #define SIX
 typedef bool Seven;
 
@@ -22,8 +19,6 @@ typedef bool Seven;
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: dropdown open/close - click
 // START ----------------------------------------------------------------------
 
@@ -32,8 +27,6 @@ typedef bool Seven;
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: dropdown open/close - ESC
 // START ----------------------------------------------------------------------
 
@@ -41,8 +34,6 @@ typedef bool Seven;
 // RESULT: dropdown disappears
 
 // END ------------------------------------------------------------------------
-
-
 
 // TEST: going back
 // START ----------------------------------------------------------------------
@@ -60,8 +51,6 @@ typedef bool Seven;
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: going forward
 // START ----------------------------------------------------------------------
 
@@ -77,8 +66,6 @@ typedef bool Seven;
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: dropdown selection
 // START ----------------------------------------------------------------------
 
@@ -89,12 +76,10 @@ typedef bool Seven;
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: history overwrite
 // START ----------------------------------------------------------------------
 
-namespace eight {} // <- ACTION: Activate namespace
+namespace eight {}  // namespace eight
 
 // RESULTS:
 // - dropdown list shrinked to: eight, One
@@ -102,8 +87,6 @@ namespace eight {} // <- ACTION: Activate namespace
 // - history menu shows: eight, One, SIX, FIVE, Four, ...
 
 // END ------------------------------------------------------------------------
-
-
 
 // TEST: history menu selection
 // START ----------------------------------------------------------------------
@@ -116,4 +99,3 @@ namespace eight {} // <- ACTION: Activate namespace
 // - history menu shows: Three, eight, One, SIX, FIVE, ...
 
 // END ------------------------------------------------------------------------
-

@@ -4,19 +4,18 @@
 class QWinTaskbarProgress;
 class QtMainWindow;
 
-class QtWindowsTaskbarButton
-{
-public:
-	QtWindowsTaskbarButton();
-	void setWindow(QtMainWindow* mainWindow);
+class QtWindowsTaskbarButton {
+ public:
+  QtWindowsTaskbarButton();
+  void setWindow(QtMainWindow* mainWindow);
 
-	void setProgress(float progress);
-	void hideProgress();
+  void setProgress(float progress);
+  void hideProgress();
 
-private:
+ private:
 #ifdef _WIN32
-	QWinTaskbarProgress* m_taskbarProgress;
+  QWinTaskbarProgress* m_taskbarProgress;
 #endif
 };
 
-#endif	  // QT_WINDOWS_TASKBAR_BUTTON_H
+#endif  // QT_WINDOWS_TASKBAR_BUTTON_H

@@ -1,8 +1,6 @@
 #ifndef SEARCH_TUTORIAL_2_H
 #define SEARCH_TUTORIAL_2_H
 
-
-
 #include "utility.h"
 
 //------------------------------------------------------------------------------
@@ -17,11 +15,6 @@
 //
 //------------------------------------------------------------------------------
 
-void find_me_if_you_can()
-{
-}
+void find_me_if_you_can() {}
 
-
-
-#endif // SEARCH_TUTORIAL_2_H
-
+#endif  // SEARCH_TUTORIAL_2_H

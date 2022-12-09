@@ -3,12 +3,11 @@
 
 #include "MessageQueue.h"
 
-class MessageFilter
-{
-public:
-	virtual ~MessageFilter() {}
+class MessageFilter {
+ public:
+  virtual ~MessageFilter() {}
 
-	virtual void filter(MessageQueue::MessageBufferType* messageBuffer) = 0;
+  virtual void filter(MessageQueue::MessageBufferType* messageBuffer) = 0;
 };
 
-#endif	  // MESSAGE_FILTER_H
+#endif  // MESSAGE_FILTER_H

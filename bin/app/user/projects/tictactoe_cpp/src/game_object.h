@@ -2,9 +2,9 @@
 #define _GAME_OBJECT_
 
 class GameObject {
-public:
-	GameObject() {}
-	virtual ~GameObject() {}
+ public:
+  GameObject() {}
+  virtual ~GameObject() {}
 };
 
-#endif // _GAME_OBJECT_
+#endif  // _GAME_OBJECT_

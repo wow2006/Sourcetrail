@@ -3,15 +3,14 @@
 
 #include <functional>
 
-class ScopedFunctor
-{
-public:
-	ScopedFunctor();
-	ScopedFunctor(std::function<void(void)> onDestroy);
-	~ScopedFunctor();
+class ScopedFunctor {
+ public:
+  ScopedFunctor();
+  ScopedFunctor(std::function<void(void)> onDestroy);
+  ~ScopedFunctor();
 
-private:
-	std::function<void(void)> m_onDestroy;
+ private:
+  std::function<void(void)> m_onDestroy;
 };
 
-#endif	  // SCOPED_FUNCTOR_H
+#endif  // SCOPED_FUNCTOR_H

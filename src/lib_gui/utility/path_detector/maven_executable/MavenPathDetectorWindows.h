@@ -3,13 +3,12 @@
 
 #include "PathDetector.h"
 
-class MavenPathDetectorWindows: public PathDetector
-{
-public:
-	MavenPathDetectorWindows();
+class MavenPathDetectorWindows : public PathDetector {
+ public:
+  MavenPathDetectorWindows();
 
-private:
-	std::vector<FilePath> doGetPaths() const override;
+ private:
+  std::vector<FilePath> doGetPaths() const override;
 };
 
-#endif	  // MAVEN_PATH_DETECTOR_WINDOWS_H
+#endif  // MAVEN_PATH_DETECTOR_WINDOWS_H

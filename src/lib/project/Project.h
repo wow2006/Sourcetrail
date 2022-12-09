@@ -16,75 +16,65 @@ class PersistentStorage;
 class ProjectSettings;
 class StorageCache;
 
-class Project
-{
-public:
-	Project(
-		std::shared_ptr<ProjectSettings> settings,
-		StorageCache* storageCache,
-		const std::string& appUUID,
-		bool hasGUI);
-	virtual ~Project();
+class Project {
+ public:
+  Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, std::string appUUID, bool hasGUI);
 
-	FilePath getProjectSettingsFilePath() const;
-	std::string getDescription() const;
+  virtual ~Project();
 
-	bool isLoaded() const;
-	bool isIndexing() const;
+  FilePath getProjectSettingsFilePath() const;
 
-	bool settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const;
-	void setStateOutdated();
+  std::string getDescription() const;
 
-	void load(std::shared_ptr<DialogView> dialogView);
+  bool isLoaded() const;
 
-	void refresh(
-		std::shared_ptr<DialogView> dialogView, RefreshMode refreshMode, bool shallowIndexingRequested);
+  bool isIndexing() const;
 
-	RefreshInfo getRefreshInfo(RefreshMode mode) const;
+  bool settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const;
 
-	void buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogView);
+  void setStateOutdated();
 
-private:
-	enum ProjectStateType
-	{
-		PROJECT_STATE_NOT_LOADED,
-		PROJECT_STATE_EMPTY,
-		PROJECT_STATE_LOADED,
-		PROJECT_STATE_OUTDATED,
-		PROJECT_STATE_OUTVERSIONED,
-		PROJECT_STATE_NEEDS_MIGRATION,
-		PROJECT_STATE_DB_CORRUPTED
-	};
+  void load(std::shared_ptr<DialogView> dialogView);
 
-	enum class RefreshStageType
-	{
-		REFRESHING,
-		INDEXING,
-		NONE
-	};
+  void refresh(std::shared_ptr<DialogView> dialogView, RefreshMode refreshMode, bool shallowIndexingRequested);
 
-	Project(const Project&);
+  RefreshInfo getRefreshInfo(RefreshMode mode) const;
 
-	void swapToTempStorage(std::shared_ptr<DialogView> dialogView);
-	bool swapToTempStorageFile(
-		const FilePath& indexDbFilePath,
-		const FilePath& tempIndexDbFilePath,
-		std::shared_ptr<DialogView> dialogView);
-	void discardTempStorage();
+  void buildIndex(RefreshInfo info, std::shared_ptr<DialogView> dialogView);
 
-	bool hasCxxSourceGroup() const;
+ private:
+  enum ProjectStateType {
+    PROJECT_STATE_NOT_LOADED,
+    PROJECT_STATE_EMPTY,
+    PROJECT_STATE_LOADED,
+    PROJECT_STATE_OUTDATED,
+    PROJECT_STATE_OUTVERSIONED,
+    PROJECT_STATE_NEEDS_MIGRATION,
+    PROJECT_STATE_DB_CORRUPTED
+  };
 
-	std::shared_ptr<ProjectSettings> m_settings;
-	StorageCache* const m_storageCache;
+  enum class RefreshStageType { REFRESHING, INDEXING, NONE };
 
-	ProjectStateType m_state;
-	RefreshStageType m_refreshStage;
+  Project(const Project&);
 
-	std::shared_ptr<PersistentStorage> m_storage;
-	std::vector<std::shared_ptr<SourceGroup>> m_sourceGroups;
+  void swapToTempStorage(std::shared_ptr<DialogView> dialogView);
+  bool swapToTempStorageFile(const FilePath& indexDbFilePath, const FilePath& tempIndexDbFilePath,
+                             std::shared_ptr<DialogView> dialogView);
+  void discardTempStorage();
 
-	std::string m_appUUID;
-	bool m_hasGUI;
+  bool hasCxxSourceGroup() const;
+
+  std::shared_ptr<ProjectSettings> m_settings;
+  StorageCache* const m_storageCache;
+
+  ProjectStateType m_state;
+  RefreshStageType m_refreshStage;
+
+  std::shared_ptr<PersistentStorage> m_storage;
+  std::vector<std::shared_ptr<SourceGroup>> m_sourceGroups;
+
+  std::string m_appUUID;
+  bool m_hasGUI;
 };
 
-#endif	  // PROJECT_H
+#endif  // PROJECT_H

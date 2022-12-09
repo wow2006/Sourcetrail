@@ -1,56 +1,36 @@
-void func()
-{
-	int m;
-}
+void func() { int m; }
 
-void func2()
-{
-	func();
-}
+void func2() { func(); }
 
-class CustomA
-{
-public:
-	void method()
-	{
-		func();
-	}
+class CustomA {
+ public:
+  void method() { func(); }
 
-	int i;
+  int i;
 };
 
-class CustomB
-{
-public:
-	void method()
-	{
-		a.method();
-	}
+class CustomB {
+ public:
+  void method() { a.method(); }
 
-	CustomA a;
+  CustomA a;
 };
 
-class CustomC
-{
-public:
-	int method()
-	{
-		func2();
-		bool a;
-		char c;
-	}
+class CustomC {
+ public:
+  int method() {
+    func2();
+    bool a;
+    char c;
+  }
 
-	CustomA a;
+  CustomA a;
 };
 
-class CustomD
-{
-public:
-	void method()
-	{
-		b.method();
-	}
+class CustomD {
+ public:
+  void method() { b.method(); }
 
-	CustomB b;
-	CustomC c;
+  CustomB b;
+  CustomC c;
 };

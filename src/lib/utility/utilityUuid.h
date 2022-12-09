@@ -5,11 +5,10 @@
 
 // #include <boost/uuid/uuid.hpp>
 
-namespace utility
-{
+namespace utility {
 // boost::uuids::uuid getUuid();
 // std::string uuidToString(const boost::uuids::uuid& uuid);
 std::string getUuidString();
-}	 // namespace utility
+}  // namespace utility
 
-#endif	  // UTILITY_UUID_H
+#endif  // UTILITY_UUID_H

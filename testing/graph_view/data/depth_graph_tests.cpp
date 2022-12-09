@@ -1,27 +1,46 @@
 
 #define DEPTH_GRAPH_TESTS
 
-
 // TEST: callee graph
 // START ----------------------------------------------------------------------
 
-void level_4_func_1() {};
-void level_4_func_2() {};
-void level_4_func_3() {};
-void level_4_func_4() {};
+void level_4_func_1(){};
+void level_4_func_2(){};
+void level_4_func_3(){};
+void level_4_func_4(){};
 
-void level_3_func_1() { level_4_func_1(); level_4_func_2(); };
-void level_3_func_2() { level_4_func_1(); level_4_func_2(); level_4_func_3(); };
-void level_3_func_3() { level_4_func_2(); level_4_func_3(); level_4_func_4(); };
-void level_3_func_4() { level_4_func_3(); level_4_func_4(); };
+void level_3_func_1() {
+  level_4_func_1();
+  level_4_func_2();
+};
+void level_3_func_2() {
+  level_4_func_1();
+  level_4_func_2();
+  level_4_func_3();
+};
+void level_3_func_3() {
+  level_4_func_2();
+  level_4_func_3();
+  level_4_func_4();
+};
+void level_3_func_4() {
+  level_4_func_3();
+  level_4_func_4();
+};
 
-void level_2_func_1() { level_3_func_1(); level_3_func_2(); };
-void level_2_func_2() { level_3_func_3(); level_3_func_4(); };
+void level_2_func_1() {
+  level_3_func_1();
+  level_3_func_2();
+};
+void level_2_func_2() {
+  level_3_func_3();
+  level_3_func_4();
+};
 
-void level_1_func_1() // <- ACTION 1: activate
+void level_1_func_1()  // <- ACTION 1: activate
 {
-	level_2_func_1();
-	level_2_func_2();
+  level_2_func_1();
+  level_2_func_2();
 };
 
 // ACTION 2: Show callee graph '<'
@@ -43,45 +62,35 @@ void level_1_func_1() // <- ACTION 1: activate
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: caller graph with template and override
 // START ----------------------------------------------------------------------
 
-void level_3_func_5()
-{
-	level_4_func_4(); // <- ACTION 1: activate
+void level_3_func_5() {
+  level_4_func_4();  // <- ACTION 1: activate
 }
 
-class Level1
-{
-public:
-	virtual void func() = 0;
+class Level1 {
+ public:
+  virtual void func() = 0;
 };
 
-class Level2
-	: public Level1
-{
-public:
-	void func() override { level_3_func_5(); }
+class Level2 : public Level1 {
+ public:
+  void func() override { level_3_func_5(); }
 };
 
-template<typename T>
-class Level2_Template
-{
-public:
-	void func() {
-		level_3_func_5();
-	}
+template <typename T>
+class Level2_Template {
+ public:
+  void func() { level_3_func_5(); }
 };
 
-void level_0_func1()
-{
-	Level1* level;
-	level->func();
+void level_0_func1() {
+  Level1* level;
+  level->func();
 
-	Level2_Template<int> levelTemplate;
-	levelTemplate.func();
+  Level2_Template<int> levelTemplate;
+  levelTemplate.func();
 }
 
 // ACTION 2: Increase graph depth above 10
@@ -95,12 +104,10 @@ void level_0_func1()
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: inheritance graph
 // START ----------------------------------------------------------------------
 
-class Level_1_Class_1 {}; // <- ACTION 1: activate
+class Level_1_Class_1 {};  // <- ACTION 1: activate
 
 class Level_2_Class_1 : public Level_1_Class_1 {};
 class Level_2_Class_2 : public Level_1_Class_1 {};
@@ -112,11 +119,7 @@ class Level_3_Class_2 : public Level_2_Class_1 {};
 class Level_3_Class_3 : public Level_2_Class_1 {};
 class Level_3_Class_4 : public Level_2_Class_1 {};
 
-class Level_4_Class_2
-	: public Level_3_Class_2
-	, public Level_3_Class_3
-	, public Level_3_Class_4
-{};
+class Level_4_Class_2 : public Level_3_Class_2, public Level_3_Class_3, public Level_3_Class_4 {};
 
 class Level_3_Class_5 : public Level_2_Class_2 {};
 class Level_3_Class_6 : public Level_2_Class_2 {};
@@ -132,17 +135,14 @@ class Level_3_Class_6 : public Level_2_Class_2 {};
 // ACTION 4: click on an edge connected to a framed group
 // RESULT 3 & 4: The groups are split
 
+class Level_4_Class_1  // <- ACTION 5: activate
+    : public Level_3_Class_5,
+      public Level_3_Class_6 {};
 
-class Level_4_Class_1 // <- ACTION 5: activate
-	: public Level_3_Class_5
-	, public Level_3_Class_6
-{};
-
-void level_5_func()
-{
-	Level_3_Class_1<int> a;
-	Level_3_Class_1<char> b;
-	Level_3_Class_1<bool> c;
+void level_5_func() {
+  Level_3_Class_1<int> a;
+  Level_3_Class_1<char> b;
+  Level_3_Class_1<bool> c;
 }
 
 // ACTION 6: Show base graph 'v'
@@ -150,28 +150,31 @@ void level_5_func()
 
 // END ------------------------------------------------------------------------
 
-
 // TEST: virtual nodes removed when moving nodes
 // START ----------------------------------------------------------------------
 
-namespace virtual_nodes
-{
-void func1(); // <- ACTION 1: activate
+namespace virtual_nodes {
+void func1();  // <- ACTION 1: activate
 void func2();
 void func3();
 void func4();
 
-struct Parent
-{
-	static void func5();
+struct Parent {
+  static void func5();
 };
 
-void func1() { func2(); Parent::func5(); }
-void func2() { func3(); }
-void func3() { func4(); Parent::func5(); }
-void func4() { Parent::func5(); }
-void func5() { }
+void func1() {
+  func2();
+  Parent::func5();
 }
+void func2() { func3(); }
+void func3() {
+  func4();
+  Parent::func5();
+}
+void func4() { Parent::func5(); }
+void func5() {}
+}  // namespace virtual_nodes
 
 // ACTION 2: show callee graph
 // ACTION 3: move func5 above node func2
@@ -183,44 +186,69 @@ void func5() { }
 
 // END ------------------------------------------------------------------------
 
-
 // TEST: pentagram graph
 // START ----------------------------------------------------------------------
 
-namespace pentagram
-{
-void func1(); // <- ACTION 1: activate
+namespace pentagram {
+void func1();  // <- ACTION 1: activate
 void func2();
 void func3();
 void func4();
 void func5();
 
-void func1() { func1(); func2(); func3(); func4(); func5(); }
-void func2() { func1(); func2(); func3(); func4(); func5(); }
-void func3() { func1(); func2(); func3(); func4(); func5(); }
-void func4() { func1(); func2(); func3(); func4(); func5(); }
-void func5() { func1(); func2(); func3(); func4(); func5(); }
+void func1() {
+  func1();
+  func2();
+  func3();
+  func4();
+  func5();
 }
+void func2() {
+  func1();
+  func2();
+  func3();
+  func4();
+  func5();
+}
+void func3() {
+  func1();
+  func2();
+  func3();
+  func4();
+  func5();
+}
+void func4() {
+  func1();
+  func2();
+  func3();
+  func4();
+  func5();
+}
+void func5() {
+  func1();
+  func2();
+  func3();
+  func4();
+  func5();
+}
+}  // namespace pentagram
 
 // ACTION 2: show caller and callee graph
 // RESULT 2: layout works without crash
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: include graph
 // START ----------------------------------------------------------------------
 
-#include "depth_files/level_5_file_1.h" // <- ACTION 1: activate
+#include "depth_files/level_5_file_1.h"  // <- ACTION 1: activate
 
 // ACTION 2: show included graph '<'
 // RESULT 2: horizontal layout with bezier curve edges
 
-#include "depth_files/level_1_file_1.h" // <- ACTION 3: activate
+#include "depth_files/level_1_file_1.h"  // <- ACTION 3: activate
 
 // ACTION 4: show includer graph '>'
 // RESULT 4: same
 
 // END ------------------------------------------------------------------------
-

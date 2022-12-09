@@ -8,27 +8,24 @@ class X;
 class Y;
 class Z;
 
-class A
-{
-	int a;
-	int b;
+class A {
+  int a;
+  int b;
 };
 
-class B : public A // <- ACTION: Activate B
+class B : public A  // <- ACTION: Activate B
 {
-	X* x;
-	Y* y;
-	Z* z;
+  X* x;
+  Y* y;
+  Z* z;
 };
 
-class C : public B
-{
-	int e;
+class C : public B {
+  int e;
 };
 
-class D
-{
-	B b;
+class D {
+  B b;
 };
 
 // ACTION: Press Tab
@@ -50,8 +47,6 @@ class D
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: Move Focus between edges
 // START ----------------------------------------------------------------------
 
@@ -68,8 +63,6 @@ class D
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: Moving focus beyond viewport centers focus
 // START ----------------------------------------------------------------------
 
@@ -79,8 +72,6 @@ class D
 // RESULT: View is panned when focused node is outside of the viewport
 
 // END ------------------------------------------------------------------------
-
-
 
 // TEST: Expand/collapse nodes
 // START ----------------------------------------------------------------------
@@ -97,8 +88,6 @@ class D
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: Activate node
 // START ----------------------------------------------------------------------
 
@@ -107,8 +96,6 @@ class D
 // RESULT: 'D' is activated
 
 // END ------------------------------------------------------------------------
-
-
 
 // TEST: Activate node in new Tab
 // START ----------------------------------------------------------------------
@@ -119,20 +106,16 @@ class D
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: Activate edge
 // START ----------------------------------------------------------------------
 
-B b; // <- ACTION: activate 'B'
+B b;  // <- ACTION: activate 'B'
 
 // ACTION: Move focus on type use 'b -> B'
 // ACTION: Press Enter/E
 // RESULT: edge is activated
 
 // END ------------------------------------------------------------------------
-
-
 
 // TEST: Activate bundled edges edge
 // START ----------------------------------------------------------------------
@@ -142,8 +125,6 @@ B b; // <- ACTION: activate 'B'
 // RESULT: bundled edges edge is activated
 
 // END ------------------------------------------------------------------------
-
-
 
 // TEST: Expand bundle node
 // START ----------------------------------------------------------------------

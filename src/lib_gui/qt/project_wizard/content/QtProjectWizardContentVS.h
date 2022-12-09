@@ -3,17 +3,16 @@
 
 #include "QtProjectWizardContent.h"
 
-class QtProjectWizardContentVS: public QtProjectWizardContent
-{
-	Q_OBJECT
+class QtProjectWizardContentVS : public QtProjectWizardContent {
+  Q_OBJECT
 
-public:
-	QtProjectWizardContentVS(QtProjectWizardWindow* window);
+ public:
+  QtProjectWizardContentVS(QtProjectWizardWindow* window);
 
-	virtual void populate(QGridLayout* layout, int& row) override;
+  virtual void populate(QGridLayout* layout, int& row) override;
 
-private slots:
-	void handleVSCDBClicked();
+ private slots:
+  void handleVSCDBClicked();
 };
 
-#endif	  // QT_PROJECT_WIZARD_CONTENT_VS_H
+#endif  // QT_PROJECT_WIZARD_CONTENT_VS_H

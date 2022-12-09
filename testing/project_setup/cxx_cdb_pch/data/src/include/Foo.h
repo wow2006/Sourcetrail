@@ -4,11 +4,9 @@
 #include "FooBar.h"
 
 #ifndef CDB_FLAG
-	#error "CDB_FLAG not defined"
+#error "CDB_FLAG not defined"
 #endif
 
-class Foo : public FooBar
-{
-};
+class Foo : public FooBar {};
 
-#endif // FOO_BAR_H
+#endif  // FOO_BAR_H

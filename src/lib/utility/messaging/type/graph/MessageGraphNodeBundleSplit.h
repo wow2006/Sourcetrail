@@ -5,28 +5,20 @@
 #include "TabId.h"
 #include "types.h"
 
-class MessageGraphNodeBundleSplit: public Message<MessageGraphNodeBundleSplit>
-{
-public:
-	MessageGraphNodeBundleSplit(Id bundleId, bool removeOtherNodes = false, bool layoutToList = false)
-		: bundleId(bundleId), removeOtherNodes(removeOtherNodes), layoutToList(layoutToList)
-	{
-		setSchedulerId(TabId::currentTab());
-	}
+class MessageGraphNodeBundleSplit : public Message<MessageGraphNodeBundleSplit> {
+ public:
+  MessageGraphNodeBundleSplit(Id bundleId, bool removeOtherNodes = false, bool layoutToList = false)
+      : bundleId(bundleId), removeOtherNodes(removeOtherNodes), layoutToList(layoutToList) {
+    setSchedulerId(TabId::currentTab());
+  }
 
-	static const std::string getStaticType()
-	{
-		return "MessageGraphNodeBundleSplit";
-	}
+  static const std::string getStaticType() { return "MessageGraphNodeBundleSplit"; }
 
-	virtual void print(std::wostream& os) const
-	{
-		os << bundleId;
-	}
+  virtual void print(std::wostream& os) const { os << bundleId; }
 
-	Id bundleId;
-	bool removeOtherNodes;
-	bool layoutToList;
+  Id bundleId;
+  bool removeOtherNodes;
+  bool layoutToList;
 };
 
-#endif	  // MESSAGE_GRAPH_NODE_BUNDLE_SPLIT_H
+#endif  // MESSAGE_GRAPH_NODE_BUNDLE_SPLIT_H

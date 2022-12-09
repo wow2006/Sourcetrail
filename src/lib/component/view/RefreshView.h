@@ -5,16 +5,15 @@
 
 class RefreshController;
 
-class RefreshView: public View
-{
-public:
-	RefreshView(ViewLayout* viewLayout);
-	virtual ~RefreshView();
+class RefreshView : public View {
+ public:
+  RefreshView(ViewLayout* viewLayout);
+  virtual ~RefreshView();
 
-	virtual std::string getName() const;
+  virtual std::string getName() const;
 
-private:
-	RefreshController* getController();
+ private:
+  RefreshController* getController();
 };
 
-#endif	  // REFRESH_VIEW_H
+#endif  // REFRESH_VIEW_H

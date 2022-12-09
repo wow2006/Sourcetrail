@@ -12,8 +12,7 @@ class QWidget;
 class QtMainWindow;
 class ViewLayout;
 
-namespace utility
-{
+namespace utility {
 void setWidgetBackgroundColor(QWidget* widget, const std::string& color);
 void setWidgetRetainsSpaceWhenHidden(QWidget* widget);
 
@@ -27,6 +26,6 @@ QIcon createButtonIcon(const FilePath& iconPath, const std::string& colorId);
 QtMainWindow* getMainWindowforMainView(ViewLayout* viewLayout);
 
 void copyNewFilesFromDirectory(const QString& src, const QString& dst);
-}	 // namespace utility
+}  // namespace utility
 
-#endif	  // UTILITY_QT_H
+#endif  // UTILITY_QT_H

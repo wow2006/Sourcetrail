@@ -3,10 +3,8 @@
 
 #ifdef COMPILER_FLAG
 
-class FooBar
-{
-};
+class FooBar {};
 
 #endif
 
-#endif // FOO_BAR_H
+#endif  // FOO_BAR_H

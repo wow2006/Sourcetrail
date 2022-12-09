@@ -3,13 +3,9 @@
 
 #include "SourceGroupSettingsWithSourceExtensions.h"
 
-class SourceGroupSettingsWithSourceExtensionsEmpty: public SourceGroupSettingsWithSourceExtensions
-{
-private:
-	std::vector<std::wstring> getDefaultSourceExtensions() const override
-	{
-		return {};
-	}
+class SourceGroupSettingsWithSourceExtensionsEmpty : public SourceGroupSettingsWithSourceExtensions {
+ private:
+  std::vector<std::wstring> getDefaultSourceExtensions() const override { return {}; }
 };
 
-#endif	  // SOURCE_GROUP_SETTINGS_WITH_SOURCE_EXTENSIONS_EMPTY_H
+#endif  // SOURCE_GROUP_SETTINGS_WITH_SOURCE_EXTENSIONS_EMPTY_H

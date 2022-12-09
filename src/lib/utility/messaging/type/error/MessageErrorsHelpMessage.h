@@ -3,17 +3,13 @@
 
 #include "Message.h"
 
-class MessageErrorsHelpMessage: public Message<MessageErrorsHelpMessage>
-{
-public:
-	static const std::string getStaticType()
-	{
-		return "MessageErrorsHelpMessage";
-	}
+class MessageErrorsHelpMessage : public Message<MessageErrorsHelpMessage> {
+ public:
+  static const std::string getStaticType() { return "MessageErrorsHelpMessage"; }
 
-	MessageErrorsHelpMessage(bool force = false): force(force) {}
+  MessageErrorsHelpMessage(bool force = false) : force(force) {}
 
-	const bool force;
+  const bool force;
 };
 
-#endif	  // MESSAGE_ERRORS_HELP_MESSAGE_H
+#endif  // MESSAGE_ERRORS_HELP_MESSAGE_H

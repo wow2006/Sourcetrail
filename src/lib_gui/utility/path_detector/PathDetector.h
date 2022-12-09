@@ -6,21 +6,20 @@
 
 class FilePath;
 
-class PathDetector
-{
-public:
-	PathDetector(const std::string& name);
-	virtual ~PathDetector() = default;
+class PathDetector {
+ public:
+  PathDetector(const std::string& name);
+  virtual ~PathDetector() = default;
 
-	std::string getName() const;
-	std::vector<FilePath> getPaths() const;
-	bool isWorking() const;
+  std::string getName() const;
+  std::vector<FilePath> getPaths() const;
+  bool isWorking() const;
 
-protected:
-	const std::string m_name;
+ protected:
+  const std::string m_name;
 
-private:
-	virtual std::vector<FilePath> doGetPaths() const = 0;
+ private:
+  virtual std::vector<FilePath> doGetPaths() const = 0;
 };
 
-#endif	  // PATH_DETECTOR_BASE_H
+#endif  // PATH_DETECTOR_BASE_H

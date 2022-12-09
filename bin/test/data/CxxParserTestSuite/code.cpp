@@ -3,59 +3,39 @@
 char* name;
 H g;
 
-int ceil(float a)
-{
-	return static_cast<int>(a) + 1;
-}
+int ceil(float a) { return static_cast<int>(a) + 1; }
 
-namespace X
-{
-	struct A;
+namespace X {
+struct A;
 
-	enum E
-	{
-		P,
-		Q
-	};
-}
+enum E { P, Q };
+}  // namespace X
 
-class B
-{
-public:
-	class C
-	{
-		static const int amount;
-	};
+class B {
+ public:
+  class C {
+    static const int amount;
+  };
 
-	B();
+  B();
 
-	virtual ~B()
-	{
-	}
+  virtual ~B() {}
 
-protected:
-	virtual void process() = 0;
+ protected:
+  virtual void process() = 0;
 
-private:
-	int getCount() const
-	{
-		return count;
-	}
+ private:
+  int getCount() const { return count; }
 
-	const int count;
-	H h;
+  const int count;
+  H h;
 };
 
-B::B()
-	: count(0)
-{
-}
+B::B() : count(0) {}
 
-namespace
-{
-	int sum(int a, int b)
-	{
-		int c = a + b;
-		return c;
-	}
+namespace {
+int sum(int a, int b) {
+  int c = a + b;
+  return c;
 }
+}  // namespace

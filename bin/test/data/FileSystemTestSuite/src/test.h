@@ -1,4 +1,1 @@
-class Test
-{
-
-};
+class Test {};

@@ -5,26 +5,18 @@
 #include "TabId.h"
 #include "types.h"
 
-class MessageCodeShowDefinition: public Message<MessageCodeShowDefinition>
-{
-public:
-	static const std::string getStaticType()
-	{
-		return "MessageCodeShowDefinition";
-	}
+class MessageCodeShowDefinition : public Message<MessageCodeShowDefinition> {
+ public:
+  static const std::string getStaticType() { return "MessageCodeShowDefinition"; }
 
-	MessageCodeShowDefinition(Id nodeId, bool inIDE = false): nodeId(nodeId), inIDE(inIDE)
-	{
-		setSchedulerId(TabId::currentTab());
-	}
+  MessageCodeShowDefinition(Id nodeId, bool inIDE = false) : nodeId(nodeId), inIDE(inIDE) {
+    setSchedulerId(TabId::currentTab());
+  }
 
-	virtual void print(std::wostream& os) const
-	{
-		os << nodeId;
-	}
+  virtual void print(std::wostream& os) const { os << nodeId; }
 
-	const Id nodeId;
-	const bool inIDE;
+  const Id nodeId;
+  const bool inIDE;
 };
 
-#endif	  // MESSAGE_CODE_SHOW_DEFINITION_H
+#endif  // MESSAGE_CODE_SHOW_DEFINITION_H

@@ -13,72 +13,67 @@ class QPushButton;
 class QtSelfRefreshIconButton;
 class QTimer;
 
+class QtFocusInFilter : public QObject {
+  Q_OBJECT
 
-class QtFocusInFilter: public QObject
-{
-	Q_OBJECT
+ public:
+  QtFocusInFilter(QObject* parent = Q_NULLPTR);
 
-public:
-	QtFocusInFilter(QObject* parent = Q_NULLPTR);
+ signals:
+  void focusIn();
 
-signals:
-	void focusIn();
-
-protected:
-	bool eventFilter(QObject* obj, QEvent* event);
+ protected:
+  bool eventFilter(QObject* obj, QEvent* event);
 };
 
+class QtScreenSearchBox : public QFrame {
+  Q_OBJECT
 
-class QtScreenSearchBox: public QFrame
-{
-	Q_OBJECT
+ public:
+  QtScreenSearchBox(ControllerProxy<ScreenSearchController>* controllerProxy, QWidget* parent = nullptr);
+  virtual ~QtScreenSearchBox();
 
-public:
-	QtScreenSearchBox(
-		ControllerProxy<ScreenSearchController>* controllerProxy, QWidget* parent = nullptr);
-	virtual ~QtScreenSearchBox();
+  void setMatchCount(size_t matchCount);
+  void setMatchIndex(size_t matchIndex);
 
-	void setMatchCount(size_t matchCount);
-	void setMatchIndex(size_t matchIndex);
+  void addResponder(const std::string& name);
 
-	void addResponder(const std::string& name);
+ signals:
+  void closePressed();
 
-signals:
-	void closePressed();
+ public slots:
+  void setFocus();
 
-public slots:
-	void setFocus();
+ private slots:
+  void searchQueryChanged();
+  void findMatches();
+  void returnPressed();
 
-private slots:
-	void searchQueryChanged();
-	void findMatches();
-	void returnPressed();
+  void previousPressed();
+  void nextPressed();
 
-	void previousPressed();
-	void nextPressed();
+ private:
+  void activateMatch(bool next);
 
-private:
-	void activateMatch(bool next);
+  void updateMatchLabel();
 
-	void updateMatchLabel();
+  ControllerProxy<ScreenSearchController>* m_controllerProxy;
 
-	ControllerProxy<ScreenSearchController>* m_controllerProxy;
+  QLineEdit* m_searchBox;
+  QPushButton* m_matchLabel;
 
-	QLineEdit* m_searchBox;
-	QPushButton* m_matchLabel;
+  QtSelfRefreshIconButton* m_searchButton;
+  QtSelfRefreshIconButton* m_prevButton;
+  QtSelfRefreshIconButton* m_nextButton;
+  QtSelfRefreshIconButton* m_closeButton;
 
-	QtSelfRefreshIconButton* m_searchButton;
-	QtSelfRefreshIconButton* m_prevButton;
-	QtSelfRefreshIconButton* m_nextButton;
-	QtSelfRefreshIconButton* m_closeButton;
+  QHBoxLayout* m_checkboxLayout;
+  std::map<std::string, QCheckBox*> m_checkBoxes;
 
-	QHBoxLayout* m_checkboxLayout;
-	std::map<std::string, QCheckBox*> m_checkBoxes;
+  size_t m_matchCount = 0;
+  size_t m_matchIndex = 0;
 
-	size_t m_matchCount = 0;
-	size_t m_matchIndex = 0;
-
-	QTimer* m_timer;
+  QTimer* m_timer;
 };
 
-#endif	  // QT_SCREEN_SEARCH_BOX_H
+#endif  // QT_SCREEN_SEARCH_BOX_H

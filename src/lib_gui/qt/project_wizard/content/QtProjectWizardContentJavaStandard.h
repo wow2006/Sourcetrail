@@ -6,25 +6,23 @@
 class QComboBox;
 class SourceGroupSettingsWithJavaStandard;
 
-class QtProjectWizardContentJavaStandard: public QtProjectWizardContent
-{
-	Q_OBJECT
+class QtProjectWizardContentJavaStandard : public QtProjectWizardContent {
+  Q_OBJECT
 
-public:
-	QtProjectWizardContentJavaStandard(
-		std::shared_ptr<SourceGroupSettingsWithJavaStandard> sourceGroupSettings,
-		QtProjectWizardWindow* window);
+ public:
+  QtProjectWizardContentJavaStandard(std::shared_ptr<SourceGroupSettingsWithJavaStandard> sourceGroupSettings,
+                                     QtProjectWizardWindow* window);
 
-	// QtProjectWizardContent implementation
-	virtual void populate(QGridLayout* layout, int& row) override;
+  // QtProjectWizardContent implementation
+  virtual void populate(QGridLayout* layout, int& row) override;
 
-	virtual void load() override;
-	virtual void save() override;
+  virtual void load() override;
+  virtual void save() override;
 
-private:
-	std::shared_ptr<SourceGroupSettingsWithJavaStandard> m_sourceGroupSettings;
+ private:
+  std::shared_ptr<SourceGroupSettingsWithJavaStandard> m_sourceGroupSettings;
 
-	QComboBox* m_standard;
+  QComboBox* m_standard;
 };
 
-#endif	  // QT_PROJECT_WIZARD_CONTENT_JAVA_STANDARD
+#endif  // QT_PROJECT_WIZARD_CONTENT_JAVA_STANDARD

@@ -9,8 +9,7 @@ namespace po = boost::program_options;
 
 namespace commandline {
 
-CommandLineParser::CommandLineParser(std::string version)
-    : m_version(std::move(version)) {
+CommandLineParser::CommandLineParser(std::string version) : m_version(std::move(version)) {
   // clang-format off
   po::options_description options("Options");
   options.add_options()
@@ -27,7 +26,7 @@ CommandLineParser::~CommandLineParser() = default;
 
 void CommandLineParser::registerCommands(std::vector<std::shared_ptr<CommandlineCommand>> commands) {
   m_commands = std::move(commands);
-  for(const auto& command : m_commands) {
+  for (const auto& command : m_commands) {
     command->setup();
   }
 }
@@ -59,11 +58,7 @@ void CommandLineParser::preparse(std::vector<std::string>& args) {
     po::variables_map variablesMap;
     po::positional_options_description positional;
     positional.add("project-file", 1);
-    po::store(po::command_line_parser(m_args)
-                  .options(m_options)
-                  .positional(positional)
-                  .allow_unregistered()
-                  .run(),
+    po::store(po::command_line_parser(m_args).options(m_options).positional(positional).allow_unregistered().run(),
               variablesMap);
     po::notify(variablesMap);
 
@@ -110,9 +105,7 @@ void CommandLineParser::parse() {
   }
 }
 
-void CommandLineParser::setProjectFile(const std::filesystem::path& filepath) {
-  m_projectFile = filepath;
-}
+void CommandLineParser::setProjectFile(const std::filesystem::path& filepath) { m_projectFile = filepath; }
 
 void CommandLineParser::printHelp() const {
   std::cout << "Usage:\n  Sourcetrail [command] [option...] [positional "
@@ -122,10 +115,8 @@ void CommandLineParser::printHelp() const {
   std::cout << "Commands:\n";
   for (auto& command : m_commands) {
     std::cout << "  " << command->name();
-    std::cout << std::string(std::max(23 - command->name().size(), size_t(2)),
-                             ' ');
-    std::cout << command->description() << (command->hasHelp() ? "*" : "")
-              << "\n";
+    std::cout << std::string(std::max(23 - command->name().size(), size_t(2)), ' ');
+    std::cout << command->description() << (command->hasHelp() ? "*" : "") << "\n";
   }
   std::cout << "\n  * has its own --help\n";
 
@@ -148,28 +139,16 @@ bool CommandLineParser::hasError() const { return !m_errorString.empty(); }
 
 std::wstring CommandLineParser::getError() { return m_errorString; }
 
-void CommandLineParser::fullRefresh() {
-  m_refreshMode = RefreshMode::REFRESH_ALL_FILES;
-}
+void CommandLineParser::fullRefresh() { m_refreshMode = RefreshMode::REFRESH_ALL_FILES; }
 
-void CommandLineParser::incompleteRefresh() {
-  m_refreshMode = RefreshMode::REFRESH_UPDATED_AND_INCOMPLETE_FILES;
-}
+void CommandLineParser::incompleteRefresh() { m_refreshMode = RefreshMode::REFRESH_UPDATED_AND_INCOMPLETE_FILES; }
 
-void CommandLineParser::setShallowIndexingRequested(bool enabled) {
-  m_shallowIndexingRequested = enabled;
-}
+void CommandLineParser::setShallowIndexingRequested(bool enabled) { m_shallowIndexingRequested = enabled; }
 
-std::filesystem::path CommandLineParser::getProjectFilePath() const {
-  return m_projectFile;
-}
+std::filesystem::path CommandLineParser::getProjectFilePath() const { return m_projectFile; }
 
-RefreshMode CommandLineParser::getRefreshMode() const {
-  return m_refreshMode;
-}
+RefreshMode CommandLineParser::getRefreshMode() const { return m_refreshMode; }
 
-bool CommandLineParser::getShallowIndexingRequested() const {
-  return m_shallowIndexingRequested;
-}
+bool CommandLineParser::getShallowIndexingRequested() const { return m_shallowIndexingRequested; }
 
 }  // namespace commandline

@@ -1,4 +1,1 @@
-void test()
-{
-
-}
+void test() {}

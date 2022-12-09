@@ -1,10 +1,13 @@
 // STL
 #include <cstdlib>
-#include <iostream>
 #include <filesystem>
+#include <iostream>
+#include <set>
 // boost
 #include <boost/program_options.hpp>
-
+// Internal
+#include "IndexerCommandCxx.h"
+#include "IndexerCxx.h"
 
 namespace po = boost::program_options;
 
@@ -20,20 +23,31 @@ int main(int argc, char* argv[]) {
       ("output,o", po::value<std::filesystem::path>(&outputPath)->required(), "SVG path");
     // clang-format on
 
-    po::variables_map vm;
-    store(parse_command_line(argc, argv, desc), vm);
+    po::variables_map variablesMap;
+    store(parse_command_line(argc, argv, desc), variablesMap);
 
-    if (vm.count("help")) {
+    if (variablesMap.find("help") != variablesMap.end()) {
       std::cout << desc << '\n';
       return EXIT_SUCCESS;
     }
 
-    notify(vm);
-  } catch (const po::error &ex) {
+    notify(variablesMap);
+  } catch (const po::error& ex) {
     std::cerr << ex.what() << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << projectPath << ", " << outputPath << '\n';
+  IndexerCxx indexer;
+  /*
+  IndexerCommandCxx indexer(
+      FilePath(projectPath.parent_path().string()),
+      std::set<FilePath>({ FilePath((projectPath.parent_path() / "main.cpp").string()) }),
+      std::set<FilePathFilter>(),
+      std::set<FilePathFilter>(),
+      FilePath("."),
+      std::vector<std::wstring>{}
+  );
+  */
+
   return EXIT_SUCCESS;
 }

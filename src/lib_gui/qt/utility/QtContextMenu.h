@@ -8,48 +8,47 @@
 
 #include "FilePath.h"
 
-class QtContextMenu: public QObject
-{
-	Q_OBJECT
+class QtContextMenu : public QObject {
+  Q_OBJECT
 
-public:
-	QtContextMenu(QContextMenuEvent* event, QWidget* origin);
+ public:
+  QtContextMenu(QContextMenuEvent* event, QWidget* origin);
 
-	void addAction(QAction* action);
-	void addUndoActions();
-	void addFileActions(const FilePath& filePath);
+  void addAction(QAction* action);
+  void addUndoActions();
+  void addFileActions(const FilePath& filePath);
 
-	static QtContextMenu* getInstance();
+  static QtContextMenu* getInstance();
 
-	void addSeparator();
+  void addSeparator();
 
-	void show();
+  void show();
 
-	void enableUndo(bool enabled);
-	void enableRedo(bool enabled);
+  void enableUndo(bool enabled);
+  void enableRedo(bool enabled);
 
-private slots:
-	void undoActionTriggered();
-	void redoActionTriggered();
+ private slots:
+  void undoActionTriggered();
+  void redoActionTriggered();
 
-	void copyFullPathActionTriggered();
-	void openContainingFolderActionTriggered();
+  void copyFullPathActionTriggered();
+  void openContainingFolderActionTriggered();
 
-private:
-	QtContextMenu();
+ private:
+  QtContextMenu();
 
-	static QtContextMenu* s_instance;
+  static QtContextMenu* s_instance;
 
-	static QAction* s_undoAction;
-	static QAction* s_redoAction;
+  static QAction* s_undoAction;
+  static QAction* s_redoAction;
 
-	static QAction* s_copyFullPathAction;
-	static QAction* s_openContainingFolderAction;
+  static QAction* s_copyFullPathAction;
+  static QAction* s_openContainingFolderAction;
 
-	static FilePath s_filePath;
+  static FilePath s_filePath;
 
-	QMenu m_menu;
-	QPoint m_point;
+  QMenu m_menu;
+  QPoint m_point;
 };
 
-#endif	  // QT_CONTEXT_MENU_H
+#endif  // QT_CONTEXT_MENU_H

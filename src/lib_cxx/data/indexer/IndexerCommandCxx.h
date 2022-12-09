@@ -28,12 +28,9 @@ class IndexerCommandCxx final : public IndexerCommand {
 
   static IndexerCommandType getStaticIndexerCommandType();
 
-  IndexerCommandCxx(const FilePath& sourceFilePath,
-                    const std::set<FilePath>& indexedPaths,
-                    const std::set<FilePathFilter>& excludeFilters,
-                    const std::set<FilePathFilter>& includeFilters,
-                    const FilePath& workingDirectory,
-                    const std::vector<std::wstring>& compilerFlags);
+  IndexerCommandCxx(const FilePath& sourceFilePath, const std::set<FilePath>& indexedPaths,
+                    const std::set<FilePathFilter>& excludeFilters, const std::set<FilePathFilter>& includeFilters,
+                    const FilePath& workingDirectory, const std::vector<std::wstring>& compilerFlags);
 
   IndexerCommandType getIndexerCommandType() const override;
 
@@ -59,4 +56,3 @@ class IndexerCommandCxx final : public IndexerCommand {
   FilePath m_workingDirectory;
   std::vector<std::wstring> m_compilerFlags;
 };
-

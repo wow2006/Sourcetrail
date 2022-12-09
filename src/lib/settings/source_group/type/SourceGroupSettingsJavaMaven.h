@@ -8,22 +8,16 @@
 #include "SourceGroupSettingsWithSourceExtensionsJava.h"
 
 class SourceGroupSettingsJavaMaven
-	: public SourceGroupSettingsWithComponents<
-		  SourceGroupSettingsWithExcludeFilters,
-		  SourceGroupSettingsWithJavaMaven,
-		  SourceGroupSettingsWithJavaStandard,
-		  SourceGroupSettingsWithSourceExtensionsJava>
-{
-public:
-	SourceGroupSettingsJavaMaven(const std::string& id, const ProjectSettings* projectSettings)
-		: SourceGroupSettingsWithComponents(SOURCE_GROUP_JAVA_MAVEN, id, projectSettings)
-	{
-	}
+    : public SourceGroupSettingsWithComponents<SourceGroupSettingsWithExcludeFilters, SourceGroupSettingsWithJavaMaven,
+                                               SourceGroupSettingsWithJavaStandard,
+                                               SourceGroupSettingsWithSourceExtensionsJava> {
+ public:
+  SourceGroupSettingsJavaMaven(const std::string& id, const ProjectSettings* projectSettings)
+      : SourceGroupSettingsWithComponents(SOURCE_GROUP_JAVA_MAVEN, id, projectSettings) {}
 
-	std::shared_ptr<SourceGroupSettings> createCopy() const override
-	{
-		return std::make_shared<SourceGroupSettingsJavaMaven>(*this);
-	}
+  std::shared_ptr<SourceGroupSettings> createCopy() const override {
+    return std::make_shared<SourceGroupSettingsJavaMaven>(*this);
+  }
 };
 
-#endif	  // SOURCE_GROUP_SETTINGS_JAVA_MAVEN_H
+#endif  // SOURCE_GROUP_SETTINGS_JAVA_MAVEN_H

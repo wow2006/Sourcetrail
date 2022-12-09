@@ -4,17 +4,16 @@
 // TEST: Graph focus restored on back
 // START ----------------------------------------------------------------------
 
-class HistoryTest // <- ACTION: activate
+class HistoryTest  // <- ACTION: activate
 {
-public:
-	int member;
-	int member2;
+ public:
+  int member;
+  int member2;
 };
 
-int func()
-{
-	HistoryTest h;
-	h.member = 0;
+int func() {
+  HistoryTest h;
+  h.member = 0;
 }
 
 // ACTION: Focus and activate 'func' in graph
@@ -23,21 +22,17 @@ int func()
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: Graph bundled edges focus restored on back
 // START ----------------------------------------------------------------------
 
-class HistoryTestUser
-{
-public:
-	int process()
-	{
-		h.member = 2;
-		h.member2 = 4;
-	}
+class HistoryTestUser {
+ public:
+  int process() {
+    h.member = 2;
+    h.member2 = 4;
+  }
 
-	HistoryTest h;
+  HistoryTest h;
 };
 
 // ACTION: Focus and activate bundled edges 'HistoryTestUser -> HistoryTest'
@@ -46,12 +41,10 @@ public:
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: Code focus restored on back
 // START ----------------------------------------------------------------------
 
-HistoryTest createTest(); // <- ACTION: focus and activate 'createTest' from code
+HistoryTest createTest();  // <- ACTION: focus and activate 'createTest' from code
 
 // ACTION: Navigate 'back' in history
 // RESULT: The code view is restored with focus at 'createTest'

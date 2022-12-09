@@ -5,16 +5,15 @@
 
 class RefreshView;
 
-class RefreshController: public Controller
-{
-public:
-	RefreshController();
-	virtual ~RefreshController();
+class RefreshController : public Controller {
+ public:
+  RefreshController();
+  virtual ~RefreshController();
 
-	virtual void clear();
+  virtual void clear();
 
-private:
-	RefreshView* getView();
+ private:
+  RefreshView* getView();
 };
 
-#endif	  // REFRESH_CONTROLLER_H
+#endif  // REFRESH_CONTROLLER_H

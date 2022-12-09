@@ -8,22 +8,21 @@
 
 class SourceGroupSettingsPythonEmpty;
 
-class SourceGroupPythonEmpty: public SourceGroup
-{
-public:
-	SourceGroupPythonEmpty(std::shared_ptr<SourceGroupSettingsPythonEmpty> settings);
+class SourceGroupPythonEmpty : public SourceGroup {
+ public:
+  SourceGroupPythonEmpty(std::shared_ptr<SourceGroupSettingsPythonEmpty> settings);
 
-	bool allowsPartialClearing() const override;
-	bool allowsShallowIndexing() const override;
-	std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const override;
-	std::set<FilePath> getAllSourceFilePaths() const override;
-	std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const RefreshInfo& info) const override;
+  bool allowsPartialClearing() const override;
+  bool allowsShallowIndexing() const override;
+  std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const override;
+  std::set<FilePath> getAllSourceFilePaths() const override;
+  std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const RefreshInfo& info) const override;
 
-private:
-	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
-	std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override;
+ private:
+  std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
+  std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override;
 
-	std::shared_ptr<SourceGroupSettingsPythonEmpty> m_settings;
+  std::shared_ptr<SourceGroupSettingsPythonEmpty> m_settings;
 };
 
-#endif	  // SOURCE_GROUP_PYTHON_EMPTY_H
+#endif  // SOURCE_GROUP_PYTHON_EMPTY_H

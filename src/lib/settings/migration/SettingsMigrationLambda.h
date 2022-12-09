@@ -5,15 +5,14 @@
 
 #include "SettingsMigration.h"
 
-class SettingsMigrationLambda: public SettingsMigration
-{
-public:
-	SettingsMigrationLambda(std::function<void(const SettingsMigration*, Settings*)> m_lambda);
-	virtual ~SettingsMigrationLambda();
-	virtual void apply(Settings* migratable) const;
+class SettingsMigrationLambda : public SettingsMigration {
+ public:
+  SettingsMigrationLambda(std::function<void(const SettingsMigration*, Settings*)> m_lambda);
+  virtual ~SettingsMigrationLambda();
+  virtual void apply(Settings* migratable) const;
 
-private:
-	std::function<void(const SettingsMigration*, Settings*)> m_lambda;
+ private:
+  std::function<void(const SettingsMigration*, Settings*)> m_lambda;
 };
 
-#endif	  // SETTINGS_MIGRATION_LAMBDA_H
+#endif  // SETTINGS_MIGRATION_LAMBDA_H

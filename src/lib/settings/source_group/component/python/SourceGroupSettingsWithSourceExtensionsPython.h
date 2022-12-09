@@ -3,13 +3,9 @@
 
 #include "SourceGroupSettingsWithSourceExtensions.h"
 
-class SourceGroupSettingsWithSourceExtensionsPython: public SourceGroupSettingsWithSourceExtensions
-{
-private:
-	std::vector<std::wstring> getDefaultSourceExtensions() const override
-	{
-		return {L".py"};
-	}
+class SourceGroupSettingsWithSourceExtensionsPython : public SourceGroupSettingsWithSourceExtensions {
+ private:
+  std::vector<std::wstring> getDefaultSourceExtensions() const override { return {L".py"}; }
 };
 
-#endif	  // SOURCE_GROUP_SETTINGS_WITH_SOURCE_EXTENSIONS_PYTHON_H
+#endif  // SOURCE_GROUP_SETTINGS_WITH_SOURCE_EXTENSIONS_PYTHON_H

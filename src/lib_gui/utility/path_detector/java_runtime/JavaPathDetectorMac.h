@@ -3,13 +3,12 @@
 
 #include "JavaPathDetector.h"
 
-class JavaPathDetectorMac: public JavaPathDetector
-{
-public:
-	JavaPathDetectorMac(const std::string javaVersion);
+class JavaPathDetectorMac : public JavaPathDetector {
+ public:
+  JavaPathDetectorMac(const std::string javaVersion);
 
-private:
-	virtual std::vector<FilePath> doGetPaths() const override;
+ private:
+  virtual std::vector<FilePath> doGetPaths() const override;
 };
 
-#endif	  // JAVA_PATH_DETECTOR_MAC_H
+#endif  // JAVA_PATH_DETECTOR_MAC_H

@@ -32,11 +32,7 @@ void CommandlineCommandIndex::setup() {
 CommandlineCommand::ReturnStatus CommandlineCommandIndex::parse(std::vector<std::string>& args) {
   po::variables_map vm;
   try {
-    po::store(po::command_line_parser(args)
-                  .options(m_options)
-                  .positional(m_positional)
-                  .run(),
-              vm);
+    po::store(po::command_line_parser(args).options(m_options).positional(m_positional).run(), vm);
     po::notify(vm);
 
     parseConfigFile(vm, m_options);

@@ -1,8 +1,6 @@
 #ifndef GRAPH_TUTORIAL_1_H
 #define GRAPH_TUTORIAL_1_H
 
-
-
 #include "utility.h"
 
 //------------------------------------------------------------------------------
@@ -23,19 +21,11 @@
 //
 //------------------------------------------------------------------------------
 
-class GraphTutorial
-{
-public:
-	GraphTutorial()
-	{
-	}
+class GraphTutorial {
+ public:
+  GraphTutorial() {}
 
-	static void where_am_i_called()
-	{
-	}
+  static void where_am_i_called() {}
 };
 
-
-
-#endif // GRAPH_TUTORIAL_1_H
-
+#endif  // GRAPH_TUTORIAL_1_H

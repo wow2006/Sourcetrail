@@ -5,19 +5,19 @@
 #include "player.h"
 
 class TicTacToe {
-public:
-	TicTacToe();
-	~TicTacToe();
+ public:
+  TicTacToe();
+  ~TicTacToe();
 
-	bool Start();
-	void Run();
+  bool Start();
+  void Run();
 
-private:
-	void Reset();
-	Player* SelectPlayer( Field::Token token, const char* name ) const;
+ private:
+  void Reset();
+  Player* SelectPlayer(Field::Token token, const char* name) const;
 
-	Player* players_[2];
-	Field field_;
+  Player* players_[2];
+  Field field_;
 };
 
-#endif // _TIC_TAC_TOE_
+#endif  // _TIC_TAC_TOE_

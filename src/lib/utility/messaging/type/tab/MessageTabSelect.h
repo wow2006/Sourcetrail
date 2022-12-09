@@ -3,17 +3,13 @@
 
 #include "Message.h"
 
-class MessageTabSelect: public Message<MessageTabSelect>
-{
-public:
-	MessageTabSelect(bool next): next(next) {}
+class MessageTabSelect : public Message<MessageTabSelect> {
+ public:
+  MessageTabSelect(bool next) : next(next) {}
 
-	static const std::string getStaticType()
-	{
-		return "MessageTabSelect";
-	}
+  static const std::string getStaticType() { return "MessageTabSelect"; }
 
-	bool next;
+  bool next;
 };
 
-#endif	  // MESSAGE_TAB_SELECT_H
+#endif  // MESSAGE_TAB_SELECT_H

@@ -3,15 +3,11 @@
 
 #include "Message.h"
 
-class MessageQuitApplication: public Message<MessageQuitApplication>
-{
-public:
-	MessageQuitApplication() {}
+class MessageQuitApplication : public Message<MessageQuitApplication> {
+ public:
+  MessageQuitApplication() {}
 
-	static const std::string getStaticType()
-	{
-		return "MessageQuitApplication";
-	}
+  static const std::string getStaticType() { return "MessageQuitApplication"; }
 };
 
-#endif	  // MESSAGE_QUIT_APPLICATION_H
+#endif  // MESSAGE_QUIT_APPLICATION_H

@@ -1,4 +1,1 @@
-void test()
-{
-	int a = 42;
-}
+void test() { int a = 42; }

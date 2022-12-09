@@ -3,15 +3,11 @@
 
 #include "Message.h"
 
-class MessageErrorsAll: public Message<MessageErrorsAll>
-{
-public:
-	static const std::string getStaticType()
-	{
-		return "MessageErrorsAll";
-	}
+class MessageErrorsAll : public Message<MessageErrorsAll> {
+ public:
+  static const std::string getStaticType() { return "MessageErrorsAll"; }
 
-	MessageErrorsAll() {}
+  MessageErrorsAll() {}
 };
 
-#endif	  // MESSAGE_ERRORS_ALL_H
+#endif  // MESSAGE_ERRORS_ALL_H

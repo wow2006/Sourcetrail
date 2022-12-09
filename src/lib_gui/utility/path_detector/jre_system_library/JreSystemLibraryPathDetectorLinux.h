@@ -3,10 +3,9 @@
 
 #include "JreSystemLibraryPathDetector.h"
 
-class JreSystemLibraryPathDetectorLinux: public JreSystemLibraryPathDetector
-{
-public:
-	JreSystemLibraryPathDetectorLinux(const std::string javaVersion);
+class JreSystemLibraryPathDetectorLinux : public JreSystemLibraryPathDetector {
+ public:
+  JreSystemLibraryPathDetectorLinux(const std::string javaVersion);
 };
 
-#endif	  // JRE_SYSTEM_LIBRARY_PATH_DETECTOR_LINUX_H
+#endif  // JRE_SYSTEM_LIBRARY_PATH_DETECTOR_LINUX_H

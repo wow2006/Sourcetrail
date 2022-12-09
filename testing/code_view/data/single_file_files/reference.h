@@ -1,61 +1,5 @@
 #include "header.h"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // TEST: reference navigation switches to file - continued
 // START ----------------------------------------------------------------------
 
@@ -65,7 +9,4 @@
 
 // END ------------------------------------------------------------------------
 
-void ref_func()
-{
-	Reference ref;
-}
+void ref_func() { Reference ref; }

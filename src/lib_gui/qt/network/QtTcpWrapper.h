@@ -1,55 +1,51 @@
 #ifndef QT_SOCKET_WRAPPER_H
 #define QT_SOCKET_WRAPPER_H
 
-#include <functional>
 #include <qobject.h>
-#include <qudpsocket.h>
-
 #include <qtcpserver.h>
 #include <qtcpsocket.h>
+#include <qudpsocket.h>
 
-class QtTcpWrapper: public QObject
-{
-	Q_OBJECT
+#include <functional>
 
-public:
-	QtTcpWrapper(
-		QObject* parent,
-		const std::string& ip = "127.0.0.1",
-		const quint16 serverPort = 6667,
-		const quint16 clientPort = 6666);
-	~QtTcpWrapper();
+class QtTcpWrapper : public QObject {
+  Q_OBJECT
 
-	void startListening();
-	void stopListening();
+ public:
+  QtTcpWrapper(QObject* parent, const std::string& ip = "127.0.0.1", const quint16 serverPort = 6667,
+               const quint16 clientPort = 6666);
+  ~QtTcpWrapper();
 
-	void sendMessage(const std::wstring& message) const;
+  void startListening();
+  void stopListening();
 
-	void setReadCallback(const std::function<void(const std::wstring&)>& callback);
+  void sendMessage(const std::wstring& message) const;
 
-	quint16 getServerPort() const;
-	void setServerPort(const quint16 serverPort);
+  void setReadCallback(const std::function<void(const std::wstring&)>& callback);
 
-	quint16 getClientPort() const;
-	void setClientPort(const quint16 clientPort);
+  quint16 getServerPort() const;
+  void setServerPort(const quint16 serverPort);
 
-	bool isListening() const;
+  quint16 getClientPort() const;
+  void setClientPort(const quint16 clientPort);
 
-signals:
+  bool isListening() const;
 
-public slots:
-	void acceptConnection();
-	void startRead();
+ signals:
 
-private:
-	quint16 m_serverPort;
-	quint16 m_clientPort;
-	std::string m_ip;
+ public slots:
+  void acceptConnection();
+  void startRead();
 
-	std::function<void(const std::wstring&)> m_readCallback;
+ private:
+  quint16 m_serverPort;
+  quint16 m_clientPort;
+  std::string m_ip;
 
-	QTcpServer* m_tcpServer;
-	QTcpSocket* m_tcpClient;
+  std::function<void(const std::wstring&)> m_readCallback;
+
+  QTcpServer* m_tcpServer;
+  QTcpSocket* m_tcpClient;
 };
 
-#endif	  // QT_SOCKET_WRAPPER_H
+#endif  // QT_SOCKET_WRAPPER_H

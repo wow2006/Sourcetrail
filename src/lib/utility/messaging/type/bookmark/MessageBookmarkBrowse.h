@@ -4,23 +4,16 @@
 #include "Bookmark.h"
 #include "Message.h"
 
-class MessageBookmarkBrowse: public Message<MessageBookmarkBrowse>
-{
-public:
-	MessageBookmarkBrowse(
-		Bookmark::BookmarkFilter filter = Bookmark::FILTER_UNKNOWN,
-		Bookmark::BookmarkOrder order = Bookmark::ORDER_NONE)
-		: filter(filter), order(order)
-	{
-	}
+class MessageBookmarkBrowse : public Message<MessageBookmarkBrowse> {
+ public:
+  MessageBookmarkBrowse(Bookmark::BookmarkFilter filter = Bookmark::FILTER_UNKNOWN,
+                        Bookmark::BookmarkOrder order = Bookmark::ORDER_NONE)
+      : filter(filter), order(order) {}
 
-	static const std::string getStaticType()
-	{
-		return "MessageBookmarkBrowse";
-	}
+  static const std::string getStaticType() { return "MessageBookmarkBrowse"; }
 
-	const Bookmark::BookmarkFilter filter;
-	const Bookmark::BookmarkOrder order;
+  const Bookmark::BookmarkFilter filter;
+  const Bookmark::BookmarkOrder order;
 };
 
-#endif	  // MESSAGE_BOOKMARKS_BROWSE_H
+#endif  // MESSAGE_BOOKMARKS_BROWSE_H

@@ -7,15 +7,14 @@
 
 class JavaPathDetector;
 
-class JreSystemLibraryPathDetector: public PathDetector
-{
-public:
-	JreSystemLibraryPathDetector(std::shared_ptr<JavaPathDetector> javaPathDetector);
+class JreSystemLibraryPathDetector : public PathDetector {
+ public:
+  JreSystemLibraryPathDetector(std::shared_ptr<JavaPathDetector> javaPathDetector);
 
-private:
-	std::vector<FilePath> doGetPaths() const override;
+ private:
+  std::vector<FilePath> doGetPaths() const override;
 
-	std::shared_ptr<JavaPathDetector> m_javaPathDetector;
+  std::shared_ptr<JavaPathDetector> m_javaPathDetector;
 };
 
-#endif	  // JRE_SYSTEM_LIBRARY_PATH_DETECTOR_H
+#endif  // JRE_SYSTEM_LIBRARY_PATH_DETECTOR_H

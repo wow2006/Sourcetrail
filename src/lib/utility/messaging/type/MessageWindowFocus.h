@@ -3,17 +3,13 @@
 
 #include "Message.h"
 
-class MessageWindowFocus: public Message<MessageWindowFocus>
-{
-public:
-	MessageWindowFocus(bool focusIn): focusIn(focusIn) {}
+class MessageWindowFocus : public Message<MessageWindowFocus> {
+ public:
+  MessageWindowFocus(bool focusIn) : focusIn(focusIn) {}
 
-	static const std::string getStaticType()
-	{
-		return "MessageWindowFocus";
-	}
+  static const std::string getStaticType() { return "MessageWindowFocus"; }
 
-	const bool focusIn;
+  const bool focusIn;
 };
 
-#endif	  // MESSAGE_WINDOW_FOCUS_H
+#endif  // MESSAGE_WINDOW_FOCUS_H

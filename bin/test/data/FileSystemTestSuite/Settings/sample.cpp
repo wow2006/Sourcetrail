@@ -1,23 +1,19 @@
 class Player {
-public:
+ public:
   void Do() {}
 };
 
 class Base {};
 
 class Game : public Base {
-public:
-  Game() {
-    Init();
-  }
+ public:
+  Game() { Init(); }
 
   void Init() {}
 
-  void Run() {
-    player.Do();
-  }
+  void Run() { player.Do(); }
 
-private:
+ private:
   Player player;
 };
 

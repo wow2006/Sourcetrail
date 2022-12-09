@@ -3,18 +3,11 @@
 
 #include "Message.h"
 
-class MessageIndexingInterrupted: public Message<MessageIndexingInterrupted>
-{
-public:
-	static const std::string getStaticType()
-	{
-		return "MessageIndexingInterrupted";
-	}
+class MessageIndexingInterrupted : public Message<MessageIndexingInterrupted> {
+ public:
+  static const std::string getStaticType() { return "MessageIndexingInterrupted"; }
 
-	MessageIndexingInterrupted()
-	{
-		setSendAsTask(false);
-	}
+  MessageIndexingInterrupted() { setSendAsTask(false); }
 };
 
-#endif	  // MESSAGE_INDEXING_INTERRUPTED_H
+#endif  // MESSAGE_INDEXING_INTERRUPTED_H

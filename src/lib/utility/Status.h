@@ -3,23 +3,19 @@
 
 #include <string>
 
-enum StatusType
-{
-	STATUS_INFO = 1,
-	STATUS_ERROR = 2,
+enum StatusType {
+  STATUS_INFO = 1,
+  STATUS_ERROR = 2,
 };
 
 typedef int StatusFilter;
 
-struct Status
-{
-	Status(std::wstring message, bool isError = false)
-		: message(message), type(isError ? StatusType::STATUS_ERROR : StatusType::STATUS_INFO)
-	{
-	}
+struct Status {
+  Status(std::wstring message, bool isError = false)
+      : message(message), type(isError ? StatusType::STATUS_ERROR : StatusType::STATUS_INFO) {}
 
-	std::wstring message;
-	StatusType type;
+  std::wstring message;
+  StatusType type;
 };
 
-#endif	  // STATUS_H
+#endif  // STATUS_H

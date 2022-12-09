@@ -5,36 +5,26 @@
 
 #include "types.h"
 
-struct StorageNodeData
-{
-	StorageNodeData(): type(0), serializedName(L"") {}
+struct StorageNodeData {
+  StorageNodeData() : type(0), serializedName(L"") {}
 
-	StorageNodeData(int type, std::wstring serializedName)
-		: type(type), serializedName(std::move(serializedName))
-	{
-	}
+  StorageNodeData(int type, std::wstring serializedName) : type(type), serializedName(std::move(serializedName)) {}
 
-	bool operator<(const StorageNodeData& other) const
-	{
-		return serializedName < other.serializedName;
-	}
+  bool operator<(const StorageNodeData& other) const { return serializedName < other.serializedName; }
 
-	int type;
-	std::wstring serializedName;
+  int type;
+  std::wstring serializedName;
 };
 
-struct StorageNode: public StorageNodeData
-{
-	StorageNode(): StorageNodeData(), id(0) {}
+struct StorageNode : public StorageNodeData {
+  StorageNode() : StorageNodeData(), id(0) {}
 
-	StorageNode(Id id, int type, std::wstring serializedName)
-		: StorageNodeData(type, std::move(serializedName)), id(id)
-	{
-	}
+  StorageNode(Id id, int type, std::wstring serializedName)
+      : StorageNodeData(type, std::move(serializedName)), id(id) {}
 
-	StorageNode(Id id, const StorageNodeData& data): StorageNodeData(data), id(id) {}
+  StorageNode(Id id, const StorageNodeData& data) : StorageNodeData(data), id(id) {}
 
-	Id id;
+  Id id;
 };
 
-#endif	  // STORAGE_NODE_H
+#endif  // STORAGE_NODE_H

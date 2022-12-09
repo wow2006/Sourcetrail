@@ -5,15 +5,14 @@
 
 #include "SettingsMigration.h"
 
-class SettingsMigrationDeleteKey: public SettingsMigration
-{
-public:
-	SettingsMigrationDeleteKey(const std::string& key);
-	virtual ~SettingsMigrationDeleteKey();
-	virtual void apply(Settings* migratable) const;
+class SettingsMigrationDeleteKey : public SettingsMigration {
+ public:
+  SettingsMigrationDeleteKey(const std::string& key);
+  virtual ~SettingsMigrationDeleteKey();
+  virtual void apply(Settings* migratable) const;
 
-private:
-	const std::string m_key;
+ private:
+  const std::string m_key;
 };
 
-#endif	  // SETTINGS_MIGRATION_DELETE_KEY_H
+#endif  // SETTINGS_MIGRATION_DELETE_KEY_H

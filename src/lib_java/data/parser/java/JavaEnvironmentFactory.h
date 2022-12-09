@@ -15,30 +15,29 @@ typedef JNIEnv_ JNIEnv;
 
 class JavaEnvironment;
 
-class JavaEnvironmentFactory
-{
-public:
-	static void createInstance(std::string classPath, std::string& errorString);
-	static std::shared_ptr<JavaEnvironmentFactory> getInstance();
+class JavaEnvironmentFactory {
+ public:
+  static void createInstance(std::string classPath, std::string& errorString);
+  static std::shared_ptr<JavaEnvironmentFactory> getInstance();
 
-	~JavaEnvironmentFactory();
+  ~JavaEnvironmentFactory();
 
-	std::shared_ptr<JavaEnvironment> createEnvironment();
+  std::shared_ptr<JavaEnvironment> createEnvironment();
 
-private:
-	friend class JavaEnvironment;
+ private:
+  friend class JavaEnvironment;
 
-	static std::shared_ptr<JavaEnvironmentFactory> s_instance;
-	static std::string s_classPath;
+  static std::shared_ptr<JavaEnvironmentFactory> s_instance;
+  static std::string s_classPath;
 
-	JavaEnvironmentFactory(JavaVM* jvm);
+  JavaEnvironmentFactory(JavaVM* jvm);
 
-	void registerEnvironment();
-	void unregisterEnvironment();
+  void registerEnvironment();
+  void unregisterEnvironment();
 
-	JavaVM* m_jvm;
-	std::map<std::thread::id, std::pair<JNIEnv*, int>> m_threadIdToEnvAndUserCount;
-	std::mutex m_threadIdToEnvAndUserCountMutex;
+  JavaVM* m_jvm;
+  std::map<std::thread::id, std::pair<JNIEnv*, int>> m_threadIdToEnvAndUserCount;
+  std::mutex m_threadIdToEnvAndUserCountMutex;
 };
 
-#endif	  // JAVA_ENVIRONMENT_FACTORY_H
+#endif  // JAVA_ENVIRONMENT_FACTORY_H

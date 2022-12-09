@@ -5,27 +5,18 @@
 #include "Message.h"
 #include "TabId.h"
 
-class MessageActivateFile: public Message<MessageActivateFile>
-{
-public:
-	MessageActivateFile(const FilePath& filePath, unsigned int line = 0)
-		: filePath(filePath), line(line)
-	{
-		setSchedulerId(TabId::currentTab());
-	}
+class MessageActivateFile : public Message<MessageActivateFile> {
+ public:
+  MessageActivateFile(const FilePath& filePath, unsigned int line = 0) : filePath(filePath), line(line) {
+    setSchedulerId(TabId::currentTab());
+  }
 
-	static const std::string getStaticType()
-	{
-		return "MessageActivateFile";
-	}
+  static const std::string getStaticType() { return "MessageActivateFile"; }
 
-	virtual void print(std::wostream& os) const
-	{
-		os << filePath.wstr();
-	}
+  virtual void print(std::wostream& os) const { os << filePath.wstr(); }
 
-	const FilePath filePath;
-	unsigned int line;
+  const FilePath filePath;
+  unsigned int line;
 };
 
-#endif	  // MESSAGE_ACTIVATE_FILE_H
+#endif  // MESSAGE_ACTIVATE_FILE_H

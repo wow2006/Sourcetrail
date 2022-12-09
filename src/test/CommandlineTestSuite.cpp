@@ -9,7 +9,6 @@
 #include "CommandlineCommandConfig.h"
 #include "CommandlineCommandIndex.h"
 #include "RefreshInfo.h"
-
 #include "catch.hpp"
 #include "trompeloeil.hpp"
 
@@ -63,21 +62,19 @@ Options:
 
 }  // namespace
 
-class MockCommand : public commandline::CommandlineCommand
-{
-public:
+class MockCommand : public commandline::CommandlineCommand {
+ public:
   MockCommand(const std::string& name, const std::string& description, commandline::CommandLineParser* parser)
-    : CommandlineCommand(name, description, parser) {}
+      : CommandlineCommand(name, description, parser) {}
 
   ~MockCommand() override = default;
 
   MAKE_MOCK0(setup, void(), override);
   MAKE_MOCK1(parse, commandline::CommandlineCommand::ReturnStatus(std::vector<std::string>&), override);
   MAKE_CONST_MOCK0(hasHelp, bool(), override);
-
 };
 
-TEST_CASE("Commandline Parser") // NOLINT(readability-function-cognitive-complexity)
+TEST_CASE("Commandline Parser")  // NOLINT(readability-function-cognitive-complexity)
 {
   SECTION("empty commandline") {
     std::string programName = "./sourcetrail";
@@ -113,8 +110,8 @@ TEST_CASE("Commandline Parser") // NOLINT(readability-function-cognitive-complex
   SECTION("version commandline") {
     std::vector<std::string> args({"./sourcetrail", "--version"});
     char* argv[] = {
-      args[0].data(),
-      args[1].data(),
+        args[0].data(),
+        args[1].data(),
     };
 
     std::stringstream redStream;
@@ -181,8 +178,7 @@ TEST_CASE("Commandline Parser") // NOLINT(readability-function-cognitive-complex
   }
 
   SECTION("pass two project-file to command-line") {
-    std::vector<std::string> args(
-        {"--project-file", "somewhere", "--project-file", "anothersomewhere"});
+    std::vector<std::string> args({"--project-file", "somewhere", "--project-file", "anothersomewhere"});
 
     std::stringstream outStream;
     const auto& oldOutBuf = std::cout.rdbuf(outStream.rdbuf());
@@ -220,7 +216,6 @@ TEST_CASE("Commandline Parser") // NOLINT(readability-function-cognitive-complex
   }
 
   SECTION("register command") {
-
     std::stringstream outStream;
     const auto& oldOutBuf = std::cout.rdbuf(outStream.rdbuf());
     std::stringstream errStream;
@@ -230,16 +225,13 @@ TEST_CASE("Commandline Parser") // NOLINT(readability-function-cognitive-complex
     auto mocked = std::make_shared<MockCommand>("moc", "moc", &parser);
     {
       std::vector<std::string> args({"moc", "--help"});
-      std::vector<std::string> moc_args = { "--help" };
+      std::vector<std::string> moc_args = {"--help"};
 
       REQUIRE_CALL(*mocked, setup());
-      REQUIRE_CALL(*mocked, parse(moc_args))
-        .RETURN(commandline::CommandlineCommand::ReturnStatus::CMD_OK);
-      parser.registerCommands({
-        mocked
-      });
+      REQUIRE_CALL(*mocked, parse(moc_args)).RETURN(commandline::CommandlineCommand::ReturnStatus::CMD_OK);
+      parser.registerCommands({mocked});
       parser.preparse(args);
-      parser.parse(); 
+      parser.parse();
     }
 
     std::cout.rdbuf(oldOutBuf);
@@ -250,7 +242,7 @@ TEST_CASE("Commandline Parser") // NOLINT(readability-function-cognitive-complex
   }
 }
 
-TEST_CASE("Command Index") // NOLINT(readability-function-cognitive-complexity)
+TEST_CASE("Command Index")  // NOLINT(readability-function-cognitive-complexity)
 {
   commandline::CommandLineParser mocParser("2016.1");
   SECTION("empty args") {
@@ -261,8 +253,7 @@ TEST_CASE("Command Index") // NOLINT(readability-function-cognitive-complexity)
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
-    REQUIRE(command.parse(args) ==
-            commandline::CommandlineCommand::ReturnStatus::CMD_QUIT);
+    REQUIRE(command.parse(args) == commandline::CommandlineCommand::ReturnStatus::CMD_QUIT);
 
     std::cout.rdbuf(oldBuf);
 
@@ -277,8 +268,7 @@ TEST_CASE("Command Index") // NOLINT(readability-function-cognitive-complexity)
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
-    REQUIRE(command.parse(args) ==
-            commandline::CommandlineCommand::ReturnStatus::CMD_QUIT);
+    REQUIRE(command.parse(args) == commandline::CommandlineCommand::ReturnStatus::CMD_QUIT);
 
     std::cout.rdbuf(oldBuf);
 
@@ -294,8 +284,7 @@ TEST_CASE("Command Index") // NOLINT(readability-function-cognitive-complexity)
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
-    REQUIRE(command.parse(args) ==
-            commandline::CommandlineCommand::ReturnStatus::CMD_OK);
+    REQUIRE(command.parse(args) == commandline::CommandlineCommand::ReturnStatus::CMD_OK);
     REQUIRE(mocParser.getRefreshMode() == RefreshMode::REFRESH_UPDATED_AND_INCOMPLETE_FILES);
 
     std::cout.rdbuf(oldBuf);
@@ -311,8 +300,7 @@ TEST_CASE("Command Index") // NOLINT(readability-function-cognitive-complexity)
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
-    REQUIRE(command.parse(args) ==
-            commandline::CommandlineCommand::ReturnStatus::CMD_OK);
+    REQUIRE(command.parse(args) == commandline::CommandlineCommand::ReturnStatus::CMD_OK);
     REQUIRE(mocParser.getRefreshMode() == RefreshMode::REFRESH_ALL_FILES);
 
     std::cout.rdbuf(oldBuf);
@@ -328,8 +316,7 @@ TEST_CASE("Command Index") // NOLINT(readability-function-cognitive-complexity)
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
-    REQUIRE(command.parse(args) ==
-            commandline::CommandlineCommand::ReturnStatus::CMD_OK);
+    REQUIRE(command.parse(args) == commandline::CommandlineCommand::ReturnStatus::CMD_OK);
     REQUIRE(mocParser.getRefreshMode() == RefreshMode::REFRESH_UPDATED_FILES);
 
     std::cout.rdbuf(oldBuf);
@@ -345,8 +332,7 @@ TEST_CASE("Command Index") // NOLINT(readability-function-cognitive-complexity)
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
-    REQUIRE(command.parse(args) ==
-            commandline::CommandlineCommand::ReturnStatus::CMD_OK);
+    REQUIRE(command.parse(args) == commandline::CommandlineCommand::ReturnStatus::CMD_OK);
     REQUIRE(mocParser.getProjectFilePath() == "something.srctrlprj");
 
     std::cout.rdbuf(oldBuf);
@@ -355,10 +341,8 @@ TEST_CASE("Command Index") // NOLINT(readability-function-cognitive-complexity)
   }
 
   SECTION("multi project-file args") {
-    auto args = std::vector<std::string>{
-      "--project-file", "something.srctrlprj",
-      "--project-file", "something_else.srctrlprj"
-    };
+    auto args =
+        std::vector<std::string>{"--project-file", "something.srctrlprj", "--project-file", "something_else.srctrlprj"};
     commandline::CommandlineCommandIndex command(&mocParser);
     command.setup();
 
@@ -367,8 +351,7 @@ TEST_CASE("Command Index") // NOLINT(readability-function-cognitive-complexity)
     std::stringstream errStream;
     const auto& oldErrBuf = std::cerr.rdbuf(errStream.rdbuf());
 
-    REQUIRE(command.parse(args) ==
-            commandline::CommandlineCommand::ReturnStatus::CMD_FAILURE);
+    REQUIRE(command.parse(args) == commandline::CommandlineCommand::ReturnStatus::CMD_FAILURE);
     REQUIRE(mocParser.getProjectFilePath().empty());
 
     std::cout.rdbuf(oldOutBuf);
@@ -379,7 +362,7 @@ TEST_CASE("Command Index") // NOLINT(readability-function-cognitive-complexity)
   }
 }
 
-TEST_CASE("Command Config") // NOLINT(readability-function-cognitive-complexity)
+TEST_CASE("Command Config")  // NOLINT(readability-function-cognitive-complexity)
 {
   commandline::CommandLineParser mocParser("2016.1");
   SECTION("empty args") {
@@ -390,8 +373,7 @@ TEST_CASE("Command Config") // NOLINT(readability-function-cognitive-complexity)
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
-    REQUIRE(command.parse(args) ==
-            commandline::CommandlineCommand::ReturnStatus::CMD_QUIT);
+    REQUIRE(command.parse(args) == commandline::CommandlineCommand::ReturnStatus::CMD_QUIT);
 
     std::cout.rdbuf(oldBuf);
 
@@ -406,8 +388,7 @@ TEST_CASE("Command Config") // NOLINT(readability-function-cognitive-complexity)
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
-    REQUIRE(command.parse(args) ==
-            commandline::CommandlineCommand::ReturnStatus::CMD_QUIT);
+    REQUIRE(command.parse(args) == commandline::CommandlineCommand::ReturnStatus::CMD_QUIT);
 
     std::cout.rdbuf(oldBuf);
 
@@ -423,8 +404,7 @@ TEST_CASE("Command Config") // NOLINT(readability-function-cognitive-complexity)
     std::stringstream redStream;
     const auto& oldBuf = std::cout.rdbuf(redStream.rdbuf());
 
-    REQUIRE(command.parse(args) ==
-            commandline::CommandlineCommand::ReturnStatus::CMD_QUIT);
+    REQUIRE(command.parse(args) == commandline::CommandlineCommand::ReturnStatus::CMD_QUIT);
 
     std::cout.rdbuf(oldBuf);
 

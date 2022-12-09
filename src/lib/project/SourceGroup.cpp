@@ -7,103 +7,69 @@
 #include "SourceGroupSettings.h"
 #include "TaskLambda.h"
 
-std::shared_ptr<IndexerCommandProvider> SourceGroup::getIndexerCommandProvider(const RefreshInfo& info) const
-{
-	return std::make_shared<MemoryIndexerCommandProvider>(getIndexerCommands(info));
+std::shared_ptr<IndexerCommandProvider> SourceGroup::getIndexerCommandProvider(const RefreshInfo& info) const {
+  return std::make_shared<MemoryIndexerCommandProvider>(getIndexerCommands(info));
 }
 
-std::shared_ptr<Task> SourceGroup::getPreIndexTask(
-	std::shared_ptr<StorageProvider> storageProvider, std::shared_ptr<DialogView> dialogView) const
-{
-	return std::make_shared<TaskLambda>([]() {});
+std::shared_ptr<Task> SourceGroup::getPreIndexTask(std::shared_ptr<StorageProvider> storageProvider,
+                                                   std::shared_ptr<DialogView> dialogView) const {
+  return std::make_shared<TaskLambda>([]() {});
 }
 
-SourceGroupType SourceGroup::getType() const
-{
-	return getSourceGroupSettings()->getType();
+SourceGroupType SourceGroup::getType() const { return getSourceGroupSettings()->getType(); }
+
+LanguageType SourceGroup::getLanguage() const { return getSourceGroupSettings()->getLanguage(); }
+
+SourceGroupStatusType SourceGroup::getStatus() const { return getSourceGroupSettings()->getStatus(); }
+
+bool SourceGroup::prepareIndexing() { return true; }
+
+bool SourceGroup::allowsPartialClearing() const { return true; }
+
+bool SourceGroup::allowsShallowIndexing() const { return false; }
+
+std::set<FilePath> SourceGroup::filterToContainedSourceFilePath(const std::set<FilePath>& sourceFilePaths) const {
+  std::set<FilePath> filteredSourceFilePaths;
+  for (const FilePath& sourceFilePath : getAllSourceFilePaths()) {
+    if (sourceFilePaths.find(sourceFilePath) == sourceFilePaths.end()) {
+      filteredSourceFilePaths.insert(sourceFilePath);
+    }
+  }
+  return filteredSourceFilePaths;
 }
 
-LanguageType SourceGroup::getLanguage() const
-{
-	return getSourceGroupSettings()->getLanguage();
+bool SourceGroup::containsSourceFilePath(const FilePath& sourceFilePath) const {
+  return !filterToContainedSourceFilePath({sourceFilePath}).empty();
 }
 
-SourceGroupStatusType SourceGroup::getStatus() const
-{
-	return getSourceGroupSettings()->getStatus();
-}
+std::set<FilePath> SourceGroup::filterToContainedFilePaths(const std::set<FilePath>& filePaths,
+                                                           const std::set<FilePath>& indexedFilePaths,
+                                                           const std::set<FilePath>& indexedFileOrDirectoryPaths,
+                                                           const std::vector<FilePathFilter>& excludeFilters) const {
+  std::set<FilePath> containedFilePaths;
 
-bool SourceGroup::prepareIndexing()
-{
-	return true;
-}
+  for (const FilePath& filePath : filePaths) {
+    bool isInIndexedPaths = false;
 
-bool SourceGroup::allowsPartialClearing() const
-{
-	return true;
-}
+    for (const FilePath& indexedFileOrDirectoryPath : indexedFileOrDirectoryPaths) {
+      if (indexedFileOrDirectoryPath == filePath || indexedFileOrDirectoryPath.contains(filePath)) {
+        isInIndexedPaths = true;
+        break;
+      }
+    }
 
-bool SourceGroup::allowsShallowIndexing() const
-{
-	return false;
-}
+    if (!isInIndexedPaths && indexedFilePaths.find(filePath) != indexedFilePaths.end()) {
+      isInIndexedPaths = true;
+    }
 
-std::set<FilePath> SourceGroup::filterToContainedSourceFilePath(
-	const std::set<FilePath>& sourceFilePaths) const
-{
-	std::set<FilePath> filteredSourceFilePaths;
-	for (const FilePath& sourceFilePath: getAllSourceFilePaths())
-	{
-		if (sourceFilePaths.find(sourceFilePath) == sourceFilePaths.end())
-		{
-			filteredSourceFilePaths.insert(sourceFilePath);
-		}
-	}
-	return filteredSourceFilePaths;
-}
+    if (isInIndexedPaths) {
+      isInIndexedPaths = !FilePathFilter::areMatching(excludeFilters, filePath);
+    }
 
-bool SourceGroup::containsSourceFilePath(const FilePath& sourceFilePath) const
-{
-	return !filterToContainedSourceFilePath({sourceFilePath}).empty();
-}
+    if (isInIndexedPaths) {
+      containedFilePaths.insert(filePath);
+    }
+  }
 
-std::set<FilePath> SourceGroup::filterToContainedFilePaths(
-	const std::set<FilePath>& filePaths,
-	const std::set<FilePath>& indexedFilePaths,
-	const std::set<FilePath>& indexedFileOrDirectoryPaths,
-	const std::vector<FilePathFilter>& excludeFilters) const
-{
-	std::set<FilePath> containedFilePaths;
-
-	for (const FilePath& filePath: filePaths)
-	{
-		bool isInIndexedPaths = false;
-
-		for (const FilePath& indexedFileOrDirectoryPath: indexedFileOrDirectoryPaths)
-		{
-			if (indexedFileOrDirectoryPath == filePath ||
-				indexedFileOrDirectoryPath.contains(filePath))
-			{
-				isInIndexedPaths = true;
-				break;
-			}
-		}
-
-		if (!isInIndexedPaths && indexedFilePaths.find(filePath) != indexedFilePaths.end())
-		{
-			isInIndexedPaths = true;
-		}
-
-		if (isInIndexedPaths)
-		{
-			isInIndexedPaths = !FilePathFilter::areMatching(excludeFilters, filePath);
-		}
-
-		if (isInIndexedPaths)
-		{
-			containedFilePaths.insert(filePath);
-		}
-	}
-
-	return containedFilePaths;
+  return containedFilePaths;
 }

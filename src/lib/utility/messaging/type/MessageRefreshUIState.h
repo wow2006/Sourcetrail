@@ -3,17 +3,13 @@
 
 #include "Message.h"
 
-class MessageRefreshUIState: public Message<MessageRefreshUIState>
-{
-public:
-	static const std::string getStaticType()
-	{
-		return "MessageRefreshUIState";
-	}
+class MessageRefreshUIState : public Message<MessageRefreshUIState> {
+ public:
+  static const std::string getStaticType() { return "MessageRefreshUIState"; }
 
-	MessageRefreshUIState(bool isAfterIndexing): isAfterIndexing(isAfterIndexing) {}
+  MessageRefreshUIState(bool isAfterIndexing) : isAfterIndexing(isAfterIndexing) {}
 
-	bool isAfterIndexing = false;
+  bool isAfterIndexing = false;
 };
 
-#endif	  // MESSAGE_REFRESH_UI_STATE_H
+#endif  // MESSAGE_REFRESH_UI_STATE_H

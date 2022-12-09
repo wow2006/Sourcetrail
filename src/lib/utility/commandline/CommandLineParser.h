@@ -1,13 +1,12 @@
 #pragma once
 
+#include <RefreshInfo.h>
+
+#include <boost/program_options.hpp>
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <vector>
-#include <filesystem>
-
-#include <boost/program_options.hpp>
-
-#include <RefreshInfo.h>
 
 namespace commandline {
 

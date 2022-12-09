@@ -3,16 +3,15 @@
 
 #include "QtSelfRefreshIconButton.h"
 
-class QtSearchBarButton: public QtSelfRefreshIconButton
-{
-public:
-	QtSearchBarButton(const FilePath& iconPath, bool small = false, QWidget* parent = nullptr);
+class QtSearchBarButton : public QtSelfRefreshIconButton {
+ public:
+  QtSearchBarButton(const FilePath& iconPath, bool small = false, QWidget* parent = nullptr);
 
-protected:
-	void refresh() override;
+ protected:
+  void refresh() override;
 
-private:
-	bool m_small;
+ private:
+  bool m_small;
 };
 
-#endif	  // QT_SEARCH_BAR_BUTTON_H
+#endif  // QT_SEARCH_BAR_BUTTON_H

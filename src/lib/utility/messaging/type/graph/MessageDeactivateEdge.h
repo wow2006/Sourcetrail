@@ -4,20 +4,15 @@
 #include "Message.h"
 #include "TabId.h"
 
-class MessageDeactivateEdge: public Message<MessageDeactivateEdge>
-{
-public:
-	MessageDeactivateEdge(bool scrollToDefinition): scrollToDefinition(scrollToDefinition)
-	{
-		setSchedulerId(TabId::currentTab());
-	}
+class MessageDeactivateEdge : public Message<MessageDeactivateEdge> {
+ public:
+  MessageDeactivateEdge(bool scrollToDefinition) : scrollToDefinition(scrollToDefinition) {
+    setSchedulerId(TabId::currentTab());
+  }
 
-	static const std::string getStaticType()
-	{
-		return "MessageDeactivateEdge";
-	}
+  static const std::string getStaticType() { return "MessageDeactivateEdge"; }
 
-	bool scrollToDefinition;
+  bool scrollToDefinition;
 };
 
-#endif	  // MESSAGE_DEACTIVATE_EDGE_H
+#endif  // MESSAGE_DEACTIVATE_EDGE_H

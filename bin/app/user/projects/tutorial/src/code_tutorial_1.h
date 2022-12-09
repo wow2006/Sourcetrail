@@ -1,8 +1,6 @@
 #ifndef CODE_TUTORIAL_1_H
 #define CODE_TUTORIAL_1_H
 
-
-
 #include "utility.h"
 
 //------------------------------------------------------------------------------
@@ -24,17 +22,11 @@
 //
 //------------------------------------------------------------------------------
 
-class CodeTutorial
-{
-public:
-	CodeTutorial()
-	{
-	}
+class CodeTutorial {
+ public:
+  CodeTutorial() {}
 
-	static int meaning_of_life_the_universe_and_everything;
+  static int meaning_of_life_the_universe_and_everything;
 };
 
-
-
-#endif // CODE_TUTORIAL_1_H
-
+#endif  // CODE_TUTORIAL_1_H

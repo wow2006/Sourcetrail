@@ -5,25 +5,22 @@
 #include "MessageListener.h"
 #include "View.h"
 
-class BookmarkButtonsView
-	: public View
-	, public MessageListener<MessageBookmarkButtonState>
-{
-public:
-	BookmarkButtonsView(ViewLayout* viewLayout);
-	virtual ~BookmarkButtonsView() = default;
+class BookmarkButtonsView : public View, public MessageListener<MessageBookmarkButtonState> {
+ public:
+  BookmarkButtonsView(ViewLayout* viewLayout);
+  virtual ~BookmarkButtonsView() = default;
 
-	std::string getName() const override;
+  std::string getName() const override;
 
-	Id getSchedulerId() const override;
-	void setTabId(Id schedulerId);
+  Id getSchedulerId() const override;
+  void setTabId(Id schedulerId);
 
-	virtual void setCreateButtonState(const MessageBookmarkButtonState::ButtonState& state) = 0;
+  virtual void setCreateButtonState(const MessageBookmarkButtonState::ButtonState& state) = 0;
 
-private:
-	void handleMessage(MessageBookmarkButtonState* message) override;
+ private:
+  void handleMessage(MessageBookmarkButtonState* message) override;
 
-	Id m_schedulerId;
+  Id m_schedulerId;
 };
 
-#endif	  // BOOKMARK_BUTTONS_VIEW_H
+#endif  // BOOKMARK_BUTTONS_VIEW_H

@@ -1,7 +1,6 @@
 
 #define OVERVIEW_TESTS
 
-
 // TEST: activate overview
 // START ----------------------------------------------------------------------
 
@@ -13,8 +12,6 @@
 
 // END ------------------------------------------------------------------------
 
-
-
 // TEST: overview bundles
 // START ----------------------------------------------------------------------
 
@@ -24,8 +21,6 @@
 // - Files, Macros, Namespaces, Classes, Structs, Unions, functions, global_variable, Typedefs, Enums
 
 // END ------------------------------------------------------------------------
-
-
 
 // TEST: overview bundle split
 // START ----------------------------------------------------------------------
@@ -41,7 +36,6 @@
 // RESULT 3: the class is activated
 
 // END ------------------------------------------------------------------------
-
 
 union A_Union_Type {};
 int global_variable;

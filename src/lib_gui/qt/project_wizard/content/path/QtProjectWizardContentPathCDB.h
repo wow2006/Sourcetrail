@@ -6,35 +6,33 @@
 
 class SourceGroupSettingsCxxCdb;
 
-class QtProjectWizardContentPathCDB: public QtProjectWizardContentPath
-{
-	Q_OBJECT
+class QtProjectWizardContentPathCDB : public QtProjectWizardContentPath {
+  Q_OBJECT
 
-public:
-	QtProjectWizardContentPathCDB(
-		std::shared_ptr<SourceGroupSettingsCxxCdb> settings, QtProjectWizardWindow* window);
+ public:
+  QtProjectWizardContentPathCDB(std::shared_ptr<SourceGroupSettingsCxxCdb> settings, QtProjectWizardWindow* window);
 
-	// QtProjectWizardContent implementation
-	void populate(QGridLayout* layout, int& row) override;
+  // QtProjectWizardContent implementation
+  void populate(QGridLayout* layout, int& row) override;
 
-	void load() override;
-	void save() override;
-	void refresh() override;
+  void load() override;
+  void save() override;
+  void refresh() override;
 
-	std::vector<FilePath> getFilePaths() const override;
-	QString getFileNamesTitle() const override;
-	QString getFileNamesDescription() const override;
+  std::vector<FilePath> getFilePaths() const override;
+  QString getFileNamesTitle() const override;
+  QString getFileNamesDescription() const override;
 
-private slots:
-	void pickedPath();
-	void onPickerTextChanged(const QString& text);
+ private slots:
+  void pickedPath();
+  void onPickerTextChanged(const QString& text);
 
-private:
-	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
+ private:
+  std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
 
-	std::shared_ptr<SourceGroupSettingsCxxCdb> m_settings;
-	QLabel* m_fileCountLabel;
-	mutable SingleValueCache<std::vector<FilePath>> m_filePaths;
+  std::shared_ptr<SourceGroupSettingsCxxCdb> m_settings;
+  QLabel* m_fileCountLabel;
+  mutable SingleValueCache<std::vector<FilePath>> m_filePaths;
 };
 
-#endif	  // QT_PROJECT_WIZARD_CONTENT_PATH_CDB_H
+#endif  // QT_PROJECT_WIZARD_CONTENT_PATH_CDB_H

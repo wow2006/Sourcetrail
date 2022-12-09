@@ -1,8 +1,6 @@
 #ifndef STRING_H
 #define STRING_H
 
-class String
-{
-};
+class String {};
 
-#endif // STRING_H
+#endif  // STRING_H

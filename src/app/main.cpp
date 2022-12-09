@@ -1,8 +1,6 @@
 #include <csignal>
 #include <iostream>
 
-#include "includes.h"
-
 #include "Application.h"
 #include "ApplicationSettings.h"
 #include "ApplicationSettingsPrefiller.h"
@@ -26,6 +24,7 @@
 #include "SourceGroupFactoryModuleCustom.h"
 #include "UserPaths.h"
 #include "Version.h"
+#include "includes.h"
 #include "language_packages.h"
 #include "logging.h"
 #include "productVersion.h"

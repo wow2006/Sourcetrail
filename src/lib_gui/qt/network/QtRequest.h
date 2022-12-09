@@ -7,22 +7,21 @@
 class QNetworkAccessManager;
 class QNetworkReply;
 
-class QtRequest: public QObject
-{
-	Q_OBJECT
+class QtRequest : public QObject {
+  Q_OBJECT
 
-public:
-	QtRequest();
-	void sendRequest(const QString& url);
+ public:
+  QtRequest();
+  void sendRequest(const QString& url);
 
-signals:
-	void receivedData(QByteArray bytes);
+ signals:
+  void receivedData(QByteArray bytes);
 
-private slots:
-	void finished(QNetworkReply* reply);
+ private slots:
+  void finished(QNetworkReply* reply);
 
-private:
-	QNetworkAccessManager* m_networkManager;
+ private:
+  QNetworkAccessManager* m_networkManager;
 };
 
-#endif	  // QT_REQUEST_H
+#endif  // QT_REQUEST_H

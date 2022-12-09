@@ -32,19 +32,19 @@ SCENARIO("Simple helloWorld project", "[functionality]") {
           bp::ipstream errorStream;
           bp::ipstream outStream;
 
-          auto childProcess = bp::child(bp::exe=processPath,
-                                        bp::args={
-                                          "--project", projectPath.string(),
-                                          "--output",  svgPath,
-                                        },
-                                        bp::std_out > errorStream,
-                                        bp::std_err > outStream);
+          auto childProcess = bp::child(bp::exe = processPath,
+                                        bp::args =
+                                            {
+                                                "--project",
+                                                projectPath.string(),
+                                                "--output",
+                                                svgPath,
+                                            },
+                                        bp::std_out > errorStream, bp::std_err > outStream);
           childProcess.wait(errorCode);
           REQUIRE_FALSE(errorCode);
 
-          THEN("A SVG file will be exported") {
-            REQUIRE(fs::exists(svgPath, errorCode));
-          }
+          THEN("A SVG file will be exported") { REQUIRE(fs::exists(svgPath, errorCode)); }
         }
       }
     }

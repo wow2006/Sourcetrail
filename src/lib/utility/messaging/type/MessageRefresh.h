@@ -3,31 +3,24 @@
 
 #include "Message.h"
 
-class MessageRefresh: public Message<MessageRefresh>
-{
-public:
-	static const std::string getStaticType()
-	{
-		return "MessageRefresh";
-	}
+class MessageRefresh : public Message<MessageRefresh> {
+ public:
+  static const std::string getStaticType() { return "MessageRefresh"; }
 
-	MessageRefresh(): all(false) {}
+  MessageRefresh() : all(false) {}
 
-	MessageRefresh& refreshAll()
-	{
-		all = true;
-		return *this;
-	}
+  MessageRefresh& refreshAll() {
+    all = true;
+    return *this;
+  }
 
-	void print(std::wostream& os) const override
-	{
-		if (all)
-		{
-			os << "all";
-		}
-	}
+  void print(std::wostream& os) const override {
+    if (all) {
+      os << "all";
+    }
+  }
 
-	bool all;
+  bool all;
 };
 
-#endif	  // MESSAGE_REFRESH_H
+#endif  // MESSAGE_REFRESH_H

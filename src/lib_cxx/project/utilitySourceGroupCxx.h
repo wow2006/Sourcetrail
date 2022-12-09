@@ -6,7 +6,7 @@
 
 namespace clang::tooling {
 class JSONCompilationDatabase;
-}  // namespace clang
+}  // namespace clang::tooling
 
 class DialogView;
 class FilePath;

@@ -1,31 +1,31 @@
 #ifndef STORAGE_PROVIDER_H
 #define STORAGE_PROVIDER_H
 
-#include "IntermediateStorage.h"
 #include <list>
 #include <memory>
 #include <mutex>
 
-class StorageProvider
-{
-public:
-	int getStorageCount() const;
+#include "IntermediateStorage.h"
 
-	void clear();
+class StorageProvider {
+ public:
+  int getStorageCount() const;
 
-	void insert(std::shared_ptr<IntermediateStorage> storage);
+  void clear();
 
-	// returns empty shared_ptr if no storages available
-	std::shared_ptr<IntermediateStorage> consumeSecondLargestStorage();
+  void insert(std::shared_ptr<IntermediateStorage> storage);
 
-	// returns empty shared_ptr if no storages available
-	std::shared_ptr<IntermediateStorage> consumeLargestStorage();
+  // returns empty shared_ptr if no storages available
+  std::shared_ptr<IntermediateStorage> consumeSecondLargestStorage();
 
-	void logCurrentState() const;
+  // returns empty shared_ptr if no storages available
+  std::shared_ptr<IntermediateStorage> consumeLargestStorage();
 
-private:
-	std::list<std::shared_ptr<IntermediateStorage>> m_storages;	   // larger storages are in front
-	mutable std::mutex m_storagesMutex;
+  void logCurrentState() const;
+
+ private:
+  std::list<std::shared_ptr<IntermediateStorage>> m_storages;  // larger storages are in front
+  mutable std::mutex m_storagesMutex;
 };
 
-#endif	  // STORAGE_PROVIDER_H
+#endif  // STORAGE_PROVIDER_H

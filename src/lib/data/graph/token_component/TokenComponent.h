@@ -3,11 +3,10 @@
 
 #include <memory>
 
-class TokenComponent
-{
-public:
-	virtual ~TokenComponent();
-	virtual std::shared_ptr<TokenComponent> copy() const = 0;
+class TokenComponent {
+ public:
+  virtual ~TokenComponent();
+  virtual std::shared_ptr<TokenComponent> copy() const = 0;
 };
 
-#endif	  // TOKEN_COMPONENT_H
+#endif  // TOKEN_COMPONENT_H

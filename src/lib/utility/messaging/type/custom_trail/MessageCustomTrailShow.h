@@ -3,15 +3,11 @@
 
 #include "Message.h"
 
-class MessageCustomTrailShow: public Message<MessageCustomTrailShow>
-{
-public:
-	MessageCustomTrailShow() {}
+class MessageCustomTrailShow : public Message<MessageCustomTrailShow> {
+ public:
+  MessageCustomTrailShow() {}
 
-	static const std::string getStaticType()
-	{
-		return "MessageCustomTrailShow";
-	}
+  static const std::string getStaticType() { return "MessageCustomTrailShow"; }
 };
 
-#endif	  // MESSAGE_CUSTOM_TRAIL_SHOW_H
+#endif  // MESSAGE_CUSTOM_TRAIL_SHOW_H

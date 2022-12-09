@@ -4,19 +4,17 @@
 
 namespace commandline {
 
-class CommandlineCommandConfig : public CommandlineCommand
-{
-public:
-	CommandlineCommandConfig(CommandLineParser* parser);
+class CommandlineCommandConfig : public CommandlineCommand {
+ public:
+  CommandlineCommandConfig(CommandLineParser* parser);
 
-	~CommandlineCommandConfig() override;
+  ~CommandlineCommandConfig() override;
 
-	void setup() override;
+  void setup() override;
 
-	ReturnStatus parse(std::vector<std::string>& args) override;
+  ReturnStatus parse(std::vector<std::string>& args) override;
 
-	bool hasHelp() const override;
-
+  bool hasHelp() const override;
 };
 
-}	 // namespace commandline
+}  // namespace commandline

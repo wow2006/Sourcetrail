@@ -5,19 +5,15 @@
 #include <string>
 
 int io::numberIn() {
-	std::string input;
-	getline( std::cin, input );
-	std::stringstream stream( input );
+  std::string input;
+  getline(std::cin, input);
+  std::stringstream stream(input);
 
-	int number;
-	stream >> number;
-	return number;
+  int number;
+  stream >> number;
+  return number;
 }
 
-void io::numberOut(int num) {
-	std::cout << num;
-}
+void io::numberOut(int num) { std::cout << num; }
 
-void io::stringOut(const char* str) {
-	std::cout << str;
-}
+void io::stringOut(const char* str) { std::cout << str; }

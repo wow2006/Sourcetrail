@@ -4,40 +4,36 @@
 #include "game_object.h"
 
 class Field : public GameObject {
-public:
-	enum Token {
-		None = 0,
-		PlayerA = 1,
-		PlayerB = 4
-	};
+ public:
+  enum Token { None = 0, PlayerA = 1, PlayerB = 4 };
 
-	static Token Opponent( Token token );
+  static Token Opponent(Token token);
 
-	struct Move {
-		int row;
-		int col;
-	};
+  struct Move {
+    int row;
+    int col;
+  };
 
-	Field();
-	~Field();
+  Field();
+  ~Field();
 
-	Field Clone() const;
-	void Clear();
+  Field Clone() const;
+  void Clear();
 
-	void Show() const;
+  void Show() const;
 
-	int SameInRow( Token token, int amount ) const;
+  int SameInRow(Token token, int amount) const;
 
-	bool InRange( const Move& move ) const;
-	bool IsEmpty( const Move& move ) const;
-	bool IsFull() const;
+  bool InRange(const Move& move) const;
+  bool IsEmpty(const Move& move) const;
+  bool IsFull() const;
 
-	void MakeMove( const Move& move, Token token );
-	void ClearMove( const Move& move );
+  void MakeMove(const Move& move, Token token);
+  void ClearMove(const Move& move);
 
-private:
-	Token** grid_;
-	int left_;
+ private:
+  Token** grid_;
+  int left_;
 };
 
-#endif // _FIELD_
+#endif  // _FIELD_

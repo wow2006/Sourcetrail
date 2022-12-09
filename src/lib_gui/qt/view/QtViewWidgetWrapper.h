@@ -7,18 +7,17 @@
 
 class View;
 
-class QtViewWidgetWrapper: public ViewWidgetWrapper
-{
-public:
-	static QWidget* getWidgetOfView(const View* view);
+class QtViewWidgetWrapper : public ViewWidgetWrapper {
+ public:
+  static QWidget* getWidgetOfView(const View* view);
 
-	QtViewWidgetWrapper(QWidget* widget);
-	~QtViewWidgetWrapper();
+  QtViewWidgetWrapper(QWidget* widget);
+  ~QtViewWidgetWrapper();
 
-	QWidget* getWidget();
+  QWidget* getWidget();
 
-private:
-	QWidget* m_widget;
+ private:
+  QWidget* m_widget;
 };
 
-#endif	  // QT_VIEW_WIDGET_WRAPPER_H
+#endif  // QT_VIEW_WIDGET_WRAPPER_H

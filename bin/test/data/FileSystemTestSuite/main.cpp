@@ -1,11 +1,11 @@
 #include "tictactoe.h"
 
 int main() {
-	TicTacToe tictactoe;
+  TicTacToe tictactoe;
 
-	while ( tictactoe.Start() ) {
-		tictactoe.Run();
-	}
+  while (tictactoe.Start()) {
+    tictactoe.Run();
+  }
 
-	return 0;
+  return 0;
 }

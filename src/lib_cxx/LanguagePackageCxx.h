@@ -10,5 +10,4 @@ class LanguagePackageCxx : public LanguagePackage {
   using IndexerBasePtr = std::shared_ptr<IndexerBase>;
 
   [[nodiscard]] std::vector<IndexerBasePtr> instantiateSupportedIndexers() const override;
-
 };

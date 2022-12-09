@@ -6,28 +6,25 @@
 class QtStringListBox;
 class SourceGroupSettingsWithCxxPathsAndFlags;
 
-class QtProjectWizardContentFlags: public QtProjectWizardContent
-{
-	Q_OBJECT
+class QtProjectWizardContentFlags : public QtProjectWizardContent {
+  Q_OBJECT
 
-public:
-	QtProjectWizardContentFlags(
-		std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> settings,
-		QtProjectWizardWindow* window,
-		bool indicateAsAdditional = false);
+ public:
+  QtProjectWizardContentFlags(std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> settings,
+                              QtProjectWizardWindow* window, bool indicateAsAdditional = false);
 
-	// QtProjectWizardContent implementation
-	virtual void populate(QGridLayout* layout, int& row) override;
+  // QtProjectWizardContent implementation
+  virtual void populate(QGridLayout* layout, int& row) override;
 
-	virtual void load() override;
-	virtual void save() override;
-	virtual bool check() override;
+  virtual void load() override;
+  virtual void save() override;
+  virtual bool check() override;
 
-private:
-	std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> m_settings;
-	const bool m_indicateAsAdditional;
+ private:
+  std::shared_ptr<SourceGroupSettingsWithCxxPathsAndFlags> m_settings;
+  const bool m_indicateAsAdditional;
 
-	QtStringListBox* m_list;
+  QtStringListBox* m_list;
 };
 
-#endif	  // QT_PROJECT_WIZARD_CONTENT_FLAGS_H
+#endif  // QT_PROJECT_WIZARD_CONTENT_FLAGS_H

@@ -1,7 +1,5 @@
 #include "CodeblocksCompiler.h"
 
-#include <memory>
-
 #include "tinyxml.h"
 #include "utilityString.h"
 
@@ -10,7 +8,7 @@ std::string Compiler::getXmlElementName() { return "Compiler"; }
 
 std::shared_ptr<Compiler> Compiler::create(const TiXmlElement* element) {
   if (element == nullptr || element->Value() != getXmlElementName()) {
-    return std::make_shared<Compiler>();
+    return {};
   }
 
   std::shared_ptr<Compiler> compiler(new Compiler());
