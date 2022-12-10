@@ -12,6 +12,7 @@ add_library(
   #app/paths/ResourcePaths.h
   #app/paths/UserPaths.cpp
   #app/paths/UserPaths.h
+
   #component/Component.cpp
   #component/Component.h
   #component/ComponentFactory.cpp
@@ -119,6 +120,7 @@ add_library(
   #component/view/helper/CodeScrollParams.h
   #component/view/helper/CodeSnippetParams.cpp
   #component/view/helper/CodeSnippetParams.h
+
   #data/DefinitionKind.cpp
   #data/DefinitionKind.h
   #data/ErrorCountInfo.h
@@ -295,6 +297,7 @@ add_library(
   #data/storage/type/StorageSymbol.h
   #data/tooltip/TooltipInfo.h
   #data/tooltip/TooltipOrigin.h
+
   #project/Project.cpp
   #project/Project.h
   #project/RefreshInfo.h
@@ -310,6 +313,7 @@ add_library(
   #project/SourceGroupFactoryModule.h
   #project/SourceGroupFactoryModuleCustom.cpp
   #project/SourceGroupFactoryModuleCustom.h
+
   #settings/ApplicationSettings.cpp
   #settings/ApplicationSettings.h
   #settings/ApplicationSettingsPrefiller.cpp
@@ -350,16 +354,15 @@ add_library(
   #settings/source_group/component/SourceGroupSettingsWithSourcePaths.h
   #settings/source_group/type/SourceGroupSettingsUnloadable.cpp
   #settings/source_group/type/SourceGroupSettingsUnloadable.h
+
   #utility/ApplicationArchitectureType.h
   #utility/ConfigManager.cpp
   #utility/ConfigManager.h
   #utility/LowMemoryStringMap.h
-  #utility/Optional.h
   #utility/OrderedCache.h
   #utility/OsType.h
   #utility/Property.h
-  #utility/ScopedFunctor.cpp
-  #utility/ScopedFunctor.h
+  utility/ScopedFunctor.cpp
   #utility/ScopedSwitcher.h
   #utility/SingleValueCache.h
   utility/TimeStamp.cpp
