@@ -8,7 +8,7 @@
 #include "MessageWindowChanged.h"
 #include "ScreenSearchInterfaces.h"
 #include "TabId.hpp"
-#include "TaskLambda.h"
+#include "TaskLambda.hpp"
 #include "TaskManager.h"
 #include "TaskScheduler.h"
 

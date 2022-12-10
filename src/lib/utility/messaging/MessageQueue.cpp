@@ -9,7 +9,7 @@
 #include "TabId.hpp"
 #include "TaskGroupParallel.hpp"
 #include "TaskGroupSequence.hpp"
-#include "TaskLambda.h"
+#include "TaskLambda.hpp"
 #include "logging.hpp"
 
 std::shared_ptr<MessageQueue> MessageQueue::getInstance() {

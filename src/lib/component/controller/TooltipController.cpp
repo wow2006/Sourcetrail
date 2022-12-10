@@ -6,7 +6,7 @@
 #include "StorageAccess.h"
 #include "TabId.hpp"
 #include "TaskDecoratorDelay.h"
-#include "TaskLambda.h"
+#include "TaskLambda.hpp"
 #include "TooltipView.h"
 
 Id TooltipController::TooltipRequest::s_requestId = 1;

@@ -19,7 +19,7 @@
 #include "QtWindow.h"
 #include "StorageAccess.h"
 #include "TabId.hpp"
-#include "TaskLambda.h"
+#include "TaskLambda.hpp"
 #include "utility.h"
 
 QtDialogView::QtDialogView(QtMainWindow* mainWindow, UseCase useCase, StorageAccess* storageAccess)

@@ -1,5 +1,4 @@
-#ifndef LAMBDA_TASK_H
-#define LAMBDA_TASK_H
+#pragma once
 
 #include <functional>
 
@@ -17,5 +16,3 @@ class TaskLambda : public Task {
 
   std::function<void()> m_func;
 };
-
-#endif  // LAMBDA_TASK_H

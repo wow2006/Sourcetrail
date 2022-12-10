@@ -11,7 +11,7 @@
 #include "IndexerCommandCxx.h"
 #include "MessageStatus.hpp"
 #include "SourceGroupSettingsCxxCdb.h"
-#include "TaskLambda.h"
+#include "TaskLambda.hpp"
 #include "logging.h"
 #include "utility.h"
 #include "utilitySourceGroupCxx.h"

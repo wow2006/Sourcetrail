@@ -15,7 +15,7 @@
 #include "SingleFrontendActionFactory.h"
 #include "SourceGroupSettingsWithCxxPchOptions.h"
 #include "StorageProvider.h"
-#include "TaskLambda.h"
+#include "TaskLambda.hpp"
 #include "logging.h"
 #include "utility.h"
 

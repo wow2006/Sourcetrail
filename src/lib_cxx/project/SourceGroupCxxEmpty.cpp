@@ -10,7 +10,7 @@
 #include "SourceGroupSettingsWithCStandard.h"
 #include "SourceGroupSettingsWithCppStandard.h"
 #include "SourceGroupSettingsWithCxxPathsAndFlags.h"
-#include "TaskLambda.h"
+#include "TaskLambda.hpp"
 #include "logging.h"
 #include "utility.h"
 #include "utilitySourceGroupCxx.h"

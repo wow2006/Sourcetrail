@@ -36,7 +36,7 @@
 #include "TaskGroupSelector.h"
 #include "TaskGroupSequence.hpp"
 #include "TaskInjectStorage.h"
-#include "TaskLambda.h"
+#include "TaskLambda.hpp"
 #include "TaskMergeStorages.h"
 #include "TaskParseWrapper.h"
 #include "TaskReturnSuccessIf.h"

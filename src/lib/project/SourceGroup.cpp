@@ -5,7 +5,7 @@
 #include "MemoryIndexerCommandProvider.h"
 #include "ProjectSettings.h"
 #include "SourceGroupSettings.h"
-#include "TaskLambda.h"
+#include "TaskLambda.hpp"
 
 std::shared_ptr<IndexerCommandProvider> SourceGroup::getIndexerCommandProvider(const RefreshInfo& info) const {
   return std::make_shared<MemoryIndexerCommandProvider>(getIndexerCommands(info));
