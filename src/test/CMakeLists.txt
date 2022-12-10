@@ -1,50 +1,3 @@
-# add_files(
-#   TEST
-
-#   helper/TestFileRegister.cpp
-#   helper/TestFileRegister.h
-#   helper/TestStorage.h
-
-#   test_main.cpp
-
-#   ConfigManagerTestSuite.cpp
-#   CxxIncludeProcessingTestSuite.cpp
-#   CxxParserTestSuite.cpp
-#   CxxTypeNameTestSuite.cpp
-#   FileManagerTestSuite.cpp
-#   FilePathFilterTestSuite.cpp
-#   FilePathTestSuite.cpp
-#   FileSystemTestSuite.cpp
-#   GraphTestSuite.cpp
-#   HierarchyCacheTestSuite.cpp
-#   JavaIndexSampleProjectsTestSuite.cpp
-#   JavaParserTestSuite.cpp
-#   LogManagerTestSuite.cpp
-#   LowMemoryStringMapTestSuite.cpp
-#   MatrixBaseTestSuite.cpp
-#   MatrixDynamicBaseTestSuite.cpp
-#   MessageQueueTestSuite.cpp
-#   NetworkProtocolHelperTestSuite.cpp
-#   PythonIndexerTestSuite.cpp
-#   RefreshInfoGeneratorTestSuite.cpp
-#   SearchIndexTestSuite.cpp
-#   SettingsMigratorTestSuite.cpp
-#   SettingsTestSuite.cpp
-#   SharedMemoryTestSuite.cpp
-#   SourceGroupTestSuite.cpp
-#   SourceLocationCollectionTestSuite.cpp
-#   SqliteBookmarkStorageTestSuite.cpp
-#   SqliteIndexStorageTestSuite.cpp
-#   StorageTestSuite.cpp
-#   TaskSchedulerTestSuite.cpp
-#   TextAccessTestSuite.cpp
-#   UtilityGradleTestSuite.cpp
-#   UtilityMavenTestSuite.cpp
-#   UtilityStringTestSuite.cpp
-#   UtilityTestSuite.cpp
-#   Vector2TestSuite.cpp
-# )
-
 if(BUILD_UNIT_TESTS)
   add_custom_target(
     CopyDataToTestsDir
@@ -78,21 +31,30 @@ if(BUILD_UNIT_TESTS)
       WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
   endif()
 
-  add_executable(UtilityStringTestSuite UtilityStringTestSuite.cpp $<TARGET_OBJECTS:test_main>)
-
-  target_link_libraries(
+  set(
+    test_files
     UtilityStringTestSuite
-    PRIVATE catch::catch
-            Sourcetrail::lib_utility
-            $<$<BOOL:${ENABLE_ADDRESS_ASAN}>:Sanaitizer::Address>
-            $<$<BOOL:${ENABLE_MEMORY_ASAN}>:Sanaitizer::Memory>)
+    TextCodecTestSuite
+    TimeStampTestSuite)
 
-  set_target_properties(UtilityStringTestSuite PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
+  foreach(test_file IN LISTS test_files)
+    add_executable(${test_file} ${test_file}.cpp $<TARGET_OBJECTS:test_main>)
 
-  add_test(
-    NAME UtilityStringTestSuite
-    COMMAND UtilityStringTestSuite
-    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
+    target_link_libraries(
+      ${test_file}
+      PRIVATE catch::catch
+              Sourcetrail::lib
+              Sourcetrail::lib_utility
+              $<$<BOOL:${ENABLE_ADDRESS_ASAN}>:Sanaitizer::Address>
+              $<$<BOOL:${ENABLE_MEMORY_ASAN}>:Sanaitizer::Memory>)
+
+    set_target_properties(${test_file} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
+
+    add_test(
+      NAME ${test_file}
+      COMMAND ${test_file}
+      WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
+  endforeach()
 endif()
 
 if(BUILD_FUNC_TESTS)

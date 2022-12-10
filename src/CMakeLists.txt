@@ -23,7 +23,7 @@ find_package(
 
 add_subdirectory(external)
 add_subdirectory(lib_utility)
-#add_subdirectory(lib)
+add_subdirectory(lib)
 #add_subdirectory(app)
 
 if(BUILD_UNIT_TESTS OR BUILD_FUNC_TESTS)

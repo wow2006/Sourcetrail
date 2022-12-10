@@ -1,45 +1,45 @@
-#include "TimeStamp.h"
+#include "TimeStamp.hpp"
 
 TimeStamp TimeStamp::now() { return TimeStamp(boost::posix_time::microsec_clock::local_time()); }
 
 double TimeStamp::durationSeconds(const TimeStamp& start) { return double(TimeStamp::now().deltaMS(start)) / 1000.0; }
 
-std::string TimeStamp::secondsToString(double secs) {
-  std::stringstream ss;
+std::string TimeStamp::secondsToString(double seconds) {
+  std::stringstream stream;
 
-  int hours = int(secs / 3600);
-  secs -= hours * 3600;
+  int hours = int(seconds / 3600);
+  seconds -= hours * 3600;
 
-  int minutes = int(secs / 60);
-  secs -= minutes * 60;
+  int minutes = int(seconds / 60);
+  seconds -= minutes * 60;
 
-  int seconds = int(secs);
-  secs -= seconds;
+  int intSeconds = int(seconds);
+  seconds -= intSeconds;
 
-  const int milliSeconds = static_cast<int>(secs * 1000);
+  const int milliSeconds = static_cast<int>(seconds * 1000);
 
   if (hours > 9) {
-    ss << hours;
+    stream << hours;
   } else {
-    ss << std::setw(2) << std::setfill('0') << hours;
+    stream << std::setw(2) << std::setfill('0') << hours;
   }
-  ss << ":" << std::setw(2) << std::setfill('0') << minutes;
-  ss << ":" << std::setw(2) << std::setfill('0') << seconds;
+  stream << ":" << std::setw(2) << std::setfill('0') << minutes;
+  stream << ":" << std::setw(2) << std::setfill('0') << intSeconds;
 
-  if (!hours && !minutes) {
-    ss << ":" << std::setw(3) << std::setfill('0') << milliSeconds;
+  if (hours != 0 && minutes != 0) {
+    stream << ":" << std::setw(3) << std::setfill('0') << milliSeconds;
   }
 
-  return ss.str();
+  return stream.str();
 }
 
 TimeStamp::TimeStamp() : m_time(boost::posix_time::not_a_date_time) {}
 
-TimeStamp::TimeStamp(boost::posix_time::ptime t) : m_time(t) {}
+TimeStamp::TimeStamp(boost::posix_time::ptime time) : m_time(time) {}
 
-TimeStamp::TimeStamp(std::string s) : m_time(boost::posix_time::not_a_date_time) {
-  if (s.size()) {
-    m_time = boost::posix_time::time_from_string(s);
+TimeStamp::TimeStamp(const std::string& timeInString) : m_time(boost::posix_time::not_a_date_time) {
+  if(!timeInString.empty()) {
+    m_time = boost::posix_time::time_from_string(timeInString);
   }
 }
 
@@ -47,7 +47,7 @@ bool TimeStamp::isValid() const { return m_time != boost::posix_time::not_a_date
 
 std::string TimeStamp::toString() const {
   std::stringstream stream;
-  boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
+  auto* facet = new boost::posix_time::time_facet();
   facet->format("%Y-%m-%d %H:%M:%S");
   stream.imbue(std::locale(std::locale::classic(), facet));
   stream << m_time;
@@ -56,7 +56,7 @@ std::string TimeStamp::toString() const {
 
 std::string TimeStamp::getDDMMYYYYString() const {
   std::stringstream stream;
-  boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
+  auto* facet = new boost::posix_time::time_facet();
   facet->format("%d-%m-%Y");
   stream.imbue(std::locale(std::locale::classic(), facet));
   stream << m_time;
