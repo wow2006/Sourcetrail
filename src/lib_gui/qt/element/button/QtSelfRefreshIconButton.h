@@ -4,7 +4,7 @@
 #include <QPushButton>
 #include <QTimer>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "MessageListener.h"
 #include "MessageRefreshUI.h"
 #include "QtThreadedFunctor.h"

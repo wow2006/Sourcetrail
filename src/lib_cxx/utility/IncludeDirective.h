@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 class IncludeDirective {
  public:

@@ -1,6 +1,6 @@
 #include "JavaPathDetectorMac.h"
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "utilityApp.h"
 #include "utilityString.h"
 

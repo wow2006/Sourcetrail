@@ -1,6 +1,6 @@
 #include "CxxHeaderPathDetector.h"
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "utilityCxxHeaderDetection.h"
 #include "utilityString.h"
 

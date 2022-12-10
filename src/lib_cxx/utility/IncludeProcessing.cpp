@@ -5,7 +5,7 @@
 #include <unordered_set>
 
 #include "ApplicationSettings.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "FileTree.h"
 #include "IncludeDirective.h"
 #include "TextAccess.h"

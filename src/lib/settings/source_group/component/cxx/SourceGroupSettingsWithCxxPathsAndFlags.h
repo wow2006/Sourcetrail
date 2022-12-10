@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "SourceGroupSettingsComponent.h"
 
 class SourceGroupSettingsWithCxxPathsAndFlags : public SourceGroupSettingsComponent {

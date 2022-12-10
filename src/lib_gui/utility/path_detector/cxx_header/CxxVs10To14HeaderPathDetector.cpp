@@ -4,7 +4,7 @@
 #include <QSysInfo>
 #include <string>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "logging.h"
 #include "utility.h"
 #include "utilityCxxHeaderDetection.h"

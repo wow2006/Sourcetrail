@@ -3,7 +3,7 @@
 
 #include <set>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "FilePathFilter.h"
 #include "SharedMemory.h"
 #include "language_packages.h"

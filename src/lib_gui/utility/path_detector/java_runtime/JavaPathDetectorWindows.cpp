@@ -3,7 +3,7 @@
 #include <QSettings>
 #include <QSysInfo>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "utilityApp.h"
 #include "utilityString.h"
 

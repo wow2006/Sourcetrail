@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "ConfigManager.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 class SettingsMigration;
 

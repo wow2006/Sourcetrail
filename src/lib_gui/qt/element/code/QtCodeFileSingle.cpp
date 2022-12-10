@@ -6,7 +6,7 @@
 #include <QScrollBar>
 #include <QVBoxLayout>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "MessageChangeFileView.h"
 #include "QtCodeArea.h"
 #include "QtCodeFileTitleBar.h"

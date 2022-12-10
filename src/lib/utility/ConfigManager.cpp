@@ -2,7 +2,7 @@
 
 #include <set>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "TextAccess.h"
 #include "logging.h"
 #include "tinyxml.h"

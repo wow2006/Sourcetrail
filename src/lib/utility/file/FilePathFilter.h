@@ -4,7 +4,7 @@
 #include <regex>
 #include <string>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 class FilePathFilter {
  public:

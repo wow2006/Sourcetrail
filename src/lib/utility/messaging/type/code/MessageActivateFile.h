@@ -1,7 +1,7 @@
 #ifndef MESSAGE_ACTIVATE_FILE_H
 #define MESSAGE_ACTIVATE_FILE_H
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "Message.h"
 #include "TabId.hpp"
 

@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "ApplicationArchitectureType.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 namespace utility {
 std::vector<std::wstring> getCxxHeaderPaths(const std::string& compilerName);

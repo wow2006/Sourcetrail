@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 namespace utility {
 class CompilationDatabase {

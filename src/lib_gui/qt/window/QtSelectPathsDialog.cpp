@@ -5,7 +5,7 @@
 #include <QPushButton>
 #include <set>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "utility.h"
 
 QtSelectPathsDialog::QtSelectPathsDialog(const QString& title, const QString& description, QWidget* parent)

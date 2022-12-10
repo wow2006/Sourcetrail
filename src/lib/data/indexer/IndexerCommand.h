@@ -4,7 +4,7 @@
 #include <set>
 #include <string>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "FilePathFilter.h"
 #include "IndexerCommandType.h"
 

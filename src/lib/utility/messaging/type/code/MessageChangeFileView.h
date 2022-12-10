@@ -3,7 +3,7 @@
 
 #include "CodeScrollParams.h"
 #include "CodeSnippetParams.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "Message.h"
 #include "TabId.hpp"
 

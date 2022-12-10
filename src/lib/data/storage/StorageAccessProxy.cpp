@@ -1,7 +1,7 @@
 #include "StorageAccessProxy.h"
 
 #include "FileInfo.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "Graph.h"
 #include "NodeTypeSet.h"
 #include "SourceLocationCollection.h"

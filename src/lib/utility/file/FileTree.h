@@ -5,7 +5,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 class FileTree {
  public:

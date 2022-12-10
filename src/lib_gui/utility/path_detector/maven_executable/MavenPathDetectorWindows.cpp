@@ -1,6 +1,6 @@
 #include "MavenPathDetectorWindows.h"
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "utilityApp.h"
 
 MavenPathDetectorWindows::MavenPathDetectorWindows() : PathDetector("Maven for Windows") {}

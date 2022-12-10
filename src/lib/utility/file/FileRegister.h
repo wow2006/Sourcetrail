@@ -3,7 +3,7 @@
 
 #include <set>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "UnorderedCache.h"
 
 class FilePathFilter;

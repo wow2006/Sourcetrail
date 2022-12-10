@@ -6,7 +6,7 @@
 #include <QObject>
 #include <memory>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 class QtContextMenu : public QObject {
   Q_OBJECT

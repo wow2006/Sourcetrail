@@ -4,7 +4,7 @@
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 #ifdef WIN32
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "FileSystem.h"
 #include "utility.h"
 #include "utilityGradle.h"

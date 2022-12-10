@@ -1,7 +1,7 @@
 #ifndef CODE_SCROLL_PARAMS_H
 #define CODE_SCROLL_PARAMS_H
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "types.h"
 
 struct CodeScrollParams {

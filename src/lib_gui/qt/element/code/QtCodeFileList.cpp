@@ -5,7 +5,7 @@
 #include <QVBoxLayout>
 
 #include "ColorScheme.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "QtCodeFile.h"
 #include "QtCodeFileTitleBar.h"
 #include "QtCodeNavigator.h"

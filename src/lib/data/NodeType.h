@@ -6,7 +6,7 @@
 #include <set>
 #include <vector>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "NodeKind.h"
 #include "Tree.h"
 #include "types.h"

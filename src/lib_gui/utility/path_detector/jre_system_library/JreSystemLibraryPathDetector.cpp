@@ -1,7 +1,7 @@
 #include "JreSystemLibraryPathDetector.h"
 
 #include "ApplicationSettings.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "FileSystem.h"
 #include "JavaPathDetector.h"
 

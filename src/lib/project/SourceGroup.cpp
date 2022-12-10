@@ -1,6 +1,6 @@
 #include "SourceGroup.h"
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "FilePathFilter.h"
 #include "MemoryIndexerCommandProvider.h"
 #include "ProjectSettings.h"

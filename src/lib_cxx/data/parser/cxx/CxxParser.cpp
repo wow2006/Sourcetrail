@@ -15,7 +15,7 @@
 #include "ClangInvocationInfo.h"
 #include "CxxCompilationDatabaseSingle.h"
 #include "CxxDiagnosticConsumer.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "FileRegister.h"
 #include "IndexerCommandCxx.h"
 #include "ParserClient.h"

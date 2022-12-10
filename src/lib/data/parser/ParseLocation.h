@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "types.h"
 
 enum class ParseLocationType { TOKEN, SCOPE, SIGNATURE, QUALIFIER, LOCAL };

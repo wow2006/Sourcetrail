@@ -2,7 +2,7 @@
 
 #include <clang/Frontend/TextDiagnosticPrinter.h>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 class CanonicalFilePathCache;
 class ParserClient;

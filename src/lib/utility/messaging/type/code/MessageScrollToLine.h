@@ -1,7 +1,7 @@
 #ifndef MESSAGE_SCROLL_TO_LINE_H
 #define MESSAGE_SCROLL_TO_LINE_H
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "Message.h"
 #include "TabId.hpp"
 

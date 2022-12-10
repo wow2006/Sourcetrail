@@ -1,7 +1,7 @@
 #ifndef MESSAGE_TAB_OPEN_WITH_H
 #define MESSAGE_TAB_OPEN_WITH_H
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "Message.h"
 #include "SearchMatch.h"
 

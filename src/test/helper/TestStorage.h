@@ -5,7 +5,7 @@
 
 #include "AccessKind.h"
 #include "Edge.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "LocationType.h"
 #include "NameHierarchy.h"
 #include "NodeType.h"

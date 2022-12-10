@@ -4,7 +4,7 @@
 
 #include "Application.h"
 #include "ApplicationSettings.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "MessageStatus.h"
 #include "TextAccess.h"
 #include "logging.h"

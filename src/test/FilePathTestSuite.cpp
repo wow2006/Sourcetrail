@@ -1,4 +1,4 @@
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "catch.hpp"
 
 TEST_CASE("file_path_gets_created_empty") {

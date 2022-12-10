@@ -2,7 +2,7 @@
 #define SQLITE_STORAGE_H
 
 #include "CppSQLite3.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "SqliteDatabaseIndex.h"
 
 class SqliteStorageMigration;

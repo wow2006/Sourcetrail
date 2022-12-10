@@ -3,7 +3,7 @@
 
 #include <QPushButton>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "QtLineEdit.h"
 
 class QtLocationPicker : public QWidget {

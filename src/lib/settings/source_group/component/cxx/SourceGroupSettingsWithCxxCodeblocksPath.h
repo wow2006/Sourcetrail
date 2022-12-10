@@ -1,7 +1,7 @@
 #ifndef SOURCE_GROUP_SETTINGS_WITH_CXX_CODEBLOCKS_PATH_H
 #define SOURCE_GROUP_SETTINGS_WITH_CXX_CODEBLOCKS_PATH_H
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "SourceGroupSettingsComponent.h"
 
 class SourceGroupSettingsWithCxxCodeblocksPath : public SourceGroupSettingsComponent {

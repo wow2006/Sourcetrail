@@ -6,7 +6,7 @@
 
 #include "AppPath.h"
 #include "ApplicationSettings.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "FileSystem.h"
 #include "ResourcePaths.h"
 #include "UserPaths.h"

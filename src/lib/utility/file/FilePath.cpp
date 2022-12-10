@@ -1,4 +1,4 @@
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>

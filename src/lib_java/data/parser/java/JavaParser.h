@@ -5,7 +5,7 @@
 #include <mutex>
 #include <string>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "IndexerCommandJava.h"
 #include "IndexerStateInfo.h"
 #include "JavaEnvironment.h"

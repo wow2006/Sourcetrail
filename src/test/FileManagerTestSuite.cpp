@@ -1,5 +1,5 @@
 #include "FileManager.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "FilePathFilter.h"
 #include "FileSystem.h"
 #include "catch.hpp"

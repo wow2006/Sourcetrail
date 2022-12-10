@@ -1,6 +1,6 @@
 #include "MavenPathDetectorUnix.h"
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "utilityApp.h"
 
 MavenPathDetectorUnix::MavenPathDetectorUnix() : PathDetector("Maven for Unix") {}

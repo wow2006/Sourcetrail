@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 class ResourcePaths {
  public:

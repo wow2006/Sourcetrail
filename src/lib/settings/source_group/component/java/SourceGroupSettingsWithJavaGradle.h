@@ -1,7 +1,7 @@
 #ifndef SOURCE_GROUP_SETTINGS_WITH_JAVA_GRADLE_H
 #define SOURCE_GROUP_SETTINGS_WITH_JAVA_GRADLE_H
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "SourceGroupSettingsComponent.h"
 
 class SourceGroupSettingsWithJavaGradle : public SourceGroupSettingsComponent {

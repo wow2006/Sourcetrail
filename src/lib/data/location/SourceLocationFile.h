@@ -7,7 +7,7 @@
 #include <ostream>
 #include <set>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "LocationType.h"
 #include "SourceLocation.h"
 #include "types.h"

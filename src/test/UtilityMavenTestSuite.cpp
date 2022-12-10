@@ -3,7 +3,7 @@
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "utility.h"
 #include "utilityMaven.h"
 #include "utilityPathDetection.h"

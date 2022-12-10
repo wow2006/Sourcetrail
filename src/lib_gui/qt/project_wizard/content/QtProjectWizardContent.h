@@ -6,7 +6,7 @@
 #include <QToolButton>
 #include <QWidget>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "QtHelpButton.h"
 #include "QtProjectWizardWindow.h"
 #include "QtThreadedFunctor.h"

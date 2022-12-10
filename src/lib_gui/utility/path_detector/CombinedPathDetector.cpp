@@ -1,6 +1,6 @@
 #include "CombinedPathDetector.h"
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 CombinedPathDetector::CombinedPathDetector() : PathDetector("combined") {}
 

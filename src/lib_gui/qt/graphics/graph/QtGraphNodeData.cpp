@@ -1,6 +1,6 @@
 #include "QtGraphNodeData.h"
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "GraphFocusHandler.h"
 #include "MessageActivateNodes.h"
 #include "MessageDeactivateEdge.h"

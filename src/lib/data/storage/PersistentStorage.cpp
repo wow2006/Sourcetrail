@@ -7,7 +7,7 @@
 #include "ApplicationSettings.h"
 #include "ElementComponentKind.h"
 #include "FileInfo.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "Graph.h"
 #include "MessageErrorCountUpdate.h"
 #include "MessageStatus.h"

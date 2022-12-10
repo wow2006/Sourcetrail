@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "LogMessage.h"
 #include "Logger.h"
 

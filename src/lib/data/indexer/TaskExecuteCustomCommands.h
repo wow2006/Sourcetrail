@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "ErrorCountInfo.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "MessageIndexingInterrupted.h"
 #include "MessageListener.h"
 #include "Task.hpp"

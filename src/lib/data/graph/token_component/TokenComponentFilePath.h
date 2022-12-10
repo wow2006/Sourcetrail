@@ -1,7 +1,7 @@
 #ifndef TOKEN_COMPONENT_FILE_PATH_H
 #define TOKEN_COMPONENT_FILE_PATH_H
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "TokenComponent.h"
 
 class TokenComponentFilePath : public TokenComponent {

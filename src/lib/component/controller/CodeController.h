@@ -6,7 +6,7 @@
 
 #include "CodeView.h"
 #include "Controller.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "LocationType.h"
 #include "MessageActivateErrors.h"
 #include "MessageActivateFullTextSearch.h"

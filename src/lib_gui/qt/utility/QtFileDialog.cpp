@@ -5,7 +5,7 @@
 #include <QTreeView>
 
 #include "ApplicationSettings.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "QtFilesAndDirectoriesDialog.h"
 #include "utilityApp.h"
 

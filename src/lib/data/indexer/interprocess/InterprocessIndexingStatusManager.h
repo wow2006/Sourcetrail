@@ -4,7 +4,7 @@
 #include <set>
 
 #include "BaseInterprocessDataManager.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 class InterprocessIndexingStatusManager final : public BaseInterprocessDataManager {
  public:

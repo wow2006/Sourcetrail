@@ -6,7 +6,7 @@
 #include <clang/Lex/Preprocessor.h>
 
 #include "CanonicalFilePathCache.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "ParseLocation.h"
 #include "utilityString.h"
 

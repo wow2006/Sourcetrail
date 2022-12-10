@@ -7,7 +7,7 @@
 #include "ApplicationSettings.h"
 #include "CommandLineParser.h"
 #include "CommandlineHelper.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "logging.h"
 
 namespace {

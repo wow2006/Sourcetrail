@@ -8,7 +8,7 @@
 #include <memory>
 #include <set>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "types.h"
 
 class CanonicalFilePathCache;

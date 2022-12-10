@@ -1,6 +1,6 @@
 #include "FileRegister.h"
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "FilePathFilter.h"
 
 FileRegister::FileRegister(const FilePath& currentPath, const std::set<FilePath>& indexedPaths,

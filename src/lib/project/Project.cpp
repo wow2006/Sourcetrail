@@ -5,7 +5,7 @@
 #include "ApplicationSettings.h"
 #include "CombinedIndexerCommandProvider.h"
 #include "DialogView.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "FileSystem.h"
 #include "IndexerCommand.h"
 #include "IndexerCommandCustom.h"

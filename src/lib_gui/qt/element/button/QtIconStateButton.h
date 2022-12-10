@@ -3,7 +3,7 @@
 
 #include <QPushButton>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 class QtIconStateButton : public QPushButton {
   Q_OBJECT

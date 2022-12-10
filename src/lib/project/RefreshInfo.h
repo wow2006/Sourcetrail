@@ -3,7 +3,7 @@
 
 #include <set>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 enum class RefreshMode { REFRESH_NONE, REFRESH_UPDATED_FILES, REFRESH_UPDATED_AND_INCOMPLETE_FILES, REFRESH_ALL_FILES };
 

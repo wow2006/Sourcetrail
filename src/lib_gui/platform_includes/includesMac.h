@@ -8,7 +8,7 @@
 #include <QStandardPaths>
 
 #include "AppPath.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "ResourcePaths.h"
 #include "UserPaths.h"
 #include "utilityQt.h"

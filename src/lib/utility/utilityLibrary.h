@@ -14,7 +14,7 @@
 #define __stdcall
 #endif
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "utilityString.h"
 
 namespace utility {

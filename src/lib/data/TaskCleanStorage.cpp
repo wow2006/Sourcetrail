@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "Blackboard.h"
 #include "DialogView.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "PersistentStorage.h"
 
 TaskCleanStorage::TaskCleanStorage(std::weak_ptr<PersistentStorage> storage, std::shared_ptr<DialogView> dialogView,

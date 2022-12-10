@@ -5,7 +5,7 @@
 #include <memory>
 #include <set>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "LocationType.h"
 #include "types.h"
 

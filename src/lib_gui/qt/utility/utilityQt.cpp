@@ -10,7 +10,7 @@
 
 #include "ApplicationSettings.h"
 #include "ColorScheme.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "FileSystem.h"
 #include "QtMainView.h"
 #include "ResourcePaths.h"

@@ -9,7 +9,7 @@
 
 #include "CodeFocusHandler.h"
 #include "CodeSnippetParams.h"
-#include "FilePath.h"
+#include "FilePath.hpp"
 
 class QtCodeArea;
 class QtCodeFileTitleBar;

@@ -5,7 +5,7 @@
 #include <deque>
 #include <map>
 
-#include "FilePath.h"
+#include "FilePath.hpp"
 #include "QtCodeNavigable.h"
 #include "TimeStamp.h"
 
