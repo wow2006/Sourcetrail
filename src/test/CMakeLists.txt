@@ -40,6 +40,7 @@ if(BUILD_UNIT_TESTS)
     LogMessageTestSuite
     #LogManagerTestSuite
     TextAccessTestSuite
+    FilePathTestSuite
   )
 
   foreach(test_file IN LISTS test_files)
