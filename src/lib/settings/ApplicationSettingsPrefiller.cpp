@@ -1,7 +1,7 @@
 #include "ApplicationSettingsPrefiller.h"
 
 #include "ApplicationSettings.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "logging.h"
 #include "utilityPathDetection.h"
 

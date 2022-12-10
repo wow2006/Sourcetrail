@@ -6,7 +6,7 @@
 #include "ApplicationSettings.h"
 #include "JavaEnvironment.h"
 #include "JavaEnvironmentFactory.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "ResourcePaths.h"
 #include "logging.h"
 #include "utilityJava.h"

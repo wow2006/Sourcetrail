@@ -4,7 +4,7 @@
 #include "MessageActivateWindow.h"
 #include "MessagePingReceived.h"
 #include "MessageProjectNew.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "MessageTabOpenWith.h"
 #include "SourceLocationFile.h"
 #include "StorageAccess.h"

@@ -5,7 +5,7 @@
 #include "CodeblocksProject.h"
 #include "CxxIndexerCommandProvider.h"
 #include "IndexerCommandCxx.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "SourceGroupSettingsCxxCodeblocks.h"
 #include "utility.h"
 

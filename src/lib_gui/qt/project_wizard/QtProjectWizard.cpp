@@ -9,7 +9,7 @@
 
 #include "Application.h"
 #include "MessageLoadProject.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "QtProjectWizardContent.h"
 #include "QtProjectWizardContentCustomCommand.h"
 #include "QtProjectWizardContentExtensions.h"

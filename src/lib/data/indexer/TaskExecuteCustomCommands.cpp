@@ -11,7 +11,7 @@
 #include "MessageErrorCountUpdate.h"
 #include "MessageIndexingStatus.h"
 #include "MessageShowStatus.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "PersistentStorage.h"
 #include "SourceLocationCollection.h"
 #include "SourceLocationFile.h"

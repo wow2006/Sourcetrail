@@ -6,7 +6,7 @@
 #include "MessageIndexingStatus.h"
 #include "MessageListener.h"
 #include "MessageQuitApplication.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 
 class QtCoreApplication : public QCoreApplication,
                           public MessageListener<MessageQuitApplication>,

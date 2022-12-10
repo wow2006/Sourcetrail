@@ -7,7 +7,7 @@
 #include <thread>
 
 #include "MessageIndexingStatus.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "Project.h"
 #include "QtIndexingDialog.h"
 #include "QtIndexingProgressDialog.h"

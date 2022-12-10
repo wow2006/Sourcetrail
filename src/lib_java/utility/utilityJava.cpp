@@ -3,7 +3,7 @@
 #include "DialogView.h"
 #include "JavaEnvironment.h"
 #include "JavaEnvironmentFactory.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "ResourcePaths.h"
 #include "ScopedFunctor.h"
 #include "SourceGroupSettingsWithClasspath.h"

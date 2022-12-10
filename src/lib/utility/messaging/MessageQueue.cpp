@@ -1,4 +1,4 @@
-#include "MessageQueue.h"
+#include "MessageQueue.hpp"
 
 #include <chrono>
 #include <thread>

@@ -10,7 +10,7 @@
 #include "FilePath.hpp"
 #include "Graph.h"
 #include "MessageErrorCountUpdate.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "NodeTypeSet.h"
 #include "ParseLocation.h"
 #include "SourceLocationCollection.h"

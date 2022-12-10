@@ -5,7 +5,7 @@
 #include "Application.h"
 #include "ApplicationSettings.h"
 #include "FilePath.hpp"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "TextAccess.h"
 #include "logging.h"
 #include "utility.h"

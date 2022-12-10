@@ -15,7 +15,7 @@
 #include "MessageIndexingStarted.h"
 #include "MessageIndexingStatus.h"
 #include "MessageRefresh.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "PersistentStorage.h"
 #include "ProjectSettings.h"
 #include "RefreshInfoGenerator.h"

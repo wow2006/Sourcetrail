@@ -5,7 +5,7 @@
 #include "MessageClearStatusView.h"
 #include "MessageListener.h"
 #include "MessageShowStatus.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "MessageStatusFilterChanged.h"
 #include "Status.h"
 

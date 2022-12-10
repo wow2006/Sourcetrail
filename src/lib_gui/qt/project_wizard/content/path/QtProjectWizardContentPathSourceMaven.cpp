@@ -4,7 +4,7 @@
 
 #include "Application.h"
 #include "ApplicationSettings.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "QtDialogView.h"
 #include "ScopedFunctor.h"
 #include "SourceGroupJavaMaven.h"

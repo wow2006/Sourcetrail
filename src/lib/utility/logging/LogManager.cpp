@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "Version.h"
 #include "logging.hpp"
 //#include "utilityApp.h"

@@ -1,7 +1,7 @@
 #ifndef MESSAGE_FILTER_H
 #define MESSAGE_FILTER_H
 
-#include "MessageQueue.h"
+#include "MessageQueue.hpp"
 
 class MessageFilter {
  public:

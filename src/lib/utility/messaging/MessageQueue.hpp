@@ -1,5 +1,4 @@
-#ifndef MESSAGE_QUEUE_H
-#define MESSAGE_QUEUE_H
+#pragma once
 
 #include <deque>
 #include <memory>
@@ -67,5 +66,3 @@ class MessageQueue {
 
   bool m_sendMessagesAsTasks;
 };
-
-#endif  // MESSAGE_QUEUE_H

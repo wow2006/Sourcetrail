@@ -9,7 +9,7 @@
 #include "MessageFlushUpdates.h"
 #include "MessageRefreshUI.h"
 #include "MessageScrollToLine.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "MessageTooltipShow.h"
 #include "StorageAccess.h"
 #include "utility.h"

@@ -7,7 +7,7 @@
 #include <QVBoxLayout>
 
 #include "BookmarkCategory.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "ResourcePaths.h"
 #include "utilityQt.h"
 

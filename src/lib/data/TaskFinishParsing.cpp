@@ -4,7 +4,7 @@
 #include "DialogView.h"
 #include "MessageIndexingFinished.h"
 #include "MessageIndexingStatus.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "PersistentStorage.h"
 #include "TimeStamp.h"
 #include "utilityString.h"

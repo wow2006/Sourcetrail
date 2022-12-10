@@ -6,7 +6,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "OrderedCache.h"
 #include "ResourcePaths.h"
 #include "logging.h"

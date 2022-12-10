@@ -22,7 +22,7 @@
 #include "MessageDeactivateEdge.h"
 #include "MessageRefreshUI.h"
 #include "MessageScrollGraph.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "QtGraphEdge.h"
 #include "QtGraphNodeAccess.h"
 #include "QtGraphNodeBundle.h"

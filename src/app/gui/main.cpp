@@ -13,7 +13,7 @@
 #include "LogManager.hpp"
 #include "MessageIndexingInterrupted.h"
 #include "MessageLoadProject.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "QtApplication.h"
 #include "QtCoreApplication.h"
 #include "QtNetworkFactory.h"

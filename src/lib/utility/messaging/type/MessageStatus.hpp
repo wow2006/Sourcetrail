@@ -1,5 +1,4 @@
-#ifndef MESSAGE_STATUS_H
-#define MESSAGE_STATUS_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -25,5 +24,3 @@ class MessageStatus : public Message<MessageStatus> {
  private:
   std::vector<std::wstring> m_stati;
 };
-
-#endif  // MESSAGE_STATUS_H

@@ -5,7 +5,7 @@
 
 #include "MessageBase.hpp"
 #include "MessageListenerBase.h"
-#include "MessageQueue.h"
+#include "MessageQueue.hpp"
 
 template <typename MessageType>
 class MessageListener : public MessageListenerBase {

@@ -4,7 +4,7 @@
 #include "ApplicationSettings.h"
 #include "DialogView.h"
 #include "FileSystem.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "ScopedFunctor.h"
 #include "SourceGroupSettingsJavaMaven.h"
 #include "logging.h"

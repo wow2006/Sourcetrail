@@ -11,7 +11,7 @@
 #include "GraphViewStyle.h"
 #include "ListLayouter.h"
 #include "MessageActivateNodes.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "StorageAccess.h"
 #include "TokenComponentAccess.h"
 #include "TokenComponentFilePath.h"

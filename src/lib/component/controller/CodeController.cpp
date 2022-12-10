@@ -8,7 +8,7 @@
 #include "MessageFocusView.h"
 #include "MessageMoveIDECursor.h"
 #include "MessageShowError.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 #include "SourceLocation.h"
 #include "SourceLocationCollection.h"
 #include "SourceLocationFile.h"

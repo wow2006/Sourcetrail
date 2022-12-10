@@ -12,7 +12,7 @@
 #include "MessageListener.h"
 #include "MessagePingReceived.h"
 #include "MessageRefresh.h"
-#include "MessageStatus.h"
+#include "MessageStatus.hpp"
 
 class StatusBarView;
 class StorageAccess;

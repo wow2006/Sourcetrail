@@ -4,7 +4,7 @@
 #include <string>
 
 #include "MessageBase.hpp"
-#include "MessageQueue.h"
+#include "MessageQueue.hpp"
 #include "types.h"
 
 class MessageListenerBase {

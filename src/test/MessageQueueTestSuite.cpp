@@ -3,7 +3,7 @@
 
 #include "Message.h"
 #include "MessageListener.h"
-#include "MessageQueue.h"
+#include "MessageQueue.hpp"
 #include "catch.hpp"
 
 namespace {
