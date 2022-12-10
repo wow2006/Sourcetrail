@@ -1,8 +1,8 @@
-#include "TextAccess.h"
+#include "TextAccess.hpp"
 
 #include <fstream>
 
-#include "logging.h"
+#include "logging.hpp"
 
 namespace {
 std::istream& safeGetline(std::istream& is, std::string& t) {
@@ -163,7 +163,7 @@ std::vector<std::string> TextAccess::splitStringByLines(const std::string& text)
 
 TextAccess::TextAccess() : m_filePath(L"") {}
 
-bool TextAccess::checkIndexInRange(const unsigned int index) const {
+bool TextAccess::checkIndexInRange(unsigned int index) const {
   if (index < 1) {
     LOG_WARNING_STREAM(<< "Line numbers start with one, is " << index);
     return false;

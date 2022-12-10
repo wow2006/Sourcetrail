@@ -1,10 +1,9 @@
-#ifndef LOG_MANAGER_H
-#define LOG_MANAGER_H
+#pragma once
 
 #include <memory>
 
 #include "LogManagerImplementation.h"
-#include "Logger.h"
+#include "Logger.hpp"
 
 class LogManager {
  public:
@@ -47,5 +46,3 @@ class LogManager {
   LogManagerImplementation m_logManagerImplementation;
   bool m_loggingEnabled;
 };
-
-#endif  // LOG_MANAGER_H

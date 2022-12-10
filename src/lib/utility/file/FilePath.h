@@ -1,15 +1,12 @@
-#ifndef FILE_PATH_H
-#define FILE_PATH_H
+#pragma once
 
 #include <memory>
 #include <string>
 #include <vector>
 
-namespace boost {
-namespace filesystem {
+namespace boost::filesystem {
 class path;
-}
-}  // namespace boost
+}  // namespace boost::filesystem
 
 class FilePath {
  public:
@@ -72,4 +69,4 @@ class FilePath {
   mutable bool m_canonicalized;
 };
 
-#endif  // FILE_PATH_H
+

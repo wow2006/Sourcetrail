@@ -9,6 +9,13 @@ class QTextEncoder;
 
 class TextCodec final {
  public:
+  /**
+   * @brief Create Qt decoder/encoder
+   *
+   * @note pass QTextCodec in the fucture
+   *
+   * @param name The supported encoder
+   */
   explicit TextCodec(std::string name) noexcept;
 
   [[nodiscard]] std::string getName() const;

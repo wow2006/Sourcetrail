@@ -10,7 +10,7 @@
 #include "TaskGroupParallel.h"
 #include "TaskGroupSequence.h"
 #include "TaskLambda.h"
-#include "logging.h"
+#include "logging.hpp"
 
 std::shared_ptr<MessageQueue> MessageQueue::getInstance() {
   if (!s_instance) {

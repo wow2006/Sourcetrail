@@ -1,14 +1,13 @@
-#ifndef LOG_MANAGER_IMPLEMENTATION_H
-#define LOG_MANAGER_IMPLEMENTATION_H
+#pragma once
 
 #include <algorithm>
 #include <memory>
 #include <mutex>
 #include <vector>
 
-#include "Logger.h"
+#include "Logger.hpp"
 
-class LogManagerImplementation {
+class LogManagerImplementation final {
  public:
   LogManagerImplementation();
 
@@ -43,4 +42,3 @@ class LogManagerImplementation {
   mutable std::mutex m_loggerMutex;
 };
 
-#endif  // LOG_MANAGER_IMPLEMENTATION_H

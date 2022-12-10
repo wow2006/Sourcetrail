@@ -23,8 +23,7 @@ add_library(
   #component/NetworkFactory.h
   #component/Tab.cpp
   #component/Tab.h
-  #component/TabId.cpp
-  #component/TabId.h
+  component/TabId.cpp
   #component/controller/ActivationController.cpp
   #component/controller/ActivationController.h
   #component/controller/BookmarkController.cpp
@@ -384,8 +383,7 @@ add_library(
   #utility/file/FileInfo.h
   #utility/file/FileManager.cpp
   #utility/file/FileManager.h
-  #utility/file/FilePath.cpp
-  #utility/file/FilePath.h
+  utility/file/FilePath.cpp
   #utility/file/FilePathFilter.cpp
   #utility/file/FilePathFilter.h
   #utility/file/FileRegister.cpp
@@ -404,13 +402,10 @@ add_library(
   #utility/logging/ConsoleLogger.h
   #utility/logging/FileLogger.cpp
   #utility/logging/FileLogger.h
-  #utility/logging/LogManager.cpp
-  #utility/logging/LogManager.h
-  #utility/logging/LogManagerImplementation.cpp
-  #utility/logging/LogManagerImplementation.h
-  #utility/logging/LogMessage.h
-  #utility/logging/Logger.cpp
-  #utility/logging/Logger.h
+  utility/logging/LogManager.cpp
+  utility/logging/LogManagerImplementation.cpp
+  utility/logging/LogMessage.cpp
+  utility/logging/Logger.cpp
   #utility/logging/logging.h
   #utility/math/Color.h
   #utility/math/MatrixBase.h
@@ -419,14 +414,12 @@ add_library(
   #utility/math/Vector4.h
   #utility/math/VectorBase.h
   #utility/messaging/Message.h
-  #utility/messaging/MessageBase.cpp
-  #utility/messaging/MessageBase.h
+  utility/messaging/MessageBase.cpp
   #utility/messaging/MessageFilter.h
   #utility/messaging/MessageListener.h
   #utility/messaging/MessageListenerBase.cpp
   #utility/messaging/MessageListenerBase.h
-  #utility/messaging/MessageQueue.cpp
-  #utility/messaging/MessageQueue.h
+  utility/messaging/MessageQueue.cpp
   #utility/messaging/filter_types/MessageFilterErrorCountUpdate.h
   #utility/messaging/filter_types/MessageFilterFocusInOut.h
   #utility/messaging/filter_types/MessageFilterSearchAutocomplete.h
@@ -444,8 +437,7 @@ add_library(
   #utility/messaging/type/MessageRefreshUIState.h
   #utility/messaging/type/MessageResetZoom.h
   #utility/messaging/type/MessageShowStatus.h
-  #utility/messaging/type/MessageStatus.cpp
-  #utility/messaging/type/MessageStatus.h
+  utility/messaging/type/MessageStatus.cpp
   #utility/messaging/type/MessageStatusFilterChanged.h
   #utility/messaging/type/MessageSwitchColorScheme.h
   #utility/messaging/type/MessageTooltipHide.h
@@ -522,10 +514,8 @@ add_library(
   #utility/messaging/type/tab/MessageTabState.h
   #utility/migration/Migration.h
   #utility/migration/Migrator.h
-  #utility/scheduling/Blackboard.cpp
-  #utility/scheduling/Blackboard.h
-  #utility/scheduling/Task.cpp
-  #utility/scheduling/Task.h
+  utility/scheduling/Blackboard.cpp
+  utility/scheduling/Task.cpp
   #utility/scheduling/TaskDecorator.cpp
   #utility/scheduling/TaskDecorator.h
   #utility/scheduling/TaskDecoratorDelay.cpp
@@ -534,26 +524,18 @@ add_library(
   #utility/scheduling/TaskDecoratorRepeat.h
   #utility/scheduling/TaskFindKeyOnBlackboard.cpp
   #utility/scheduling/TaskFindKeyOnBlackboard.h
-  #utility/scheduling/TaskGroup.cpp
-  #utility/scheduling/TaskGroup.h
-  #utility/scheduling/TaskGroupParallel.cpp
-  #utility/scheduling/TaskGroupParallel.h
+  utility/scheduling/TaskGroup.cpp
+  utility/scheduling/TaskGroupParallel.cpp
   #utility/scheduling/TaskGroupSelector.cpp
   #utility/scheduling/TaskGroupSelector.h
-  #utility/scheduling/TaskGroupSequence.cpp
-  #utility/scheduling/TaskGroupSequence.h
-  #utility/scheduling/TaskLambda.cpp
-  #utility/scheduling/TaskLambda.h
-  #utility/scheduling/TaskManager.cpp
-  #utility/scheduling/TaskManager.h
+  utility/scheduling/TaskGroupSequence.cpp
+  utility/scheduling/TaskLambda.cpp
+  utility/scheduling/TaskManager.cpp
   #utility/scheduling/TaskReturnSuccessIf.h
-  #utility/scheduling/TaskRunner.cpp
-  #utility/scheduling/TaskRunner.h
-  #utility/scheduling/TaskScheduler.cpp
-  #utility/scheduling/TaskScheduler.h
+  utility/scheduling/TaskRunner.cpp
+  utility/scheduling/TaskScheduler.cpp
   #utility/scheduling/TaskSetValue.h
-  #utility/text/TextAccess.cpp
-  #utility/text/TextAccess.h
+  utility/text/TextAccess.cpp
   #utility/tracing.cpp
   #utility/tracing.h
   #utility/types.h
@@ -562,8 +544,7 @@ add_library(
   #utility/utilityLibrary.h
   #utility/utilityUuid.cpp
   #utility/utilityUuid.h
-  #utility/utilityXml.cpp
-  #utility/utilityXml.h
+  ##utility/utilityXml.cpp
 )
 
 target_include_directories(
@@ -571,6 +552,13 @@ target_include_directories(
     PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/utility/
     ${CMAKE_CURRENT_LIST_DIR}/utility/file/
+    ${CMAKE_CURRENT_LIST_DIR}/utility/logging/
+    ${CMAKE_CURRENT_LIST_DIR}/utility/messaging/
+    ${CMAKE_CURRENT_LIST_DIR}/utility/messaging/type/
+    ${CMAKE_CURRENT_LIST_DIR}/utility/text/
+    ${CMAKE_CURRENT_LIST_DIR}/utility/messaging/
+    ${CMAKE_CURRENT_LIST_DIR}/utility/scheduling/
+    ${CMAKE_CURRENT_LIST_DIR}/component/
 )
 
 target_link_libraries(

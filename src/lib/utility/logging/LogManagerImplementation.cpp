@@ -1,6 +1,8 @@
 #include "LogManagerImplementation.h"
+#include "LogMessage.hpp"
 
 #include <algorithm>
+#include <thread>
 
 LogManagerImplementation::LogManagerImplementation() {}
 

@@ -1,30 +1,22 @@
-#ifndef LOG_MESSAGE_H
-#define LOG_MESSAGE_H
+#pragma once
 
+#include <cstdint>
 #include <ctime>
 #include <string>
 #include <thread>
 
-struct LogMessage {
- public:
-  LogMessage(const std::wstring& message, const std::string& filePath, const std::string& functionName,
-             const unsigned int line, const std::tm& time, const std::thread::id& threadId)
-      : message(message), filePath(filePath), functionName(functionName), line(line), time(time), threadId(threadId) {}
+struct LogMessage final {
+  LogMessage(std::wstring message, std::string filePath, std::string functionName,
+             uint32_t line, const std::tm& time, std::thread::id threadId);
 
-  std::string getTimeString(const std::string& format) const {
-    char timeString[50];
-    strftime(timeString, 50, format.c_str(), &time);
-    return std::string(timeString);
-  }
+  [[nodiscard]] std::string getTimeString(std::string_view format) const;
 
-  std::string getFileName() const { return filePath.substr(filePath.find_last_of("/\\") + 1); }
+  [[nodiscard]] std::string getFileName() const;
 
-  const std::wstring message;
-  const std::string filePath;
-  const std::string functionName;
-  const unsigned int line;
-  const std::tm time;
-  const std::thread::id threadId;
+  const std::wstring m_message;
+  const std::string m_filePath;
+  const std::string m_functionName;
+  const unsigned int m_line;
+  const std::tm m_time;
+  const std::thread::id m_threadId;
 };
-
-#endif  // LOG_MESSAGE_H

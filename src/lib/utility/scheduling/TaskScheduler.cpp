@@ -3,8 +3,8 @@
 #include <chrono>
 #include <thread>
 
-#include "ScopedFunctor.h"
-#include "logging.h"
+#include "ScopedFunctor.hpp"
+#include "logging.hpp"
 
 TaskScheduler::TaskScheduler(Id schedulerId)
     : m_schedulerId(schedulerId), m_loopIsRunning(false), m_threadIsRunning(false), m_terminateRunningTasks(false) {}

@@ -1,4 +1,4 @@
-#include "TextAccess.h"
+#include "TextAccess.hpp"
 #include "catch.hpp"
 
 namespace {

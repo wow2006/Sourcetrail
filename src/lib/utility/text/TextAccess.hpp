@@ -1,5 +1,4 @@
-#ifndef TEXT_ACCESS_H
-#define TEXT_ACCESS_H
+#pragma once
 
 #include <memory>
 #include <string>
@@ -7,7 +6,7 @@
 
 #include "FilePath.h"
 
-class TextAccess {
+class TextAccess final {
  public:
   static std::shared_ptr<TextAccess> createFromFile(const FilePath& filePath);
   static std::shared_ptr<TextAccess> createFromString(const std::string& text, const FilePath& filePath = FilePath());
@@ -41,11 +40,9 @@ class TextAccess {
   TextAccess(const TextAccess&);
   TextAccess operator=(const TextAccess&);
 
-  bool checkIndexInRange(const unsigned int index) const;
+  bool checkIndexInRange(unsigned int index) const;
   bool checkIndexIntervalInRange(const unsigned int firstIndex, const unsigned int lastIndex) const;
 
   FilePath m_filePath;
   std::vector<std::string> m_lines;
 };
-
-#endif  // TEXT_ACCESS_H

@@ -4,6 +4,7 @@
 #include "tinyxml.h"
 
 namespace utility {
+
 bool xmlElementHasAttribute(const TiXmlElement* element, const std::string& attributeName) {
   return (element->Attribute(attributeName.c_str()) != nullptr);
 }
@@ -143,4 +144,5 @@ std::vector<TiXmlElement*> getAllXmlTagsByName(TiXmlElement* root, const std::st
 
   return nodes;
 }
+
 }  // namespace utility
