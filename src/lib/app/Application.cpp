@@ -22,7 +22,7 @@
 #include "SharedMemoryGarbageCollector.h"
 #include "StorageCache.h"
 #include "TabId.hpp"
-#include "TaskManager.h"
+#include "TaskManager.hpp"
 #include "TaskScheduler.h"
 #include "UserPaths.h"
 #include "Version.h"

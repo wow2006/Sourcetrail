@@ -1,5 +1,4 @@
-#ifndef TASK_MANAGER_H
-#define TASK_MANAGER_H
+#pragma once
 
 #include <map>
 #include <memory>
@@ -20,5 +19,3 @@ class TaskManager {
   static std::map<Id, std::shared_ptr<TaskScheduler>> s_schedulers;
   static std::mutex s_schedulersMutex;
 };
-
-#endif  // TASK_MANAGER_H

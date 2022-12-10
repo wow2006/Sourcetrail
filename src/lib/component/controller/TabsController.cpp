@@ -9,7 +9,7 @@
 #include "ScreenSearchInterfaces.h"
 #include "TabId.hpp"
 #include "TaskLambda.hpp"
-#include "TaskManager.h"
+#include "TaskManager.hpp"
 #include "TaskScheduler.h"
 
 TabsController::TabsController(ViewLayout* mainLayout, const ViewFactory* viewFactory, StorageAccess* storageAccess,
