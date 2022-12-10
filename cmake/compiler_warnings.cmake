@@ -93,13 +93,11 @@ function(set_project_warnings project_name)
   if(MSVC)
     set(PROJECT_WARNINGS ${MSVC_WARNINGS})
   elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-    set(
-      PROJECT_WARNINGS
-      ${CLANG_WARNINGS}
-      -fcolor-diagnostics
-      -Wno-unknown-warning-option
-      -fvisibility-inlines-hidden
-    )
+    set(PROJECT_WARNINGS
+        ${CLANG_WARNINGS}
+        -fcolor-diagnostics
+        -Wno-unknown-warning-option
+        -fvisibility-inlines-hidden)
   elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(PROJECT_WARNINGS ${GCC_WARNINGS} -fdiagnostics-color=always)
   else()
