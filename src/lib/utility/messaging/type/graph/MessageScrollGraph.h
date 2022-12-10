@@ -2,7 +2,7 @@
 #define MESSAGE_SCROLL_GRAPH_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageScrollGraph : public Message<MessageScrollGraph> {
  public:

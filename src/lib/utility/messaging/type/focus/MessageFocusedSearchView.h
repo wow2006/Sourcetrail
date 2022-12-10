@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageFocusedSearchView : public Message<MessageFocusedSearchView> {
  public:

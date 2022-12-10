@@ -4,7 +4,7 @@
 #include "Message.h"
 #include "Node.h"
 #include "NodeTypeSet.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageSearchAutocomplete : public Message<MessageSearchAutocomplete> {
  public:

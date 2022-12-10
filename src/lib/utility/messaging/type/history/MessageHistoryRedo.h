@@ -2,7 +2,7 @@
 #define MESSAGE_HISTORY_REDO_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageHistoryRedo : public Message<MessageHistoryRedo> {
  public:

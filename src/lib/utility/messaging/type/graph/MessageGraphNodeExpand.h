@@ -2,7 +2,7 @@
 #define MESSAGE_GRAPH_NODE_EXPAND_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "types.h"
 
 class MessageGraphNodeExpand : public Message<MessageGraphNodeExpand> {

@@ -2,7 +2,7 @@
 #define MESSAGE_SHOW_REFERENCE_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "types.h"
 
 class MessageShowReference : public Message<MessageShowReference> {

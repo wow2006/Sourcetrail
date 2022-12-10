@@ -2,7 +2,7 @@
 #define MESSAGE_CODE_SHOW_DEFINITION_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "types.h"
 
 class MessageCodeShowDefinition : public Message<MessageCodeShowDefinition> {

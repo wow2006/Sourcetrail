@@ -2,7 +2,7 @@
 #define MESSAGE_GRAPH_NODE_HIDE_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "types.h"
 
 class MessageGraphNodeHide : public Message<MessageGraphNodeHide> {

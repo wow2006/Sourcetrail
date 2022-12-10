@@ -2,7 +2,7 @@
 #define MESSAGE_FOCUS_VIEW_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageFocusView : public Message<MessageFocusView> {
  public:

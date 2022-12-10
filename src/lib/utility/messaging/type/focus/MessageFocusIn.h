@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "TooltipOrigin.h"
 #include "types.h"
 

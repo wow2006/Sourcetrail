@@ -1,5 +1,4 @@
-#ifndef TAB_ID_H
-#define TAB_ID_H
+#pragma once
 
 #include "types.h"
 
@@ -18,5 +17,3 @@ class TabId {
   static Id s_nextTabId;
   static Id s_currentTabId;
 };
-
-#endif  // TAB_ID_H

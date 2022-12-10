@@ -2,7 +2,7 @@
 #define MESSAGE_TO_NEXT_CODE_REFERENCE_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageToNextCodeReference : public Message<MessageToNextCodeReference> {
  public:

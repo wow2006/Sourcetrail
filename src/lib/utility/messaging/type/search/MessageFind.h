@@ -2,7 +2,7 @@
 #define MESSAGE_FIND_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageFind : public Message<MessageFind> {
  public:

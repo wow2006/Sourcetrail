@@ -4,7 +4,7 @@
 #include "QtBookmarkCreator.h"
 #include "QtMainView.h"
 #include "QtMainWindow.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 QtBookmarkView::QtBookmarkView(ViewLayout* viewLayout)
     : BookmarkView(viewLayout), m_controllerProxy(this, TabId::app()), m_bookmarkBrowser(nullptr) {}

@@ -3,7 +3,7 @@
 
 #include "Message.h"
 #include "MessageActivateBase.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageActivateFullTextSearch : public Message<MessageActivateFullTextSearch>, public MessageActivateBase {
  public:

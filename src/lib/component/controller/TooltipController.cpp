@@ -4,7 +4,7 @@
 #include "GraphView.h"
 #include "MessageActivateSourceLocations.h"
 #include "StorageAccess.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "TaskDecoratorDelay.h"
 #include "TaskLambda.h"
 #include "TooltipView.h"

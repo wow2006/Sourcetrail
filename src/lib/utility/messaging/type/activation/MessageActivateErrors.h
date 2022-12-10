@@ -4,7 +4,7 @@
 #include "ErrorFilter.h"
 #include "Message.h"
 #include "MessageActivateBase.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageActivateErrors : public Message<MessageActivateErrors>, public MessageActivateBase {
  public:

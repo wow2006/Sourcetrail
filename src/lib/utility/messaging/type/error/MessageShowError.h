@@ -2,7 +2,7 @@
 #define MESSAGE_SHOW_ERROR_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageShowError : public Message<MessageShowError> {
  public:

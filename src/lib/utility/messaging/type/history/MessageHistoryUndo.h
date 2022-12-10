@@ -2,7 +2,7 @@
 #define MESSAGE_HISTORY_UNDO_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageHistoryUndo : public Message<MessageHistoryUndo> {
  public:

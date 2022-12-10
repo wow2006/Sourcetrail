@@ -6,7 +6,7 @@
 #include "Project.h"
 #include "QtHelpButtonInfo.h"
 #include "StorageAccess.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 ErrorController::ErrorController(StorageAccess* storageAccess) : m_storageAccess(storageAccess) {}
 

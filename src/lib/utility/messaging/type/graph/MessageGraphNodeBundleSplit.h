@@ -2,7 +2,7 @@
 #define MESSAGE_GRAPH_NODE_BUNDLE_SPLIT_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "types.h"
 
 class MessageGraphNodeBundleSplit : public Message<MessageGraphNodeBundleSplit> {

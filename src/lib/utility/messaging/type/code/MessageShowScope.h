@@ -2,7 +2,7 @@
 #define MESSAGE_SHOW_SCOPE_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "types.h"
 
 class MessageShowScope : public Message<MessageShowScope> {

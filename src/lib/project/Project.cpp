@@ -24,7 +24,7 @@
 #include "SourceGroupStatusType.h"
 #include "StorageCache.h"
 #include "StorageProvider.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "TaskBuildIndex.h"
 #include "TaskCleanStorage.h"
 #include "TaskDecoratorRepeat.h"

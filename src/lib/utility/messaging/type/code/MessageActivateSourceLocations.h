@@ -2,7 +2,7 @@
 #define MESSAGE_ACTIVATE_SOURCE_LOCATIONS_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "types.h"
 
 class MessageActivateSourceLocations : public Message<MessageActivateSourceLocations> {

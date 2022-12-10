@@ -21,7 +21,7 @@
 #include "ProjectSettings.h"
 #include "SharedMemoryGarbageCollector.h"
 #include "StorageCache.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "TaskManager.h"
 #include "TaskScheduler.h"
 #include "UserPaths.h"

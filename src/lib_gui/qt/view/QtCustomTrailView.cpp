@@ -16,7 +16,7 @@
 #include "QtMainWindow.h"
 #include "QtSmartSearchBox.h"
 #include "ResourcePaths.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "utilityQt.h"
 
 QtCustomTrailView::QtCustomTrailView(ViewLayout* viewLayout)

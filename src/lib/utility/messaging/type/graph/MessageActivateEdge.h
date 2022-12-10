@@ -4,7 +4,7 @@
 #include "Edge.h"
 #include "Message.h"
 #include "NameHierarchy.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "types.h"
 #include "utilityString.h"
 

@@ -4,7 +4,7 @@
 #include "Message.h"
 #include "NodeTypeSet.h"
 #include "SearchMatch.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageSearch : public Message<MessageSearch> {
  public:

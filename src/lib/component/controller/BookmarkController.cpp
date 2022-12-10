@@ -10,7 +10,7 @@
 #include "NodeBookmark.h"
 #include "StorageAccess.h"
 #include "StorageEdge.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "logging.h"
 #include "utility.h"
 #include "utilityString.h"

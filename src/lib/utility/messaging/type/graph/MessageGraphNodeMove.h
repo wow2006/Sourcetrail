@@ -2,7 +2,7 @@
 #define MESSAGE_GRAPH_NODE_MOVE_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "Vector2.h"
 #include "types.h"
 

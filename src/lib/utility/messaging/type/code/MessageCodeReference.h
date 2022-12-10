@@ -2,7 +2,7 @@
 #define MESSAGE_CODE_REFERENCE_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageCodeReference : public Message<MessageCodeReference> {
  public:

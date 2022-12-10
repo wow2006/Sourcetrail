@@ -2,7 +2,7 @@
 #define MESSAGE_HISTORY_TO_POSITION_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageHistoryToPosition : public Message<MessageHistoryToPosition> {
  public:

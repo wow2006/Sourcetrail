@@ -2,7 +2,7 @@
 #define MESSAGE_FLUSH_UPDATES_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageFlushUpdates : public Message<MessageFlushUpdates> {
  public:

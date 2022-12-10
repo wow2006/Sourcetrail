@@ -5,7 +5,7 @@
 #include "CodeSnippetParams.h"
 #include "FilePath.h"
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageChangeFileView : public Message<MessageChangeFileView> {
  public:

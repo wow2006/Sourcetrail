@@ -2,7 +2,7 @@
 #define MESSAGE_SCROLL_CODE_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageScrollCode : public Message<MessageScrollCode> {
  public:

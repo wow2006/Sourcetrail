@@ -2,7 +2,7 @@
 #define MESSAGE_FOCUS_CHANGED_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageFocusChanged : public Message<MessageFocusChanged> {
  public:

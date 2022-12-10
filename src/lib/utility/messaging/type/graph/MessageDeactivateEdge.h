@@ -2,7 +2,7 @@
 #define MESSAGE_DEACTIVATE_EDGE_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageDeactivateEdge : public Message<MessageDeactivateEdge> {
  public:

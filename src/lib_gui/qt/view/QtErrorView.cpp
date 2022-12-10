@@ -20,7 +20,7 @@
 #include "QtTable.h"
 #include "QtViewWidgetWrapper.h"
 #include "ResourcePaths.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "utilityQt.h"
 
 QIcon QtErrorView::s_errorIcon;

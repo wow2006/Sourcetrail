@@ -18,7 +18,7 @@
 #include "QtUnknownProgressDialog.h"
 #include "QtWindow.h"
 #include "StorageAccess.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "TaskLambda.h"
 #include "utility.h"
 

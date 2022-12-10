@@ -4,7 +4,7 @@
 #include "Message.h"
 #include "MessageActivateBase.h"
 #include "NodeTypeSet.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageActivateOverview : public Message<MessageActivateOverview>, public MessageActivateBase {
  public:

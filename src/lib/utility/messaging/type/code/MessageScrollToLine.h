@@ -3,7 +3,7 @@
 
 #include "FilePath.h"
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 
 class MessageScrollToLine : public Message<MessageScrollToLine> {
  public:

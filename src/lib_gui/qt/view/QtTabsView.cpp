@@ -12,7 +12,7 @@
 #include "QtTabBar.h"
 #include "QtViewWidgetWrapper.h"
 #include "ResourcePaths.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "TabsController.h"
 #include "utilityQt.h"
 

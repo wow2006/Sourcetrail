@@ -2,7 +2,7 @@
 #define MESSAGE_ACTIVATE_TOKEN_IDS_H
 
 #include "Message.h"
-#include "TabId.h"
+#include "TabId.hpp"
 #include "types.h"
 
 class MessageActivateTokenIds : public Message<MessageActivateTokenIds> {
