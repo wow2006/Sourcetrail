@@ -2,7 +2,7 @@
 #include <thread>
 
 #include "Blackboard.h"
-#include "Task.h"
+#include "Task.hpp"
 #include "TaskGroupSelector.h"
 #include "TaskGroupSequence.h"
 #include "TaskScheduler.h"

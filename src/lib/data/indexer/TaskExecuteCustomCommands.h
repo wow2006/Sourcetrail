@@ -8,7 +8,7 @@
 #include "FilePath.h"
 #include "MessageIndexingInterrupted.h"
 #include "MessageListener.h"
-#include "Task.h"
+#include "Task.hpp"
 #include "TimeStamp.h"
 
 class DialogView;

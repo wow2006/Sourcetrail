@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "Task.h"
+#include "Task.hpp"
 
 class TaskGroup : public Task, public std::enable_shared_from_this<TaskGroup> {
  public:

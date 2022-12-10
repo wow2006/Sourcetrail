@@ -2,7 +2,7 @@
 #define TASK_SET_VALUE_H
 
 #include "Blackboard.h"
-#include "Task.h"
+#include "Task.hpp"
 
 template <typename T>
 class TaskSetValue : public Task {

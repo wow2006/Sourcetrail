@@ -5,7 +5,7 @@
 #include <memory>
 #include <mutex>
 
-#include "Task.h"
+#include "Task.hpp"
 #include "TaskRunner.h"
 #include "types.h"
 

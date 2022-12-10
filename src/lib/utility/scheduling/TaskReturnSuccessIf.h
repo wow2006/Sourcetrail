@@ -2,7 +2,7 @@
 #define TASK_RETURN_SUCCESS_IF_H
 
 #include "Blackboard.h"
-#include "Task.h"
+#include "Task.hpp"
 
 template <typename T>
 class TaskReturnSuccessIf : public Task {

@@ -5,7 +5,7 @@
 
 #include "MessageIndexingInterrupted.h"
 #include "MessageListener.h"
-#include "Task.h"
+#include "Task.hpp"
 
 class Storage;
 class StorageProvider;

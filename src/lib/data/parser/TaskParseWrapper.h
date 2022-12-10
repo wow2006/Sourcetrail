@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "Task.h"
+#include "Task.hpp"
 #include "TaskDecorator.h"
 #include "TaskRunner.h"
 #include "TimeStamp.h"
