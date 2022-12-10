@@ -1,5 +1,4 @@
-#ifndef TASK_GROUP_PARALLEL_H
-#define TASK_GROUP_PARALLEL_H
+#pragma once
 
 #include <map>
 #include <mutex>
@@ -16,7 +15,7 @@ class TaskGroupParallel : public TaskGroup {
 
  private:
   struct TaskInfo {
-    TaskInfo(std::shared_ptr<TaskRunner> taskRunner) : taskRunner(taskRunner), active(false) {}
+    explicit TaskInfo(std::shared_ptr<TaskRunner> taskRunner) : taskRunner(std::move(taskRunner)), active(false) {}
     std::shared_ptr<TaskRunner> taskRunner;
     std::shared_ptr<std::thread> thread;
     volatile bool active;
@@ -39,5 +38,3 @@ class TaskGroupParallel : public TaskGroup {
   volatile int m_activeTaskCount;
   mutable std::shared_ptr<std::mutex> m_activeTaskCountMutex;
 };
-
-#endif  // TASK_GROUP_PARALLEL_H

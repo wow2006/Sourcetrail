@@ -7,7 +7,7 @@
 #include "MessageFilter.h"
 #include "MessageListenerBase.h"
 #include "TabId.hpp"
-#include "TaskGroupParallel.h"
+#include "TaskGroupParallel.hpp"
 #include "TaskGroupSequence.h"
 #include "TaskLambda.h"
 #include "logging.hpp"

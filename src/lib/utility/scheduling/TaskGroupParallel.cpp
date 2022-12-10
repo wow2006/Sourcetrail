@@ -1,4 +1,4 @@
-#include "TaskGroupParallel.h"
+#include "TaskGroupParallel.hpp"
 
 #include <chrono>
 #include <thread>

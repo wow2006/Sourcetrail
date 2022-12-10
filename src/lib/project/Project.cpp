@@ -32,7 +32,7 @@
 #include "TaskFillIndexerCommandQueue.h"
 #include "TaskFindKeyOnBlackboard.h"
 #include "TaskFinishParsing.h"
-#include "TaskGroupParallel.h"
+#include "TaskGroupParallel.hpp"
 #include "TaskGroupSelector.h"
 #include "TaskGroupSequence.h"
 #include "TaskInjectStorage.h"
