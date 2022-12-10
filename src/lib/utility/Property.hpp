@@ -1,16 +1,24 @@
-#ifndef PROPERTY_H
-#define PROPERTY_H
+#pragma once
 
 template <class T>
-class Property {
+class Property final {
  public:
-  explicit Property(T* valuePointer);
-  ~Property();
+  explicit Property(T* valuePointer) noexcept;
 
-  T& operator=(const T& value);
-  Property<T>& operator=(const Property<T>& property);
+  Property(const Property&) = delete;
 
-  operator const T&() const;
+  Property(Property&&) = delete;
+
+  Property& operator=(const Property& property);
+
+  Property& operator=(Property&&) = delete;
+
+  ~Property() = default;
+
+  [[nodiscard]] T& operator=(const T& value);
+
+  operator const T&() const;  // NOLINT(hicpp-explicit-conversions)
+
   T& operator()() const;
 
  private:
@@ -18,10 +26,7 @@ class Property {
 };
 
 template <class T>
-Property<T>::Property(T* valuePointer) : m_valuePointer(valuePointer) {}
-
-template <class T>
-Property<T>::~Property() {}
+Property<T>::Property(T* valuePointer) noexcept : m_valuePointer(valuePointer) {}
 
 template <class T>
 T& Property<T>::operator=(const T& value) {
@@ -43,5 +48,3 @@ template <class T>
 T& Property<T>::operator()() const {
   return *m_valuePointer;
 }
-
-#endif  // PROPERTY_H
