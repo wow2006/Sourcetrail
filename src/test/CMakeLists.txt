@@ -35,7 +35,8 @@ if(BUILD_UNIT_TESTS)
     test_files
     UtilityStringTestSuite
     TextCodecTestSuite
-    TimeStampTestSuite)
+    TimeStampTestSuite
+    ScopedFunctorTestSuite)
 
   foreach(test_file IN LISTS test_files)
     add_executable(${test_file} ${test_file}.cpp $<TARGET_OBJECTS:test_main>)

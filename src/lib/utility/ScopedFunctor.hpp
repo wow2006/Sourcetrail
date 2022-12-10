@@ -1,16 +1,19 @@
-#ifndef SCOPED_FUNCTOR_H
-#define SCOPED_FUNCTOR_H
+#pragma once
 
 #include <functional>
 
-class ScopedFunctor {
+class ScopedFunctor final {
  public:
-  ScopedFunctor();
-  ScopedFunctor(std::function<void(void)> onDestroy);
+  explicit ScopedFunctor(std::function<void(void)> onDestroy) noexcept;
+
   ~ScopedFunctor();
+
+  ScopedFunctor(const ScopedFunctor&) = delete;
+  ScopedFunctor(ScopedFunctor&&) = delete;
+
+  ScopedFunctor operator=(const ScopedFunctor&) = delete;
+  ScopedFunctor operator=(ScopedFunctor&&) = delete;
 
  private:
   std::function<void(void)> m_onDestroy;
 };
-
-#endif  // SCOPED_FUNCTOR_H

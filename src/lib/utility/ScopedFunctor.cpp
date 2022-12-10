@@ -1,7 +1,5 @@
 #include "ScopedFunctor.hpp"
 
-ScopedFunctor::ScopedFunctor() : m_onDestroy([]() {}) {}
-
-ScopedFunctor::ScopedFunctor(std::function<void(void)> onDestroy) : m_onDestroy(onDestroy) {}
+ScopedFunctor::ScopedFunctor(std::function<void(void)> onDestroy) noexcept : m_onDestroy(std::move(onDestroy)) {}
 
 ScopedFunctor::~ScopedFunctor() { m_onDestroy(); }
