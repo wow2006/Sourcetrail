@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "MessageBase.h"
+#include "MessageBase.hpp"
 #include "MessageQueue.h"
 
 template <typename MessageType>

@@ -3,7 +3,7 @@
 #include <chrono>
 #include <thread>
 
-#include "MessageBase.h"
+#include "MessageBase.hpp"
 #include "MessageFilter.h"
 #include "MessageListenerBase.h"
 #include "TabId.hpp"

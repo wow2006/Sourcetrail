@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "MessageBase.h"
+#include "MessageBase.hpp"
 #include "MessageListenerBase.h"
 #include "MessageQueue.h"
 

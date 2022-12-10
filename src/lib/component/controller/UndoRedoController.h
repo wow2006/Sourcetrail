@@ -12,7 +12,7 @@
 #include "MessageActivateTokens.h"
 #include "MessageActivateTrail.h"
 #include "MessageActivateTrailEdge.h"
-#include "MessageBase.h"
+#include "MessageBase.hpp"
 #include "MessageChangeFileView.h"
 #include "MessageCodeShowDefinition.h"
 #include "MessageDeactivateEdge.h"

@@ -406,7 +406,6 @@ add_library(
   utility/logging/LogManagerImplementation.cpp
   utility/logging/LogMessage.cpp
   utility/logging/Logger.cpp
-  #utility/logging/logging.h
   #utility/math/Color.h
   #utility/math/MatrixBase.h
   #utility/math/MatrixDynamicBase.h

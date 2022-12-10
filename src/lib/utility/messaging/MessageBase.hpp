@@ -1,5 +1,4 @@
-#ifndef MESSAGE_BASE_H
-#define MESSAGE_BASE_H
+#pragma once
 
 #include <ostream>
 #include <sstream>
@@ -78,5 +77,3 @@ class MessageBase {
   bool m_isLast;
   bool m_isLogged;
 };
-
-#endif  // MESSAGE_BASE_H
