@@ -1,7 +1,7 @@
 #include "TaskCleanStorage.h"
 
 #include "Application.h"
-#include "Blackboard.h"
+#include "Blackboard.hpp"
 #include "DialogView.h"
 #include "FilePath.hpp"
 #include "PersistentStorage.h"

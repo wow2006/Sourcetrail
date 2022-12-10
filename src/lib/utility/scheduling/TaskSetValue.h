@@ -1,7 +1,7 @@
 #ifndef TASK_SET_VALUE_H
 #define TASK_SET_VALUE_H
 
-#include "Blackboard.h"
+#include "Blackboard.hpp"
 #include "Task.hpp"
 
 template <typename T>

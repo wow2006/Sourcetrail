@@ -1,5 +1,4 @@
-#ifndef BLACKBOARD_H
-#define BLACKBOARD_H
+#pragma once
 
 #include <functional>
 #include <map>
@@ -92,5 +91,3 @@ bool Blackboard::update(const std::string& key, std::function<T(const T&)> updat
   LOG_WARNING("Entry for \"" + key + "\" not found on blackboard.");
   return false;
 }
-
-#endif  // BLACKBOARD_H

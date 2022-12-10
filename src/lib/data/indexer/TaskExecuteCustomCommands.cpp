@@ -1,7 +1,7 @@
 #include "TaskExecuteCustomCommands.h"
 
 #include "ApplicationSettings.h"
-#include "Blackboard.h"
+#include "Blackboard.hpp"
 #include "DialogView.h"
 #include "ElementComponentKind.h"
 #include "FileSystem.h"

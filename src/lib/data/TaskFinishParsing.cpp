@@ -1,6 +1,6 @@
 #include "TaskFinishParsing.h"
 
-#include "Blackboard.h"
+#include "Blackboard.hpp"
 #include "DialogView.h"
 #include "MessageIndexingFinished.h"
 #include "MessageIndexingStatus.h"

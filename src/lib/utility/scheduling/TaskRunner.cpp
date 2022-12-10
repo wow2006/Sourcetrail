@@ -1,6 +1,6 @@
 #include "TaskRunner.h"
 
-#include "Blackboard.h"
+#include "Blackboard.hpp"
 #include "TaskManager.h"
 #include "TaskScheduler.h"
 #include "logging.hpp"
