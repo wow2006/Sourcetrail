@@ -1,16 +1,17 @@
-#ifndef OPTIONAL_H
-#define OPTIONAL_H
+#pragma once
 
 template <typename T>
 class Optional {
  public:
   Optional();
-  Optional(const T& value);
+
+  explicit Optional(const T& value);
 
   T& get();
+
   const T& get() const;
 
-  bool isPresent() const;
+  [[nodiscard]] bool isPresent() const;
 
  private:
   bool m_isPresent;
@@ -37,5 +38,3 @@ template <typename T>
 bool Optional<T>::isPresent() const {
   return m_isPresent;
 }
-
-#endif  // OPTIONAL_H
