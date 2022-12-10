@@ -10,7 +10,7 @@
 #include "ConsoleLogger.h"
 #include "FileLogger.h"
 #include "LanguagePackageManager.h"
-#include "LogManager.h"
+#include "LogManager.hpp"
 #include "MessageIndexingInterrupted.h"
 #include "MessageLoadProject.h"
 #include "MessageStatus.h"

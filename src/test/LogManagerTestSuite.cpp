@@ -1,6 +1,6 @@
 #include <thread>
 
-#include "LogManagerImplementation.h"
+#include "LogManagerImplementation.hpp"
 #include "catch.hpp"
 
 namespace {

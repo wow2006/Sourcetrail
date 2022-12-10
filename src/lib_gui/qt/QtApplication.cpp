@@ -3,7 +3,7 @@
 #include <QFileOpenEvent>
 
 #include "FilePath.hpp"
-#include "LogManager.h"
+#include "LogManager.hpp"
 #include "MessageLoadProject.h"
 #include "MessageWindowFocus.h"
 #include "utilityApp.h"

@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "LogManagerImplementation.h"
+#include "LogManagerImplementation.hpp"
 #include "Logger.hpp"
 
 class LogManager {

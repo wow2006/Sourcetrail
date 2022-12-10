@@ -1,4 +1,4 @@
-#include "LogManagerImplementation.h"
+#include "LogManagerImplementation.hpp"
 #include "LogMessage.hpp"
 
 #include <algorithm>

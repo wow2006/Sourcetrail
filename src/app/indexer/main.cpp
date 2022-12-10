@@ -4,7 +4,7 @@
 #include "FileLogger.h"
 #include "InterprocessIndexer.h"
 #include "LanguagePackageManager.h"
-#include "LogManager.h"
+#include "LogManager.hpp"
 #include "includes.h"
 #include "language_packages.h"
 #include "logging.h"

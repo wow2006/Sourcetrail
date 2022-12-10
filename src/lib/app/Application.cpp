@@ -9,7 +9,7 @@
 #include "FileSystem.h"
 #include "GraphViewStyle.h"
 #include "IDECommunicationController.h"
-#include "LogManager.h"
+#include "LogManager.hpp"
 #include "MainView.h"
 #include "MessageFilterErrorCountUpdate.h"
 #include "MessageFilterFocusInOut.h"
