@@ -1,5 +1,4 @@
-#ifndef TASK_RUNNER_H
-#define TASK_RUNNER_H
+#pragma once
 
 #include <memory>
 
@@ -21,5 +20,3 @@ class TaskRunner {
   // Only created by the first TaskRunner in the hierarchy, then passed down.
   std::shared_ptr<Blackboard> m_blackboard;
 };
-
-#endif  // TASK_RUNNER_H

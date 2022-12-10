@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "TaskDecorator.h"
-#include "TaskRunner.h"
+#include "TaskRunner.hpp"
 
 class TaskDecoratorRepeat : public TaskDecorator {
  public:

@@ -6,7 +6,7 @@
 #include <mutex>
 
 #include "Task.hpp"
-#include "TaskRunner.h"
+#include "TaskRunner.hpp"
 #include "types.h"
 
 class TaskScheduler {

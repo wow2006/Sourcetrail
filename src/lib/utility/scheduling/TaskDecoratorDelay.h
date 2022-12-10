@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "TaskDecorator.h"
-#include "TaskRunner.h"
+#include "TaskRunner.hpp"
 #include "TimeStamp.h"
 
 class TaskDecoratorDelay : public TaskDecorator {

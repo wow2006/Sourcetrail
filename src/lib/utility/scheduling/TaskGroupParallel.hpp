@@ -5,7 +5,7 @@
 #include <thread>
 
 #include "TaskGroup.hpp"
-#include "TaskRunner.h"
+#include "TaskRunner.hpp"
 
 class TaskGroupParallel : public TaskGroup {
  public:

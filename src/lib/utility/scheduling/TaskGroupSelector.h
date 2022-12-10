@@ -2,7 +2,7 @@
 #define TASK_GROUP_SELECTOR_H
 
 #include "TaskGroup.hpp"
-#include "TaskRunner.h"
+#include "TaskRunner.hpp"
 
 class TaskGroupSelector : public TaskGroup {
  public:

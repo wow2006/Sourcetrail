@@ -5,7 +5,7 @@
 
 #include "Task.hpp"
 #include "TaskDecorator.h"
-#include "TaskRunner.h"
+#include "TaskRunner.hpp"
 #include "TimeStamp.h"
 
 class DialogView;

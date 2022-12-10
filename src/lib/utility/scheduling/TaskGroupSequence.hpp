@@ -1,7 +1,7 @@
 #pragma once
 
 #include "TaskGroup.hpp"
-#include "TaskRunner.h"
+#include "TaskRunner.hpp"
 
 class TaskGroupSequence : public TaskGroup {
  public:
