@@ -1,4 +1,4 @@
-#include "TaskGroupSequence.h"
+#include "TaskGroupSequence.hpp"
 
 TaskGroupSequence::TaskGroupSequence() {}
 

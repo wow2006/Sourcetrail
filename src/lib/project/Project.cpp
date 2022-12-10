@@ -34,7 +34,7 @@
 #include "TaskFinishParsing.h"
 #include "TaskGroupParallel.hpp"
 #include "TaskGroupSelector.h"
-#include "TaskGroupSequence.h"
+#include "TaskGroupSequence.hpp"
 #include "TaskInjectStorage.h"
 #include "TaskLambda.h"
 #include "TaskMergeStorages.h"

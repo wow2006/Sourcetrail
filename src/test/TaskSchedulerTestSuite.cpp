@@ -4,7 +4,7 @@
 #include "Blackboard.hpp"
 #include "Task.hpp"
 #include "TaskGroupSelector.h"
-#include "TaskGroupSequence.h"
+#include "TaskGroupSequence.hpp"
 #include "TaskScheduler.h"
 #include "catch.hpp"
 

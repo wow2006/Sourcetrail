@@ -1,5 +1,4 @@
-#ifndef TASK_GROUP_SEQUENCE_H
-#define TASK_GROUP_SEQUENCE_H
+#pragma once
 
 #include "TaskGroup.hpp"
 #include "TaskRunner.h"
@@ -20,5 +19,3 @@ class TaskGroupSequence : public TaskGroup {
   std::vector<std::shared_ptr<TaskRunner>> m_taskRunners;
   int m_taskIndex;
 };
-
-#endif  // TASK_GROUP_SEQUENCE_H
