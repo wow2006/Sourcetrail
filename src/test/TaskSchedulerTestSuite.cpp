@@ -5,7 +5,7 @@
 #include "Task.hpp"
 #include "TaskGroupSelector.h"
 #include "TaskGroupSequence.hpp"
-#include "TaskScheduler.h"
+#include "TaskScheduler.hpp"
 #include "catch.hpp"
 
 namespace {

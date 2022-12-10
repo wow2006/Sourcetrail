@@ -23,7 +23,7 @@
 #include "StorageCache.h"
 #include "TabId.hpp"
 #include "TaskManager.hpp"
-#include "TaskScheduler.h"
+#include "TaskScheduler.hpp"
 #include "UserPaths.h"
 #include "Version.h"
 #include "ViewFactory.h"

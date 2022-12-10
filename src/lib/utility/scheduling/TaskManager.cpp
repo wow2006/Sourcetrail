@@ -1,6 +1,6 @@
 #include "TaskManager.hpp"
 
-#include "TaskScheduler.h"
+#include "TaskScheduler.hpp"
 
 std::map<Id, std::shared_ptr<TaskScheduler>> TaskManager::s_schedulers;
 std::mutex TaskManager::s_schedulersMutex;

@@ -1,7 +1,7 @@
 #include "Task.hpp"
 
 #include "TaskManager.hpp"
-#include "TaskScheduler.h"
+#include "TaskScheduler.hpp"
 
 void Task::dispatch(Id schedulerId, std::shared_ptr<Task> task) {
   TaskManager::getScheduler(schedulerId)->pushTask(task);

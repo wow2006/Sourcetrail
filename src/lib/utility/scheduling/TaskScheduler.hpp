@@ -1,5 +1,4 @@
-#ifndef TASK_SCHEDULER_H
-#define TASK_SCHEDULER_H
+#pragma once
 
 #include <deque>
 #include <memory>
@@ -41,5 +40,3 @@ class TaskScheduler {
   mutable std::mutex m_loopMutex;
   mutable std::mutex m_threadMutex;
 };
-
-#endif  // TASK_SCHEDULER_H

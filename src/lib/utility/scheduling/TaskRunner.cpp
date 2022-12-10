@@ -2,7 +2,7 @@
 
 #include "Blackboard.hpp"
 #include "TaskManager.hpp"
-#include "TaskScheduler.h"
+#include "TaskScheduler.hpp"
 #include "logging.hpp"
 
 TaskRunner::TaskRunner(std::shared_ptr<Task> task) : m_task(task), m_reset(false) {}
