@@ -1,5 +1,4 @@
-#ifndef TASK_GROUP_H
-#define TASK_GROUP_H
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -20,5 +19,3 @@ class TaskGroup : public Task, public std::enable_shared_from_this<TaskGroup> {
  private:
   virtual void doTerminate() = 0;
 };
-
-#endif  // TASK_GROUP_H

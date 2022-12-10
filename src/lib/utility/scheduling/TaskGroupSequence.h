@@ -1,7 +1,7 @@
 #ifndef TASK_GROUP_SEQUENCE_H
 #define TASK_GROUP_SEQUENCE_H
 
-#include "TaskGroup.h"
+#include "TaskGroup.hpp"
 #include "TaskRunner.h"
 
 class TaskGroupSequence : public TaskGroup {

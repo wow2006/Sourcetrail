@@ -1,7 +1,7 @@
 #ifndef TASK_GROUP_SELECTOR_H
 #define TASK_GROUP_SELECTOR_H
 
-#include "TaskGroup.h"
+#include "TaskGroup.hpp"
 #include "TaskRunner.h"
 
 class TaskGroupSelector : public TaskGroup {

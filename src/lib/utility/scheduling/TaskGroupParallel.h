@@ -5,7 +5,7 @@
 #include <mutex>
 #include <thread>
 
-#include "TaskGroup.h"
+#include "TaskGroup.hpp"
 #include "TaskRunner.h"
 
 class TaskGroupParallel : public TaskGroup {
