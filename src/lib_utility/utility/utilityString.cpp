@@ -1,12 +1,16 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "utilityString.h"
 
-#include <algorithm>
-#include <boost/locale/encoding_utf.hpp>
-#include <cctype>
-#include <iterator>
-#include <string>
+#include <cctype>   // for isspace, tolower, toupper
+#include <cwctype>  // for towlower, towupper
+#include <iterator> // for back_insert_iterator, back_...
+#include <memory>   // for allocator_traits<>::value_type
+
+#include <boost/locale/encoding_utf.hpp>  // for utf_to_utf
 
 namespace {
+
 template <typename StringType>
 StringType doReplace(StringType str, const StringType& from, const StringType& to) {
   size_t pos = 0;
@@ -50,38 +54,40 @@ StringType doReplaceBetween(const StringType& str, typename StringType::value_ty
 
   return str;
 }
+
 }  // namespace
 
 namespace utility {
-std::string encodeToUtf8(const std::wstring& s) {
-  return boost::locale::conv::utf_to_utf<char>(s.c_str(), s.c_str() + s.size());
+
+std::string encodeToUtf8(std::wstring_view input) {
+  return boost::locale::conv::utf_to_utf<char>(input.data(), input.data() + input.size());
 }
 
-std::wstring decodeFromUtf8(const std::string& s) {
-  return boost::locale::conv::utf_to_utf<wchar_t>(s.c_str(), s.c_str() + s.size());
+std::wstring decodeFromUtf8(std::string_view input) {
+  return boost::locale::conv::utf_to_utf<wchar_t>(input.data(), input.data() + input.size());
 }
 
-std::deque<std::string> split(const std::string& str, char delimiter) {
+std::deque<std::string> split(std::string_view str, char delimiter) {
   return split<std::deque<std::string>>(str, std::string(1, delimiter));
 }
 
-std::deque<std::string> split(const std::string& str, const std::string& delimiter) {
+std::deque<std::string> split(std::string_view str, std::string_view delimiter) {
   return split<std::deque<std::string>>(str, delimiter);
 }
 
-std::vector<std::string> splitToVector(const std::string& str, char delimiter) {
+std::vector<std::string> splitToVector(std::string_view str, char delimiter) {
   return split<std::vector<std::string>>(str, std::string(1, delimiter));
 }
 
-std::vector<std::string> splitToVector(const std::string& str, const std::string& delimiter) {
+std::vector<std::string> splitToVector(std::string_view str, std::string_view delimiter) {
   return split<std::vector<std::string>>(str, delimiter);
 }
 
-std::vector<std::wstring> splitToVector(const std::wstring& str, wchar_t delimiter) {
+std::vector<std::wstring> splitToVector(std::wstring_view str, wchar_t delimiter) {
   return split<std::vector<std::wstring>>(str, std::wstring(1, delimiter));
 }
 
-std::vector<std::wstring> splitToVector(const std::wstring& str, const std::wstring& delimiter) {
+std::vector<std::wstring> splitToVector(std::wstring_view str, std::wstring_view delimiter) {
   return split<std::vector<std::wstring>>(str, delimiter);
 }
 
@@ -505,4 +511,5 @@ bool caseInsensitiveLess(const std::wstring& s1, const std::wstring& s2) {
   }
   return res_cmp;
 }
+
 }  // namespace utility

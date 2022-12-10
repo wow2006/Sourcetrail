@@ -70,6 +70,7 @@ if(BUILD_UNIT_TESTS)
     ${CMAKE_SOURCE_DIR}/src/external/catch/
   )
 
+  if(FALSE)
   add_executable(
     CommandlineTestSuite
     CommandlineTestSuite.cpp
@@ -99,6 +100,34 @@ if(BUILD_UNIT_TESTS)
   add_test(
     NAME CommandlineTestSuite
     COMMAND CommandlineTestSuite
+    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/tests"
+  )
+  endif()
+
+  add_executable(
+    UtilityStringTestSuite
+    UtilityStringTestSuite.cpp
+    $<TARGET_OBJECTS:test_main>
+  )
+
+  target_link_libraries(
+    UtilityStringTestSuite
+    PRIVATE
+    catch::catch
+    Sourcetrail::lib_utility
+    $<$<BOOL:${ENABLE_ADDRESS_ASAN}>:Sanaitizer::Address>
+    $<$<BOOL:${ENABLE_MEMORY_ASAN}>:Sanaitizer::Memory>
+  )
+
+  set_target_properties(
+    UtilityStringTestSuite
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests"
+  )
+
+  add_test(
+    NAME UtilityStringTestSuite
+    COMMAND UtilityStringTestSuite
     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/tests"
   )
 endif()

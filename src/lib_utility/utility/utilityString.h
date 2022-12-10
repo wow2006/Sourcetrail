@@ -1,29 +1,49 @@
-#ifndef UTILITY_STRING_H
-#define UTILITY_STRING_H
+#pragma once
 
-#include <algorithm>
-#include <deque>
-#include <sstream>
-#include <string>
-#include <vector>
+#include <algorithm>   // for copy, max, copy, find_if_not, transform
+#include <cstddef>     // for size_t
+#include <deque>       // for deque, operator!=
+#include <sstream>     // for basic_ostream, stringstream, wstringstream
+#include <string>      // for string, wstring, operator<<
+#include <string_view> // for string_view, wstring_view
+#include <utility>     // for pair
+#include <vector>      // for vector
 
 namespace utility {
-std::string encodeToUtf8(const std::wstring& s);
-std::wstring decodeFromUtf8(const std::string& s);
+
+/**
+ * @name encode/decode Utf8
+ * @{ */
+std::string encodeToUtf8(std::wstring_view input);
+
+std::wstring decodeFromUtf8(std::string_view input);
+/**  @} */
+
+/**
+ * @name split string
+ * @{ */
+template <typename ContainerType>
+ContainerType split(std::string_view str, std::string_view delimiter);
 
 template <typename ContainerType>
-ContainerType split(const std::string& str, const std::string& delimiter);
+ContainerType split(std::wstring_view str, std::wstring_view delimiter);
 
-template <typename ContainerType>
-ContainerType split(const std::wstring& str, const std::wstring& delimiter);
+std::deque<std::string> split(std::string_view str, char delimiter);
 
-std::deque<std::string> split(const std::string& str, char delimiter);
-std::deque<std::string> split(const std::string& str, const std::string& delimiter);
-std::vector<std::string> splitToVector(const std::string& str, char delimiter);
-std::vector<std::string> splitToVector(const std::string& str, const std::string& delimiter);
-std::vector<std::wstring> splitToVector(const std::wstring& str, wchar_t delimiter);
-std::vector<std::wstring> splitToVector(const std::wstring& str, const std::wstring& delimiter);
+std::deque<std::string> split(std::string_view str, std::string_view delimiter);
 
+std::vector<std::string> splitToVector(std::string_view str, char delimiter);
+
+std::vector<std::string> splitToVector(std::string_view str, std::string_view delimiter);
+
+std::vector<std::wstring> splitToVector(std::wstring_view str, wchar_t delimiter);
+
+std::vector<std::wstring> splitToVector(std::wstring_view str, std::wstring_view delimiter);
+/**  @} */
+
+/**
+ * @name join string
+ * @{ */
 template <typename ContainerType>
 std::string join(const ContainerType& list, const std::string& delimiter);
 
@@ -31,9 +51,13 @@ template <typename ContainerType>
 std::wstring join(const ContainerType& list, const std::wstring& delimiter);
 
 std::string join(const std::deque<std::string>& list, char delimiter);
+
 std::string join(const std::deque<std::string>& list, const std::string& delimiter);
+
 std::string join(const std::vector<std::string>& list, char delimiter);
+
 std::string join(const std::vector<std::string>& list, const std::string& delimiter);
+/**  @} */
 
 std::deque<std::string> tokenize(const std::string& str, char delimiter);
 std::deque<std::string> tokenize(const std::string& str, const std::string& delimiter);
@@ -90,14 +114,14 @@ std::wstring convertWhiteSpacesToSingleSpaces(const std::wstring& str);
 bool caseInsensitiveLess(const std::wstring& s1, const std::wstring& s2);
 
 template <typename ContainerType>
-ContainerType split(const std::string& str, const std::string& delimiter) {
+ContainerType split(std::string_view str, std::string_view delimiter) {
   size_t pos = 0;
   size_t oldPos = 0;
   ContainerType c;
 
   do {
     pos = str.find(delimiter, oldPos);
-    c.push_back(str.substr(oldPos, pos - oldPos));
+    c.push_back(std::string(str.substr(oldPos, pos - oldPos)));
     oldPos = pos + delimiter.size();
   } while (pos != std::string::npos);
 
@@ -105,14 +129,14 @@ ContainerType split(const std::string& str, const std::string& delimiter) {
 }
 
 template <typename ContainerType>
-ContainerType split(const std::wstring& str, const std::wstring& delimiter) {
+ContainerType split(std::wstring_view str, std::wstring_view delimiter) {
   size_t pos = 0;
   size_t oldPos = 0;
   ContainerType c;
 
   do {
     pos = str.find(delimiter, oldPos);
-    c.push_back(str.substr(oldPos, pos - oldPos));
+    c.push_back(std::wstring(str.substr(oldPos, pos - oldPos)));
     oldPos = pos + delimiter.size();
   } while (pos != std::wstring::npos);
 
@@ -183,6 +207,6 @@ bool equalsCaseInsensitive(const StringType& a, const StringType& b) {
   }
   return false;
 }
+
 }  // namespace utility
 
-#endif  // UTILITY_STRING_H

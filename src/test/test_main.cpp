@@ -4,6 +4,7 @@
 // IMPORTANT NOTE: removed signal listener for "EXCEPTION_ACCESS_VIOLATION" from catch source code
 // because it interferes with the jni interface that emits such a signal on purpose
 
+#ifdef GUI_ENABLED
 #include "ApplicationSettings.h"
 #include "language_packages.h"
 #include "utilityPathDetection.h"
@@ -41,3 +42,4 @@ struct EventListener final : Catch::TestEventListenerBase {
 };
 
 CATCH_REGISTER_LISTENER(EventListener)
+#endif

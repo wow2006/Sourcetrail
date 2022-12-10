@@ -1,63 +1,151 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "catch.hpp"
 #include "utilityString.h"
 
-TEST_CASE("split with char delimiter") {
-  std::deque<std::string> result = utility::split("A,B,C", ',');
-
-  REQUIRE(result.size() == 3);
-  REQUIRE(result.at(0) == "A");
-  REQUIRE(result.at(1) == "B");
-  REQUIRE(result.at(2) == "C");
+TEST_CASE("encodeToUtf8", "[utility][string]") {
+  REQUIRE_THAT(utility::encodeToUtf8(L"HelloWorld!"), Catch::Equals("HelloWorld!"));
 }
 
-TEST_CASE("split with string delimiter") {
-  std::deque<std::string> result = utility::split("A->B>C", "->");
-
-  REQUIRE(result.size() == 2);
-  REQUIRE(result.at(0) == "A");
-  REQUIRE(result.at(1) == "B>C");
+TEST_CASE("decodeFromUtf8", "[utility][string]") {
+  REQUIRE(utility::decodeFromUtf8("HelloWorld!") == L"HelloWorld!");
 }
 
-TEST_CASE("split on empty string") {
-  std::deque<std::string> result = utility::split("", "->");
+TEST_CASE("split with char delimiter", "[utility][string]") {
+  SECTION("empty input") {
+    const auto result = utility::split("", ',');
 
-  REQUIRE(result.size() == 1);
-  REQUIRE(result.at(0) == "");
+    REQUIRE(result.size() == 1);
+    REQUIRE(result.at(0).empty());
+  }
+
+  SECTION("unused delimiter") {
+    const auto result = utility::split("A,B,C", '1');
+
+    REQUIRE(result.size() == 1);
+    REQUIRE(result.at(0) == "A,B,C");
+  }
+
+  SECTION("goodcase") {
+    const auto result = utility::split("A,B,C", ',');
+
+    REQUIRE(result.size() == 3);
+    REQUIRE(result.at(0) == "A");
+    REQUIRE(result.at(1) == "B");
+    REQUIRE(result.at(2) == "C");
+  }
+
+  SECTION("end of line") {
+    const auto result = utility::split("A,B,C.", '.');
+
+    REQUIRE(result.size() == 2);
+    REQUIRE(result.at(0) == "A,B,C");
+    REQUIRE(result.at(1).empty());
+  }
 }
 
-TEST_CASE("split with unused delimiter") {
-  std::deque<std::string> result = utility::split("A:B:C", ";");
+TEST_CASE("split with string delimiter", "[utility][string]") {
+  SECTION("goodcase") {
+    std::deque<std::string> result = utility::split("A->B>C", "->");
 
-  REQUIRE(result.size() == 1);
-  REQUIRE(result.at(0) == "A:B:C");
+    REQUIRE(result.size() == 2);
+    REQUIRE(result.at(0) == "A");
+    REQUIRE(result.at(1) == "B>C");
+  }
+
+  SECTION("empty string") {
+    std::deque<std::string> result = utility::split("", "->");
+
+    REQUIRE(result.size() == 1);
+    REQUIRE(result.at(0).empty());
+  }
+
+  SECTION("unused delimiter") {
+    std::deque<std::string> result = utility::split("A:B:C", ";");
+
+    REQUIRE(result.size() == 1);
+    REQUIRE(result.at(0) == "A:B:C");
+  }
+
+  SECTION("ddelimiters next to each") {
+    std::deque<std::string> result = utility::split("A::B:C", ':');
+
+    REQUIRE(result.size() == 4);
+    REQUIRE(result.at(0) == "A");
+    REQUIRE(result.at(1).empty());
+    REQUIRE(result.at(2) == "B");
+    REQUIRE(result.at(3) == "C");
+  }
+
+  SECTION("delimiter at start") {
+    std::deque<std::string> result = utility::split(":B:C", ':');
+
+    REQUIRE(result.size() == 3);
+    REQUIRE(result.at(0).empty());
+    REQUIRE(result.at(1) == "B");
+    REQUIRE(result.at(2) == "C");
+  }
+
+  SECTION("delimiter at end") {
+    std::deque<std::string> result = utility::split("B:C:", ':');
+
+    REQUIRE(result.size() == 3);
+    REQUIRE(result.at(0) == "B");
+    REQUIRE(result.at(1) == "C");
+    REQUIRE(result.at(2).empty());
+  }
 }
 
-TEST_CASE("split with delimiters next to each") {
-  std::deque<std::string> result = utility::split("A::B:C", ':');
+TEST_CASE("split with string delimiter to vector", "[utility][string]") {
+  SECTION("goodcase") {
+    const auto result = utility::splitToVector("A->B>C", "->");
 
-  REQUIRE(result.size() == 4);
-  REQUIRE(result.at(0) == "A");
-  REQUIRE(result.at(1) == "");
-  REQUIRE(result.at(2) == "B");
-  REQUIRE(result.at(3) == "C");
-}
+    REQUIRE(result.size() == 2);
+    REQUIRE(result.at(0) == "A");
+    REQUIRE(result.at(1) == "B>C");
+  }
 
-TEST_CASE("split with delimiter at start") {
-  std::deque<std::string> result = utility::split(":B:C", ':');
+  SECTION("empty string") {
+    const auto result= utility::splitToVector("", "->");
 
-  REQUIRE(result.size() == 3);
-  REQUIRE(result.at(0) == "");
-  REQUIRE(result.at(1) == "B");
-  REQUIRE(result.at(2) == "C");
-}
+    REQUIRE(result.size() == 1);
+    REQUIRE(result.at(0).empty());
+  }
 
-TEST_CASE("split with delimiter at end") {
-  std::deque<std::string> result = utility::split("B:C:", ':');
+  SECTION("unused delimiter") {
+    const auto result = utility::splitToVector("A:B:C", ";");
 
-  REQUIRE(result.size() == 3);
-  REQUIRE(result.at(0) == "B");
-  REQUIRE(result.at(1) == "C");
-  REQUIRE(result.at(2) == "");
+    REQUIRE(result.size() == 1);
+    REQUIRE(result.at(0) == "A:B:C");
+  }
+
+  SECTION("ddelimiters next to each") {
+    const auto result= utility::splitToVector("A::B:C", ':');
+
+    REQUIRE(result.size() == 4);
+    REQUIRE(result.at(0) == "A");
+    REQUIRE(result.at(1).empty());
+    REQUIRE(result.at(2) == "B");
+    REQUIRE(result.at(3) == "C");
+  }
+
+  SECTION("delimiter at start") {
+    const auto result = utility::splitToVector(":B:C", ':');
+
+    REQUIRE(result.size() == 3);
+    REQUIRE(result.at(0).empty());
+    REQUIRE(result.at(1) == "B");
+    REQUIRE(result.at(2) == "C");
+  }
+
+  SECTION("delimiter at end") {
+    const auto result = utility::splitToVector("B:C:", ':');
+
+    REQUIRE(result.size() == 3);
+    REQUIRE(result.at(0) == "B");
+    REQUIRE(result.at(1) == "C");
+    REQUIRE(result.at(2).empty());
+  }
 }
 
 TEST_CASE("join with char delimiter") {
