@@ -13,8 +13,8 @@ class FilePath {
   FilePath();
   explicit FilePath(const std::string& filePath);
   explicit FilePath(const std::wstring& filePath);
-  FilePath(const FilePath& other);
-  FilePath(FilePath&& other);
+  FilePath(const FilePath& other) noexcept;
+  FilePath(FilePath&& other) noexcept;
   FilePath(const std::wstring& filePath, const std::wstring& base);
   ~FilePath();
 

@@ -8,7 +8,7 @@
 #include "utilityString.h"
 
 FilePath::FilePath()
-    : m_path(std::make_unique<boost::filesystem::path>("")),
+    : m_path(std::make_unique<boost::filesystem::path>()),
       m_exists(false),
       m_checkedExists(false),
       m_isDirectory(false),
@@ -31,7 +31,7 @@ FilePath::FilePath(const std::wstring& filePath)
       m_checkedIsDirectory(false),
       m_canonicalized(false) {}
 
-FilePath::FilePath(const FilePath& other)
+FilePath::FilePath(const FilePath& other) noexcept
     : m_path(std::make_unique<boost::filesystem::path>(other.getPath())),
       m_exists(other.m_exists),
       m_checkedExists(other.m_checkedExists),
@@ -39,7 +39,7 @@ FilePath::FilePath(const FilePath& other)
       m_checkedIsDirectory(other.m_checkedIsDirectory),
       m_canonicalized(other.m_canonicalized) {}
 
-FilePath::FilePath(FilePath&& other)
+FilePath::FilePath(FilePath&& other) noexcept
     : m_path(std::move(other.m_path)),
       m_exists(other.m_exists),
       m_checkedExists(other.m_checkedExists),
@@ -55,7 +55,7 @@ FilePath::FilePath(const std::wstring& filePath, const std::wstring& base)
       m_checkedIsDirectory(false),
       m_canonicalized(false) {}
 
-FilePath::~FilePath() {}
+FilePath::~FilePath() = default;
 
 boost::filesystem::path FilePath::getPath() const { return *(m_path.get()); }
 

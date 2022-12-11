@@ -4,7 +4,7 @@
 TEST_CASE("file_path_gets_created_empty") {
   const FilePath path;
 
-  REQUIRE(path.wstr() == L"");
+  REQUIRE(path.wstr().empty());
 }
 
 TEST_CASE("file_path_gets_created_with_string") {
