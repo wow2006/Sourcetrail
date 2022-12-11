@@ -33,14 +33,14 @@ if(BUILD_UNIT_TESTS)
 
   set(
     test_files
-    UtilityStringTestSuite
+    FilePathTestSuite
+    LogManagerTestSuite
+    LogMessageTestSuite
+    ScopedFunctorTestSuite
+    TextAccessTestSuite
     TextCodecTestSuite
     TimeStampTestSuite
-    ScopedFunctorTestSuite
-    LogMessageTestSuite
-    #LogManagerTestSuite
-    TextAccessTestSuite
-    FilePathTestSuite
+    UtilityStringTestSuite
   )
 
   foreach(test_file IN LISTS test_files)
@@ -61,6 +61,8 @@ if(BUILD_UNIT_TESTS)
       COMMAND ${test_file}
       WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
   endforeach()
+
+  add_dependencies(TextAccessTestSuite LinkTestingData)
 endif()
 
 if(BUILD_FUNC_TESTS)

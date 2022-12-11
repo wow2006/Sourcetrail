@@ -5,6 +5,7 @@
 #include "logging.hpp"
 
 namespace {
+
 std::istream& safeGetline(std::istream& is, std::string& t) {
   t.clear();
 
@@ -38,6 +39,7 @@ std::istream& safeGetline(std::istream& is, std::string& t) {
     }
   }
 }
+
 }  // namespace
 
 std::shared_ptr<TextAccess> TextAccess::createFromFile(const FilePath& filePath) {
@@ -95,10 +97,10 @@ std::vector<std::string> TextAccess::getLines(const unsigned int firstLineNumber
 const std::vector<std::string>& TextAccess::getAllLines() const { return m_lines; }
 
 std::string TextAccess::getText() const {
-  std::string result = "";
+  std::string result;
 
-  for (unsigned int i = 0; i < m_lines.size(); i++) {
-    result += m_lines[i];
+  for (const auto& line : m_lines) {
+    result += line;
   }
 
   return result;
