@@ -15,14 +15,14 @@ class TextAccess final {
   static std::shared_ptr<TextAccess> createFromLines(const std::vector<std::string>& lines,
                                                      const FilePath& filePath = FilePath());
 
-  ~TextAccess() = default;
+  ~TextAccess();
 
   TextAccess(const TextAccess&) = delete;
   TextAccess& operator=(const TextAccess&) = delete;
   TextAccess(TextAccess&&) = delete;
   TextAccess& operator=(TextAccess&&) = delete;
 
-  unsigned int getLineCount() const;
+  uint32_t getLineCount() const;
 
   bool isEmpty() const;
 
@@ -31,13 +31,13 @@ class TextAccess final {
   /**
    * @param lineNumber: starts with 1
    */
-  std::string getLine(const unsigned int lineNumber) const;
+  std::string getLine(uint32_t lineNumber) const;
 
   /**
    * @param firstLineNumber: starts with 1
    * @param lastLineNumber: starts with 1
    */
-  std::vector<std::string> getLines(const unsigned int firstLineNumber, const unsigned int lastLineNumber);
+  std::vector<std::string> getLines(uint32_t firstLineNumber, uint32_t lastLineNumber);
 
   const std::vector<std::string>& getAllLines() const;
 
@@ -50,9 +50,9 @@ class TextAccess final {
 
   TextAccess();
 
-  bool checkIndexInRange(unsigned int index) const;
+  bool checkIndexInRange(uint32_t index) const;
 
-  bool checkIndexIntervalInRange(const unsigned int firstIndex, const unsigned int lastIndex) const;
+  bool checkIndexIntervalInRange(uint32_t firstIndex, uint32_t lastIndex) const;
 
   FilePath m_filePath;
   std::vector<std::string> m_lines;

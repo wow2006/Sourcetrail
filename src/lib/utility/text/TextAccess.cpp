@@ -54,7 +54,7 @@ std::shared_ptr<TextAccess> TextAccess::createFromFile(const FilePath& filePath)
 std::shared_ptr<TextAccess> TextAccess::createFromString(const std::string& text, const FilePath& filePath) {
   std::shared_ptr<TextAccess> result(new TextAccess());
 
-  result->m_lines = splitStringByLines(text);
+  result->m_lines    = splitStringByLines(text);
   result->m_filePath = filePath;
 
   return result;
@@ -70,13 +70,13 @@ std::shared_ptr<TextAccess> TextAccess::createFromLines(const std::vector<std::s
   return result;
 }
 
-unsigned int TextAccess::getLineCount() const { return static_cast<unsigned int>(m_lines.size()); }
+uint32_t TextAccess::getLineCount() const { return static_cast<unsigned int>(m_lines.size()); }
 
 bool TextAccess::isEmpty() const { return m_lines.empty(); }
 
 FilePath TextAccess::getFilePath() const { return m_filePath; }
 
-std::string TextAccess::getLine(const unsigned int lineNumber) const {
+std::string TextAccess::getLine(uint32_t lineNumber) const {
   if (!checkIndexInRange(lineNumber)) {
     return "";
   }
@@ -84,14 +84,14 @@ std::string TextAccess::getLine(const unsigned int lineNumber) const {
   return m_lines[lineNumber - 1];  // -1 to correct for use as index
 }
 
-std::vector<std::string> TextAccess::getLines(const unsigned int firstLineNumber, const unsigned int lastLineNumber) {
+std::vector<std::string> TextAccess::getLines(uint32_t firstLineNumber, uint32_t lastLineNumber) {
   if (!checkIndexIntervalInRange(firstLineNumber, lastLineNumber)) {
     return std::vector<std::string>();
   }
 
-  std::vector<std::string>::iterator first = m_lines.begin() + firstLineNumber - 1;  // -1 to correct for use as index
-  std::vector<std::string>::iterator last = m_lines.begin() + lastLineNumber;
-  return std::vector<std::string>(first, last);
+  auto first = m_lines.begin() + firstLineNumber - 1;  // -1 to correct for use as index
+  auto last  = m_lines.begin() + lastLineNumber;
+  return {first, last};
 }
 
 const std::vector<std::string>& TextAccess::getAllLines() const { return m_lines; }
@@ -165,7 +165,9 @@ std::vector<std::string> TextAccess::splitStringByLines(const std::string& text)
 
 TextAccess::TextAccess() : m_filePath(L"") {}
 
-bool TextAccess::checkIndexInRange(unsigned int index) const {
+TextAccess::~TextAccess() = default;
+
+bool TextAccess::checkIndexInRange(uint32_t index) const {
   if (index < 1) {
     LOG_WARNING_STREAM(<< "Line numbers start with one, is " << index);
     return false;
@@ -177,7 +179,7 @@ bool TextAccess::checkIndexInRange(unsigned int index) const {
   return true;
 }
 
-bool TextAccess::checkIndexIntervalInRange(const unsigned int firstIndex, const unsigned int lastIndex) const {
+bool TextAccess::checkIndexIntervalInRange(uint32_t firstIndex, uint32_t lastIndex) const {
   if (!checkIndexInRange(firstIndex) || !checkIndexInRange(lastIndex)) {
     return false;
   } else if (firstIndex > lastIndex) {
