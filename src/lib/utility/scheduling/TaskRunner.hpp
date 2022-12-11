@@ -6,11 +6,14 @@
 
 class TaskRunner {
  public:
-  TaskRunner(std::shared_ptr<Task> task);
+  explicit TaskRunner(std::shared_ptr<Task> task) noexcept;
 
   Task::TaskState update(Id schedulerId);
+
   Task::TaskState update(std::shared_ptr<Blackboard> blackboard);
+
   void reset();
+
   void terminate();  // caution: this should only be called just before quitting the app.
 
  private:

@@ -43,6 +43,7 @@ if(BUILD_UNIT_TESTS)
     TextCodecTestSuite
     TimeStampTestSuite
     UtilityStringTestSuite
+    TaskRunnerTestSuite
   )
 
   foreach(test_file IN LISTS test_files)

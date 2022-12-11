@@ -5,7 +5,7 @@
 #include "TaskScheduler.hpp"
 #include "logging.hpp"
 
-TaskRunner::TaskRunner(std::shared_ptr<Task> task) : m_task(task), m_reset(false) {}
+TaskRunner::TaskRunner(std::shared_ptr<Task> task) noexcept : m_task(std::move(task)), m_reset(false) {}
 
 Task::TaskState TaskRunner::update(Id schedulerId) {
   if (!m_blackboard) {
