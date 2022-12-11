@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "FilePath.hpp"
 
 #include <boost/filesystem.hpp>
@@ -173,7 +175,7 @@ FilePath& FilePath::makeCanonical() {
 #else
   try {
     canonicalPath = boost::filesystem::canonical(getPath());
-  } catch (boost::filesystem::filesystem_error e) {
+  } catch (boost::filesystem::filesystem_error& e) {
     LOG_ERROR_STREAM(<< e.what());
     return *this;
   }

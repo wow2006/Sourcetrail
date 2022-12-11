@@ -1,22 +1,24 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "Blackboard.hpp"
 
-Blackboard::Blackboard() {}
+Blackboard::Blackboard() noexcept = default;
 
-Blackboard::Blackboard(std::shared_ptr<Blackboard> parent) : m_parent(parent) {}
+Blackboard::Blackboard(std::shared_ptr<Blackboard> parent) noexcept : m_parent(std::move(parent)) {}
 
 bool Blackboard::exists(const std::string& key) {
   std::lock_guard<std::mutex> lock(m_itemMutex);
 
-  ItemMap::const_iterator it = m_items.find(key);
-  return (it != m_items.end());
+  auto itr = m_items.find(key);
+  return (itr != m_items.end());
 }
 
 bool Blackboard::clear(const std::string& key) {
   std::lock_guard<std::mutex> lock(m_itemMutex);
 
-  ItemMap::const_iterator it = m_items.find(key);
-  if (it != m_items.end()) {
-    m_items.erase(it);
+  auto itr = m_items.find(key);
+  if (itr != m_items.end()) {
+    m_items.erase(itr);
     return true;
   }
   return false;

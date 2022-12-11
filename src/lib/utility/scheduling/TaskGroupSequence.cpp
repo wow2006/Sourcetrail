@@ -1,6 +1,8 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "TaskGroupSequence.hpp"
 
-TaskGroupSequence::TaskGroupSequence() {}
+TaskGroupSequence::TaskGroupSequence() = default;
 
 void TaskGroupSequence::addTask(std::shared_ptr<Task> task) {
   m_taskRunners.push_back(std::make_shared<TaskRunner>(task));

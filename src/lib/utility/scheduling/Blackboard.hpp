@@ -9,22 +9,23 @@
 #include "logging.hpp"
 
 struct BlackboardItemBase {
-  virtual ~BlackboardItemBase() {}
+  virtual ~BlackboardItemBase() noexcept {}
 };
 
 template <typename T>
 struct BlackboardItem : public BlackboardItemBase {
-  BlackboardItem(const T& v) : value(v) {}
+  explicit BlackboardItem(const T& v) noexcept : value(v) {}
 
-  virtual ~BlackboardItem() {}
+  ~BlackboardItem() noexcept override = default;
 
   T value;
 };
 
 class Blackboard {
  public:
-  Blackboard();
-  Blackboard(std::shared_ptr<Blackboard> parent);
+  Blackboard() noexcept;
+
+  explicit Blackboard(std::shared_ptr<Blackboard> parent) noexcept;
 
   // atomic way to set a blackboard value
   template <typename T>
@@ -39,10 +40,11 @@ class Blackboard {
   bool update(const std::string& key, std::function<T(const T&)> updater);
 
   bool exists(const std::string& key);
+
   bool clear(const std::string& key);
 
  private:
-  typedef std::map<std::string, std::shared_ptr<BlackboardItemBase>> ItemMap;
+  using ItemMap = std::map<std::string, std::shared_ptr<BlackboardItemBase>>;
 
   std::shared_ptr<Blackboard> m_parent;
 
@@ -61,9 +63,9 @@ template <typename T>
 bool Blackboard::get(const std::string& key, T& value) {
   std::lock_guard<std::mutex> lock(m_itemMutex);
 
-  ItemMap::const_iterator it = m_items.find(key);
-  if (it != m_items.end()) {
-    if (std::shared_ptr<BlackboardItem<T>> item = std::dynamic_pointer_cast<BlackboardItem<T>>(it->second)) {
+  auto itr = m_items.find(key);
+  if (itr != m_items.end()) {
+    if (auto item = std::dynamic_pointer_cast<BlackboardItem<T>>(itr->second)) {
       value = item->value;
       return true;
     }
@@ -80,9 +82,9 @@ template <typename T>
 bool Blackboard::update(const std::string& key, std::function<T(const T&)> updater) {
   std::lock_guard<std::mutex> lock(m_itemMutex);
 
-  ItemMap::const_iterator it = m_items.find(key);
-  if (it != m_items.end()) {
-    if (std::shared_ptr<BlackboardItem<T>> item = std::dynamic_pointer_cast<BlackboardItem<T>>(it->second)) {
+  auto itr = m_items.find(key);
+  if (itr != m_items.end()) {
+    if (auto item = std::dynamic_pointer_cast<BlackboardItem<T>>(itr->second)) {
       item->value = updater(item->value);
       return true;
     }

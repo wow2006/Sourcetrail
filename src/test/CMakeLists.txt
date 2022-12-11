@@ -37,13 +37,14 @@ if(BUILD_UNIT_TESTS)
     LogManagerTestSuite
     LogMessageTestSuite
     ScopedFunctorTestSuite
+    TaskGroupParallelTestSuite
     TaskManagerTestSuite
+    TaskRunnerTestSuite
     TaskSchedulerTestSuite
     TextAccessTestSuite
     TextCodecTestSuite
     TimeStampTestSuite
     UtilityStringTestSuite
-    TaskRunnerTestSuite
   )
 
   foreach(test_file IN LISTS test_files)

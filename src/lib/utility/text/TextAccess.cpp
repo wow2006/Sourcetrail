@@ -1,6 +1,10 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "TextAccess.hpp"
 
 #include <fstream>
+#include <iterator>
+#include <numeric>
 
 #include "logging.hpp"
 
@@ -19,8 +23,8 @@ std::istream& safeGetline(std::istream& is, std::string& t) {
   std::streambuf* sb = is.rdbuf();
 
   while (true) {
-    const int c = sb->sbumpc();
-    switch (c) {
+    const int chr = sb->sbumpc();
+    switch (chr) {
       case '\n':
         return is;
       case '\r':
@@ -35,7 +39,7 @@ std::istream& safeGetline(std::istream& is, std::string& t) {
         }
         return is;
       default:
-        t += (char)c;
+        t += static_cast<char>(chr);
     }
   }
 }
@@ -97,13 +101,7 @@ std::vector<std::string> TextAccess::getLines(uint32_t firstLineNumber, uint32_t
 const std::vector<std::string>& TextAccess::getAllLines() const { return m_lines; }
 
 std::string TextAccess::getText() const {
-  std::string result;
-
-  for (const auto& line : m_lines) {
-    result += line;
-  }
-
-  return result;
+  return std::accumulate(std::cbegin(m_lines), std::cend(m_lines), std::string{});
 }
 
 std::vector<std::string> TextAccess::readFile(const FilePath& filePath) {
