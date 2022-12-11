@@ -37,6 +37,7 @@ if(BUILD_UNIT_TESTS)
     LogManagerTestSuite
     LogMessageTestSuite
     ScopedFunctorTestSuite
+    TaskManagerTestSuite
     TextAccessTestSuite
     TextCodecTestSuite
     TimeStampTestSuite
