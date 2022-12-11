@@ -10,14 +10,18 @@
 
 class TaskScheduler {
  public:
-  TaskScheduler(Id schedulerId);
+  explicit TaskScheduler(Id schedulerId);
+
   ~TaskScheduler();
 
   void pushTask(std::shared_ptr<Task> task);
+
   void pushNextTask(std::shared_ptr<Task> task);
 
   void startSchedulerLoopThreaded();
+
   void startSchedulerLoop();
+
   void stopSchedulerLoop();
 
   bool loopIsRunning() const;

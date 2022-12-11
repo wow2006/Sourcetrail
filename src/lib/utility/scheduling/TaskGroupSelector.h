@@ -1,5 +1,4 @@
-#ifndef TASK_GROUP_SELECTOR_H
-#define TASK_GROUP_SELECTOR_H
+#pragma once
 
 #include "TaskGroup.hpp"
 #include "TaskRunner.hpp"
@@ -20,5 +19,3 @@ class TaskGroupSelector : public TaskGroup {
   std::vector<std::shared_ptr<TaskRunner>> m_taskRunners;
   int m_taskIndex;
 };
-
-#endif  // TASK_GROUP_SELECTOR_H

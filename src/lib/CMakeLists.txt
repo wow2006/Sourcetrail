@@ -525,8 +525,7 @@ add_library(
   #utility/scheduling/TaskFindKeyOnBlackboard.h
   utility/scheduling/TaskGroup.cpp
   utility/scheduling/TaskGroupParallel.cpp
-  #utility/scheduling/TaskGroupSelector.cpp
-  #utility/scheduling/TaskGroupSelector.h
+  utility/scheduling/TaskGroupSelector.cpp
   utility/scheduling/TaskGroupSequence.cpp
   utility/scheduling/TaskLambda.cpp
   utility/scheduling/TaskManager.cpp
