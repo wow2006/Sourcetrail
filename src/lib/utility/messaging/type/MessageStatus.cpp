@@ -11,38 +11,38 @@ MessageStatus::MessageStatus(const std::wstring& status, bool isError, bool show
   setSendAsTask(false);
 }
 
-MessageStatus::MessageStatus(const std::vector<std::wstring>& stati, bool isError, bool showLoader,
+MessageStatus::MessageStatus(std::vector<std::wstring> stati, bool isError, bool showLoader,
                              bool showInStatusBar)
-    : isError(isError), showLoader(showLoader), showInStatusBar(showInStatusBar), m_stati(stati) {
+    : isError(isError), showLoader(showLoader), showInStatusBar(showInStatusBar), m_stati(std::move(stati)) {
   setSendAsTask(false);
 }
 
-const std::string MessageStatus::getStaticType() { return "MessageStatus"; }
+std::string MessageStatus::getStaticType() { return "MessageStatus"; }
 
 const std::vector<std::wstring>& MessageStatus::stati() const { return m_stati; }
 
 std::wstring MessageStatus::status() const {
-  if (m_stati.size()) {
+  if (!m_stati.empty()) {
     return m_stati[0];
   }
 
-  return L"";
+  return {};
 }
 
-void MessageStatus::print(std::wostream& os) const {
+void MessageStatus::print(std::wostream& outStream) const {
   for (const std::wstring& status : m_stati) {
-    os << status;
+    outStream << status;
 
     if (m_stati.size() > 1) {
-      os << L" - ";
+      outStream << L" - ";
     }
   }
 
   if (isError) {
-    os << L" - error";
+    outStream << L" - error";
   }
 
   if (showLoader) {
-    os << L" - loading";
+    outStream << L" - loading";
   }
 }

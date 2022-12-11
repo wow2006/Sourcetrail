@@ -5,17 +5,20 @@
 
 #include "Message.h"
 
-class MessageStatus : public Message<MessageStatus> {
+class MessageStatus final : public Message<MessageStatus> {
  public:
-  MessageStatus(const std::wstring& status, bool isError = false, bool showLoader = false, bool showInStatusBar = true);
-  MessageStatus(const std::vector<std::wstring>& stati, bool isError = false, bool showLoader = false,
+  explicit MessageStatus(const std::wstring& status, bool isError = false, bool showLoader = false, bool showInStatusBar = true);
+
+  explicit MessageStatus(std::vector<std::wstring> stati, bool isError = false, bool showLoader = false,
                 bool showInStatusBar = true);
 
-  static const std::string getStaticType();
+  static std::string getStaticType();
 
-  const std::vector<std::wstring>& stati() const;
-  std::wstring status() const;
-  virtual void print(std::wostream& os) const;
+  [[nodiscard]] const std::vector<std::wstring>& stati() const;
+
+  [[nodiscard]] std::wstring status() const;
+
+  void print(std::wostream& outStream) const override;
 
   const bool isError;
   const bool showLoader;
