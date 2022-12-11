@@ -10,7 +10,7 @@
 #include "FilePath.hpp"
 #include "LocationType.h"
 #include "SourceLocation.h"
-#include "types.h"
+#include "types.hpp"
 
 class SourceLocationFile {
  public:

@@ -6,7 +6,7 @@
 
 #include "MessageListener.h"
 #include "MessageSaveAsImage.h"
-#include "types.h"
+#include "types.hpp"
 
 class GraphFocusHandler;
 class QPushButton;

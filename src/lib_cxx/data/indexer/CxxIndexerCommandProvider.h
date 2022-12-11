@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 #include "IndexerCommandProvider.h"
-#include "types.h"
+#include "types.hpp"
 
 class IndexerCommandCxx;
 

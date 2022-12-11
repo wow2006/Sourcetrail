@@ -5,7 +5,7 @@
 
 #include "DummyNode.h"
 #include "Vector2.h"
-#include "types.h"
+#include "types.hpp"
 
 struct DummyEdge;
 

@@ -5,7 +5,7 @@
 #include "Message.h"
 #include "NameHierarchy.h"
 #include "TabId.hpp"
-#include "types.h"
+#include "types.hpp"
 #include "utilityString.h"
 
 class MessageActivateEdge : public Message<MessageActivateEdge> {

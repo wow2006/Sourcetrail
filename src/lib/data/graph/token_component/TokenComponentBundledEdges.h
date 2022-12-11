@@ -5,7 +5,7 @@
 #include <set>
 
 #include "TokenComponent.h"
-#include "types.h"
+#include "types.hpp"
 
 class TokenComponentBundledEdges : public TokenComponent {
  public:

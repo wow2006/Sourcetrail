@@ -5,7 +5,7 @@
 #include "MessageActivateBase.h"
 #include "NodeType.h"
 #include "TabId.hpp"
-#include "types.h"
+#include "types.hpp"
 
 class MessageActivateTrail : public Message<MessageActivateTrail>, public MessageActivateBase {
  public:

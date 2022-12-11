@@ -9,7 +9,7 @@
 #include <set>
 
 #include "FilePath.hpp"
-#include "types.h"
+#include "types.hpp"
 
 class CanonicalFilePathCache;
 class ParserClient;

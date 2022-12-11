@@ -7,7 +7,7 @@
 #include "Node.h"
 #include "Vector2.h"
 #include "Vector4.h"
-#include "types.h"
+#include "types.hpp"
 #include "utility.h"
 #include "utilityString.h"
 

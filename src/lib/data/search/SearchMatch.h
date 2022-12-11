@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "Node.h"
-#include "types.h"
+#include "types.hpp"
 
 class NodeTypeSet;
 

@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "types.h"
+#include "types.hpp"
 
 struct StorageFile {
   StorageFile() : id(0), filePath(L""), languageIdentifier(L""), modificationTime(""), indexed(true), complete(true) {}

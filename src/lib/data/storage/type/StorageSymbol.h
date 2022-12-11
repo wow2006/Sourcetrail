@@ -2,7 +2,7 @@
 #define STORAGE_SYMBOL_H
 
 #include "DefinitionKind.h"
-#include "types.h"
+#include "types.hpp"
 
 struct StorageSymbol {
   StorageSymbol() : id(0), definitionKind(definitionKindToInt(DEFINITION_NONE)) {}

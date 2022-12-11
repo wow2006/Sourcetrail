@@ -4,7 +4,7 @@
 #include "Edge.h"
 #include "TokenComponentBundledEdges.h"
 #include "Vector4.h"
-#include "types.h"
+#include "types.hpp"
 
 class Edge;
 

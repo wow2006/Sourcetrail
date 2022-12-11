@@ -10,7 +10,7 @@
 
 #include "FilePath.hpp"
 #include "TimeStamp.h"
-#include "types.h"
+#include "types.hpp"
 #include "utilityString.h"
 
 struct TraceEvent {

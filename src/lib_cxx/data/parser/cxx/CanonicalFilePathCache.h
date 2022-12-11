@@ -9,7 +9,7 @@
 
 #include "FilePath.hpp"
 #include "FileRegister.h"
-#include "types.h"
+#include "types.hpp"
 
 class CanonicalFilePathCache {
  public:

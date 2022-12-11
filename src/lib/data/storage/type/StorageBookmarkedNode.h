@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "types.h"
+#include "types.hpp"
 
 struct StorageBookmarkedNodeData {
   StorageBookmarkedNodeData() : bookmarkId(0), serializedNodeName(L"") {}

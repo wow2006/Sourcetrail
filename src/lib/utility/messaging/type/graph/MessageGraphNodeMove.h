@@ -4,7 +4,7 @@
 #include "Message.h"
 #include "TabId.hpp"
 #include "Vector2.h"
-#include "types.h"
+#include "types.hpp"
 
 class MessageGraphNodeMove : public Message<MessageGraphNodeMove> {
  public:

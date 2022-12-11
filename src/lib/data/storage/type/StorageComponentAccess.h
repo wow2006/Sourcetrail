@@ -1,7 +1,7 @@
 #ifndef STORAGE_COMPONENT_ACCESS_H
 #define STORAGE_COMPONENT_ACCESS_H
 
-#include "types.h"
+#include "types.hpp"
 
 struct StorageComponentAccess {
   StorageComponentAccess() : nodeId(0), type(0) {}

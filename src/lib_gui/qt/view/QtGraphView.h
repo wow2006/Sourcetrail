@@ -10,7 +10,7 @@
 #include "GraphView.h"
 #include "QtScrollSpeedChangeListener.h"
 #include "QtThreadedFunctor.h"
-#include "types.h"
+#include "types.hpp"
 
 struct DummyEdge;
 struct DummyNode;

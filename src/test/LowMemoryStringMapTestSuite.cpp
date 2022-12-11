@@ -1,7 +1,7 @@
 #include "LowMemoryStringMap.h"
 #include "TextAccess.h"
 #include "catch.hpp"
-#include "types.h"
+#include "types.hpp"
 #include "utilityString.h"
 
 TEST_CASE("roughly everything") {

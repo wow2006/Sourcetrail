@@ -11,7 +11,7 @@
 #include "JavaEnvironment.h"
 #include "Parser.h"
 #include "logging.h"
-#include "types.h"
+#include "types.hpp"
 
 struct JNIEnv_;
 typedef JNIEnv_ JNIEnv;

@@ -9,7 +9,7 @@
 #include "FilePath.hpp"
 #include "NodeKind.h"
 #include "Tree.h"
-#include "types.h"
+#include "types.hpp"
 
 class NodeType {
  public:

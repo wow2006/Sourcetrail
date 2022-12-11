@@ -7,7 +7,7 @@
 #include "ScreenSearchInterfaces.h"
 #include "Vector2.h"
 #include "View.h"
-#include "types.h"
+#include "types.hpp"
 
 struct DummyEdge;
 struct DummyNode;

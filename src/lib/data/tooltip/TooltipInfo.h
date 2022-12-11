@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "Vector2.h"
-#include "types.h"
+#include "types.hpp"
 
 class SourceLocationFile;
 

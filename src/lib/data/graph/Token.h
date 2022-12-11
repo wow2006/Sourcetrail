@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "TokenComponent.h"
-#include "types.h"
+#include "types.hpp"
 
 class Token {
  public:

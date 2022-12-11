@@ -6,7 +6,7 @@
 #include "StorageBookmarkCategory.h"
 #include "StorageBookmarkedEdge.h"
 #include "StorageBookmarkedNode.h"
-#include "types.h"
+#include "types.hpp"
 
 class SqliteBookmarkStorage : public SqliteStorage {
  public:

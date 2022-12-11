@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "types.h"
+#include "types.hpp"
 
 struct StorageLocalSymbolData {
   StorageLocalSymbolData() : name(L"") {}

@@ -6,7 +6,7 @@
 #include "CodeFocusHandler.h"
 #include "CodeScrollParams.h"
 #include "CodeSnippetParams.h"
-#include "types.h"
+#include "types.hpp"
 
 class FilePath;
 class QRectF;

@@ -1,7 +1,7 @@
 #ifndef STORAGE_OCCURRENCE_H
 #define STORAGE_OCCURRENCE_H
 
-#include "types.h"
+#include "types.hpp"
 
 struct StorageOccurrence {
   StorageOccurrence() : elementId(0), sourceLocationId(0) {}

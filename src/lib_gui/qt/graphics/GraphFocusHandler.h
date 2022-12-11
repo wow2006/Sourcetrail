@@ -4,7 +4,7 @@
 #include <list>
 #include <vector>
 
-#include "types.h"
+#include "types.hpp"
 
 class QtGraphEdge;
 class QtGraphNode;

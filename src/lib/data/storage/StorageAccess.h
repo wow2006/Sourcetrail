@@ -18,7 +18,7 @@
 #include "StorageStats.h"
 #include "TooltipInfo.h"
 #include "TooltipOrigin.h"
-#include "types.h"
+#include "types.hpp"
 
 class FilePath;
 class Graph;

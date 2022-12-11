@@ -33,7 +33,7 @@
 #include "MessageShowScope.h"
 #include "MessageToNextCodeReference.h"
 #include "SnippetMerger.h"
-#include "types.h"
+#include "types.hpp"
 
 class StorageAccess;
 class SourceLocation;

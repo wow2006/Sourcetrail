@@ -6,7 +6,7 @@
 
 #include "Task.hpp"
 #include "TaskRunner.hpp"
-#include "types.h"
+#include "types.hpp"
 
 class TaskScheduler {
  public:

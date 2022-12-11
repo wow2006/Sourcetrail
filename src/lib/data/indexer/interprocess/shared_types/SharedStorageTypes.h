@@ -11,7 +11,7 @@
 #include "StorageOccurrence.h"
 #include "StorageSourceLocation.h"
 #include "StorageSymbol.h"
-#include "types.h"
+#include "types.hpp"
 #include "utilityString.h"
 
 // macro creating SharedStorageType from StorageType

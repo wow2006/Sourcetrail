@@ -7,7 +7,7 @@
 
 #include "FilePath.hpp"
 #include "LocationType.h"
-#include "types.h"
+#include "types.hpp"
 
 class QtHighlighter;
 class SourceLocation;

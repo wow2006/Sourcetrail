@@ -2,7 +2,7 @@
 #define CODE_SCROLL_PARAMS_H
 
 #include "FilePath.hpp"
-#include "types.h"
+#include "types.hpp"
 
 struct CodeScrollParams {
   enum class Type { NONE, TO_REFERENCE, TO_FILE, TO_LINE, TO_VALUE };

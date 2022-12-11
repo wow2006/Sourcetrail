@@ -3,7 +3,7 @@
 #include <ostream>
 #include <sstream>
 
-#include "types.h"
+#include "types.hpp"
 #include "utilityString.h"
 
 class MessageBase {

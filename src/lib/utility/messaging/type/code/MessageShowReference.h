@@ -3,7 +3,7 @@
 
 #include "Message.h"
 #include "TabId.hpp"
-#include "types.h"
+#include "types.hpp"
 
 class MessageShowReference : public Message<MessageShowReference> {
  public:

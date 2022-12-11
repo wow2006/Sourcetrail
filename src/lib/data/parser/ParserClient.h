@@ -9,7 +9,7 @@
 #include "ParseLocation.h"
 #include "ReferenceKind.h"
 #include "SymbolKind.h"
-#include "types.h"
+#include "types.hpp"
 
 class ParserClient {
  public:

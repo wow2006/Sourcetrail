@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "LocationType.h"
-#include "types.h"
+#include "types.hpp"
 
 class FilePath;
 class SourceLocation;

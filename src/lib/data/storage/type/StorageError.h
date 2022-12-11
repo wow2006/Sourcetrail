@@ -4,7 +4,7 @@
 #include <string>
 
 #include "FilePath.hpp"
-#include "types.h"
+#include "types.hpp"
 
 struct StorageErrorData {
   StorageErrorData() : m_message(L""), m_translationUnit(L""), m_fatal(0), m_indexed(0) {}

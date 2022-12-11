@@ -20,7 +20,7 @@
 #include "StorageOccurrence.h"
 #include "StorageSourceLocation.h"
 #include "StorageSymbol.h"
-#include "types.h"
+#include "types.hpp"
 #include "utility.h"
 #include "utilityString.h"
 

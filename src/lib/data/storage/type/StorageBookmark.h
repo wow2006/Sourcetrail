@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "types.h"
+#include "types.hpp"
 
 struct StorageBookmarkData {
   StorageBookmarkData() : name(L""), comment(L""), timestamp(""), categoryId(0) {}

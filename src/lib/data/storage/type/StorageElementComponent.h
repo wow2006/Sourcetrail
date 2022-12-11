@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "types.h"
+#include "types.hpp"
 
 struct StorageElementComponent {
   StorageElementComponent() : elementId(0), type(0), data(L"") {}

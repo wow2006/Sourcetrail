@@ -6,7 +6,7 @@
 #include "NameHierarchy.h"
 #include "TooltipInfo.h"
 #include "View.h"
-#include "types.h"
+#include "types.hpp"
 
 class TooltipView : public View {
  public:
