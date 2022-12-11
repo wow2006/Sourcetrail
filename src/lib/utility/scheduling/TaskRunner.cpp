@@ -40,7 +40,7 @@ Task::TaskState TaskRunner::update(std::shared_ptr<Blackboard> blackboard) {
 
   Id schedulerId = 0;
   if (blackboard->get<Id>("scheduler_id", schedulerId)) {
-    TaskManager::getScheduler(schedulerId)->terminateRunningTasks();
+    taskManager::getScheduler(schedulerId)->terminateRunningTasks();
   }
 
   return Task::STATE_FAILURE;

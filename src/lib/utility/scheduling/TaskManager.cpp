@@ -1,13 +1,19 @@
 #include "TaskManager.hpp"
 
+#include <map>
+#include <mutex>
+
 #include "TaskScheduler.hpp"
 
-std::map<Id, std::shared_ptr<TaskScheduler>> TaskManager::s_schedulers;
-std::mutex TaskManager::s_schedulersMutex;
+std::map<Id, std::shared_ptr<TaskScheduler>> s_schedulers;
 
-std::shared_ptr<TaskScheduler> TaskManager::createScheduler(Id schedulerId) { return getScheduler(schedulerId); }
+std::mutex s_schedulersMutex;
 
-void TaskManager::destroyScheduler(Id schedulerId) {
+namespace taskManager {
+
+std::shared_ptr<TaskScheduler> createScheduler(Id schedulerId) { return getScheduler(schedulerId); }
+
+void destroyScheduler(Id schedulerId) {
   std::lock_guard<std::mutex> lock(s_schedulersMutex);
 
   auto it = s_schedulers.find(schedulerId);
@@ -16,7 +22,7 @@ void TaskManager::destroyScheduler(Id schedulerId) {
   }
 }
 
-std::shared_ptr<TaskScheduler> TaskManager::getScheduler(Id schedulerId) {
+std::shared_ptr<TaskScheduler> getScheduler(Id schedulerId) {
   std::lock_guard<std::mutex> lock(s_schedulersMutex);
 
   auto it = s_schedulers.find(schedulerId);
@@ -24,7 +30,9 @@ std::shared_ptr<TaskScheduler> TaskManager::getScheduler(Id schedulerId) {
     return it->second;
   }
 
-  std::shared_ptr<TaskScheduler> scheduler = std::make_shared<TaskScheduler>(schedulerId);
+  auto scheduler = std::make_shared<TaskScheduler>(schedulerId);
   s_schedulers.emplace(schedulerId, scheduler);
   return scheduler;
 }
+
+}  // namespace taskManager

@@ -6,11 +6,11 @@
 Task::~Task() noexcept = default;
 
 void Task::dispatch(Id schedulerId, std::shared_ptr<Task> task) {
-  TaskManager::getScheduler(schedulerId)->pushTask(std::move(task));
+  taskManager::getScheduler(schedulerId)->pushTask(std::move(task));
 }
 
 void Task::dispatchNext(Id schedulerId, std::shared_ptr<Task> task) {
-  TaskManager::getScheduler(schedulerId)->pushNextTask(std::move(task));
+  taskManager::getScheduler(schedulerId)->pushNextTask(std::move(task));
 }
 
 void Task::setIsBackgroundTask(bool background) { m_isBackgroundTask = background; }

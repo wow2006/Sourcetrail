@@ -1,21 +1,17 @@
 #pragma once
 
-#include <map>
 #include <memory>
-#include <mutex>
 
 #include "types.hpp"
 
 class TaskScheduler;
 
-class TaskManager {
- public:
-  static std::shared_ptr<TaskScheduler> createScheduler(Id schedulerId);
-  static void destroyScheduler(Id schedulerId);
+namespace taskManager {
 
-  static std::shared_ptr<TaskScheduler> getScheduler(Id schedulerId);
+std::shared_ptr<TaskScheduler> createScheduler(Id schedulerId);
 
- private:
-  static std::map<Id, std::shared_ptr<TaskScheduler>> s_schedulers;
-  static std::mutex s_schedulersMutex;
-};
+void destroyScheduler(Id schedulerId);
+
+std::shared_ptr<TaskScheduler> getScheduler(Id schedulerId);
+
+}  // namespace taskManager

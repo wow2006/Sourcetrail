@@ -39,7 +39,7 @@ void TabsController::clear() {
 void TabsController::addTab(Id tabId, SearchMatch match) {
   std::lock_guard<std::mutex> lock(m_tabsMutex);
 
-  TaskManager::createScheduler(tabId)->startSchedulerLoopThreaded();
+  taskManager::createScheduler(tabId)->startSchedulerLoopThreaded();
 
   m_tabs.emplace(tabId, std::make_shared<Tab>(tabId, m_viewFactory, m_storageAccess, m_screenSearchSender));
 
@@ -85,11 +85,11 @@ void TabsController::removeTab(Id tabId) {
   Task::dispatch(TabId::background(), std::make_shared<TaskLambda>([tabId, this]() {
                    m_screenSearchSender->clearMatches();
 
-                   TaskScheduler* scheduler = TaskManager::getScheduler(tabId).get();
+                   TaskScheduler* scheduler = taskManager::getScheduler(tabId).get();
                    scheduler->terminateRunningTasks();
                    scheduler->stopSchedulerLoop();
 
-                   TaskManager::destroyScheduler(tabId);
+                   taskManager::destroyScheduler(tabId);
 
                    getView()->destroyTab(tabId);
                  }));
