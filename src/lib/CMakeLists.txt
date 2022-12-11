@@ -416,8 +416,7 @@ add_library(
   utility/messaging/MessageBase.cpp
   #utility/messaging/MessageFilter.h
   #utility/messaging/MessageListener.h
-  #utility/messaging/MessageListenerBase.cpp
-  #utility/messaging/MessageListenerBase.h
+  utility/messaging/MessageListenerBase.cpp
   utility/messaging/MessageQueue.cpp
   #utility/messaging/filter_types/MessageFilterErrorCountUpdate.h
   #utility/messaging/filter_types/MessageFilterFocusInOut.h

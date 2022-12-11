@@ -11,15 +11,21 @@ class MessageBase;
 class MessageFilter;
 class MessageListenerBase;
 
-class MessageQueue {
+class MessageQueue final {
  public:
-  typedef std::deque<std::shared_ptr<MessageBase>> MessageBufferType;
+  using MessageBufferType = std::deque<std::shared_ptr<MessageBase>>;
 
   static std::shared_ptr<MessageQueue> getInstance();
+
+  MessageQueue(const MessageQueue&) = delete;
+  MessageQueue& operator=(const MessageQueue&) = delete;
+  MessageQueue(MessageQueue&&) = delete;
+  MessageQueue& operator=(MessageQueue&&) = delete;
 
   ~MessageQueue();
 
   void registerListener(MessageListenerBase* listener);
+
   void unregisterListener(MessageListenerBase* listener);
 
   MessageListenerBase* getListenerById(Id listenerId) const;
@@ -27,13 +33,17 @@ class MessageQueue {
   void addMessageFilter(std::shared_ptr<MessageFilter> filter);
 
   void pushMessage(std::shared_ptr<MessageBase> message);
+
   void processMessage(std::shared_ptr<MessageBase> message, bool asNextTask);
 
   void startMessageLoopThreaded();
+
   void startMessageLoop();
+
   void stopMessageLoop();
 
   bool loopIsRunning() const;
+
   bool hasMessagesQueued() const;
 
   void setSendMessagesAsTasks(bool sendMessagesAsTasks);
@@ -42,11 +52,11 @@ class MessageQueue {
   static std::shared_ptr<MessageQueue> s_instance;
 
   MessageQueue();
-  MessageQueue(const MessageQueue&) = delete;
-  void operator=(const MessageQueue&) = delete;
 
   void processMessages();
+
   void sendMessage(std::shared_ptr<MessageBase> message);
+
   void sendMessageAsTask(std::shared_ptr<MessageBase> message, bool asNextTask) const;
 
   MessageBufferType m_messageBuffer;

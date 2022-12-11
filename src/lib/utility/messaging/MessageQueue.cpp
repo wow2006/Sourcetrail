@@ -38,7 +38,7 @@ void MessageQueue::unregisterListener(MessageListenerBase* listener) {
   std::lock_guard<std::mutex> lock(m_listenersMutex);
   for (size_t i = 0; i < m_listeners.size(); i++) {
     if (m_listeners[i] == listener) {
-      m_listeners.erase(m_listeners.begin() + i);
+      m_listeners.erase(m_listeners.begin() + static_cast<long>(i));
 
       // m_currentListenerIndex and m_listenersLength need to be updated in case this happens
       // while a message is handled.
@@ -238,9 +238,9 @@ void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool 
            listener->getSchedulerId() == message->getSchedulerId())) {
         Id listenerId = listener->getId();
         taskGroup->addTask(std::make_shared<TaskLambda>([listenerId, message]() {
-          MessageListenerBase* listener = MessageQueue::getInstance()->getListenerById(listenerId);
-          if (listener) {
-            listener->handleMessageBase(message.get());
+          MessageListenerBase* newListener = MessageQueue::getInstance()->getListenerById(listenerId);
+          if (newListener != nullptr) {
+            newListener->handleMessageBase(message.get());
           }
         }));
       }
@@ -248,7 +248,7 @@ void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool 
   }
 
   Id schedulerId = message->getSchedulerId();
-  if (!schedulerId) {
+  if (schedulerId == 0U) {
     schedulerId = TabId::app();
   }
 

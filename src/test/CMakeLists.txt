@@ -36,6 +36,7 @@ if(BUILD_UNIT_TESTS)
     FilePathTestSuite
     LogManagerTestSuite
     LogMessageTestSuite
+    MessageQueueTestSuite
     ScopedFunctorTestSuite
     TaskGroupParallelTestSuite
     TaskManagerTestSuite
