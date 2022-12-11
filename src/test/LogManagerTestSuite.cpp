@@ -1,7 +1,10 @@
 #include <thread>
 
-#include "LogManagerImplementation.hpp"
 #include "catch.hpp"
+
+#include "LogManagerImplementation.hpp"
+#include "LogMessage.hpp"
+
 
 namespace {
 class TestLogger : public Logger {
@@ -59,17 +62,17 @@ std::wstring TestLogger::getLastWarning() const { return m_lastWarning; }
 std::wstring TestLogger::getLastError() const { return m_lastError; }
 
 void TestLogger::logInfo(const LogMessage& message) {
-  m_lastInfo = message.message;
+  m_lastInfo = message.m_message;
   m_logMessageCount++;
 }
 
 void TestLogger::logWarning(const LogMessage& message) {
-  m_lastWarning = message.message;
+  m_lastWarning = message.m_message;
   m_logWarningCount++;
 }
 
 void TestLogger::logError(const LogMessage& message) {
-  m_lastError = message.message;
+  m_lastError = message.m_message;
   m_logErrorCount++;
 }
 
