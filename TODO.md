@@ -15,6 +15,7 @@
 [ ] Export the test data to Google drive
 [ ] Create a repo for application assets
 [ ] Isolate Qt code to QUI stuff
+[ ] Stop using fstream and use assets manager
 
 ## website
 
