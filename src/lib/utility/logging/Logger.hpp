@@ -19,7 +19,7 @@ class Logger {
   Logger& operator=(const Logger&) = delete;
   Logger& operator=(Logger&&) = delete;
 
-  virtual ~Logger() = default;
+  virtual ~Logger();
 
   [[nodiscard]] std::string getType() const;
 

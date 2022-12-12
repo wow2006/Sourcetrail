@@ -1,4 +1,4 @@
-#include "AppPath.h"
+#include "AppPath.hpp"
 #include "ApplicationSettings.h"
 #include "ConsoleLogger.h"
 #include "FileLogger.h"
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
     logFilePath = argv[5];
   }
 
-  AppPath::setSharedDataDirectoryPath(FilePath(appPath));
+  appPath::setSharedDataDirectoryPath(FilePath(appPath));
   UserPaths::setUserDataDirectoryPath(FilePath(userDataPath));
 
   if (!logFilePath.empty()) {
@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
   appSettings->load(FilePath(UserPaths::getAppSettingsFilePath()));
   LogManager::getInstance()->setLoggingEnabled(appSettings->getLoggingEnabled());
 
-  LOG_INFO(L"sharedDataPath: " + AppPath::getSharedDataDirectoryPath().wstr());
+  LOG_INFO(L"sharedDataPath: " + appPath::getSharedDataDirectoryPath().wstr());
   LOG_INFO(L"userDataPath: " + UserPaths::getUserDataDirectoryPath().wstr());
 
 #if BUILD_CXX_LANGUAGE_PACKAGE

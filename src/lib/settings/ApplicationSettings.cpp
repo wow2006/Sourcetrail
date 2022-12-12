@@ -1,6 +1,6 @@
 #include "ApplicationSettings.h"
 
-#include "AppPath.h"
+#include "AppPath.hpp"
 #include "Logger.h"
 #include "ResourcePaths.h"
 #include "SettingsMigrationLambda.h"

@@ -5,6 +5,8 @@
 
 Logger::Logger(std::string type) : m_type(std::move(type)), m_levelMask(LOG_ALL) {}
 
+Logger::~Logger() = default;
+
 std::string Logger::getType() const { return m_type; }
 
 Logger::LogLevelMask Logger::getLogLevel() const { return m_levelMask; }

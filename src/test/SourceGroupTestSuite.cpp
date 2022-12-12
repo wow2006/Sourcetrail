@@ -1,6 +1,6 @@
 #include <fstream>
 
-#include "AppPath.h"
+#include "AppPath.hpp"
 #include "Application.h"
 #include "ApplicationSettings.h"
 #include "FileSystem.h"
@@ -435,8 +435,8 @@ TEST_CASE("sourcegroup java gradle generates expected output") {
 
   std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
 
-  const FilePath storedAppPath = AppPath::getSharedDataDirectoryPath();
-  AppPath::setSharedDataDirectoryPath(storedAppPath.getConcatenated(L"../app").makeAbsolute());
+  const FilePath storedAppPath = appPath::getSharedDataDirectoryPath();
+  appPath::setSharedDataDirectoryPath(storedAppPath.getConcatenated(L"../app").makeAbsolute());
 
   std::vector<FilePath> storedJreSystemLibraryPaths = applicationSettings->getJreSystemLibraryPaths();
   applicationSettings->setJreSystemLibraryPaths({FilePath(L"test/jre/system/library/path.jar")});
@@ -444,7 +444,7 @@ TEST_CASE("sourcegroup java gradle generates expected output") {
   generateAndCompareExpectedOutput(projectName, std::make_shared<SourceGroupJavaGradle>(sourceGroupSettings));
 
   applicationSettings->setJreSystemLibraryPaths(storedJreSystemLibraryPaths);
-  AppPath::setSharedDataDirectoryPath(storedAppPath);
+  appPath::setSharedDataDirectoryPath(storedAppPath);
 #endif
 }
 

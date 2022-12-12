@@ -4,7 +4,7 @@
 #include <QDir>
 #include <QDirIterator>
 
-#include "AppPath.h"
+#include "AppPath.hpp"
 #include "ApplicationSettings.h"
 #include "FilePath.hpp"
 #include "FileSystem.h"
@@ -40,12 +40,12 @@ void setupPlatform([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
 
 void setupApp([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
   FilePath appPath = FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/").getAbsolute();
-  AppPath::setSharedDataDirectoryPath(appPath);
-  AppPath::setCxxIndexerDirectoryPath(appPath);
+  appPath::setSharedDataDirectoryPath(appPath);
+  appPath::setCxxIndexerDirectoryPath(appPath);
 
   // Check if bundled as Linux AppImage
   if (appPath.getConcatenated(L"/../share/data").exists()) {
-    AppPath::setSharedDataDirectoryPath(appPath.getConcatenated(L"/../share").getAbsolute());
+    appPath::setSharedDataDirectoryPath(appPath.getConcatenated(L"/../share").getAbsolute());
   }
 
   std::string userdir(std::getenv("HOME"));
@@ -60,7 +60,7 @@ void setupApp([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
   utility::copyNewFilesFromDirectory(QString::fromStdWString(ResourcePaths::getFallbackDirectoryPath().wstr()),
                                      userDataPath);
   utility::copyNewFilesFromDirectory(
-      QString::fromStdWString(AppPath::getSharedDataDirectoryPath().concatenate(L"user/").wstr()), userDataPath);
+      QString::fromStdWString(appPath::getSharedDataDirectoryPath().concatenate(L"user/").wstr()), userDataPath);
 
   // Add u+w permissions because the source files may be marked read-only in some distros
   QDirIterator it(userDataPath, QDir::Files, QDirIterator::Subdirectories);

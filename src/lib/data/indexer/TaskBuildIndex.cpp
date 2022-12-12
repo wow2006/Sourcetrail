@@ -1,6 +1,6 @@
 #include "TaskBuildIndex.h"
 
-#include "AppPath.h"
+#include "AppPath.hpp"
 #include "Blackboard.hpp"
 #include "DialogView.h"
 #include "FileLogger.h"
@@ -144,7 +144,7 @@ void TaskBuildIndex::handleMessage(MessageIndexingInterrupted* message) {
 }
 
 void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFilePath) {
-  const FilePath indexerProcessPath = AppPath::getCxxIndexerFilePath();
+  const FilePath indexerProcessPath = appPath::getCxxIndexerFilePath();
   if (!indexerProcessPath.exists()) {
     m_interrupted = true;
     LOG_ERROR(L"Cannot start indexer process because executable is missing at \"" + indexerProcessPath.wstr() + L"\"");
@@ -154,7 +154,7 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
   std::vector<std::wstring> commandArguments;
   commandArguments.push_back(std::to_wstring(processId));
   commandArguments.push_back(utility::decodeFromUtf8(m_appUUID));
-  commandArguments.push_back(AppPath::getSharedDataDirectoryPath().getAbsolute().wstr());
+  commandArguments.push_back(appPath::getSharedDataDirectoryPath().getAbsolute().wstr());
   commandArguments.push_back(UserPaths::getUserDataDirectoryPath().getAbsolute().wstr());
 
   if (!logFilePath.empty()) {

@@ -7,7 +7,7 @@
 #include <QDir>
 #include <QStandardPaths>
 
-#include "AppPath.h"
+#include "AppPath.hpp"
 #include "FilePath.hpp"
 #include "ResourcePaths.h"
 #include "UserPaths.h"
@@ -68,7 +68,7 @@ void setupPlatform(int argc, char* argv[]) {
 
 void setupApp(int argc, char* argv[]) {
   const FilePath path(QDir::currentPath().toStdWString() + L"/");
-  AppPath::setSharedDataDirectoryPath(path.getAbsolute());
+  appPath::setSharedDataDirectoryPath(path.getAbsolute());
 }
 
 #endif  // INCLUDES_MAC_H

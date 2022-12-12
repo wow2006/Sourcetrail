@@ -1,6 +1,6 @@
 #include "Application.h"
 
-#include "AppPath.h"
+#include "AppPath.hpp"
 #include "ApplicationSettings.h"
 #include "ColorScheme.h"
 #include "CppSQLite3.h"

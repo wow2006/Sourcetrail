@@ -6,7 +6,7 @@
 #include <QDir>
 #include <string>
 
-#include "AppPath.h"
+#include "AppPath.hpp"
 #include "Application.h"
 #include "FileSystem.h"
 #include "ResourcePaths.h"
@@ -32,11 +32,11 @@ void setupApp(int argc, char* argv[]) {
     if (pos != std::wstring::npos) {
       appPath = appPath.substr(0, pos + 1);
     }
-    AppPath::setSharedDataDirectoryPath(FilePath(appPath));
+    appPath::setSharedDataDirectoryPath(FilePath(appPath));
   }
 
   {
-    FilePath userDataPath = AppPath::getSharedDataDirectoryPath().concatenate(L"user/");
+    FilePath userDataPath = appPath::getSharedDataDirectoryPath().concatenate(L"user/");
     if (!userDataPath.exists()) {
 #pragma warning(push)
 #pragma warning(disable : 4996)
@@ -55,7 +55,7 @@ void setupApp(int argc, char* argv[]) {
         }
         userDataPath.makeCanonical();
       } else {
-        userDataPath = AppPath::getSharedDataDirectoryPath().concatenate(L"user_fallback/");
+        userDataPath = appPath::getSharedDataDirectoryPath().concatenate(L"user_fallback/");
         LOG_ERROR(L"The \"%LOCALAPPDATA%\" path could not be found. Falling back to \"" + userDataPath.wstr() +
                   L"\" to store settings data.");
         FileSystem::createDirectory(userDataPath);
