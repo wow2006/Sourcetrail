@@ -40,6 +40,7 @@ if(BUILD_UNIT_TESTS)
     ScopedFunctorTestSuite
     TaskGroupParallelTestSuite
     TaskManagerTestSuite
+    TaskLambdaTestSuite
     TaskRunnerTestSuite
     TaskSchedulerTestSuite
     TextAccessTestSuite
