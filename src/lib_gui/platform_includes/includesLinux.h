@@ -14,11 +14,11 @@
 
 void setupPlatform([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
   std::string home = std::getenv("HOME");
-  UserPaths::setUserDataDirectoryPath(FilePath(home + "/.config/sourcetrail/"));
+  userPaths::setUserDataDirectoryPath(FilePath(home + "/.config/sourcetrail/"));
 
   // Set QT screen scaling factor
   ApplicationSettings appSettings;
-  appSettings.load(UserPaths::getAppSettingsFilePath(), true);
+  appSettings.load(userPaths::getAppSettingsFilePath(), true);
 
   qputenv("QT_AUTO_SCREEN_SCALE_FACTOR_SOURCETRAIL", qgetenv("QT_AUTO_SCREEN_SCALE_FACTOR"));
   qputenv("QT_SCALE_FACTOR_SOURCETRAIL", qgetenv("QT_SCALE_FACTOR"));

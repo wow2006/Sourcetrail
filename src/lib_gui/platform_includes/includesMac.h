@@ -14,7 +14,7 @@
 #include "utilityQt.h"
 
 void setupPlatform(int argc, char* argv[]) {
-  UserPaths::setUserDataDirectoryPath(FilePath(L"./user/").getAbsolute());
+  userPaths::setUserDataDirectoryPath(FilePath(L"./user/").getAbsolute());
 
   // ----------------------------------------------------------------------------
   // This makes relative paths work in C++ in Xcode by changing directory to the Resources folder
@@ -63,7 +63,7 @@ void setupPlatform(int argc, char* argv[]) {
   utility::copyNewFilesFromDirectory(oldDataPath, dataPath);
 
   // ----------------------------------------------------------------------------
-  UserPaths::setUserDataDirectoryPath(FilePath(dataPath.toStdWString() + L"/").getAbsolute());
+  userPaths::setUserDataDirectoryPath(FilePath(dataPath.toStdWString() + L"/").getAbsolute());
 }
 
 void setupApp(int argc, char* argv[]) {

@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
   }
 
   appPath::setSharedDataDirectoryPath(FilePath(appPath));
-  UserPaths::setUserDataDirectoryPath(FilePath(userDataPath));
+  userPaths::setUserDataDirectoryPath(FilePath(userDataPath));
 
   if (!logFilePath.empty()) {
     setupLogging(FilePath(logFilePath));
@@ -74,11 +74,11 @@ int main(int argc, char* argv[]) {
   suppressCrashMessage();
 
   ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-  appSettings->load(FilePath(UserPaths::getAppSettingsFilePath()));
+  appSettings->load(FilePath(userPaths::getAppSettingsFilePath()));
   LogManager::getInstance()->setLoggingEnabled(appSettings->getLoggingEnabled());
 
   LOG_INFO(L"sharedDataPath: " + appPath::getSharedDataDirectoryPath().wstr());
-  LOG_INFO(L"userDataPath: " + UserPaths::getUserDataDirectoryPath().wstr());
+  LOG_INFO(L"userDataPath: " + userPaths::getUserDataDirectoryPath().wstr());
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
   LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageCxx>());

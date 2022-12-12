@@ -242,7 +242,7 @@ View* QtMainWindow::findFloatingView(const std::string& name) const {
 }
 
 void QtMainWindow::loadLayout() {
-  QSettings settings(QString::fromStdWString(UserPaths::getWindowSettingsFilePath().wstr()), QSettings::IniFormat);
+  QSettings settings(QString::fromStdWString(userPaths::getWindowSettingsFilePath().wstr()), QSettings::IniFormat);
 
   settings.beginGroup(QStringLiteral("MainWindow"));
   resize(settings.value(QStringLiteral("size"), QSize(600, 400)).toSize());
@@ -256,7 +256,7 @@ void QtMainWindow::loadLayout() {
 }
 
 void QtMainWindow::loadDockWidgetLayout() {
-  QSettings settings(QString::fromStdWString(UserPaths::getWindowSettingsFilePath().wstr()), QSettings::IniFormat);
+  QSettings settings(QString::fromStdWString(userPaths::getWindowSettingsFilePath().wstr()), QSettings::IniFormat);
   this->restoreState(settings.value(QStringLiteral("DOCK_LOCATIONS")).toByteArray());
 
   for (DockWidget dock : m_dockWidgets) {
@@ -271,7 +271,7 @@ void QtMainWindow::loadWindow(bool showStartWindow) {
 }
 
 void QtMainWindow::saveLayout() {
-  QSettings settings(QString::fromStdWString(UserPaths::getWindowSettingsFilePath().wstr()), QSettings::IniFormat);
+  QSettings settings(QString::fromStdWString(userPaths::getWindowSettingsFilePath().wstr()), QSettings::IniFormat);
 
   settings.beginGroup(QStringLiteral("MainWindow"));
   settings.setValue(QStringLiteral("maximized"), isMaximized());
@@ -438,7 +438,7 @@ void QtMainWindow::showLicenses() {
 
 void QtMainWindow::showDataFolder() {
   QDesktopServices::openUrl(
-      QUrl(QString::fromStdWString(L"file:///" + UserPaths::getUserDataDirectoryPath().makeCanonical().wstr()),
+      QUrl(QString::fromStdWString(L"file:///" + userPaths::getUserDataDirectoryPath().makeCanonical().wstr()),
            QUrl::TolerantMode));
 }
 
@@ -575,9 +575,9 @@ void QtMainWindow::zoomOut() { MessageZoom(false).dispatch(); }
 void QtMainWindow::resetZoom() { MessageResetZoom().dispatch(); }
 
 void QtMainWindow::resetWindowLayout() {
-  FileSystem::remove(UserPaths::getWindowSettingsFilePath());
+  FileSystem::remove(userPaths::getWindowSettingsFilePath());
   FileSystem::copyFile(resourcePaths::getFallbackDirectoryPath().concatenate(L"window_settings.ini"),
-                       UserPaths::getWindowSettingsFilePath());
+                       userPaths::getWindowSettingsFilePath());
   loadDockWidgetLayout();
 }
 

@@ -62,14 +62,14 @@ void setupApp(int argc, char* argv[]) {
       }
     }
 
-    UserPaths::setUserDataDirectoryPath(userDataPath);
+    userPaths::setUserDataDirectoryPath(userDataPath);
   }
 
   // This "copyFile" method does nothing if the copy destination already exist
   FileSystem::copyFile(resourcePaths::getFallbackDirectoryPath().concatenate(L"ApplicationSettings.xml"),
-                       UserPaths::getAppSettingsFilePath());
+                       userPaths::getAppSettingsFilePath());
   FileSystem::copyFile(resourcePaths::getFallbackDirectoryPath().concatenate(L"window_settings.ini"),
-                       UserPaths::getWindowSettingsFilePath());
+                       userPaths::getWindowSettingsFilePath());
 }
 
 #endif  // INCLUDES_WINDOWS_H

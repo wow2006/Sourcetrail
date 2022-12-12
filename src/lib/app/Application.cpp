@@ -92,10 +92,10 @@ std::string Application::getUUID() {
 }
 
 void Application::loadSettings() {
-  MessageStatus(L"Load settings: " + UserPaths::getAppSettingsFilePath().wstr()).dispatch();
+  MessageStatus(L"Load settings: " + userPaths::getAppSettingsFilePath().wstr()).dispatch();
 
   std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-  settings->load(UserPaths::getAppSettingsFilePath());
+  settings->load(userPaths::getAppSettingsFilePath());
 
   LogManager::getInstance()->setLoggingEnabled(settings->getLoggingEnabled());
   Logger* logger = LogManager::getInstance()->getLoggerByType("FileLogger");
@@ -350,7 +350,7 @@ void Application::updateRecentProjects(const FilePath& projectSettingsFilePath) 
     }
 
     appSettings->setRecentProjects(recentProjects);
-    appSettings->save(UserPaths::getAppSettingsFilePath());
+    appSettings->save(userPaths::getAppSettingsFilePath());
 
     m_mainView->updateRecentProjectMenu();
   }

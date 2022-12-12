@@ -234,7 +234,7 @@ void ApplicationSettings::setVerboseIndexerLoggingEnabled(bool value) {
 
 FilePath ApplicationSettings::getLogDirectoryPath() const {
   return FilePath(
-      getValue<std::wstring>("application/log_directory_path", UserPaths::getLogDirectoryPath().getAbsolute().wstr()));
+      getValue<std::wstring>("application/log_directory_path", userPaths::getLogDirectoryPath().getAbsolute().wstr()));
 }
 
 void ApplicationSettings::setLogDirectoryPath(const FilePath& path) {
@@ -391,7 +391,7 @@ std::vector<FilePath> ApplicationSettings::getRecentProjects() const {
     if (project.isAbsolute()) {
       recentProjects.push_back(project);
     } else {
-      recentProjects.push_back(UserPaths::getUserDataDirectoryPath().concatenate(project));
+      recentProjects.push_back(userPaths::getUserDataDirectoryPath().concatenate(project));
     }
   }
   return recentProjects;

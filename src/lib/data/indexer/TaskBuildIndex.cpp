@@ -155,7 +155,7 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
   commandArguments.push_back(std::to_wstring(processId));
   commandArguments.push_back(utility::decodeFromUtf8(m_appUUID));
   commandArguments.push_back(appPath::getSharedDataDirectoryPath().getAbsolute().wstr());
-  commandArguments.push_back(UserPaths::getUserDataDirectoryPath().getAbsolute().wstr());
+  commandArguments.push_back(userPaths::getUserDataDirectoryPath().getAbsolute().wstr());
 
   if (!logFilePath.empty()) {
     commandArguments.push_back(logFilePath);
