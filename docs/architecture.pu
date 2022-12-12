@@ -1,0 +1,22 @@
+@startuml
+
+title Sourcetrail
+
+package "Front End" {
+    component [Graphic User\nInterface] as GUI
+}
+
+node "Middle Tier" {
+    [Business Logic] as BL
+    [Data Access] as DA  
+} 
+
+database "SQLite\n" {
+    [Stored Procs]
+}
+
+GUI -down-> BL
+BL -- DA
+DA .. [Stored Procs]
+
+@enduml
