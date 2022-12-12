@@ -22,7 +22,7 @@
 #include "QtCodeFile.h"
 #include "QtCodeSnippet.h"
 #include "QtSearchBarButton.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "SourceLocation.h"
 #include "SourceLocationCollection.h"
 #include "SourceLocationFile.h"
@@ -59,9 +59,9 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 
     {
       m_prevReferenceButton = new QtSearchBarButton(
-          ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_up.png"), true);
+          resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_up.png"), true);
       m_nextReferenceButton = new QtSearchBarButton(
-          ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_down.png"), true);
+          resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_down.png"), true);
 
       m_prevReferenceButton->setObjectName(QStringLiteral("reference_button_previous"));
       m_nextReferenceButton->setObjectName(QStringLiteral("reference_button_next"));
@@ -88,9 +88,9 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 
     {
       m_prevLocalReferenceButton = new QtSearchBarButton(
-          ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_up.png"), true);
+          resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_up.png"), true);
       m_nextLocalReferenceButton = new QtSearchBarButton(
-          ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_down.png"), true);
+          resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_down.png"), true);
 
       m_prevLocalReferenceButton->setObjectName(QStringLiteral("local_reference_button_previous"));
       m_nextLocalReferenceButton->setObjectName(QStringLiteral("local_reference_button_next"));
@@ -123,9 +123,9 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
     }
 
     m_listButton =
-        new QtSearchBarButton(ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/list.png"), true);
+        new QtSearchBarButton(resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/list.png"), true);
     m_fileButton =
-        new QtSearchBarButton(ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/file.png"), true);
+        new QtSearchBarButton(resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/file.png"), true);
 
     m_listButton->setObjectName(QStringLiteral("mode_button_list"));
     m_fileButton->setObjectName(QStringLiteral("mode_button_single"));

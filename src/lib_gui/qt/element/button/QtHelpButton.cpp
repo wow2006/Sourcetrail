@@ -1,10 +1,10 @@
 #include "QtHelpButton.h"
 
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 
 QtHelpButton::QtHelpButton(const QtHelpButtonInfo& info, QWidget* parent)
-    : QtIconButton(ResourcePaths::getGuiDirectoryPath().concatenate(L"window/help.png"),
-                   ResourcePaths::getGuiDirectoryPath().concatenate(L"window/help_hover.png"), parent),
+    : QtIconButton(resourcePaths::getGuiDirectoryPath().concatenate(L"window/help.png"),
+                   resourcePaths::getGuiDirectoryPath().concatenate(L"window/help_hover.png"), parent),
       m_info(info) {
   setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   setAttribute(Qt::WA_LayoutUsesWidgetRect);  // fixes layouting on Mac

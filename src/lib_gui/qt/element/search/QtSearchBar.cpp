@@ -8,7 +8,7 @@
 #include "MessageSearchAutocomplete.h"
 #include "QtSearchBarButton.h"
 #include "QtSmartSearchBox.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 
 QtSearchBar::QtSearchBar() {
   setObjectName(QStringLiteral("search_bar"));
@@ -20,7 +20,7 @@ QtSearchBar::QtSearchBar() {
   setLayout(layout);
 
   m_homeButton =
-      new QtSearchBarButton(ResourcePaths::getGuiDirectoryPath().concatenate(L"search_view/images/home.png"));
+      new QtSearchBarButton(resourcePaths::getGuiDirectoryPath().concatenate(L"search_view/images/home.png"));
   m_homeButton->setObjectName(QStringLiteral("home_button"));
   m_homeButton->setToolTip(QStringLiteral("to overview"));
   layout->addWidget(m_homeButton);
@@ -45,7 +45,7 @@ QtSearchBar::QtSearchBar() {
   connect(m_searchBox, &QtSmartSearchBox::fullTextSearch, this, &QtSearchBar::requestFullTextSearch);
 
   m_searchButton =
-      new QtSearchBarButton(ResourcePaths::getGuiDirectoryPath().concatenate(L"search_view/images/search.png"));
+      new QtSearchBarButton(resourcePaths::getGuiDirectoryPath().concatenate(L"search_view/images/search.png"));
   m_searchButton->setObjectName(QStringLiteral("search_button"));
   m_searchButton->setToolTip(QStringLiteral("search"));
   layout->addWidget(m_searchButton);

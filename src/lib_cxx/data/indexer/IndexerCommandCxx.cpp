@@ -8,7 +8,7 @@
 
 #include "MessageStatus.hpp"
 #include "OrderedCache.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "logging.h"
 #include "utility.h"
 #include "utilitySourceGroupCxx.h"
@@ -70,11 +70,11 @@ std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForSystemHeaderSear
 #ifdef _WIN32
   // prepend clang system includes on windows
   compilerFlags =
-      utility::concat({L"-isystem", ResourcePaths::getCxxCompilerHeaderDirectoryPath().wstr()}, compilerFlags);
+      utility::concat({L"-isystem", resourcePaths::getCxxCompilerHeaderDirectoryPath().wstr()}, compilerFlags);
 #else
   // append otherwise
   compilerFlags.push_back(L"-isystem");
-  compilerFlags.push_back(ResourcePaths::getCxxCompilerHeaderDirectoryPath().wstr());
+  compilerFlags.push_back(resourcePaths::getCxxCompilerHeaderDirectoryPath().wstr());
 #endif
 
   return compilerFlags;

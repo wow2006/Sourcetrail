@@ -1,6 +1,6 @@
 #include "NodeType.h"
 
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityString.h"
 
 std::vector<NodeType> const NodeType::overviewBundleNodeTypesOrdered = {
@@ -136,20 +136,20 @@ Tree<NodeType::BundleInfo> NodeType::getOverviewBundleTree() const {
 FilePath NodeType::getIconPath() const {
   if (isPackage()) {
     // this icon cannot be changed
-    return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/namespace.png");
+    return resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/namespace.png");
   }
 
   switch (m_kind) {
     case NODE_ANNOTATION:
-      return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/annotation.png");
+      return resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/annotation.png");
     case NODE_ENUM:
-      return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/enum.png");
+      return resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/enum.png");
     case NODE_TYPEDEF:
-      return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/typedef.png");
+      return resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/typedef.png");
     case NODE_MACRO:
-      return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/macro.png");
+      return resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/macro.png");
     case NODE_FILE:
-      return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/file.png");
+      return resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/file.png");
     default:
       return FilePath();
   }

@@ -6,7 +6,7 @@
 #include "QtCodeNavigator.h"
 #include "QtHighlighter.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "tracing.h"
 #include "utilityQt.h"
 
@@ -204,7 +204,7 @@ void QtCodeView::setStyleSheet() const {
   utility::setWidgetBackgroundColor(m_widget, ColorScheme::getInstance()->getColor("code/background"));
 
   std::string styleSheet =
-      utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/code_view.css"));
+      utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/code_view.css"));
 
   m_widget->setStyleSheet(styleSheet.c_str());
 }

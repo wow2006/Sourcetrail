@@ -4,7 +4,7 @@
 #include "JavaEnvironment.h"
 #include "JavaEnvironmentFactory.h"
 #include "MessageStatus.hpp"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "ScopedFunctor.h"
 #include "SourceGroupSettingsWithClasspath.h"
 #include "TextAccess.h"
@@ -51,7 +51,7 @@ std::string prepareJavaEnvironment() {
         if (i != 0) {
           classPath += separator;
         }
-        classPath += ResourcePaths::getJavaDirectoryPath().concatenate(L"lib/" + jarNames[i]).str();
+        classPath += resourcePaths::getJavaDirectoryPath().concatenate(L"lib/" + jarNames[i]).str();
       }
     }
 

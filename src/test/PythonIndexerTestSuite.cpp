@@ -9,7 +9,7 @@
 #include "FileSystem.h"
 #include "IndexerCommandCustom.h"
 #include "PersistentStorage.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "SqliteIndexStorage.h"
 #include "TaskExecuteCustomCommands.h"
 #include "TestStorage.h"
@@ -60,7 +60,7 @@ std::shared_ptr<TestStorage> parseCode(std::string code) {
     std::shared_ptr<IndexerCommandCustom> indexerCommand = std::make_shared<IndexerCommandCustom>(
         INDEXER_COMMAND_PYTHON,
         FilePath("../app")
-            .getConcatenated(ResourcePaths::getPythonIndexerFilePath())
+            .getConcatenated(resourcePaths::getPythonIndexerFilePath())
             .makeAbsolute()
             .makeCanonical()
             .wstr(),

@@ -9,7 +9,7 @@
 #include "LanguageType.h"
 #include "QtFlowLayout.h"
 #include "QtProjectWizardWindow.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "SqliteIndexStorage.h"
 #include "utilityApp.h"
 #include "utilityString.h"
@@ -20,7 +20,7 @@ QtProjectWizardContentSelect::QtProjectWizardContentSelect(QtProjectWizardWindow
 void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row) {
   std::string pythonIndexerVersion = " ";
   {
-    utility::ProcessOutput output = utility::executeProcess(ResourcePaths::getPythonIndexerFilePath().wstr(),
+    utility::ProcessOutput output = utility::executeProcess(resourcePaths::getPythonIndexerFilePath().wstr(),
                                                             {L"--version"}, FilePath(), false, 5000);
     if (output.exitCode == 0) {
       std::string str = utility::encodeToUtf8(output.output);
@@ -184,7 +184,7 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& row) {
 
       QToolButton* b = createSourceGroupButton(
           utility::insertLineBreaksAtBlankSpaces(name, 15).c_str(),
-          QString::fromStdWString(ResourcePaths::getGuiDirectoryPath()
+          QString::fromStdWString(resourcePaths::getGuiDirectoryPath()
                                       .concatenate(L"icon/" + m_sourceGroupTypeIconName[sourceGroupIt.type] + L".png")
                                       .wstr()));
 

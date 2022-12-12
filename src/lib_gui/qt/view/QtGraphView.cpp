@@ -36,7 +36,7 @@
 #include "QtGraphicsView.h"
 #include "QtSelfRefreshIconButton.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityQt.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
@@ -81,7 +81,7 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 
     {
       m_expandButton = new QtSelfRefreshIconButton(
-          QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/graph.png"),
+          QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/graph.png"),
           "search/button");
       m_expandButton->setObjectName(QStringLiteral("expand_button"));
       m_expandButton->setToolTip(QStringLiteral("show trail controls"));
@@ -97,7 +97,7 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
       stack->addWidget(ui);
 
       m_collapseButton = new QtSelfRefreshIconButton(
-          QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/graph_arrow.png"),
+          QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/graph_arrow.png"),
           "search/button", ui);
       m_collapseButton->setObjectName(QStringLiteral("collapse_button"));
       m_collapseButton->setToolTip(QStringLiteral("hide trail controls"));
@@ -109,7 +109,7 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
       m_customTrailButton->setIconSize(QSize(16, 16));
       m_customTrailButton->setToolTip(QStringLiteral("custom trail"));
       m_customTrailButton->setIconPath(
-          ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/graph_custom.png"));
+          resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/graph_custom.png"));
       connect(m_customTrailButton, &QPushButton::clicked, this, &QtGraphView::clickedCustomTrail);
 
       m_forwardTrailButton = new QtSelfRefreshIconButton(QLatin1String(""), FilePath(), "search/button", ui);
@@ -161,10 +161,10 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
   // group controls
   {
     m_groupFileButton = new QtSelfRefreshIconButton(
-        QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/file.png"),
+        QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/file.png"),
         "search/button");
     m_groupNamespaceButton = new QtSelfRefreshIconButton(
-        QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/group_namespace.png"),
+        QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/group_namespace.png"),
         "search/button");
 
     m_groupFileButton->setObjectName(QStringLiteral("group_right_button"));
@@ -212,7 +212,7 @@ void QtGraphView::refreshView() {
     QtGraphicsView* view = getView();
 
     const std::string css =
-        utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/graph_view.css"));
+        utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/graph_view.css"));
     view->setStyleSheet(css.c_str());
     view->setAppZoomFactor(GraphViewStyle::getZoomFactor());
 
@@ -751,9 +751,9 @@ void QtGraphView::updateTrailButtons() {
   }
 
   m_forwardTrailButton->setIconPath(
-      ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/" + forwardImagePath));
+      resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/" + forwardImagePath));
   m_backwardTrailButton->setIconPath(
-      ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/" + backwardImagePath));
+      resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/" + backwardImagePath));
 }
 
 void QtGraphView::switchToNewGraphData() {

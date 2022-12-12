@@ -5,7 +5,7 @@
 #include "IndexerCommandCustom.h"
 #include "ProjectSettings.h"
 #include "RefreshInfo.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "SourceGroupSettingsPythonEmpty.h"
 #include "SqliteIndexStorage.h"
 #include "utility.h"
@@ -56,7 +56,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerC
   for (const FilePath& sourceFilePath : getAllSourceFilePaths()) {
     if (info.filesToIndex.find(sourceFilePath) != info.filesToIndex.end()) {
       indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(
-          INDEXER_COMMAND_PYTHON, ResourcePaths::getPythonIndexerFilePath().wstr(), args,
+          INDEXER_COMMAND_PYTHON, resourcePaths::getPythonIndexerFilePath().wstr(), args,
           m_settings->getProjectSettings()->getProjectFilePath(), m_settings->getProjectSettings()->getTempDBFilePath(),
           std::to_wstring(SqliteIndexStorage::getStorageVersion()), sourceFilePath, true));
     }

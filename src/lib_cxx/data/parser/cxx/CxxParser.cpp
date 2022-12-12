@@ -19,7 +19,7 @@
 #include "FileRegister.h"
 #include "IndexerCommandCxx.h"
 #include "ParserClient.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "SingleFrontendActionFactory.h"
 #include "TextAccess.h"
 #include "logging.h"

@@ -9,7 +9,7 @@
 #include <QTimer>
 
 #include "QtSelfRefreshIconButton.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityQt.h"
 
 QtFocusInFilter::QtFocusInFilter(QObject* parent) : QObject(parent) {}
@@ -36,7 +36,7 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
   // search field
   {
     m_searchButton = new QtSelfRefreshIconButton(
-        QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"search_view/images/search.png"),
+        QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"search_view/images/search.png"),
         "screen_search/button");
     m_searchButton->setObjectName(QStringLiteral("search_button"));
     m_searchButton->setIconSize(QSize(12, 12));
@@ -70,10 +70,10 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
   // buttons
   {
     m_prevButton = new QtSelfRefreshIconButton(
-        QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_left.png"),
+        QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_left.png"),
         "screen_search/button");
     m_nextButton = new QtSelfRefreshIconButton(
-        QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_right.png"),
+        QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/arrow_right.png"),
         "screen_search/button");
 
     m_prevButton->setObjectName(QStringLiteral("prev_button"));
@@ -99,7 +99,7 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
   // buttons
   {
     m_closeButton = new QtSelfRefreshIconButton(
-        QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"screen_search_view/images/close.png"),
+        QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"screen_search_view/images/close.png"),
         "screen_search/button");
     m_closeButton->setObjectName(QStringLiteral("close_button"));
     m_closeButton->setIconSize(QSize(15, 15));

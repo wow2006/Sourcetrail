@@ -7,7 +7,7 @@
 #include "MessageRefresh.h"
 #include "QtSearchBarButton.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityQt.h"
 
 QtRefreshView::QtRefreshView(ViewLayout* viewLayout) : RefreshView(viewLayout) {
@@ -20,7 +20,7 @@ QtRefreshView::QtRefreshView(ViewLayout* viewLayout) : RefreshView(viewLayout) {
   layout->setAlignment(Qt::AlignTop);
 
   QtSearchBarButton* refreshButton =
-      new QtSearchBarButton(ResourcePaths::getGuiDirectoryPath().concatenate(L"refresh_view/images/refresh.png"));
+      new QtSearchBarButton(resourcePaths::getGuiDirectoryPath().concatenate(L"refresh_view/images/refresh.png"));
   refreshButton->setObjectName(QStringLiteral("refresh_button"));
   refreshButton->setToolTip(QStringLiteral("refresh"));
   m_widget->connect(refreshButton, &QPushButton::clicked, []() {
@@ -37,7 +37,7 @@ void QtRefreshView::createWidgetWrapper() { setWidgetWrapper(std::make_shared<Qt
 void QtRefreshView::refreshView() {
   m_onQtThread([this]() {
     m_widget->setStyleSheet(
-        utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"refresh_view/refresh_view.css"))
+        utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"refresh_view/refresh_view.css"))
             .c_str());
   });
 }

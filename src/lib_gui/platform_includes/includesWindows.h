@@ -9,7 +9,7 @@
 #include "AppPath.hpp"
 #include "Application.h"
 #include "FileSystem.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "UserPaths.h"
 #include "logging.h"
 #include "utility.h"
@@ -66,9 +66,9 @@ void setupApp(int argc, char* argv[]) {
   }
 
   // This "copyFile" method does nothing if the copy destination already exist
-  FileSystem::copyFile(ResourcePaths::getFallbackDirectoryPath().concatenate(L"ApplicationSettings.xml"),
+  FileSystem::copyFile(resourcePaths::getFallbackDirectoryPath().concatenate(L"ApplicationSettings.xml"),
                        UserPaths::getAppSettingsFilePath());
-  FileSystem::copyFile(ResourcePaths::getFallbackDirectoryPath().concatenate(L"window_settings.ini"),
+  FileSystem::copyFile(resourcePaths::getFallbackDirectoryPath().concatenate(L"window_settings.ini"),
                        UserPaths::getWindowSettingsFilePath());
 }
 

@@ -8,7 +8,7 @@
 
 #include "QtBookmark.h"
 #include "QtBookmarkCategory.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityQt.h"
 
 QtBookmarkBrowser::QtBookmarkBrowser(ControllerProxy<BookmarkController>* controllerProxy, QWidget* parent)
@@ -17,8 +17,8 @@ QtBookmarkBrowser::QtBookmarkBrowser(ControllerProxy<BookmarkController>* contro
 QtBookmarkBrowser::~QtBookmarkBrowser() {}
 
 void QtBookmarkBrowser::setupBookmarkBrowser() {
-  setStyleSheet((utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"window/window.css")) +
-                 utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"bookmark_view/"
+  setStyleSheet((utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"window/window.css")) +
+                 utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"bookmark_view/"
                                                                                          L"bookmark_view.css")))
                     .c_str());
 

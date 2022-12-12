@@ -7,7 +7,7 @@
 
 #include "GraphViewStyle.h"
 #include "QtDeviceScaledPixmap.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "TokenComponentAccess.h"
 #include "utilityQt.h"
 
@@ -42,7 +42,7 @@ QtGraphNodeAccess::QtGraphNodeAccess(AccessKind accessKind)
 
   if (iconFileName.size() > 0) {
     QtDeviceScaledPixmap pixmap(QString::fromStdWString(
-        ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/" + iconFileName + L".png").wstr()));
+        resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/" + iconFileName + L".png").wstr()));
     pixmap.scaleToHeight(m_accessIconSize);
 
     m_accessIcon = new QGraphicsPixmapItem(pixmap.pixmap(), this);

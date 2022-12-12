@@ -2,7 +2,7 @@
 
 #include "AppPath.hpp"
 #include "Logger.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "SettingsMigrationLambda.h"
 #include "SettingsMigrationMoveKey.h"
 #include "SettingsMigrator.h"
@@ -152,8 +152,8 @@ std::wstring ApplicationSettings::getColorSchemeName() const {
 }
 
 FilePath ApplicationSettings::getColorSchemePath() const {
-  FilePath defaultPath(ResourcePaths::getColorSchemesDirectoryPath().concatenate(L"bright.xml"));
-  FilePath path(ResourcePaths::getColorSchemesDirectoryPath().concatenate(getColorSchemeName() + L".xml"));
+  FilePath defaultPath(resourcePaths::getColorSchemesDirectoryPath().concatenate(L"bright.xml"));
+  FilePath path(resourcePaths::getColorSchemesDirectoryPath().concatenate(getColorSchemeName() + L".xml"));
 
   if (path != defaultPath && !path.exists()) {
     return defaultPath;

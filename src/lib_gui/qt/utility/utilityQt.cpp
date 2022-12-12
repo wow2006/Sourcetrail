@@ -13,7 +13,7 @@
 #include "FilePath.hpp"
 #include "FileSystem.h"
 #include "QtMainView.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "TextAccess.h"
 #include "logging.h"
 #include "utilityApp.h"
@@ -116,7 +116,7 @@ std::string getStyleSheet(const FilePath& path) {
       } else if (val == "font_name") {
         val = ApplicationSettings::getInstance()->getFontName();
       } else if (val == "gui_path") {
-        val = ResourcePaths::getGuiDirectoryPath().str();
+        val = resourcePaths::getGuiDirectoryPath().str();
 
         size_t index = 0;
         while (true) {

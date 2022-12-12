@@ -7,7 +7,7 @@
 #include "ColorScheme.h"
 #include "GraphViewStyle.h"
 #include "QtDeviceScaledPixmap.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityString.h"
 
 QtAutocompletionModel::QtAutocompletionModel(QObject* parent) : QAbstractTableModel(parent) {}
@@ -308,7 +308,7 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font) {
   m_charHeight2 = static_cast<float>(metrics2.height());
 
   m_arrow = QtDeviceScaledPixmap(
-      QString::fromStdString(ResourcePaths::getGuiDirectoryPath().str() + "search_view/images/arrow.png"));
+      QString::fromStdString(resourcePaths::getGuiDirectoryPath().str() + "search_view/images/arrow.png"));
   m_arrow.scaleToWidth(static_cast<int>(m_charWidth2));
   m_arrow.colorize(ColorScheme::getInstance()->getColor("search/popup/by_text").c_str());
 }

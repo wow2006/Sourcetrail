@@ -19,7 +19,7 @@
 #include "QtSelfRefreshIconButton.h"
 #include "QtTable.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "TabId.hpp"
 #include "utilityQt.h"
 
@@ -27,7 +27,7 @@ QIcon QtErrorView::s_errorIcon;
 
 QtErrorView::QtErrorView(ViewLayout* viewLayout) : ErrorView(viewLayout), m_controllerProxy(this, TabId::app()) {
   s_errorIcon = QIcon(
-      QString::fromStdWString(ResourcePaths::getGuiDirectoryPath().concatenate(L"indexing_dialog/error.png").wstr()));
+      QString::fromStdWString(resourcePaths::getGuiDirectoryPath().concatenate(L"indexing_dialog/error.png").wstr()));
 
   setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(new QFrame()));
 
@@ -117,7 +117,7 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout) : ErrorView(viewLayout), m_cont
 
   {
     m_editButton = new QtSelfRefreshIconButton(
-        QStringLiteral("Edit Project"), ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/edit.png"),
+        QStringLiteral("Edit Project"), resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/edit.png"),
         "window/button");
     m_editButton->setObjectName(QStringLiteral("screen_button"));
     m_editButton->setToolTip(QStringLiteral("edit project"));

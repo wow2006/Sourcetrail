@@ -10,7 +10,7 @@
 #include "MessageHistoryToPosition.h"
 #include "MessageTabOpenWith.h"
 #include "QtDeviceScaledPixmap.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityQt.h"
 #include "utilityString.h"
 
@@ -54,7 +54,7 @@ QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurr
 
   if (isCurrent) {
     QtDeviceScaledPixmap pixmap(QString::fromStdWString(
-        ResourcePaths::getGuiDirectoryPath().concatenate(L"history_list/images/arrow.png").wstr()));
+        resourcePaths::getGuiDirectoryPath().concatenate(L"history_list/images/arrow.png").wstr()));
     pixmap.scaleToHeight(size.height() / 3);
 
     QLabel* arrow = new QLabel(this);
@@ -134,7 +134,7 @@ QtHistoryList::QtHistoryList(const std::vector<SearchMatch>& history, size_t cur
   }
 
   setStyleSheet(
-      utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"history_list/history_list.css"))
+      utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"history_list/history_list.css"))
           .c_str());
 
   connect(m_list, &QListWidget::itemClicked, this, &QtHistoryList::onItemClicked);

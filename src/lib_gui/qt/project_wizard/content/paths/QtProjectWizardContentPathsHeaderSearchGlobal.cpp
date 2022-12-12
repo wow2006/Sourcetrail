@@ -3,7 +3,7 @@
 #include <QMessageBox>
 
 #include "ApplicationSettings.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityApp.h"
 #include "utilityPathDetection.h"
 
@@ -34,7 +34,7 @@ void QtProjectWizardContentPathsHeaderSearchGlobal::load() {
 void QtProjectWizardContentPathsHeaderSearchGlobal::save() {
   std::vector<FilePath> paths;
   for (const FilePath& headerPath : m_list->getPathsAsDisplayed()) {
-    if (headerPath != ResourcePaths::getCxxCompilerHeaderDirectoryPath()) {
+    if (headerPath != resourcePaths::getCxxCompilerHeaderDirectoryPath()) {
       paths.push_back(headerPath);
     }
   }
@@ -51,7 +51,7 @@ bool QtProjectWizardContentPathsHeaderSearchGlobal::check() {
   std::vector<FilePath> paths;
   QString compilerHeaderPaths;
   for (const FilePath& headerPath : m_list->getPathsAsDisplayed()) {
-    if (headerPath != ResourcePaths::getCxxCompilerHeaderDirectoryPath() &&
+    if (headerPath != resourcePaths::getCxxCompilerHeaderDirectoryPath() &&
         headerPath.getCanonical().getConcatenated(L"/stdarg.h").exists()) {
       compilerHeaderPaths += QString::fromStdWString(headerPath.wstr()) + "\n";
     } else {
@@ -89,7 +89,7 @@ bool QtProjectWizardContentPathsHeaderSearchGlobal::check() {
 void QtProjectWizardContentPathsHeaderSearchGlobal::detectedPaths(const std::vector<FilePath>& paths) {
   std::vector<FilePath> headerPaths;
   for (const FilePath& headerPath : paths) {
-    if (headerPath != ResourcePaths::getCxxCompilerHeaderDirectoryPath()) {
+    if (headerPath != resourcePaths::getCxxCompilerHeaderDirectoryPath()) {
       headerPaths.push_back(headerPath);
     }
   }
@@ -120,6 +120,6 @@ void QtProjectWizardContentPathsHeaderSearchGlobal::setPaths(const std::vector<F
   }
 
   m_list->setPaths({});
-  m_list->addPaths({ResourcePaths::getCxxCompilerHeaderDirectoryPath()}, true);
+  m_list->addPaths({resourcePaths::getCxxCompilerHeaderDirectoryPath()}, true);
   m_list->addPaths(paths);
 }

@@ -9,7 +9,7 @@
 #include "ColorScheme.h"
 #include "QtSelfRefreshIconButton.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityQt.h"
 
 QtTabbedView::QtTabbedView(ViewLayout* viewLayout, const std::string& name) : TabbedView(viewLayout, name) {
@@ -25,7 +25,7 @@ QtTabbedView::QtTabbedView(ViewLayout* viewLayout, const std::string& name) : Ta
   layout->addWidget(m_widget);
 
   m_closeButton = new QtSelfRefreshIconButton(
-      QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"screen_search_view/images/close.png"),
+      QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"screen_search_view/images/close.png"),
       "screen_search/button", widget);
   m_closeButton->setIconSize(QSize(15, 15));
   m_closeButton->setStyleSheet(QStringLiteral("background: transparent; border: none;"));
@@ -60,7 +60,7 @@ void QtTabbedView::setStyleSheet() {
                                     ColorScheme::getInstance()->getColor("tab/background"));
 
   m_widget->setStyleSheet(
-      utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"tabbed_view/tabbed_view.css")).c_str());
+      utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"tabbed_view/tabbed_view.css")).c_str());
 }
 
 bool QtTabbedView::eventFilter(QObject* obj, QEvent* event) {

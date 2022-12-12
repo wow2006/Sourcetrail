@@ -10,7 +10,7 @@
 #include "Project.h"
 #include "QtIconStateButton.h"
 #include "QtSelfRefreshIconButton.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 
 QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool isSingle) : QtHoverButton(parent) {
   setObjectName(QStringLiteral("title_bar"));
@@ -27,7 +27,7 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
   titleLayout->setAlignment(Qt::AlignLeft);
   setLayout(titleLayout);
 
-  FilePath imageDir = ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/");
+  FilePath imageDir = resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/");
 
   m_expandButton = new QtSelfRefreshIconButton(QLatin1String(""), imageDir.getConcatenated(L"snippet_arrow_right.png"),
                                                "code/file/title", this);

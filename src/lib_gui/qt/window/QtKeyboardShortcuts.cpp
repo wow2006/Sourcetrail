@@ -3,7 +3,7 @@
 #include <QHeaderView>
 #include <QLabel>
 
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityQt.h"
 
 QtShortcutTable::QtShortcutTable(QWidget* parent) : QTableWidget(parent) {}
@@ -52,7 +52,7 @@ void QtKeyboardShortcuts::populateWindow(QWidget* widget) {
 
   widget->setLayout(layout);
 
-  widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(
+  widget->setStyleSheet(utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(
                                                    L"keyboard_shortcuts/keyboard_shortcuts.css"))
                             .c_str());
 }

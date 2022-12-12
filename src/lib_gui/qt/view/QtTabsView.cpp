@@ -11,7 +11,7 @@
 #include "QtSelfRefreshIconButton.h"
 #include "QtTabBar.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "TabId.hpp"
 #include "TabsController.h"
 #include "utilityQt.h"
@@ -38,7 +38,7 @@ QtTabsView::QtTabsView(ViewLayout* viewLayout) : TabsView(viewLayout), m_widget(
   connect(m_tabBar, &QTabBar::currentChanged, this, &QtTabsView::changedTab);
 
   QPushButton* addButton = new QtSelfRefreshIconButton(
-      QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"tabs_view/images/add.png"),
+      QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"tabs_view/images/add.png"),
       "tab/bar/button");
   addButton->setObjectName(QStringLiteral("add_button"));
   addButton->setIconSize(QSize(14, 14));
@@ -140,7 +140,7 @@ void QtTabsView::insertTab(bool showTab, const SearchMatch& match) {
   });
 
   QPushButton* closeButton = new QtSelfRefreshIconButton(
-      QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"tabs_view/images/close.png"),
+      QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"tabs_view/images/close.png"),
       "tab/bar/button");
   closeButton->setObjectName(QStringLiteral("close_button"));
   closeButton->setIconSize(QSize(10, 10));
@@ -224,7 +224,7 @@ void QtTabsView::setTabState(int idx, const std::vector<SearchMatch>& matches) {
 
 void QtTabsView::setStyleSheet() {
   const std::string css =
-      utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"tabs_view/tabs_view.css"));
+      utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"tabs_view/tabs_view.css"));
   m_widget->setStyleSheet(css.c_str());
 
   utility::setWidgetBackgroundColor(m_widget, ColorScheme::getInstance()->getColor("tab/bar/background"));

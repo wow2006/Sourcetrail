@@ -10,7 +10,7 @@
 #include "QtCodeFileTitleBar.h"
 #include "QtCodeNavigator.h"
 #include "QtCodeSnippet.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "SourceLocationFile.h"
 #include "utility.h"
 #include "utilityApp.h"
@@ -54,7 +54,7 @@ QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
   if (utility::getOsType() == OS_MAC) {
     // set style on scrollbar because it always has bright background by default
     m_lastSnippetScrollBar->setStyleSheet(
-        utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"main/scrollbar.css")).c_str());
+        utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"main/scrollbar.css")).c_str());
     m_styleSize = m_lastSnippetScrollBar->styleSheet().size();
   } else {
     m_lastSnippetScrollBar->setObjectName(QStringLiteral("last_scroll_bar"));

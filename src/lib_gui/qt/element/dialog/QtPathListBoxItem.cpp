@@ -8,12 +8,12 @@
 #include "QtIconButton.h"
 #include "QtLineEdit.h"
 #include "QtPathListBox.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 
 QtPathListBoxItem::QtPathListBoxItem(QtPathListBox* listBox, QListWidgetItem* item, QWidget* parent)
     : QtListBoxItem(item, parent), m_listBox(listBox) {
-  m_button = new QtIconButton(ResourcePaths::getGuiDirectoryPath().concatenate(L"window/dots.png"),
-                              ResourcePaths::getGuiDirectoryPath().concatenate(L"window/dots_hover.png"));
+  m_button = new QtIconButton(resourcePaths::getGuiDirectoryPath().concatenate(L"window/dots.png"),
+                              resourcePaths::getGuiDirectoryPath().concatenate(L"window/dots_hover.png"));
   m_button->setIconSize(QSize(16, 16));
   m_button->setObjectName(QStringLiteral("dotsButton"));
   layout()->addWidget(m_button);

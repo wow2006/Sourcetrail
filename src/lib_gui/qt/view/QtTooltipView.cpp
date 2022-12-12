@@ -4,7 +4,7 @@
 #include "QtMainWindow.h"
 #include "QtTooltip.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityQt.h"
 
 QtTooltipView::QtTooltipView(ViewLayout* viewLayout) : TooltipView(viewLayout) {
@@ -16,7 +16,7 @@ void QtTooltipView::createWidgetWrapper() { setWidgetWrapper(std::make_shared<Qt
 void QtTooltipView::refreshView() {
   m_onQtThread([=]() {
     m_widget->setStyleSheet(
-        utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"tooltip_view/tooltip_view.css"))
+        utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"tooltip_view/tooltip_view.css"))
             .c_str());
   });
 }

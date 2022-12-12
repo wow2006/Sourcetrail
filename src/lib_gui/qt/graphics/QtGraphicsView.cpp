@@ -29,7 +29,7 @@
 #include "QtGraphNodeData.h"
 #include "QtGraphNodeExpandToggle.h"
 #include "QtSelfRefreshIconButton.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityApp.h"
 #include "utilityQt.h"
 
@@ -127,7 +127,7 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
   m_zoomState->hide();
 
   m_zoomInButton = new QtSelfRefreshIconButton(
-      QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/zoom_in.png"),
+      QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/zoom_in.png"),
       "search/button", this);
   m_zoomInButton->setObjectName(QStringLiteral("zoom_in_button"));
   m_zoomInButton->setAutoRepeat(true);
@@ -135,7 +135,7 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
   connect(m_zoomInButton, &QPushButton::pressed, this, &QtGraphicsView::zoomInPressed);
 
   m_zoomOutButton = new QtSelfRefreshIconButton(
-      QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/zoom_out.png"),
+      QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/zoom_out.png"),
       "search/button", this);
   m_zoomOutButton->setObjectName(QStringLiteral("zoom_out_button"));
   m_zoomOutButton->setAutoRepeat(true);
@@ -143,7 +143,7 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
   connect(m_zoomOutButton, &QPushButton::pressed, this, &QtGraphicsView::zoomOutPressed);
 
   m_legendButton = new QtSelfRefreshIconButton(
-      QLatin1String(""), ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/legend.png"),
+      QLatin1String(""), resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/legend.png"),
       "search/button", this);
   m_legendButton->setObjectName(QStringLiteral("legend_button"));
   m_legendButton->setToolTip(QStringLiteral("show legend"));

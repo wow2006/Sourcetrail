@@ -6,7 +6,7 @@
 #include <QVBoxLayout>
 
 #include "QtDeviceScaledPixmap.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "SqliteIndexStorage.h"
 #include "Version.h"
 #include "utilityApp.h"
@@ -17,7 +17,7 @@ QtAbout::QtAbout(QWidget* parent) : QtWindow(false, parent) {}
 QSize QtAbout::sizeHint() const { return QSize(450, 480); }
 
 void QtAbout::setupAbout() {
-  setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"about/about.css")).c_str());
+  setStyleSheet(utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"about/about.css")).c_str());
 
   QVBoxLayout* windowLayout = new QVBoxLayout();
   windowLayout->setContentsMargins(10, 10, 10, 0);
@@ -26,7 +26,7 @@ void QtAbout::setupAbout() {
 
   {
     QtDeviceScaledPixmap sourcetrailLogo(
-        QString::fromStdWString(ResourcePaths::getGuiDirectoryPath().wstr() + L"about/logo_sourcetrail.png"));
+        QString::fromStdWString(resourcePaths::getGuiDirectoryPath().wstr() + L"about/logo_sourcetrail.png"));
     sourcetrailLogo.scaleToHeight(150);
     QLabel* sourcetrailLogoLabel = new QLabel(this);
     sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());

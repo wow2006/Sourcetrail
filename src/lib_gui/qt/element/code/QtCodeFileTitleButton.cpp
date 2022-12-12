@@ -11,7 +11,7 @@
 #include "MessageTabOpenWith.h"
 #include "Project.h"
 #include "QtContextMenu.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityString.h"
 
 QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
@@ -196,17 +196,17 @@ void QtCodeFileTitleButton::openInTab() {
 
 void QtCodeFileTitleButton::updateIcon() {
   if (m_filePath.empty()) {
-    setIconPath(ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/edit.png"));
+    setIconPath(resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/edit.png"));
   } else if (!m_isComplete) {
-    setIconPath(ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/file_incomplete.png"));
+    setIconPath(resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/file_incomplete.png"));
   } else {
-    setIconPath(ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/file.png"));
+    setIconPath(resourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/file.png"));
   }
 }
 
 void QtCodeFileTitleButton::updateHatching() {
   if (!m_isIndexed) {
-    FilePath hatchingFilePath = ResourcePaths::getGuiDirectoryPath().concatenate(
+    FilePath hatchingFilePath = resourcePaths::getGuiDirectoryPath().concatenate(
         L"code_view/images/pattern_" +
         utility::decodeFromUtf8(ColorScheme::getInstance()->getColor("code/file/title/hatching")) + L".png");
 

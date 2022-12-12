@@ -2,7 +2,7 @@
 
 #include "QtSearchBar.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityQt.h"
 
 QtSearchView::QtSearchView(ViewLayout* viewLayout) : SearchView(viewLayout) { m_widget = new QtSearchBar(); }
@@ -42,7 +42,7 @@ void QtSearchView::setAutocompletionList(const std::vector<SearchMatch>& autocom
 
 void QtSearchView::setStyleSheet() {
   const std::string css =
-      utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"search_view/search_view.css"));
+      utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"search_view/search_view.css"));
 
   m_widget->setStyleSheet(css.c_str());
 

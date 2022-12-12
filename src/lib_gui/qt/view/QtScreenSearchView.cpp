@@ -6,7 +6,7 @@
 #include "QtMainWindow.h"
 #include "QtScreenSearchBox.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "TabId.hpp"
 #include "utilityQt.h"
 
@@ -31,7 +31,7 @@ void QtScreenSearchView::createWidgetWrapper() { setWidgetWrapper(std::make_shar
 
 void QtScreenSearchView::refreshView() {
   m_onQtThread([=]() {
-    m_bar->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(
+    m_bar->setStyleSheet(utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(
                                                     L"screen_search_view/screen_search_view.css"))
                              .c_str());
   });

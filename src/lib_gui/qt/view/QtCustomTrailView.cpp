@@ -15,7 +15,7 @@
 #include "NodeTypeSet.h"
 #include "QtMainWindow.h"
 #include "QtSmartSearchBox.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "TabId.hpp"
 #include "utilityQt.h"
 
@@ -371,9 +371,9 @@ void QtCustomTrailView::keyPressEvent(QKeyEvent* event) {
 
 void QtCustomTrailView::updateStyleSheet() {
   std::string css =
-      utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"search_view/search_view.css"));
+      utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"search_view/search_view.css"));
   css += utility::getStyleSheet(
-      ResourcePaths::getGuiDirectoryPath().concatenate(L"custom_trail_view/custom_trail_view.css"));
+      resourcePaths::getGuiDirectoryPath().concatenate(L"custom_trail_view/custom_trail_view.css"));
 
   setStyleSheet(css.c_str());
 
@@ -418,7 +418,7 @@ QVBoxLayout* QtCustomTrailView::addFilters(const QString& name, const std::vecto
   mainLayout->addLayout(filterBLayout);
 
   QPixmap pixmap(QString::fromStdString(
-      ResourcePaths::getGuiDirectoryPath().concatenate(L"custom_trail_view/images/circle.png").str()));
+      resourcePaths::getGuiDirectoryPath().concatenate(L"custom_trail_view/images/circle.png").str()));
   for (size_t i = 0; i < filters.size(); i++) {
     QCheckBox* checkBox = new QCheckBox(filters[i]);
     checkBox->setChecked(true);

@@ -8,7 +8,7 @@
 #include "ApplicationSettings.h"
 #include "FilePath.hpp"
 #include "FileSystem.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "UserPaths.h"
 #include "utilityQt.h"
 
@@ -57,7 +57,7 @@ void setupApp([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
     dataDir.mkpath(userDataPath);
   }
 
-  utility::copyNewFilesFromDirectory(QString::fromStdWString(ResourcePaths::getFallbackDirectoryPath().wstr()),
+  utility::copyNewFilesFromDirectory(QString::fromStdWString(resourcePaths::getFallbackDirectoryPath().wstr()),
                                      userDataPath);
   utility::copyNewFilesFromDirectory(
       QString::fromStdWString(appPath::getSharedDataDirectoryPath().concatenate(L"user/").wstr()), userDataPath);

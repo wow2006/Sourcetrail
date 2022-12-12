@@ -9,7 +9,7 @@
 
 #include "ColorScheme.h"
 #include "FileSystem.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "TextAccess.h"
 #include "logging.h"
 #include "tracing.h"
@@ -69,7 +69,7 @@ void QtHighlighter::loadHighlightingRules() {
   }
 
   for (const FilePath& path :
-       FileSystem::getFilePathsFromDirectory(ResourcePaths::getSyntaxHighlightingRulesDirectoryPath(), {L".rules"})) {
+       FileSystem::getFilePathsFromDirectory(resourcePaths::getSyntaxHighlightingRulesDirectoryPath(), {L".rules"})) {
     std::wstring language = path.withoutExtension().fileName();
 
     std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(path);

@@ -11,7 +11,7 @@
 #include "ApplicationSettings.h"
 #include "MessageLoadProject.h"
 #include "ProjectSettings.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "Version.h"
 #include "utilityQt.h"
 
@@ -64,16 +64,16 @@ void QtRecentProjectButton::handleButtonClick() {
 
 QtStartScreen::QtStartScreen(QWidget* parent)
     : QtWindow(true, parent),
-      m_cppIcon(QString::fromStdWString(ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/cpp_icon.png").wstr())),
-      m_cIcon(QString::fromStdWString(ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/c_icon.png").wstr())),
+      m_cppIcon(QString::fromStdWString(resourcePaths::getGuiDirectoryPath().concatenate(L"icon/cpp_icon.png").wstr())),
+      m_cIcon(QString::fromStdWString(resourcePaths::getGuiDirectoryPath().concatenate(L"icon/c_icon.png").wstr())),
       m_pythonIcon(
-          QString::fromStdWString(ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/python_icon.png").wstr())),
+          QString::fromStdWString(resourcePaths::getGuiDirectoryPath().concatenate(L"icon/python_icon.png").wstr())),
       m_javaIcon(
-          QString::fromStdWString(ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/java_icon.png").wstr())),
+          QString::fromStdWString(resourcePaths::getGuiDirectoryPath().concatenate(L"icon/java_icon.png").wstr())),
       m_projectIcon(
-          QString::fromStdWString(ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/empty_icon.png").wstr())),
+          QString::fromStdWString(resourcePaths::getGuiDirectoryPath().concatenate(L"icon/empty_icon.png").wstr())),
       m_githubIcon(QString::fromStdWString(
-          ResourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/github_icon.png").wstr())) {}
+          resourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/github_icon.png").wstr())) {}
 
 QSize QtStartScreen::sizeHint() const { return QSize(600, 650); }
 
@@ -124,12 +124,12 @@ void QtStartScreen::updateButtons() {
     i++;
   }
   setStyleSheet(
-      utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/startscreen.css")).c_str());
+      utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/startscreen.css")).c_str());
 }
 
 void QtStartScreen::setupStartScreen() {
   setStyleSheet(
-      utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/startscreen.css")).c_str());
+      utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"startscreen/startscreen.css")).c_str());
   addLogo();
 
   QHBoxLayout* layout = new QHBoxLayout();

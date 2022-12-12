@@ -3,7 +3,7 @@
 #include "ApplicationSettings.h"
 #include "ColorScheme.h"
 #include "GraphViewStyleImpl.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "logging.h"
 #include "utilityString.h"
 
@@ -430,7 +430,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfCountCircle() {
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfBundleNode(bool isFocused) {
   return getStyleForNodeType(NodeType::STYLE_BIG_NODE, "bundle",
-                             ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/bundle.png"), true,
+                             resourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/bundle.png"), true,
                              false, isFocused, isFocused, false, false);
 }
 

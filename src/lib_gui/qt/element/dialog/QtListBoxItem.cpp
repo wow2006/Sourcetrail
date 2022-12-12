@@ -8,7 +8,7 @@
 #include "QtIconButton.h"
 #include "QtLineEdit.h"
 #include "QtListBox.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 
 QtListBoxItem::QtListBoxItem(QListWidgetItem* item, QWidget* parent)
     : QWidget(parent), m_item(item), m_readOnly(false) {

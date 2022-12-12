@@ -18,7 +18,7 @@
 #include "QtCoreApplication.h"
 #include "QtNetworkFactory.h"
 #include "QtViewFactory.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "ScopedFunctor.h"
 #include "SourceGroupFactory.h"
 #include "SourceGroupFactoryModuleCustom.h"
@@ -189,8 +189,8 @@ int main(int argc, char* argv[]) {
     ApplicationSettingsPrefiller::prefillPaths(ApplicationSettings::getInstance().get());
     addLanguagePackages();
 
-    utility::loadFontsFromDirectory(ResourcePaths::getFontsDirectoryPath(), L".otf");
-    utility::loadFontsFromDirectory(ResourcePaths::getFontsDirectoryPath(), L".ttf");
+    utility::loadFontsFromDirectory(resourcePaths::getFontsDirectoryPath(), L".otf");
+    utility::loadFontsFromDirectory(resourcePaths::getFontsDirectoryPath(), L".ttf");
 
     if (commandLineParser.hasError()) {
       Application::getInstance()->handleDialog(commandLineParser.getError());

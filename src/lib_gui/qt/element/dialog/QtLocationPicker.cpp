@@ -8,7 +8,7 @@
 
 #include "QtFileDialog.h"
 #include "QtIconButton.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "utilityFile.h"
 
 QtLocationPicker::QtLocationPicker(QWidget* parent) : QWidget(parent), m_pickDirectory(false) {
@@ -25,8 +25,8 @@ QtLocationPicker::QtLocationPicker(QWidget* parent) : QWidget(parent), m_pickDir
   connect(m_data, &QtLineEdit::textChanged, this, &QtLocationPicker::onDataTextChanged);
   layout->addWidget(m_data);
 
-  m_button = new QtIconButton(ResourcePaths::getGuiDirectoryPath().concatenate(L"window/dots.png"),
-                              ResourcePaths::getGuiDirectoryPath().concatenate(L"window/dots_hover.png"));
+  m_button = new QtIconButton(resourcePaths::getGuiDirectoryPath().concatenate(L"window/dots.png"),
+                              resourcePaths::getGuiDirectoryPath().concatenate(L"window/dots_hover.png"));
   m_button->setIconSize(QSize(16, 16));
   m_button->setObjectName(QStringLiteral("dotsButton"));
   m_button->setToolTip(QStringLiteral("pick file"));

@@ -7,7 +7,7 @@
 #include "JavaEnvironment.h"
 #include "JavaEnvironmentFactory.h"
 #include "MessageStatus.hpp"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "logging.h"
 #include "utilityJava.h"
 #include "utilityString.h"
@@ -15,7 +15,7 @@
 namespace utility {
 bool gradleCopyDependencies(const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath,
                             bool addTestDependencies) {
-  const FilePath gradleInitScriptPath = ResourcePaths::getJavaDirectoryPath().concatenate(L"gradle/init.gradle");
+  const FilePath gradleInitScriptPath = resourcePaths::getJavaDirectoryPath().concatenate(L"gradle/init.gradle");
 
   utility::setJavaHomeVariableIfNotExists();
   utility::prepareJavaEnvironment();
@@ -36,7 +36,7 @@ bool gradleCopyDependencies(const FilePath& projectDirectoryPath, const FilePath
 }
 
 std::vector<FilePath> gradleGetAllSourceDirectories(const FilePath& projectDirectoryPath, bool addTestDirectories) {
-  const FilePath gradleInitScriptPath = ResourcePaths::getJavaDirectoryPath().concatenate(L"gradle/init.gradle");
+  const FilePath gradleInitScriptPath = resourcePaths::getJavaDirectoryPath().concatenate(L"gradle/init.gradle");
 
   utility::setJavaHomeVariableIfNotExists();
   utility::prepareJavaEnvironment();

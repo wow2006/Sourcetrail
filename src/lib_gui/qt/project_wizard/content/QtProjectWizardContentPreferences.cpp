@@ -12,7 +12,7 @@
 #include "FileLogger.h"
 #include "FileSystem.h"
 #include "MessageSwitchColorScheme.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "logging.h"
 #include "utility.h"
 #include "utilityApp.h"
@@ -25,7 +25,7 @@ QtProjectWizardContentPreferences::QtProjectWizardContentPreferences(QtProjectWi
       m_newColorSchemeIndex(-1),
       m_screenAutoScaling(nullptr),
       m_screenScaleFactor(nullptr) {
-  m_colorSchemePaths = FileSystem::getFilePathsFromDirectory(ResourcePaths::getColorSchemesDirectoryPath(), {L".xml"});
+  m_colorSchemePaths = FileSystem::getFilePathsFromDirectory(resourcePaths::getColorSchemesDirectoryPath(), {L".xml"});
 }
 
 QtProjectWizardContentPreferences::~QtProjectWizardContentPreferences() {

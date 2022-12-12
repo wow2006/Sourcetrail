@@ -9,7 +9,7 @@
 #include "ParseLocation.h"
 #include "ParserClient.h"
 #include "ReferenceKind.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "TextAccess.h"
 #include "utilityJava.h"
 #include "utilityString.h"

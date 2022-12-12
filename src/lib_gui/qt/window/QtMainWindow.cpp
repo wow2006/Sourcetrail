@@ -48,7 +48,7 @@
 #include "QtProjectWizard.h"
 #include "QtStartScreen.h"
 #include "QtViewWidgetWrapper.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 #include "TabbedView.h"
 #include "UserPaths.h"
 #include "View.h"
@@ -102,7 +102,7 @@ QtMainWindow::QtMainWindow()
   setDockNestingEnabled(true);
 
   setWindowIcon(QIcon(
-      QString::fromStdWString(ResourcePaths::getGuiDirectoryPath().concatenate(L"icon/logo_1024_1024.png").wstr())));
+      QString::fromStdWString(resourcePaths::getGuiDirectoryPath().concatenate(L"icon/logo_1024_1024.png").wstr())));
   setWindowFlags(Qt::Widget);
 
   QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
@@ -113,7 +113,7 @@ QtMainWindow::QtMainWindow()
   if (utility::getOsType() != OS_MAC) {
     // can only be done once, because resetting the style on the QCoreApplication causes crash
     app->setStyleSheet(
-        utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"main/scrollbar.css")).c_str());
+        utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"main/scrollbar.css")).c_str());
   }
 
   setupProjectMenu();
@@ -332,7 +332,7 @@ void QtMainWindow::setContentEnabled(bool enabled) {
 }
 
 void QtMainWindow::refreshStyle() {
-  setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiDirectoryPath().concatenate(L"main/main.css")).c_str());
+  setStyleSheet(utility::getStyleSheet(resourcePaths::getGuiDirectoryPath().concatenate(L"main/main.css")).c_str());
 
   QFont tooltipFont = QToolTip::font();
   tooltipFont.setPixelSize(ApplicationSettings::getInstance()->getFontSize());
@@ -576,7 +576,7 @@ void QtMainWindow::resetZoom() { MessageResetZoom().dispatch(); }
 
 void QtMainWindow::resetWindowLayout() {
   FileSystem::remove(UserPaths::getWindowSettingsFilePath());
-  FileSystem::copyFile(ResourcePaths::getFallbackDirectoryPath().concatenate(L"window_settings.ini"),
+  FileSystem::copyFile(resourcePaths::getFallbackDirectoryPath().concatenate(L"window_settings.ini"),
                        UserPaths::getWindowSettingsFilePath());
   loadDockWidgetLayout();
 }

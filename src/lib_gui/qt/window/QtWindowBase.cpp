@@ -5,7 +5,7 @@
 #include <QVBoxLayout>
 
 #include "ApplicationSettings.h"
-#include "ResourcePaths.h"
+#include "ResourcePaths.hpp"
 
 QtWindowBase::QtWindowBase(bool isSubWindow, QWidget* parent)
     : QtWindowStackElement(parent),
@@ -80,7 +80,7 @@ void QtWindowBase::setSizeGripStyle(bool isBlack) {
                               "	max-height: 16px;"
                               "	max-width: 16px;"
                               "	border-image: url(" +
-                              ResourcePaths::getGuiDirectoryPath().wstr() + L"window/" + path +
+                              resourcePaths::getGuiDirectoryPath().wstr() + L"window/" + path +
                               L");"
                               "}"));
 }
