@@ -788,7 +788,9 @@ target_link_libraries(
   $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
   $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
   $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>
-  ${LIB_PROJECT_NAME})
+  ${LIB_PROJECT_NAME}
+  Qt5::Widgets
+  Qt5::Network)
 
 set_property(
   TARGET ${APP_PROJECT_NAME}
@@ -805,10 +807,6 @@ set_property(
 
 target_include_directories(${APP_PROJECT_NAME} SYSTEM PUBLIC ${Boost_INCLUDE_DIRS} "${EXTERNAL_INCLUDE_PATHS}"
                                                              "${EXTERNAL_C_INCLUDE_PATHS}")
-
-# Use the Widgets module from Qt 5.
-qt5_use_modules(${APP_PROJECT_NAME} Widgets)
-qt5_use_modules(${APP_PROJECT_NAME} Network)
 
 # add platform specific libraries
 if(APPLE)
