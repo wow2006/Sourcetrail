@@ -372,27 +372,17 @@ add_library(${LIB_UTILITY_PROJECT_NAME} ${LIB_UTILITY_FILES})
 
 create_source_groups(${LIB_UTILITY_FILES})
 
-set_property(TARGET ${LIB_UTILITY_PROJECT_NAME} PROPERTY INCLUDE_DIRECTORIES "${LIB_UTILITY_INCLUDE_PATHS}")
+target_include_directories(${LIB_UTILITY_PROJECT_NAME} PUBLIC "${LIB_UTILITY_INCLUDE_PATHS}")
 
-target_include_directories(${LIB_UTILITY_PROJECT_NAME} SYSTEM PUBLIC ${Boost_INCLUDE_DIR})
-
-target_link_libraries(
-  ${LIB_UTILITY_PROJECT_NAME}
-  ${Boost_LIBRARIES}
-  Qt5::Widgets
-  Qt5::Network)
+target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Qt5::Core Boost::system)
 
 if(UNIX AND NOT APPLE)
   find_package(Threads REQUIRED)
-  target_link_libraries(
-    ${LIB_UTILITY_PROJECT_NAME}
-    ${CMAKE_DL_LIBS}
-    rt
-    ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Threads::Threads)
 endif()
 
 if(WIN32)
-  target_link_libraries(${LIB_UTILITY_PROJECT_NAME} Qt5::WinExtras)
+  target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Qt5::WinExtras)
 endif()
 
 # Lib --------------------------------------------------------------------------
@@ -416,14 +406,15 @@ set_property(
            "${LIB_JAVA_INCLUDE_PATHS}"
            "${CMAKE_BINARY_DIR}/src/lib")
 
-target_include_directories(${LIB_PROJECT_NAME} SYSTEM PUBLIC ${Boost_INCLUDE_DIR} "${EXTERNAL_INCLUDE_PATHS}"
-                                                             "${EXTERNAL_C_INCLUDE_PATHS}")
+target_include_directories(${LIB_PROJECT_NAME} SYSTEM PUBLIC "${EXTERNAL_INCLUDE_PATHS}" "${EXTERNAL_C_INCLUDE_PATHS}")
 
 target_link_libraries(
   ${LIB_PROJECT_NAME}
-  ${LIB_UTILITY_PROJECT_NAME}
-  ${LIB_GUI_PROJECT_NAME}
-  ${Boost_LIBRARIES})
+  PUBLIC ${LIB_UTILITY_PROJECT_NAME}
+         ${LIB_GUI_PROJECT_NAME}
+         Boost::program_options
+         Boost::filesystem
+         Boost::date_time)
 
 # configure language package defines
 configure_file("${CMAKE_SOURCE_DIR}/cmake/language_packages.h.in" "${CMAKE_BINARY_DIR}/src/lib/language_packages.h")
