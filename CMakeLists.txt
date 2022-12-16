@@ -806,6 +806,8 @@ endif ()
 
 # Test ----------------------------------------------------------------------
 
+enable_testing()
+
 if (UNIX)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test/")
 else ()
@@ -895,6 +897,17 @@ if (WIN32)
 			"${CMAKE_SOURCE_DIR}/bin/test")
 endif ()
 
+add_test(
+	NAME ${TEST_PROJECT_NAME}
+	COMMAND ${TEST_PROJECT_NAME}
+	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/test
+)
+
+add_test(
+	NAME ${FUNC_PROJECT_NAME}
+	COMMAND ${FUNC_PROJECT_NAME}
+	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/test
+)
 
 # symlinks for data
 message(STATUS "create symlink: "
