@@ -8,8 +8,7 @@ set(BUILD_JAVA_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Java support to the Sourcetr
 set(BUILD_PYTHON_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Python support to the Sourcetrail indexer.")
 set(DOCKER_BUILD OFF CACHE BOOL "Build runs in Docker")
 set(TREAT_WARNINGS_AS_ERRORS ON CACHE BOOL "Treat compiler warnings as errors")
-
-#set (CMAKE_VERBOSE_MAKEFILE ON)
+set(BUILD_COVERAGE OFF CACHE BOOL "Generate a coverage report")
 
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
@@ -85,6 +84,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)
 
+if(BUILD_COVERAGE)
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage -fPIC -O0 -g")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs")
+
+    configure_file(
+		${CMAKE_SOURCE_DIR}/cmake/coverage.sh.in ${CMAKE_BINARY_DIR}/coverage.sh
+		FILE_PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ)
+  else()
+    message(FATAL_ERROR "Coverage is not supported in selected compiler ${CMAKE_CXX_COMPILER_ID}")
+  endif()
+endif()
 
 # Settings ---------------------------------------------------------------------
 
