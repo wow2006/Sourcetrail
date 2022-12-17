@@ -25,6 +25,9 @@ set(BUILD_COVERAGE
 set(BUILD_TEST
     ON
     CACHE BOOL "Build unit tests")
+set(BUILD_FUNC
+    OFF
+    CACHE BOOL "Build functionality tests")
 
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
@@ -794,10 +797,16 @@ if(APPLE)
 endif()
 
 # Test ----------------------------------------------------------------------
-if(BUILD_TEST)
+if(BUILD_FUNC OR BUILD_TEST)
     enable_testing()
 
-    add_subdirectory(src/test)
+    if(BUILD_TEST)
+        add_subdirectory(src/test)
+    endif()
+
+    if(BUILD_FUNC)
+        add_subdirectory(src/functionality)
+    endif()
 endif()
 
 # Data ----------------------------------------------------------------------
