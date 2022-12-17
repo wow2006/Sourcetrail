@@ -1,3 +1,4 @@
+# ${CMAKE_SOURCE_DIR}/CMakeLists.txt
 cmake_minimum_required(VERSION 3.8)
 
 if(WIN32 AND (CMAKE_GENERATOR STREQUAL "Ninja"))
@@ -271,84 +272,7 @@ endif()
 # Setup
 # ---------------------------------------------------------------------------
 
-if(WIN32)
-  get_filename_component(QT_BINARY_DIR "${QT_MOC_EXECUTABLE}" PATH)
-  set(QT_PLUGINS_DIR "${QT_BINARY_DIR}/../plugins")
-
-  function(COPY_QT_BINARIES IS_DEBUG IS_APP)
-    set(SUFFIX "")
-    if(IS_DEBUG)
-      set(SUFFIX "d")
-    endif()
-
-    set(CONFIGURATION "Release")
-    if(IS_DEBUG)
-      set(CONFIGURATION "Debug")
-    endif()
-
-    if(CMAKE_CL_64)
-      set(BITS "64")
-    else()
-      set(BITS "32")
-    endif()
-
-    set(TARGET "test")
-    if(IS_APP)
-      set(TARGET "app")
-
-      file(GLOB MY_PUBLIC_HEADERS "${CMAKE_SOURCE_DIR}/setup/dynamic_libraries/win${BITS}/app/${CONFIGURATION}/*")
-      file(COPY ${MY_PUBLIC_HEADERS} DESTINATION "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/")
-
-    endif()
-
-    configure_file("${QT_BINARY_DIR}/Qt5Core${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Core${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_BINARY_DIR}/Qt5Gui${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Gui${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_BINARY_DIR}/Qt5Network${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Network${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_BINARY_DIR}/Qt5Svg${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Svg${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_BINARY_DIR}/Qt5Widgets${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5Widgets${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_BINARY_DIR}/Qt5WinExtras${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/Qt5WinExtras${SUFFIX}.dll" COPYONLY)
-
-    configure_file("${QT_PLUGINS_DIR}/platforms/qwindows${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/platforms/qwindows${SUFFIX}.dll" COPYONLY)
-
-    configure_file("${QT_PLUGINS_DIR}/styles/qwindowsvistastyle${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/styles/qwindowsvistastyle${SUFFIX}.dll" COPYONLY)
-
-    configure_file("${QT_PLUGINS_DIR}/imageformats/qgif${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qgif${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_PLUGINS_DIR}/imageformats/qicns${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qicns${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_PLUGINS_DIR}/imageformats/qico${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qico${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_PLUGINS_DIR}/imageformats/qjpeg${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qjpeg${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_PLUGINS_DIR}/imageformats/qsvg${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qsvg${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_PLUGINS_DIR}/imageformats/qtga${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qtga${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_PLUGINS_DIR}/imageformats/qtiff${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qtiff${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_PLUGINS_DIR}/imageformats/qwbmp${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qwbmp${SUFFIX}.dll" COPYONLY)
-    configure_file("${QT_PLUGINS_DIR}/imageformats/qwebp${SUFFIX}.dll"
-                   "${CMAKE_BINARY_DIR}/${CONFIGURATION}/${TARGET}/imageformats/qwebp${SUFFIX}.dll" COPYONLY)
-  endfunction(COPY_QT_BINARIES)
-
-  copy_qt_binaries(True True)
-  copy_qt_binaries(True False)
-  copy_qt_binaries(False True)
-  copy_qt_binaries(False False)
-
-  configure_file("${CMAKE_SOURCE_DIR}/setup/icon/windows/sourcetrail.ico"
-                 "${CMAKE_BINARY_DIR}/${CONFIGURATION}/sourcetrail.ico" COPYONLY)
-
-endif()
+include(cmake/copy_qt_dll.cmake)
 
 add_subdirectory(src/app)
 add_subdirectory(src/external)
@@ -376,7 +300,7 @@ if(UNIX AND NOT APPLE)
 endif()
 
 if(WIN32)
-  target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Qt5::WinExtras)
+  target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Qt5::WinExtras bcrypt.lib)
 endif()
 
 # Lib --------------------------------------------------------------------------
@@ -569,8 +493,6 @@ if(BUILD_PYTHON_LANGUAGE_PACKAGE)
              "${LIB_INCLUDE_PATHS}"
              "${CMAKE_BINARY_DIR}/src/lib")
 
-  # link_directories(${Boost_LIBRARY_DIRS})
-
   target_link_libraries(${LIB_PYTHON_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_PROJECT_NAME})
 
   add_custom_command(
@@ -619,6 +541,7 @@ add_custom_command(
   BYPRODUCTS ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h DEPENDS ${LIB_GUI_PROJECT_NAME}
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
   COMMENT "check/update version number")
+
 add_dependencies(${LIB_GUI_PROJECT_NAME} versionnumber)
 
 create_source_groups(${LIB_GUI_FILES})
@@ -653,15 +576,6 @@ set_property(SOURCE ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h PROPERTY SK
 set_target_properties(${LIB_GUI_PROJECT_NAME} PROPERTIES AUTOMOC ON INCLUDE_CURRENT_DIR ON)
 
 # Indexer App ------------------------------------------------------------------
-
-if(UNIX)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
-else()
-  foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
-    string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/app/")
-  endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
-endif()
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -712,19 +626,11 @@ set_property(
            $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
            $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>)
 
+set_target_properties(
+    ${APP_INDEXER_NAME}
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
+
 # App --------------------------------------------------------------------------
-
-if(UNIX)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
-else()
-  foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
-    string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/app/")
-  endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
-endif()
-
-# Find includes in corresponding build directories
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 if(WIN32)
   file(
@@ -735,18 +641,15 @@ if(WIN32)
   add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_BINARY_DIR}/Sourcetrail.rc)
 
   # also show the console when running a release build.
-  set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE /DEBUG:FASTLINK")
-  set_target_properties(${APP_PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_DEBUG "_CONSOLE")
-  set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE")
-  set_target_properties(${APP_PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE")
-  set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE
-                                                       "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:CONSOLE /DEBUG")
-  set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:CONSOLE")
-
-  # generate pdb for release build
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
-
-  set_property(TARGET ${APP_PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/app")
+  set_target_properties(${APP_PROJECT_NAME}
+    PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE /DEBUG:FASTLINK"
+    COMPILE_DEFINITIONS_DEBUG "_CONSOLE"
+    LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE"
+    COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE"
+    LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:CONSOLE /DEBUG"
+    LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:CONSOLE"
+    CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi" # generate pdb for release build
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/app")
 
   string(
     REGEX
@@ -765,6 +668,9 @@ else()
 endif()
 
 create_source_groups(${APP_FILES})
+
+set_target_properties(${APP_PROJECT_NAME}
+    PROPERTIES INCLUDE_CURRENT_DIR ON)
 
 target_link_libraries(
   ${APP_PROJECT_NAME}
@@ -789,6 +695,10 @@ set_property(
            $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
            $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>)
 
+set_target_properties(
+    ${APP_PROJECT_NAME}
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
+
 target_include_directories(${APP_PROJECT_NAME} SYSTEM PUBLIC ${Boost_INCLUDE_DIRS} "${EXTERNAL_INCLUDE_PATHS}"
                                                              "${EXTERNAL_C_INCLUDE_PATHS}")
 
@@ -803,7 +713,6 @@ add_dependencies(${APP_PROJECT_NAME} ${APP_INDEXER_NAME})
 # macOS Bundle ----------------------------------------------------------------
 
 if(APPLE)
-
   set(MACOS_BUNDLE_NAME ${PROJECT_NAME})
   set(MACOS_BUNDLE_VERSION ${VERSION_STRING})
   set(MACOS_BINARY_NAME ${APP_PROJECT_NAME})
@@ -879,7 +788,6 @@ if(APPLE)
 
   configure_file(${PROJECT_SOURCE_DIR}/setup/macOS/bundle_info.plist.in
                  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/bundle_info.plist @ONLY)
-
 endif()
 
 # Test ----------------------------------------------------------------------
@@ -888,33 +796,7 @@ enable_testing()
 
 add_subdirectory(src/test)
 
-# symlinks for data
-message(STATUS "create symlink: " "${CMAKE_SOURCE_DIR}/bin/app/data -> " "${CMAKE_BINARY_DIR}/app/data")
-
-if(UNIX)
-  execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/app"
-                  COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/test")
-  execute_process(
-    COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/data" "${CMAKE_BINARY_DIR}/app/data"
-    COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/user" "${CMAKE_BINARY_DIR}/app/user"
-    COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/test/data"
-            "${CMAKE_BINARY_DIR}/test/data")
-elseif(WIN32)
-  foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
-    if(EXISTS "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}")
-      execute_process(
-        COMMAND
-          "cmd.exe" "/k" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\app\\data" & "mklink" "/d" "/j"
-          "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\app\\data"
-          "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\data" & exit
-        COMMAND
-          "cmd.exe" "/k" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\app\\user" & "mklink" "/d" "/j"
-          "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\app\\user"
-          "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\app\\user" & exit
-        COMMAND
-          "cmd.exe" "/k" "rmdir" "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\test\\data" & "mklink" "/d" "/j"
-          "${BACKSLASHED_CMAKE_BINARY_DIR}\\${OUTPUTCONFIG}\\test\\data"
-          "${BACKSLASHED_CMAKE_SOURCE_DIR}\\bin\\test\\data" & exit)
-    endif()
-  endforeach()
-endif()
+execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/app")
+execute_process(
+COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/data" "${CMAKE_BINARY_DIR}/app/data"
+COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/user" "${CMAKE_BINARY_DIR}/app/user")
