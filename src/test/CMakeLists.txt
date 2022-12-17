@@ -1,60 +1,100 @@
-add_files(
-  TEST
+# ${CMAKE_SOURCE_DIR}/src/test/CMakeLists.txt
 
-  helper/TestFileRegister.cpp
-  helper/TestFileRegister.h
-  helper/TestStorage.h
+if(WIN32)
+  foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
+    string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/test/")
+  endforeach()
+endif()
 
-  test_main.cpp
+# Catch2 main
+add_library(test_main OBJECT test_main.cpp)
 
-  CommandlineTestSuite.cpp
-  ConfigManagerTestSuite.cpp
-  CxxIncludeProcessingTestSuite.cpp
-  CxxParserTestSuite.cpp
-  CxxTypeNameTestSuite.cpp
-  FileManagerTestSuite.cpp
-  FilePathFilterTestSuite.cpp
-  FilePathTestSuite.cpp
-  GraphTestSuite.cpp
-  HierarchyCacheTestSuite.cpp
-  JavaIndexSampleProjectsTestSuite.cpp
-  JavaParserTestSuite.cpp
-  LogManagerTestSuite.cpp
-  LowMemoryStringMapTestSuite.cpp
-  MatrixBaseTestSuite.cpp
-  MatrixDynamicBaseTestSuite.cpp
-  MessageQueueTestSuite.cpp
-  NetworkProtocolHelperTestSuite.cpp
-  PythonIndexerTestSuite.cpp
-  SearchIndexTestSuite.cpp
-  SettingsMigratorTestSuite.cpp
-  SettingsTestSuite.cpp
-  SourceLocationCollectionTestSuite.cpp
-  TaskSchedulerTestSuite.cpp
-  TextAccessTestSuite.cpp
-  UtilityGradleTestSuite.cpp
-  UtilityMavenTestSuite.cpp
-  UtilityStringTestSuite.cpp
-  UtilityTestSuite.cpp
-  Vector2TestSuite.cpp
+target_link_libraries(test_main PUBLIC Sourcetrail_lib)
 
-  SharedMemoryTestSuite.cpp
-  SourceGroupTestSuite.cpp
-  FileSystemTestSuite.cpp
+target_include_directories(
+  test_main
+  SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/src/external/catch/
 )
 
-add_files(
-  FUNC
+# TestFileRegister
+add_library(test_utilities helper/TestFileRegister.cpp)
 
-  helper/TestFileRegister.cpp
-  helper/TestFileRegister.h
-  helper/TestStorage.h
-
-  test_main.cpp
-
-  RefreshInfoGeneratorTestSuite.cpp
-  SqliteBookmarkStorageTestSuite.cpp
-  SqliteIndexStorageTestSuite.cpp
-  StorageTestSuite.cpp
+target_include_directories(
+  test_utilities
+  PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}/helper/
 )
 
+target_include_directories(
+  test_utilities
+  SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/src/external/catch/
+)
+
+target_link_libraries(
+  test_utilities
+  PUBLIC
+  Sourcetrail_lib
+  Sourcetrail_lib_utility
+)
+
+# All the remaining test cases
+set(test_files
+    CommandlineTestSuite
+    ConfigManagerTestSuite
+    CxxIncludeProcessingTestSuite
+    CxxParserTestSuite
+    CxxTypeNameTestSuite
+    FileManagerTestSuite
+    FilePathFilterTestSuite
+    FilePathTestSuite
+    FileSystemTestSuite
+    GraphTestSuite
+    HierarchyCacheTestSuite
+    JavaIndexSampleProjectsTestSuite
+    JavaParserTestSuite
+    LogManagerTestSuite
+    LowMemoryStringMapTestSuite
+    MatrixBaseTestSuite
+    MatrixDynamicBaseTestSuite
+    MessageQueueTestSuite
+    NetworkProtocolHelperTestSuite
+    PythonIndexerTestSuite
+    RefreshInfoGeneratorTestSuite
+    SearchIndexTestSuite
+    SettingsMigratorTestSuite
+    SettingsTestSuite
+    SharedMemoryTestSuite
+    SourceGroupTestSuite
+    SourceLocationCollectionTestSuite
+    SqliteBookmarkStorageTestSuite
+    SqliteIndexStorageTestSuite
+    StorageTestSuite
+    TaskSchedulerTestSuite
+    TextAccessTestSuite
+    UtilityGradleTestSuite
+    UtilityMavenTestSuite
+    UtilityStringTestSuite
+    UtilityTestSuite
+    Vector2TestSuite)
+
+foreach(test_file IN LISTS test_files)
+  add_executable(${test_file} ${test_file}.cpp $<TARGET_OBJECTS:test_main>)
+
+  target_link_libraries(
+    ${test_file}
+    PRIVATE
+    test_utilities
+    $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>)
+
+  set_target_properties(${test_file} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test")
+
+  add_test(
+    NAME ${test_file}
+    COMMAND ${test_file}
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/test)
+
+  if(WIN32)
+    set_property(TARGET ${test_file} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/test")
+  endif()
+endforeach()
