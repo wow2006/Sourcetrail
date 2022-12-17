@@ -158,11 +158,6 @@ if(TREAT_WARNINGS_AS_ERRORS)
   endif()
 endif()
 
-# For debugging the release build on linux if (UNIX AND "${CMAKE_BUILD_TYPE}"
-# STREQUAL "Release")
-# add_definitions(-fno-omit-frame-pointer)
-# endif ()
-
 # Clang ------------------------------------------------------------------------
 
 if(BUILD_CXX_LANGUAGE_PACKAGE)
@@ -364,7 +359,6 @@ add_subdirectory(src/lib_gui)
 add_subdirectory(src/lib_java)
 add_subdirectory(src/lib_python)
 add_subdirectory(src/lib_utility)
-add_subdirectory(src/test)
 
 # Lib Utility ------------------------------------------------------------------
 
@@ -396,15 +390,16 @@ create_source_groups(${LIB_FILES})
 create_source_groups(${EXTERNAL_FILES})
 create_source_groups(${EXTERNAL_C_FILES})
 
-set_property(
-  TARGET ${LIB_PROJECT_NAME}
-  PROPERTY INCLUDE_DIRECTORIES
-           "${LIB_INCLUDE_PATHS}"
-           "${LIB_GUI_INCLUDE_PATHS}"
-           "${LIB_UTILITY_INCLUDE_PATHS}"
-           "${LIB_CXX_INCLUDE_PATHS}"
-           "${LIB_JAVA_INCLUDE_PATHS}"
-           "${CMAKE_BINARY_DIR}/src/lib")
+set_property(TARGET ${LIB_PROJECT_NAME} PROPERTY INCLUDE_DIRECTORIES)
+
+target_include_directories(
+  ${LIB_PROJECT_NAME}
+  PUBLIC "${LIB_INCLUDE_PATHS}"
+         "${LIB_GUI_INCLUDE_PATHS}"
+         "${LIB_UTILITY_INCLUDE_PATHS}"
+         "${LIB_CXX_INCLUDE_PATHS}"
+         "${LIB_JAVA_INCLUDE_PATHS}"
+         "${CMAKE_BINARY_DIR}/src/lib")
 
 target_include_directories(${LIB_PROJECT_NAME} SYSTEM PUBLIC "${EXTERNAL_INCLUDE_PATHS}" "${EXTERNAL_C_INCLUDE_PATHS}")
 
@@ -595,11 +590,6 @@ endif()
 
 # Lib Gui ----------------------------------------------------------------------
 
-# Find includes in corresponding build directories
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-# Instruct CMake to run moc automatically when needed.
-set(CMAKE_AUTOMOC ON)
-
 # target for running versionnumber script workaround for running customcommand
 # (ninja dependency cycle)
 add_custom_target(versionnumber ALL)
@@ -608,14 +598,17 @@ add_library(${LIB_GUI_PROJECT_NAME} ${LIB_GUI_FILES} ${CMAKE_BINARY_DIR}/src/lib
 
 target_link_libraries(
   ${LIB_GUI_PROJECT_NAME}
-  ${LIB_UTILITY_PROJECT_NAME}
-  ${LIB_PROJECT_NAME}
-  Qt5::Widgets
-  Qt5::Network
-  Qt5::Svg)
+  PUBLIC ${LIB_UTILITY_PROJECT_NAME}
+         ${LIB_PROJECT_NAME}
+         Boost::program_options
+         Boost::filesystem
+         Boost::date_time
+         Qt5::Widgets
+         Qt5::Network
+         Qt5::Svg)
 
 if(WIN32)
-  target_link_libraries(${LIB_GUI_PROJECT_NAME} Qt5::WinExtras)
+  target_link_libraries(${LIB_GUI_PROJECT_NAME} PUBLIC Qt5::WinExtras)
 endif()
 
 # command for versioning script
@@ -643,7 +636,7 @@ set_property(
            $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>)
 
 # include external header without warnings
-target_include_directories(${LIB_GUI_PROJECT_NAME} SYSTEM PUBLIC ${Boost_INCLUDE_DIRS} "${EXTERNAL_INCLUDE_PATHS}"
+target_include_directories(${LIB_GUI_PROJECT_NAME} SYSTEM PUBLIC "${EXTERNAL_INCLUDE_PATHS}"
                                                                  "${EXTERNAL_C_INCLUDE_PATHS}")
 
 # configure platform specific include file
@@ -657,7 +650,7 @@ configure_file(${CMAKE_SOURCE_DIR}/cmake/productVersion.h.in ${CMAKE_BINARY_DIR}
 
 set_property(SOURCE ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h PROPERTY SKIP_AUTOMOC ON)
 
-set(CMAKE_AUTOMOC OFF)
+set_target_properties(${LIB_GUI_PROJECT_NAME} PROPERTIES AUTOMOC ON INCLUDE_CURRENT_DIR ON)
 
 # Indexer App ------------------------------------------------------------------
 
@@ -893,94 +886,7 @@ endif()
 
 enable_testing()
 
-if(UNIX)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test/")
-else()
-  foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
-    string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/test/")
-  endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
-endif()
-
-add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
-
-create_source_groups(${TEST_FILES})
-
-target_link_libraries(
-  ${TEST_PROJECT_NAME}
-  ${LIB_GUI_PROJECT_NAME}
-  $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>
-  ${LIB_PROJECT_NAME}
-  ${LIB_GUI_PROJECT_NAME}
-  $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>)
-
-set_property(
-  TARGET ${TEST_PROJECT_NAME}
-  PROPERTY INCLUDE_DIRECTORIES
-           "${TEST_INCLUDE_PATHS}"
-           "${LIB_INCLUDE_PATHS}"
-           "${LIB_UTILITY_INCLUDE_PATHS}"
-           "${LIB_GUI_INCLUDE_PATHS}"
-           "${EXTERNAL_INCLUDE_PATHS}"
-           "${EXTERNAL_C_INCLUDE_PATHS}"
-           "${Boost_INCLUDE_DIRS}"
-           "${CMAKE_BINARY_DIR}/src/lib"
-           $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_INCLUDE_PATHS}>
-           $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
-           $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>)
-
-add_executable(${FUNC_PROJECT_NAME} ${FUNC_FILES})
-
-create_source_groups(${FUNC_FILES})
-
-target_link_libraries(
-  ${FUNC_PROJECT_NAME}
-  ${LIB_GUI_PROJECT_NAME}
-  $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>
-  ${LIB_PROJECT_NAME}
-  ${LIB_GUI_PROJECT_NAME}
-  $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>)
-
-set_property(
-  TARGET ${FUNC_PROJECT_NAME}
-  PROPERTY INCLUDE_DIRECTORIES
-           "${TEST_INCLUDE_PATHS}"
-           "${LIB_INCLUDE_PATHS}"
-           "${LIB_UTILITY_INCLUDE_PATHS}"
-           "${LIB_GUI_INCLUDE_PATHS}"
-           "${EXTERNAL_INCLUDE_PATHS}"
-           "${EXTERNAL_C_INCLUDE_PATHS}"
-           "${Boost_INCLUDE_DIRS}"
-           "${CMAKE_BINARY_DIR}/src/lib"
-           $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_INCLUDE_PATHS}>
-           $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
-           $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>)
-
-if(WIN32)
-  set_target_properties(${TEST_PROJECT_NAME} PROPERTIES COMPILE_FLAGS "/bigobj")
-  set_property(TARGET ${TEST_PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/test")
-
-  set_target_properties(${FUNC_PROJECT_NAME} PROPERTIES COMPILE_FLAGS "/bigobj")
-  set_property(TARGET ${FUNC_PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/test")
-endif()
-
-add_test(
-  NAME ${TEST_PROJECT_NAME}
-  COMMAND ${TEST_PROJECT_NAME}
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/test)
-
-add_test(
-  NAME ${FUNC_PROJECT_NAME}
-  COMMAND ${FUNC_PROJECT_NAME}
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/test)
+add_subdirectory(src/test)
 
 # symlinks for data
 message(STATUS "create symlink: " "${CMAKE_SOURCE_DIR}/bin/app/data -> " "${CMAKE_BINARY_DIR}/app/data")
