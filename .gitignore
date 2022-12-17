@@ -3,6 +3,9 @@ build-*
 /distr/
 /deps/
 
+.vs/
+CMakeSettings.json
+
 /bin/app/data/cxx
 /bin/app/data/java/lib/
 /bin/app/data/projects/ignored/
