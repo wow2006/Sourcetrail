@@ -22,6 +22,9 @@ set(TREAT_WARNINGS_AS_ERRORS
 set(BUILD_COVERAGE
     OFF
     CACHE BOOL "Generate a coverage report")
+set(BUILD_TEST
+    ON
+    CACHE BOOL "Build unit tests")
 
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
@@ -791,11 +794,13 @@ if(APPLE)
 endif()
 
 # Test ----------------------------------------------------------------------
+if(BUILD_TEST)
+    enable_testing()
 
-enable_testing()
+    add_subdirectory(src/test)
+endif()
 
-add_subdirectory(src/test)
-
+# Data ----------------------------------------------------------------------
 execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/app")
 execute_process(
 COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/data" "${CMAKE_BINARY_DIR}/app/data"
