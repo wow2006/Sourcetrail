@@ -29,6 +29,7 @@ set(BUILD_FUNC
     OFF
     CACHE BOOL "Build functionality tests")
 
+include(cmake/compiler_warnings.cmake)
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
 include(cmake/version.cmake)
@@ -127,12 +128,6 @@ if(BUILD_COVERAGE)
 endif()
 
 # Settings ---------------------------------------------------------------------
-
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -fcolor-diagnostics -fvisibility-inlines-hidden")
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  add_compile_options(/MP)
-endif()
 
 # FIXME: necessary to fix build in Docker
 if(DOCKER_BUILD)
@@ -309,6 +304,8 @@ if(WIN32)
   target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Qt5::WinExtras bcrypt.lib)
 endif()
 
+set_project_warnings(${LIB_UTILITY_PROJECT_NAME})
+
 # Lib --------------------------------------------------------------------------
 
 set_source_files_properties(${EXTERNAL_FILES} PROPERTIES COMPILE_FLAGS "-w")
@@ -343,6 +340,8 @@ target_link_libraries(
 
 # configure language package defines
 configure_file("${CMAKE_SOURCE_DIR}/cmake/language_packages.h.in" "${CMAKE_BINARY_DIR}/src/lib/language_packages.h")
+
+set_project_warnings(${LIB_PROJECT_NAME})
 
 # Lib Cxx ----------------------------------------------------------------------
 
@@ -636,6 +635,8 @@ set_target_properties(
     ${APP_INDEXER_NAME}
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
 
+set_project_warnings(${APP_INDEXER_NAME})
+
 # App --------------------------------------------------------------------------
 
 if(WIN32)
@@ -715,6 +716,8 @@ if(APPLE)
 endif()
 
 add_dependencies(${APP_PROJECT_NAME} ${APP_INDEXER_NAME})
+
+set_project_warnings(${APP_PROJECT_NAME})
 
 # macOS Bundle ----------------------------------------------------------------
 
