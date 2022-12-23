@@ -631,9 +631,7 @@ set_property(
            $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
            $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>)
 
-set_target_properties(
-    ${APP_INDEXER_NAME}
-    PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
+set_target_properties(${APP_INDEXER_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
 
 set_project_warnings(${APP_INDEXER_NAME})
 
@@ -648,15 +646,16 @@ if(WIN32)
   add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_BINARY_DIR}/Sourcetrail.rc)
 
   # also show the console when running a release build.
-  set_target_properties(${APP_PROJECT_NAME}
+  set_target_properties(
+    ${APP_PROJECT_NAME}
     PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE /DEBUG:FASTLINK"
-    COMPILE_DEFINITIONS_DEBUG "_CONSOLE"
-    LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE"
-    COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE"
-    LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:CONSOLE /DEBUG"
-    LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:CONSOLE"
-    CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi" # generate pdb for release build
-    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/app")
+               COMPILE_DEFINITIONS_DEBUG "_CONSOLE"
+               LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE"
+               COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE"
+               LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:CONSOLE /DEBUG"
+               LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:CONSOLE"
+               CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi" # generate pdb for release build
+               VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/app")
 
   string(
     REGEX
@@ -676,8 +675,7 @@ endif()
 
 create_source_groups(${APP_FILES})
 
-set_target_properties(${APP_PROJECT_NAME}
-    PROPERTIES INCLUDE_CURRENT_DIR ON)
+set_target_properties(${APP_PROJECT_NAME} PROPERTIES INCLUDE_CURRENT_DIR ON)
 
 target_link_libraries(
   ${APP_PROJECT_NAME}
@@ -702,9 +700,7 @@ set_property(
            $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
            $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>)
 
-set_target_properties(
-    ${APP_PROJECT_NAME}
-    PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
+set_target_properties(${APP_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
 
 target_include_directories(${APP_PROJECT_NAME} SYSTEM PUBLIC ${Boost_INCLUDE_DIRS} "${EXTERNAL_INCLUDE_PATHS}"
                                                              "${EXTERNAL_C_INCLUDE_PATHS}")
@@ -801,19 +797,19 @@ endif()
 
 # Test ----------------------------------------------------------------------
 if(BUILD_FUNC OR BUILD_TEST)
-    enable_testing()
+  enable_testing()
 
-    if(BUILD_TEST)
-        add_subdirectory(src/test)
-    endif()
+  if(BUILD_TEST)
+    add_subdirectory(src/test)
+  endif()
 
-    if(BUILD_FUNC)
-        add_subdirectory(src/functionality)
-    endif()
+  if(BUILD_FUNC)
+    add_subdirectory(src/functionality)
+  endif()
 endif()
 
 # Data ----------------------------------------------------------------------
 execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/app")
 execute_process(
-COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/data" "${CMAKE_BINARY_DIR}/app/data"
-COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/user" "${CMAKE_BINARY_DIR}/app/user")
+  COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/data" "${CMAKE_BINARY_DIR}/app/data"
+  COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/user" "${CMAKE_BINARY_DIR}/app/user")
