@@ -137,32 +137,6 @@ if(DOCKER_BUILD)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
 endif()
 
-if(TREAT_WARNINGS_AS_ERRORS)
-  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    # Visual Studio 2017 version 15.9 <= Version <= Visual Studio 2019 Version
-    # 16.4
-    if((MSVC_VERSION GREATER_EQUAL 1916) AND (MSVC_VERSION LESS_EQUAL 1924))
-      # Warning 4003: not enough actual parameters for macro 'identifier'
-      # Warning 4250: 'class1' inherits 'class2::member' via dominance
-      set(WARNINGS_LIST "/wd4003 /wd4250")
-      set(CMAKE_CXX_WARNINGS_FLAGS "/experimental:external /external:anglebrackets /external:W0 /WX")
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_WARNINGS_FLAGS} ${WARNINGS_LIST}")
-
-      # Treat linker warnings as errors
-      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX")
-      set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /WX")
-      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WX")
-      set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /WX")
-
-      message(STATUS "'Treat warnings as errors' policy is enabled")
-    else()
-      message(STATUS "'Treat warnings as errors' policy is disabled")
-    endif()
-  else()
-    message(STATUS "'Treat warnings as errors' policy is disabled")
-  endif()
-endif()
-
 # Clang ------------------------------------------------------------------------
 
 if(BUILD_CXX_LANGUAGE_PACKAGE)
@@ -296,7 +270,8 @@ create_source_groups(${LIB_UTILITY_FILES})
 
 target_include_directories(${LIB_UTILITY_PROJECT_NAME} PUBLIC "${LIB_UTILITY_INCLUDE_PATHS}")
 
-target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Qt5::Core Boost::system)
+target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Qt5::Core Boost::system sqlite::sqlite)
+target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PRIVATE sqlite::sqlite tinyxml::tinyxml)
 
 if(UNIX AND NOT APPLE)
   find_package(Threads REQUIRED)
@@ -310,9 +285,6 @@ endif()
 set_project_warnings(${LIB_UTILITY_PROJECT_NAME})
 
 # Lib --------------------------------------------------------------------------
-
-set_source_files_properties(${EXTERNAL_FILES} PROPERTIES COMPILE_FLAGS "-w")
-set_source_files_properties(${EXTERNAL_C_FILES} PROPERTIES COMPILE_FLAGS "-std=gnu89 -w")
 
 add_library(${LIB_PROJECT_NAME} ${LIB_FILES} ${EXTERNAL_FILES} ${EXTERNAL_C_FILES})
 

@@ -1,22 +1,4 @@
-add_files(
-	EXTERNAL
-
-	catch/catch.hpp
-	
-	sqlite/CppSQLite3.cpp
-	sqlite/CppSQLite3.h
-
-	tinyxml/tinystr.cpp
-	tinyxml/tinystr.h
-	tinyxml/tinyxml.cpp
-	tinyxml/tinyxml.h
-	tinyxml/tinyxmlerror.cpp
-	tinyxml/tinyxmlparser.cpp
-)
-
-add_files(
-	EXTERNAL_C
-
-	sqlite/sqlite3.c
-	sqlite/sqlite3.h
-)
+# ${CMAKE_SOURCE_DIR}/src/external/CMakeLists.txt
+add_subdirectory(catch)
+add_subdirectory(sqlite)
+add_subdirectory(tinyxml)
