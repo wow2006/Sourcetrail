@@ -299,7 +299,7 @@ void QtProjectWizardContentPathsHeaderSearch::finishedSelectDetectIncludesRootPa
 void QtProjectWizardContentPathsHeaderSearch::finishedAcceptDetectedIncludePathsDialog()
 {
 	const std::vector<std::wstring> detectedPaths = utility::split<std::vector<std::wstring>>(
-		m_filesDialog->getText(), L"\n");
+		m_filesDialog->getText(), std::wstring{L"\n"});
 	closedFilesDialog();
 
 	std::vector<FilePath> headerSearchPaths = m_list->getPathsAsDisplayed();

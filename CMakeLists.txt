@@ -1,5 +1,5 @@
 # ${CMAKE_SOURCE_DIR}/CMakeLists.txt
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.16)
 
 if(WIN32 AND (CMAKE_GENERATOR STREQUAL "Ninja"))
   set(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE})
@@ -29,6 +29,7 @@ set(BUILD_FUNC
     OFF
     CACHE BOOL "Build functionality tests")
 
+include(cmake/compiler_warnings.cmake)
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
 include(cmake/version.cmake)
@@ -106,8 +107,11 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+set(CMAKE_C_STANDARD 17)
 
 if(BUILD_COVERAGE)
   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -128,41 +132,9 @@ endif()
 
 # Settings ---------------------------------------------------------------------
 
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -fcolor-diagnostics -fvisibility-inlines-hidden")
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  add_compile_options(/MP)
-endif()
-
 # FIXME: necessary to fix build in Docker
 if(DOCKER_BUILD)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
-endif()
-
-if(TREAT_WARNINGS_AS_ERRORS)
-  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    # Visual Studio 2017 version 15.9 <= Version <= Visual Studio 2019 Version
-    # 16.4
-    if((MSVC_VERSION GREATER_EQUAL 1916) AND (MSVC_VERSION LESS_EQUAL 1924))
-      # Warning 4003: not enough actual parameters for macro 'identifier'
-      # Warning 4250: 'class1' inherits 'class2::member' via dominance
-      set(WARNINGS_LIST "/wd4003 /wd4250")
-      set(CMAKE_CXX_WARNINGS_FLAGS "/experimental:external /external:anglebrackets /external:W0 /WX")
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_WARNINGS_FLAGS} ${WARNINGS_LIST}")
-
-      # Treat linker warnings as errors
-      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX")
-      set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /WX")
-      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WX")
-      set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /WX")
-
-      message(STATUS "'Treat warnings as errors' policy is enabled")
-    else()
-      message(STATUS "'Treat warnings as errors' policy is disabled")
-    endif()
-  else()
-    message(STATUS "'Treat warnings as errors' policy is disabled")
-  endif()
 endif()
 
 # Clang ------------------------------------------------------------------------
@@ -298,7 +270,8 @@ create_source_groups(${LIB_UTILITY_FILES})
 
 target_include_directories(${LIB_UTILITY_PROJECT_NAME} PUBLIC "${LIB_UTILITY_INCLUDE_PATHS}")
 
-target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Qt5::Core Boost::system)
+target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Qt5::Core Boost::system sqlite::sqlite)
+target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PRIVATE sqlite::sqlite tinyxml::tinyxml)
 
 if(UNIX AND NOT APPLE)
   find_package(Threads REQUIRED)
@@ -309,10 +282,9 @@ if(WIN32)
   target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Qt5::WinExtras bcrypt.lib)
 endif()
 
-# Lib --------------------------------------------------------------------------
+set_project_warnings(${LIB_UTILITY_PROJECT_NAME})
 
-set_source_files_properties(${EXTERNAL_FILES} PROPERTIES COMPILE_FLAGS "-w")
-set_source_files_properties(${EXTERNAL_C_FILES} PROPERTIES COMPILE_FLAGS "-std=gnu89 -w")
+# Lib --------------------------------------------------------------------------
 
 add_library(${LIB_PROJECT_NAME} ${LIB_FILES} ${EXTERNAL_FILES} ${EXTERNAL_C_FILES})
 
@@ -344,13 +316,11 @@ target_link_libraries(
 # configure language package defines
 configure_file("${CMAKE_SOURCE_DIR}/cmake/language_packages.h.in" "${CMAKE_BINARY_DIR}/src/lib/language_packages.h")
 
+set_project_warnings(${LIB_PROJECT_NAME})
+
 # Lib Cxx ----------------------------------------------------------------------
 
 if(BUILD_CXX_LANGUAGE_PACKAGE)
-
-  set(CAPTURED_CMAKE_CXX_STANDARD ${CMAKE_CXX_STANDARD})
-  set(CMAKE_CXX_STANDARD 14)
-
   add_library(${LIB_CXX_PROJECT_NAME} ${LIB_CXX_FILES})
 
   create_source_groups(${LIB_CXX_FILES})
@@ -372,6 +342,8 @@ if(BUILD_CXX_LANGUAGE_PACKAGE)
            "${EXTERNAL_C_INCLUDE_PATHS}")
 
   link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
+
+  set_target_properties(${LIB_CXX_PROJECT_NAME} PROPERTIES CXX_STANDARD 14)
 
   if(LLVM_LINK_LLVM_DYLIB)
     set(REQ_LLVM_LIBS LLVM)
@@ -431,8 +403,6 @@ if(BUILD_CXX_LANGUAGE_PACKAGE)
     target_compile_definitions(${LIB_CXX_PROJECT_NAME} PRIVATE _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS) # Due to Clang
     target_link_libraries(${LIB_CXX_PROJECT_NAME} version)
   endif()
-
-  set(CMAKE_CXX_STANDARD ${CAPTURED_CMAKE_CXX_STANDARD})
 else()
 
   message(
@@ -632,9 +602,9 @@ set_property(
            $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
            $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>)
 
-set_target_properties(
-    ${APP_INDEXER_NAME}
-    PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
+set_target_properties(${APP_INDEXER_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
+
+set_project_warnings(${APP_INDEXER_NAME})
 
 # App --------------------------------------------------------------------------
 
@@ -647,15 +617,16 @@ if(WIN32)
   add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_BINARY_DIR}/Sourcetrail.rc)
 
   # also show the console when running a release build.
-  set_target_properties(${APP_PROJECT_NAME}
+  set_target_properties(
+    ${APP_PROJECT_NAME}
     PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE /DEBUG:FASTLINK"
-    COMPILE_DEFINITIONS_DEBUG "_CONSOLE"
-    LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE"
-    COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE"
-    LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:CONSOLE /DEBUG"
-    LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:CONSOLE"
-    CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi" # generate pdb for release build
-    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/app")
+               COMPILE_DEFINITIONS_DEBUG "_CONSOLE"
+               LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE"
+               COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE"
+               LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:CONSOLE /DEBUG"
+               LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:CONSOLE"
+               CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi" # generate pdb for release build
+               VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/app")
 
   string(
     REGEX
@@ -675,8 +646,7 @@ endif()
 
 create_source_groups(${APP_FILES})
 
-set_target_properties(${APP_PROJECT_NAME}
-    PROPERTIES INCLUDE_CURRENT_DIR ON)
+set_target_properties(${APP_PROJECT_NAME} PROPERTIES INCLUDE_CURRENT_DIR ON)
 
 target_link_libraries(
   ${APP_PROJECT_NAME}
@@ -701,9 +671,7 @@ set_property(
            $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
            $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>)
 
-set_target_properties(
-    ${APP_PROJECT_NAME}
-    PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
+set_target_properties(${APP_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
 
 target_include_directories(${APP_PROJECT_NAME} SYSTEM PUBLIC ${Boost_INCLUDE_DIRS} "${EXTERNAL_INCLUDE_PATHS}"
                                                              "${EXTERNAL_C_INCLUDE_PATHS}")
@@ -715,6 +683,8 @@ if(APPLE)
 endif()
 
 add_dependencies(${APP_PROJECT_NAME} ${APP_INDEXER_NAME})
+
+set_project_warnings(${APP_PROJECT_NAME})
 
 # macOS Bundle ----------------------------------------------------------------
 
@@ -798,19 +768,19 @@ endif()
 
 # Test ----------------------------------------------------------------------
 if(BUILD_FUNC OR BUILD_TEST)
-    enable_testing()
+  enable_testing()
 
-    if(BUILD_TEST)
-        add_subdirectory(src/test)
-    endif()
+  if(BUILD_TEST)
+    add_subdirectory(src/test)
+  endif()
 
-    if(BUILD_FUNC)
-        add_subdirectory(src/functionality)
-    endif()
+  if(BUILD_FUNC)
+    add_subdirectory(src/functionality)
+  endif()
 endif()
 
 # Data ----------------------------------------------------------------------
 execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/app")
 execute_process(
-COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/data" "${CMAKE_BINARY_DIR}/app/data"
-COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/user" "${CMAKE_BINARY_DIR}/app/user")
+  COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/data" "${CMAKE_BINARY_DIR}/app/data"
+  COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${CMAKE_SOURCE_DIR}/bin/app/user" "${CMAKE_BINARY_DIR}/app/user")
