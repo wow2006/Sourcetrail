@@ -53,16 +53,17 @@ set(test_files
     SharedMemoryTestSuite
     SourceGroupTestSuite
     SourceLocationCollectionTestSuite
-    SqliteBookmarkStorageTestSuite
-    SqliteIndexStorageTestSuite
-    StorageTestSuite
+    #SqliteBookmarkStorageTestSuite
+    #SqliteIndexStorageTestSuite
+    #StorageTestSuite
     TaskSchedulerTestSuite
     TextAccessTestSuite
     UtilityGradleTestSuite
     UtilityMavenTestSuite
     UtilityStringTestSuite
     UtilityTestSuite
-    Vector2TestSuite)
+    Vector2TestSuite
+    VersionTestSuite)
 
 foreach(test_file IN LISTS test_files)
   add_executable(${test_file} ${test_file}.cpp $<TARGET_OBJECTS:test_main>)
