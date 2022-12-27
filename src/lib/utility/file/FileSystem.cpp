@@ -9,289 +9,238 @@
 #include "utilityString.h"
 
 std::vector<FilePath> FileSystem::getFilePathsFromDirectory(
-	const FilePath& path, const std::vector<std::wstring>& extensions)
-{
-	std::set<std::wstring> ext(extensions.begin(), extensions.end());
-	std::vector<FilePath> files;
+    const FilePath& path, const std::vector<std::wstring>& extensions) {
+  std::set<std::wstring> ext(extensions.begin(), extensions.end());
+  std::vector<FilePath> files;
 
-	if (path.isDirectory())
-	{
-		boost::filesystem::recursive_directory_iterator it(path.getPath());
-		boost::filesystem::recursive_directory_iterator endit;
-		while (it != endit)
-		{
-			if (boost::filesystem::is_symlink(*it))
-			{
-				// check for self-referencing symlinks
-				boost::filesystem::path p = boost::filesystem::read_symlink(*it);
-				if (p.filename() == p.string() && p.filename() == it->path().filename())
-				{
-					++it;
-					continue;
-				}
-			}
+  if(path.isDirectory()) {
+    boost::filesystem::recursive_directory_iterator iterator(path.getPath());
+    boost::filesystem::recursive_directory_iterator endIterator;
+    while(iterator != endIterator) {
+      if(boost::filesystem::is_symlink(*iterator)) {
+        // check for self-referencing symlinks
+        auto selfPath = boost::filesystem::read_symlink(*iterator);
+        if(selfPath.filename() == selfPath.string() &&
+           selfPath.filename() == iterator->path().filename()) {
+          ++iterator;
+          continue;
+        }
+      }
 
-			if (boost::filesystem::is_regular_file(*it) &&
-				(ext.empty() || ext.find(it->path().extension().wstring()) != ext.end()))
-			{
-				files.push_back(FilePath(it->path().generic_wstring()));
-			}
-			++it;
-		}
-	}
-	return files;
+      if(boost::filesystem::is_regular_file(*iterator) &&
+         (ext.empty() || ext.find(iterator->path().extension().wstring()) != ext.end())) {
+        files.emplace_back(iterator->path().generic_wstring());
+      }
+      ++iterator;
+    }
+  }
+  return files;
 }
 
-FileInfo FileSystem::getFileInfoForPath(const FilePath& filePath)
-{
-	if (filePath.exists())
-	{
-		return FileInfo(filePath, getLastWriteTime(filePath));
-	}
-	return FileInfo();
+FileInfo FileSystem::getFileInfoForPath(const FilePath& filePath) {
+  if(filePath.exists()) {
+    return {filePath, getLastWriteTime(filePath)};
+  }
+  return {};
 }
 
-std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
-	const std::vector<FilePath>& paths,
-	const std::vector<std::wstring>& fileExtensions,
-	bool followSymLinks)
-{
-	std::set<std::wstring> ext;
-	for (const std::wstring& e: fileExtensions)
-	{
-		ext.insert(utility::toLowerCase(e));
-	}
+std::vector<FileInfo> FileSystem::getFileInfosFromPaths(const std::vector<FilePath>& paths,
+                                                        const std::vector<std::wstring>& fileExtensions,
+                                                        bool followSymLinks) {
+  std::set<std::wstring> ext;
+  for(const auto& extension: fileExtensions) {
+    ext.insert(utility::toLowerCase(extension));
+  }
 
-	std::set<boost::filesystem::path> symlinkDirs;
-	std::set<FilePath> filePaths;
+  std::set<boost::filesystem::path> symlinkDirs;
+  std::set<FilePath> filePaths;
 
-	std::vector<FileInfo> files;
+  std::vector<FileInfo> files;
 
-	for (const FilePath& path: paths)
-	{
-		if (path.isDirectory())
-		{
-			boost::filesystem::recursive_directory_iterator it(
-				path.getPath(), boost::filesystem::symlink_option::recurse);
-			boost::filesystem::recursive_directory_iterator endit;
-			boost::system::error_code ec;
-			for (; it != endit; it.increment(ec))
-			{
-				if (boost::filesystem::is_symlink(*it))
-				{
-					if (!followSymLinks)
-					{
-						it.no_push();
-						continue;
-					}
+  for(const FilePath& path: paths) {
+    if(path.isDirectory()) {
+      boost::filesystem::recursive_directory_iterator iterator(
+          path.getPath(), boost::filesystem::symlink_option::recurse);
+      boost::filesystem::recursive_directory_iterator endit;
+      boost::system::error_code errorCode;
+      for(; iterator != endit; iterator.increment(errorCode)) {
+        if(boost::filesystem::is_symlink(*iterator)) {
+          if(!followSymLinks) {
+            iterator.no_push();
+            continue;
+          }
 
-					// check for self-referencing symlinks
-					boost::filesystem::path p = boost::filesystem::read_symlink(*it);
-					if (p.filename() == p.string() && p.filename() == it->path().filename())
-					{
-						continue;
-					}
+          // check for self-referencing symlinks
+          auto selfPath = boost::filesystem::read_symlink(*iterator);
+          if(selfPath.filename() == selfPath.string() &&
+             selfPath.filename() == iterator->path().filename()) {
+            continue;
+          }
 
-					// check for duplicates when following directory symlinks
-					if (boost::filesystem::is_directory(*it))
-					{
-						boost::filesystem::path absDir = boost::filesystem::canonical(
-							p, it->path().parent_path());
+          // check for duplicates when following directory symlinks
+          if(boost::filesystem::is_directory(*iterator)) {
+            auto absDir = boost::filesystem::canonical(selfPath, iterator->path().parent_path());
 
-						if (symlinkDirs.find(absDir) != symlinkDirs.end())
-						{
-							it.no_push();
-							continue;
-						}
+            if(symlinkDirs.find(absDir) != symlinkDirs.end()) {
+              iterator.no_push();
+              continue;
+            }
 
-						symlinkDirs.insert(absDir);
-					}
-				}
+            symlinkDirs.insert(absDir);
+          }
+        }
 
-				if (boost::filesystem::is_regular_file(*it) &&
-					(ext.empty() ||
-					 ext.find(utility::toLowerCase(it->path().extension().wstring())) != ext.end()))
-				{
-					const FilePath canonicalPath = FilePath(it->path().wstring()).getCanonical();
-					if (filePaths.find(canonicalPath) != filePaths.end())
-					{
-						continue;
-					}
-					filePaths.insert(canonicalPath);
-					files.push_back(getFileInfoForPath(canonicalPath));
-				}
-			}
-		}
-		else if (path.exists() && (ext.empty() || ext.find(utility::toLowerCase(path.extension())) != ext.end()))
-		{
-			const FilePath canonicalPath = path.getCanonical();
-			if (filePaths.find(canonicalPath) != filePaths.end())
-			{
-				continue;
-			}
-			filePaths.insert(canonicalPath);
-			files.push_back(getFileInfoForPath(canonicalPath));
-		}
-	}
+        if(boost::filesystem::is_regular_file(*iterator) &&
+           (ext.empty() ||
+            ext.find(utility::toLowerCase(iterator->path().extension().wstring())) != ext.end())) {
+          const auto canonicalPath = FilePath(iterator->path().wstring()).getCanonical();
+          if(filePaths.find(canonicalPath) != filePaths.end()) {
+            continue;
+          }
+          filePaths.insert(canonicalPath);
+          files.push_back(getFileInfoForPath(canonicalPath));
+        }
+      }
+    } else if(path.exists() &&
+              (ext.empty() || ext.find(utility::toLowerCase(path.extension())) != ext.end())) {
+      const FilePath canonicalPath = path.getCanonical();
+      if(filePaths.find(canonicalPath) != filePaths.end()) {
+        continue;
+      }
+      filePaths.insert(canonicalPath);
+      files.push_back(getFileInfoForPath(canonicalPath));
+    }
+  }
 
-	return files;
+  return files;
 }
 
-std::set<FilePath> FileSystem::getSymLinkedDirectories(const FilePath& path)
-{
-	return getSymLinkedDirectories(std::vector<FilePath> {path});
+std::set<FilePath> FileSystem::getSymLinkedDirectories(const FilePath& path) {
+  return getSymLinkedDirectories(std::vector<FilePath> {path});
 }
 
-std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePath>& paths)
-{
-	std::set<boost::filesystem::path> symlinkDirs;
+std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePath>& paths) {
+  std::set<boost::filesystem::path> symlinkDirs;
 
-	for (const FilePath& path: paths)
-	{
-		if (path.isDirectory())
-		{
-			boost::filesystem::recursive_directory_iterator it(
-				path.getPath(), boost::filesystem::symlink_option::recurse);
-			boost::filesystem::recursive_directory_iterator endit;
-			boost::system::error_code ec;
-			for (; it != endit; it.increment(ec))
-			{
-				if (boost::filesystem::is_symlink(*it))
-				{
-					// check for self-referencing symlinks
-					boost::filesystem::path p = boost::filesystem::read_symlink(*it);
-					if (p.filename() == p.string() && p.filename() == it->path().filename())
-					{
-						continue;
-					}
+  for(const auto& path : paths) {
+    if(path.isDirectory()) {
+      boost::filesystem::recursive_directory_iterator iterator(
+          path.getPath(), boost::filesystem::symlink_option::recurse);
+      boost::filesystem::recursive_directory_iterator endit;
+      boost::system::error_code errorCode;
+      for(; iterator != endit; iterator.increment(errorCode)) {
+        if(boost::filesystem::is_symlink(*iterator)) {
+          // check for self-referencing symlinks
+          auto selfPath = boost::filesystem::read_symlink(*iterator);
+          if(selfPath.filename() == selfPath.string() && selfPath.filename() == iterator->path().filename()) {
+            continue;
+          }
 
-					// check for duplicates when following directory symlinks
-					if (boost::filesystem::is_directory(*it))
-					{
-						boost::filesystem::path absDir = boost::filesystem::canonical(
-							p, it->path().parent_path());
+          // check for duplicates when following directory symlinks
+          if(boost::filesystem::is_directory(*iterator)) {
+            auto absDir = boost::filesystem::canonical(
+                selfPath, iterator->path().parent_path());
 
-						if (symlinkDirs.find(absDir) != symlinkDirs.end())
-						{
-							it.no_push();
-							continue;
-						}
+            if(symlinkDirs.find(absDir) != symlinkDirs.end()) {
+              iterator.no_push();
+              continue;
+            }
 
-						symlinkDirs.insert(absDir);
-					}
-				}
-			}
-		}
-	}
+            symlinkDirs.insert(absDir);
+          }
+        }
+      }
+    }
+  }
 
-	std::set<FilePath> files;
-	for (auto& p: symlinkDirs)
-	{
-		files.insert(FilePath(p.wstring()));
-	}
-	return files;
+  std::set<FilePath> files;
+  for(const auto& dir : symlinkDirs) {
+    files.insert(FilePath(dir.wstring()));
+  }
+  return files;
 }
 
-unsigned long long FileSystem::getFileByteSize(const FilePath& filePath)
-{
-	return boost::filesystem::file_size(filePath.getPath());
+uint64_t FileSystem::getFileByteSize(const FilePath& filePath) {
+  return boost::filesystem::file_size(filePath.getPath());
 }
 
-TimeStamp FileSystem::getLastWriteTime(const FilePath& filePath)
-{
-	boost::posix_time::ptime lastWriteTime;
-	if (filePath.exists())
-	{
-		std::time_t t = boost::filesystem::last_write_time(filePath.getPath());
-		lastWriteTime = boost::posix_time::from_time_t(t);
-		lastWriteTime = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local(
-			lastWriteTime);
-	}
-	return TimeStamp(lastWriteTime);
+TimeStamp FileSystem::getLastWriteTime(const FilePath& filePath) {
+  boost::posix_time::ptime lastWriteTime;
+  if(filePath.exists()) {
+    std::time_t time = boost::filesystem::last_write_time(filePath.getPath());
+    lastWriteTime = boost::posix_time::from_time_t(time);
+    lastWriteTime = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local(
+        lastWriteTime);
+  }
+  return {lastWriteTime};
 }
 
-bool FileSystem::remove(const FilePath& path)
-{
-	boost::system::error_code ec;
-	const bool ret = boost::filesystem::remove(path.getPath(), ec);
-	path.recheckExists();
-	return ret;
+bool FileSystem::remove(const FilePath& path) {
+  boost::system::error_code errorCode;
+  const bool ret = boost::filesystem::remove(path.getPath(), errorCode);
+  path.recheckExists();
+  return ret;
 }
 
-bool FileSystem::rename(const FilePath& from, const FilePath& to)
-{
-	if (!from.recheckExists() || to.recheckExists())
-	{
-		return false;
-	}
+bool FileSystem::rename(const FilePath& fromPath, const FilePath& toPath) {
+  if(!fromPath.recheckExists() || toPath.recheckExists()) {
+    return false;
+  }
 
-	boost::filesystem::rename(from.getPath(), to.getPath());
-	to.recheckExists();
-	return true;
+  boost::filesystem::rename(fromPath.getPath(), toPath.getPath());
+  toPath.recheckExists();
+  return true;
 }
 
-bool FileSystem::copyFile(const FilePath& from, const FilePath& to)
-{
-	if (!from.recheckExists() || to.recheckExists())
-	{
-		return false;
-	}
+bool FileSystem::copyFile(const FilePath& fromPath, const FilePath& toPath) {
+  if(!fromPath.recheckExists() || toPath.recheckExists()) {
+    return false;
+  }
 
-	boost::filesystem::copy_file(from.getPath(), to.getPath());
-	to.recheckExists();
-	return true;
+  boost::filesystem::copy_file(fromPath.getPath(), toPath.getPath());
+  toPath.recheckExists();
+  return true;
 }
 
-bool FileSystem::copy_directory(const FilePath& from, const FilePath& to)
-{
-	if (!from.recheckExists() || to.recheckExists())
-	{
-		return false;
-	}
+bool FileSystem::copy_directory(const FilePath& fromPath, const FilePath& toPath) {
+  if(!fromPath.recheckExists() || toPath.recheckExists()) {
+    return false;
+  }
 
-	boost::filesystem::copy_directory(from.getPath(), to.getPath());
-	to.recheckExists();
-	return true;
+  boost::filesystem::copy_directory(fromPath.getPath(), toPath.getPath());
+  toPath.recheckExists();
+  return true;
 }
 
-void FileSystem::createDirectory(const FilePath& path)
-{
-	boost::filesystem::create_directories(path.str());
-	path.recheckExists();
+void FileSystem::createDirectory(const FilePath& path) {
+  boost::filesystem::create_directories(path.str());
+  path.recheckExists();
 }
 
-std::vector<FilePath> FileSystem::getDirectSubDirectories(const FilePath& path)
-{
-	std::vector<FilePath> v;
+std::vector<FilePath> FileSystem::getDirectSubDirectories(const FilePath& path) {
+  std::vector<FilePath> subDirectories;
 
-	if (path.exists() && path.isDirectory())
-	{
-		for (boost::filesystem::directory_iterator end, dir(path.str()); dir != end; dir++)
-		{
-			if (boost::filesystem::is_directory(dir->path()))
-			{
-				v.push_back(FilePath(dir->path().wstring()));
-			}
-		}
-	}
+  if(path.exists() && path.isDirectory()) {
+    for(boost::filesystem::directory_iterator end, dir(path.str()); dir != end; dir++) {
+      if(boost::filesystem::is_directory(dir->path())) {
+        subDirectories.emplace_back(dir->path().wstring());
+      }
+    }
+  }
 
-	return v;
+  return subDirectories;
 }
 
-std::vector<FilePath> FileSystem::getRecursiveSubDirectories(const FilePath& path)
-{
-	std::vector<FilePath> v;
+std::vector<FilePath> FileSystem::getRecursiveSubDirectories(const FilePath& path) {
+  std::vector<FilePath> subDirectories;
 
-	if (path.exists() && path.isDirectory())
-	{
-		for (boost::filesystem::recursive_directory_iterator end, dir(path.str()); dir != end; dir++)
-		{
-			if (boost::filesystem::is_directory(dir->path()))
-			{
-				v.push_back(FilePath(dir->path().wstring()));
-			}
-		}
-	}
+  if(path.exists() && path.isDirectory()) {
+    for(boost::filesystem::recursive_directory_iterator end, dir(path.str()); dir != end; dir++) {
+      if(boost::filesystem::is_directory(dir->path())) {
+        subDirectories.emplace_back(dir->path().wstring());
+      }
+    }
+  }
 
-	return v;
+  return subDirectories;
 }
