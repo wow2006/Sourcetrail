@@ -210,46 +210,40 @@ void ConfigManager::setValues(const std::string& key, const std::vector<std::str
 
 void ConfigManager::setValues(const std::string& key, const std::vector<std::wstring>& values) {
   std::vector<std::string> stringValues;
-  std::transform(
-      std::cbegin(values), std::cend(values), std::begin(stringValues), [](const auto& value) {
-        return utility::encodeToUtf8(value);
-      });
+  std::ranges::transform(values, std::back_inserter(stringValues), [](const auto& value) {
+    return utility::encodeToUtf8(value);
+  });
   setValues(key, stringValues);
 }
 
 void ConfigManager::setValues(const std::string& key, const std::vector<int>& values) {
   std::vector<std::string> stringValues;
-  std::transform(
-      std::cbegin(values), std::cend(values), std::begin(stringValues), [](const auto& value) {
-        return std::to_string(value);
-      });
+  std::ranges::transform(values, std::back_inserter(stringValues), [](const auto& value) {
+    return std::to_string(value);
+  });
   setValues(key, stringValues);
 }
 
 void ConfigManager::setValues(const std::string& key, const std::vector<float>& values) {
   std::vector<std::string> stringValues;
-  std::transform(
-      std::cbegin(values), std::cend(values), std::begin(stringValues), [](const auto& value) {
-        return std::to_string(value);
-      });
+  std::ranges::transform(values, std::back_inserter(stringValues), [](const auto& value) {
+    return std::to_string(value);
+  });
   setValues(key, stringValues);
 }
 
 void ConfigManager::setValues(const std::string& key, const std::vector<bool>& values) {
   std::vector<std::string> stringValues;
-  std::transform(
-      std::cbegin(values), std::cend(values), std::begin(stringValues), [](const auto& value) {
-        return std::string(value ? "1" : "0");
-      });
+  std::ranges::transform(values, std::back_inserter(stringValues), [](const auto& value) {
+    return std::string(value ? "1" : "0");
+  });
   setValues(key, stringValues);
 }
 
 void ConfigManager::setValues(const std::string& key, const std::vector<FilePath>& values) {
   std::vector<std::wstring> stringValues;
-  std::transform(
-      std::cbegin(values), std::cend(values), std::begin(stringValues), [](const auto& value) {
-        return value.wstr();
-      });
+  std::ranges::transform(
+      values, std::back_inserter(stringValues), [](const auto& value) { return value.wstr(); });
   setValues(key, stringValues);
 }
 
@@ -291,7 +285,8 @@ bool ConfigManager::load(const std::shared_ptr<TextAccess>& textAccess) {
       LOG_ERROR("No rootelement 'config' in the configfile");
       return false;
     }
-    for(auto* childNode = rootNode->FirstChild(); childNode != nullptr; childNode = childNode->NextSibling()) {
+    for(auto* childNode = rootNode->FirstChild(); childNode != nullptr;
+        childNode = childNode->NextSibling()) {
       parseSubtree(childNode, "");
     }
   } else {
