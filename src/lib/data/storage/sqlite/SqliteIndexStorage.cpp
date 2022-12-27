@@ -187,7 +187,7 @@ bool SqliteIndexStorage::addFile(const StorageFile& data)
 	if (data.indexed)
 	{
 		content = TextAccess::createFromFile(filePath);
-		lineCount = content->getLineCount();
+		lineCount = content ? content->getLineCount() : 0;
 	}
 
 	bool success = false;

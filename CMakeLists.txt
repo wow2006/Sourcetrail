@@ -270,8 +270,7 @@ create_source_groups(${LIB_UTILITY_FILES})
 
 target_include_directories(${LIB_UTILITY_PROJECT_NAME} PUBLIC "${LIB_UTILITY_INCLUDE_PATHS}")
 
-target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Qt5::Core Boost::system sqlite::sqlite)
-target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PRIVATE sqlite::sqlite tinyxml::tinyxml)
+target_link_libraries(${LIB_UTILITY_PROJECT_NAME} PUBLIC Qt5::Core Boost::system sqlite::sqlite tinyxml::tinyxml)
 
 if(UNIX AND NOT APPLE)
   find_package(Threads REQUIRED)
