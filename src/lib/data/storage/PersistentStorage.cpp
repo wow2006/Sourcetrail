@@ -429,7 +429,7 @@ std::vector<FileInfo> PersistentStorage::getFileInfoForAllFiles() const
 			modificationTime = boost::posix_time::time_from_string(file.modificationTime);
 		}
 
-		fileInfos.emplace_back(FilePath(file.filePath), modificationTime);
+		fileInfos.emplace_back(FilePath(file.filePath), TimeStamp{modificationTime});
 	});
 
 	return fileInfos;
@@ -1802,7 +1802,7 @@ bool PersistentStorage::hasContentForFile(const FilePath& filePath) const
 FileInfo PersistentStorage::getFileInfoForFileId(Id id) const
 {
 	StorageFile storageFile = m_sqliteIndexStorage.getFirstById<StorageFile>(id);
-	return FileInfo(FilePath(storageFile.filePath), storageFile.modificationTime);
+	return FileInfo(FilePath(storageFile.filePath), TimeStamp{storageFile.modificationTime});
 }
 
 FileInfo PersistentStorage::getFileInfoForFilePath(const FilePath& filePath) const
@@ -1817,7 +1817,7 @@ std::vector<FileInfo> PersistentStorage::getFileInfosForFilePaths(
 
 	for (const StorageFile& file: m_sqliteIndexStorage.getFilesByPaths(filePaths))
 	{
-		fileInfos.push_back(FileInfo(FilePath(file.filePath), file.modificationTime));
+		fileInfos.push_back(FileInfo(FilePath(file.filePath), TimeStamp{file.modificationTime}));
 	}
 
 	return fileInfos;
@@ -2058,7 +2058,7 @@ std::vector<NodeBookmark> PersistentStorage::getAllNodeBookmarks() const
 				storageBookmark.id,
 				storageBookmark.name,
 				storageBookmark.comment,
-				storageBookmark.timestamp,
+				TimeStamp{storageBookmark.timestamp},
 				BookmarkCategory(itCategories->second.id, itCategories->second.name));
 			bookmark.setNodeIds(itNodeIds->second);
 			bookmark.setIsValid();
@@ -2101,7 +2101,7 @@ std::vector<EdgeBookmark> PersistentStorage::getAllEdgeBookmarks() const
 				storageBookmark.id,
 				storageBookmark.name,
 				storageBookmark.comment,
-				storageBookmark.timestamp,
+				TimeStamp{storageBookmark.timestamp},
 				BookmarkCategory(itCategories->second.id, itCategories->second.name));
 
 			Id activeNodeId = 0;

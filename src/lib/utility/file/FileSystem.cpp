@@ -172,7 +172,7 @@ TimeStamp FileSystem::getLastWriteTime(const FilePath& filePath) {
     lastWriteTime = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local(
         lastWriteTime);
   }
-  return {lastWriteTime};
+  return TimeStamp{lastWriteTime};
 }
 
 bool FileSystem::remove(const FilePath& path) {
