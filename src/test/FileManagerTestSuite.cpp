@@ -6,38 +6,36 @@
 #include "FileSystem.h"
 #include "utility.h"
 
-TEST_CASE("file manager has added file paths after first fetch")
-{
-	std::vector<FilePath> sourcePaths;
-	sourcePaths.push_back(FilePath(L"./data/FileManagerTestSuite/src/"));
-	sourcePaths.push_back(FilePath(L"./data/FileManagerTestSuite/include/"));
-	std::vector<FilePath> headerPaths;
-	std::vector<FilePathFilter> excludeFilters;
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+TEST_CASE("file manager has added file paths after first fetch", "[utility]") {
+  std::vector<FilePath> sourcePaths;
+  sourcePaths.emplace_back(FilePath(L"./data/FileManagerTestSuite/src/"));
+  sourcePaths.emplace_back(FilePath(L"./data/FileManagerTestSuite/include/"));
+  std::vector<FilePath> headerPaths;
+  std::vector<FilePathFilter> excludeFilters;
 
-	// catch exceptions thrown on linux build machine
-	try
-	{
-		std::vector<FilePath> filePaths = FileSystem::getFilePathsFromDirectory(
-			FilePath(L"./data/FileManagerTestSuite/src/"));
-		REQUIRE(filePaths.size() == 3);
+  // catch exceptions thrown on linux build machine
+  try {
+    std::vector<FilePath> filePaths = FileSystem::getFilePathsFromDirectory(
+        FilePath(L"./data/FileManagerTestSuite/src/"));
+    REQUIRE(filePaths.size() == 3);
 
-		std::vector<std::wstring> sourceExtensions;
-		for (FilePath p: filePaths)
-		{
-			sourceExtensions.push_back(p.extension());
-		}
-		REQUIRE(sourceExtensions.size() == 3);
+    std::vector<std::wstring> sourceExtensions;
+    sourceExtensions.reserve(filePaths.size());
+    for (const auto& path : filePaths) {
+      sourceExtensions.push_back(path.extension());
+    }
+    REQUIRE(sourceExtensions.size() == 3);
 
-		FileManager fm;
-		fm.update(sourcePaths, excludeFilters, sourceExtensions);
-		std::vector<FilePath> foundSourcePaths = utility::toVector(fm.getAllSourceFilePaths());
+    FileManager fileManager;
+    fileManager.update(sourcePaths, excludeFilters, sourceExtensions);
+    std::vector<FilePath> foundSourcePaths = utility::toVector(fileManager.getAllSourceFilePaths());
 
-		REQUIRE(foundSourcePaths.size() == 3);
-		REQUIRE(utility::containsElement<FilePath>(foundSourcePaths, filePaths[0]));
-		REQUIRE(utility::containsElement<FilePath>(foundSourcePaths, filePaths[1]));
-		REQUIRE(utility::containsElement<FilePath>(foundSourcePaths, filePaths[2]));
-	}
-	catch (...)
-	{
-	}
+    REQUIRE(foundSourcePaths.size() == 3);
+    REQUIRE(utility::containsElement<FilePath>(foundSourcePaths, filePaths[0]));
+    REQUIRE(utility::containsElement<FilePath>(foundSourcePaths, filePaths[1]));
+    REQUIRE(utility::containsElement<FilePath>(foundSourcePaths, filePaths[2]));
+  } catch (...) {
+    REQUIRE(false);
+  }
 }
