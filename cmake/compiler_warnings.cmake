@@ -73,7 +73,6 @@ function(set_project_warnings project_name)
       -Wdouble-promotion # warn if float is implicit promoted to double
       -Wformat=2 # warn on security issues around functions that format output (ie printf)
       -Wimplicit-fallthrough # warn on statements that fallthrough without an explicit annotation
-      -Wno-enum-enum-conversion # TODO: Removed after fixing QKeySequence
   )
 
 #if(TREAT_WARNINGS_AS_ERRORS)
@@ -96,6 +95,7 @@ function(set_project_warnings project_name)
     set(PROJECT_WARNINGS
         ${CLANG_WARNINGS}
         -fcolor-diagnostics
+        -Wno-enum-enum-conversion # TODO: Removed after fixing QKeySequence
         -Wno-unknown-warning-option
         -fvisibility-inlines-hidden)
   elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
