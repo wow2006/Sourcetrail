@@ -1,64 +1,57 @@
-#ifndef TIME_STAMP_H
-#define TIME_STAMP_H
-
+#pragma once
+// boost
 #include <boost/date_time/posix_time/posix_time.hpp>
 
-class TimeStamp
-{
+class TimeStamp final {
 public:
-	static TimeStamp now();
+  static TimeStamp now();
 
-	static double durationSeconds(const TimeStamp& start);
-	static std::string secondsToString(double seconds);
+  static double durationSeconds(const TimeStamp& start);
 
-	TimeStamp();
-	TimeStamp(boost::posix_time::ptime t);
-	TimeStamp(std::string s);
+  static std::string secondsToString(double secs);
 
-	bool isValid() const;
+  TimeStamp();
+  explicit TimeStamp(boost::posix_time::ptime time);
+  explicit TimeStamp(const std::string& timeString);
 
-	std::string toString() const;
-	std::string getDDMMYYYYString() const;
-	std::string dayOfWeek() const;
-	std::string dayOfWeekShort() const;
+  [[nodiscard]] bool isValid() const;
 
-	inline bool operator==(const TimeStamp& rhs)
-	{
-		return m_time == rhs.m_time;
-	}
-	inline bool operator!=(const TimeStamp& rhs)
-	{
-		return m_time != rhs.m_time;
-	}
-	inline bool operator<(const TimeStamp& rhs)
-	{
-		return m_time < rhs.m_time;
-	}
-	inline bool operator>(const TimeStamp& rhs)
-	{
-		return m_time > rhs.m_time;
-	}
-	inline bool operator<=(const TimeStamp& rhs)
-	{
-		return m_time <= rhs.m_time;
-	}
-	inline bool operator>=(const TimeStamp& rhs)
-	{
-		return m_time >= rhs.m_time;
-	}
+  [[nodiscard]] std::string toString() const;
+  [[nodiscard]] std::string getDDMMYYYYString() const;
+  [[nodiscard]] std::string dayOfWeek() const;
+  [[nodiscard]] std::string dayOfWeekShort() const;
 
-	size_t deltaMS(const TimeStamp& other) const;
-	size_t deltaS(const TimeStamp& other) const;
+  bool operator==(const TimeStamp& rhs) const {
+    return m_time == rhs.m_time;
+  }
+  bool operator!=(const TimeStamp& rhs) const {
+    return m_time != rhs.m_time;
+  }
+  bool operator<(const TimeStamp& rhs) const {
+    return m_time < rhs.m_time;
+  }
+  bool operator>(const TimeStamp& rhs) const {
+    return m_time > rhs.m_time;
+  }
+  bool operator<=(const TimeStamp& rhs) const {
+    return m_time <= rhs.m_time;
+  }
+  bool operator>=(const TimeStamp& rhs) const {
+    return m_time >= rhs.m_time;
+  }
 
-	bool isSameDay(const TimeStamp& other) const;
+  [[nodiscard]] size_t deltaMS(const TimeStamp& other) const;
 
-	// days are counted beginning at 00:00, so a tp of 1.1.2017 23:59 is 1 day ago if it's
-	// the 2.1.2017 00:01
-	size_t deltaDays(const TimeStamp& other) const;
-	size_t deltaHours(const TimeStamp& other) const;
+  [[nodiscard]] size_t deltaS(const TimeStamp& other) const;
+
+  [[nodiscard]] size_t deltaHours(const TimeStamp& other) const;
+
+  [[nodiscard]] bool isSameDay(const TimeStamp& other) const;
+
+  // days are counted beginning at 00:00, so a tp of 1.1.2017 23:59 is 1 day ago if it's
+  // the 2.1.2017 00:01
+  [[nodiscard]] size_t deltaDays(const TimeStamp& other) const;
 
 private:
-	boost::posix_time::ptime m_time;
+  boost::posix_time::ptime m_time;
 };
-
-#endif	  // TIME_STAMP_H

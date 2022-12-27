@@ -58,6 +58,7 @@ set(test_files
     #StorageTestSuite
     TaskSchedulerTestSuite
     TextAccessTestSuite
+    TimeStampTestSuite
     UtilityGradleTestSuite
     UtilityMavenTestSuite
     UtilityStringTestSuite
