@@ -13,6 +13,12 @@ set(BUILD_JAVA_LANGUAGE_PACKAGE
 set(BUILD_PYTHON_LANGUAGE_PACKAGE
     OFF
     CACHE BOOL "Add Python support to the Sourcetrail indexer.")
+set(ENABLE_MEMORY_ASAN
+    OFF
+    CACHE BOOL "Build with memory sanitizers")
+set(ENABLE_ADDRESS_ASAN
+    OFF
+    CACHE BOOL "Build with address sanitizers")
 set(DOCKER_BUILD
     OFF
     CACHE BOOL "Build runs in Docker")
@@ -35,6 +41,13 @@ include(cmake/create_source_groups.cmake)
 include(cmake/version.cmake)
 include(cmake/version_setup.cmake)
 include(cmake/licenses.cmake)
+if(ENABLE_MEMORY_ASAN OR ENABLE_ADDRESS_ASAN)
+  if(ENABLE_MEMORY_ASAN AND ENABLE_ADDRESS_ASAN)
+    message(FATAL_ERROR "Cannot enable both memory and address sanitizers")
+  endif()
+
+  include(cmake/sanitizers.cmake)
+endif()
 
 # prohibit in-source-builds
 if(${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})

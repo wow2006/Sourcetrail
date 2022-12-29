@@ -69,8 +69,12 @@ set(test_files
 foreach(test_file IN LISTS test_files)
   add_executable(${test_file} ${test_file}.cpp $<TARGET_OBJECTS:test_main>)
 
-  target_link_libraries(${test_file} PRIVATE test_utilities
-                                             $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>)
+  target_link_libraries(
+    ${test_file}
+    PRIVATE test_utilities
+            $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
+            $<$<BOOL:${ENABLE_ADDRESS_ASAN}>:Sanaitizer::Address>
+            $<$<BOOL:${ENABLE_MEMORY_ASAN}>:Sanaitizer::Memory>)
 
   set_target_properties(${test_file} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test")
 
