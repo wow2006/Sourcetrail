@@ -34,6 +34,9 @@ set(BUILD_TEST
 set(BUILD_FUNC
     OFF
     CACHE BOOL "Build functionality tests")
+set(BUILD_BENCHMARK
+    OFF
+    CACHE BOOL "Build benchmarks")
 
 include(cmake/compiler_warnings.cmake)
 include(cmake/add_files.cmake)
@@ -779,15 +782,30 @@ if(APPLE)
 endif()
 
 # Test ----------------------------------------------------------------------
-if(BUILD_FUNC OR BUILD_TEST)
-  enable_testing()
+if(BUILD_FUNC OR BUILD_TEST OR BUILD_BENCHMARK)
+  add_library(test_main OBJECT src/test/test_main.cpp)
 
-  if(BUILD_TEST)
-    add_subdirectory(src/test)
+  target_link_libraries(test_main PUBLIC Sourcetrail_lib)
+
+  target_include_directories(test_main SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/src/external/catch/)
+
+  if(BUILD_FUNC OR BUILD_TEST)
+    enable_testing()
+
+    if(BUILD_TEST)
+      add_subdirectory(src/test)
+    endif()
+
+    if(BUILD_FUNC)
+      add_subdirectory(src/functionality)
+    endif()
   endif()
 
-  if(BUILD_FUNC)
-    add_subdirectory(src/functionality)
+  # Test ----------------------------------------------------------------------
+  if(BUILD_BENCHMARK)
+    target_compile_definitions(test_main PRIVATE CATCH_CONFIG_ENABLE_BENCHMARKING)
+
+    add_subdirectory(src/benchmark)
   endif()
 endif()
 
