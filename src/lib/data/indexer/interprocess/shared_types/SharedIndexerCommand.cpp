@@ -1,7 +1,12 @@
 #include "SharedIndexerCommand.h"
+#include "IndexerCommand.h"
 
+#if BUILD_CXX_LANGUAGE_PACKAGE
 #include "IndexerCommandCxx.h"
+#endif
+#if BUILD_JAVA_LANGUAGE_PACKAGE
 #include "IndexerCommandJava.h"
+#endif
 
 #include "logging.h"
 #include "utilityString.h"

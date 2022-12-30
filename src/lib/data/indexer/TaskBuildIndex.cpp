@@ -11,7 +11,7 @@
 #include "StorageProvider.h"
 #include "TimeStamp.h"
 #include "UserPaths.h"
-#include "utilityApp.h"
+#include "utility/utilityApp.h"
 
 TaskBuildIndex::TaskBuildIndex(
 	size_t processCount,

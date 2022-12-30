@@ -27,7 +27,7 @@
 #include "logging.h"
 #include "tracing.h"
 #include "utility.h"
-#include "utilityApp.h"
+#include "utility/utilityApp.h"
 
 PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& bookmarkPath)
 	: m_sqliteIndexStorage(dbPath), m_sqliteBookmarkStorage(bookmarkPath)

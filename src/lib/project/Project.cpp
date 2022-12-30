@@ -42,7 +42,7 @@
 #include "TaskSetValue.h"
 #include "TextAccess.h"
 #include "utility.h"
-#include "utilityApp.h"
+#include "utility/utilityApp.h"
 #include "utilityFile.h"
 #include "utilityString.h"
 

@@ -1,12 +1,13 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "utilityString.h"
-
+// STL
 #include <cctype>   // for isspace, tolower, toupper
 #include <cwctype>  // for towlower, towupper
 #include <iterator> // for back_insert_iterator, back_...
 #include <memory>   // for allocator_traits<>::value_type
-
+#include <string>   // string
+// boost
 #include <boost/locale/encoding_utf.hpp>  // for utf_to_utf
 
 namespace {
@@ -22,34 +23,6 @@ StringType doReplace(StringType str, const StringType& from, const StringType& t
   while ((pos = str.find(from, pos)) != std::string::npos) {
     str.replace(pos, from.length(), to);
     pos += to.length();
-  }
-
-  return str;
-}
-
-template <typename StringType>
-StringType doReplaceBetween(const StringType& str, typename StringType::value_type startDelimiter,
-                            typename StringType::value_type endDelimiter, const StringType& to) {
-  size_t startPos = str.find(startDelimiter);
-  if (startPos == StringType::npos) {
-    return str;
-  }
-
-  size_t depth = 1;
-
-  for (size_t pos = startPos + 1; pos < str.size(); pos++) {
-    if (str[pos] == endDelimiter && depth) {
-      depth--;
-
-      if (depth == 0) {
-        StringType end = doReplaceBetween<StringType>(str.substr(pos + 1), startDelimiter, endDelimiter, to);
-        return str.substr(0, startPos) + startDelimiter + to + endDelimiter + end;
-      }
-    }
-
-    if (str[pos] == startDelimiter) {
-      depth++;
-    }
   }
 
   return str;
@@ -238,13 +211,37 @@ std::wstring replace(std::wstring str, const std::wstring& from, const std::wstr
   return doReplace(str, from, to);
 }
 
-std::string replaceBetween(const std::string& str, char startDelimiter, char endDelimiter, const std::string& to) {
-  return doReplaceBetween<std::string>(str, startDelimiter, endDelimiter, to);
-}
+// NOLINTNEXTLINE(misc-no-recursion)
+std::wstring replaceBetween(const std::wstring& str, wchar_t startDelimiter, wchar_t endDelimiter,  
+                            const std::wstring& replacement) {
+  const auto startPos = str.find(startDelimiter);
+  if (startPos == std::wstring::npos) {
+    return str;
+  }
 
-std::wstring replaceBetween(const std::wstring& str, wchar_t startDelimiter, wchar_t endDelimiter,
-                            const std::wstring& to) {
-  return doReplaceBetween<std::wstring>(str, startDelimiter, endDelimiter, to);
+  size_t depth = 1;
+  for(size_t pos = startPos + 1; pos < str.size(); pos++) {
+    if(str[pos] == endDelimiter && depth != 0) {
+      depth--;
+
+      if(depth == 0) {
+        const auto end = replaceBetween(str.substr(pos + 1), startDelimiter, endDelimiter, replacement);
+        std::wstringstream outputString;
+        outputString << str.substr(0, startPos)
+                     << startDelimiter
+                     << replacement
+                     << endDelimiter
+                     << end;
+        return outputString.str();
+      }
+    }
+
+    if(str[pos] == startDelimiter) {
+      depth++;
+    }
+  }
+
+  return str;
 }
 
 std::string insertLineBreaksAtBlankSpaces(const std::string& s, size_t maxLineLength) {

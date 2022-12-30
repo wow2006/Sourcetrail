@@ -4,7 +4,7 @@
 #include "ApplicationSettings.h"
 #include "DialogView.h"
 #include "Project.h"
-#include "QtHelpButtonInfo.h"
+#include "qt/utility/QtHelpButtonInfo.h"
 #include "StorageAccess.h"
 #include "TabId.h"
 

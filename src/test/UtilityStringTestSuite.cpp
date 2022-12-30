@@ -448,29 +448,6 @@ TEST_CASE("to upper case", "[utility][string]") {
   REQUIRE(L"FOOBAR" == utility::toUpperCase(L"foobar"));
 }
 
-TEST_CASE("equals case insensitive", "[utility][string]") {
-  SECTION("different cases") {
-    const std::string foo = "FooBar";
-    const std::string foo2 = "foobar";
-
-    REQUIRE(utility::equalsCaseInsensitive(foo, foo2));
-  }
-
-  SECTION("same cases") {
-    const std::string foo = "foobar";
-    const std::string foo2 = "foobar";
-
-    REQUIRE(utility::equalsCaseInsensitive(foo, foo2));
-  }
-
-  SECTION("different strings") {
-    const std::string foo = "foo";
-    const std::string foo2 = "foobar";
-
-    REQUIRE(!utility::equalsCaseInsensitive(foo, foo2));
-  }
-}
-
 TEST_CASE("replace", "[utility][string]") {    // NOLINT(readability-function-cognitive-complexity)
   REQUIRE("fubar" == utility::replace("foobar", "oo", "u"));
   REQUIRE("fuuuubar" == utility::replace("foobar", "o", "uu"));
@@ -602,5 +579,55 @@ TEST_CASE("elide", "[utility][string]") { // NOLINT(readability-function-cogniti
   SECTION("goodcase Right") {
     REQUIRE(utility::elide("HelloWorld!", utility::ElideMode::ELIDE_RIGHT, 0) == "HelloWorld!...");
     REQUIRE(utility::elide(L"HelloWorld!", utility::ElideMode::ELIDE_RIGHT, 0) == L"HelloWorld!...");
+  }
+}
+
+TEST_CASE("equals case insensitive", "[utility][string]") {
+  SECTION("different cases") {
+    const std::string foo = "FooBar";
+    const std::string foo2 = "foobar";
+
+    REQUIRE(utility::equalsCaseInsensitive(foo, foo2));
+  }
+
+  SECTION("same cases") {
+    const std::string foo = "foobar";
+    const std::string foo2 = "foobar";
+
+    REQUIRE(utility::equalsCaseInsensitive(foo, foo2));
+  }
+
+  SECTION("different strings") {
+    const std::string foo = "foo";
+    const std::string foo2 = "foobar";
+
+    REQUIRE(!utility::equalsCaseInsensitive(foo, foo2));
+  }
+}
+
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+TEST_CASE("replaceBetween", "[utility][string]") {
+  SECTION("goodcase") {
+    const std::wstring Input  = L"Hello {World}!";
+    const std::wstring Output = L"Hello {CXX}!";
+    REQUIRE(utility::replaceBetween(Input, '{', '}', L"CXX") == Output);
+  }
+
+  SECTION("goodcase depth 2") {
+    const std::wstring Input  = L"Hello {({World})}!";
+    const std::wstring Output = L"Hello {CXX}!";
+    REQUIRE(utility::replaceBetween(Input, '{', '}', L"CXX") == Output);
+  }
+
+  SECTION("missing end") {
+    const std::wstring Input  = L"Hello {World!";
+    const std::wstring Output = L"Hello {World!";
+    REQUIRE(utility::replaceBetween(Input, '{', '}', L"CXX") == Output);
+  }
+
+  SECTION("missing end depth 2") {
+    const std::wstring Input  = L"Hello {{World}!";
+    const std::wstring Output = L"Hello {{World}!";
+    REQUIRE(utility::replaceBetween(Input, '{', '}', L"CXX") == Output);
   }
 }

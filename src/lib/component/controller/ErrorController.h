@@ -11,7 +11,7 @@
 #include "MessageIndexingStarted.h"
 #include "MessageListener.h"
 #include "MessageShowError.h"
-#include "QtThreadedFunctor.h"
+#include "qt/utility/QtThreadedFunctor.h"
 
 #include "Controller.h"
 #include "ErrorView.h"

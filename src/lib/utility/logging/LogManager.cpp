@@ -5,7 +5,7 @@
 #include "MessageStatus.h"
 #include "Version.h"
 #include "logging.h"
-#include "utilityApp.h"
+#include "utility/utilityApp.h"
 #include "utilityString.h"
 
 std::shared_ptr<LogManager> LogManager::getInstance()

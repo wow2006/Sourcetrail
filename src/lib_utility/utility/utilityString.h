@@ -86,9 +86,18 @@ bool equalsCaseInsensitive(const std::string& a, const std::string& b);
 std::string replace(std::string str, const std::string& from, const std::string& to);
 std::wstring replace(std::wstring str, const std::wstring& from, const std::wstring& to);
 
-std::string replaceBetween(const std::string& str, char startDelimiter, char endDelimiter, const std::string& to);
+/**
+ * @brief Replace a string between two characters
+ *
+ * @param str input string
+ * @param startDelimiter first delimiter
+ * @param endDelimiter end delimiter
+ * @param replacement the string to replace with
+ *
+ * @return The result
+ */
 std::wstring replaceBetween(const std::wstring& str, wchar_t startDelimiter, wchar_t endDelimiter,
-                            const std::wstring& to);
+                            const std::wstring& replacement);
 
 std::string insertLineBreaksAtBlankSpaces(const std::string& s, size_t maxLineLength);
 std::wstring breakSignature(std::wstring signature, size_t maxLineLength, size_t tabWidth);
