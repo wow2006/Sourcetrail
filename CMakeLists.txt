@@ -75,8 +75,6 @@ endif()
 
 set(PROJECT_NAME Sourcetrail)
 
-set(APP_PROJECT_NAME "${PROJECT_NAME}")
-set(APP_INDEXER_NAME "${PROJECT_NAME}_indexer")
 set(LIB_UTILITY_PROJECT_NAME "${PROJECT_NAME}_lib_utility")
 set(LIB_GUI_PROJECT_NAME "${PROJECT_NAME}_lib_gui")
 set(LIB_CXX_PROJECT_NAME "${PROJECT_NAME}_lib_cxx")
@@ -268,9 +266,7 @@ endif()
 
 include(cmake/copy_qt_dll.cmake)
 
-add_subdirectory(src/app)
 add_subdirectory(src/external)
-add_subdirectory(src/indexer)
 add_subdirectory(src/lib)
 add_subdirectory(src/lib_cxx)
 add_subdirectory(src/lib_gui)
@@ -565,149 +561,16 @@ configure_file(${CMAKE_SOURCE_DIR}/cmake/productVersion.h.in ${CMAKE_BINARY_DIR}
 set_property(SOURCE ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h PROPERTY SKIP_AUTOMOC ON)
 
 set_target_properties(${LIB_GUI_PROJECT_NAME} PROPERTIES AUTOMOC ON INCLUDE_CURRENT_DIR ON)
+# applications --------------------------------------------------------------
+add_subdirectory(src/indexer)
 
-# Indexer App ------------------------------------------------------------------
-
-# Find includes in corresponding build directories
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-add_executable(${APP_INDEXER_NAME} ${INDEXER_FILES})
-
-set_target_properties(${APP_INDEXER_NAME} PROPERTIES OUTPUT_NAME sourcetrail_indexer)
-
-if(WIN32)
-  # hide the console when running a release build.
-  set_target_properties(${APP_INDEXER_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE /DEBUG:FASTLINK")
-  set_target_properties(${APP_INDEXER_NAME} PROPERTIES COMPILE_DEFINITIONS_DEBUG "_CONSOLE")
-  set_target_properties(${APP_INDEXER_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE")
-  set_target_properties(${APP_INDEXER_NAME} PROPERTIES COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE")
-  set_target_properties(${APP_INDEXER_NAME} PROPERTIES LINK_FLAGS_RELEASE
-                                                       "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:WINDOWS /DEBUG")
-  set_target_properties(${APP_INDEXER_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
-
-  # generate pdb for release build
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
-endif()
-
-create_source_groups(${INDEXER_FILES})
-
-target_link_libraries(
-  ${APP_INDEXER_NAME}
-  ${LIB_GUI_PROJECT_NAME}
-  $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>
-  ${LIB_PROJECT_NAME})
-
-if(APPLE)
-  find_library(CORE_FOUNDATION CoreFoundation)
-  target_link_libraries(${APP_INDEXER_NAME} ${CORE_FOUNDATION})
-endif()
-
-set_property(
-  TARGET ${APP_INDEXER_NAME}
-  PROPERTY INCLUDE_DIRECTORIES
-           "${APP_INCLUDE_PATHS}"
-           "${LIB_INCLUDE_PATHS}"
-           "${LIB_UTILITY_INCLUDE_PATHS}"
-           "${LIB_GUI_INCLUDE_PATHS}"
-           "${CMAKE_BINARY_DIR}/src/lib_gui"
-           "${CMAKE_BINARY_DIR}/src/lib"
-           $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_INCLUDE_PATHS}>
-           $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
-           $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>)
-
-set_target_properties(${APP_INDEXER_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
-
-set_project_warnings(${APP_INDEXER_NAME})
-
-# App --------------------------------------------------------------------------
-
-if(WIN32)
-  file(
-    WRITE ${CMAKE_BINARY_DIR}/Sourcetrail.rc
-    "// Icon with lowest ID value placed first to ensure application icon\n" "// remains consistent on all systems.\n"
-    "IDI_ICON1               ICON                    \"${CMAKE_BINARY_DIR}/Sourcetrail.ico\"\n")
-
-  add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_BINARY_DIR}/Sourcetrail.rc)
-
-  # also show the console when running a release build.
-  set_target_properties(
-    ${APP_PROJECT_NAME}
-    PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE /DEBUG:FASTLINK"
-               COMPILE_DEFINITIONS_DEBUG "_CONSOLE"
-               LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE"
-               COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE"
-               LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:CONSOLE /DEBUG"
-               LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:CONSOLE"
-               CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi" # generate pdb for release build
-               VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/app")
-
-  string(
-    REGEX
-    REPLACE "/"
-            "\\\\"
-            BACKSLASHED_CMAKE_BINARY_DIR
-            ${CMAKE_BINARY_DIR})
-  string(
-    REGEX
-    REPLACE "/"
-            "\\\\"
-            BACKSLASHED_CMAKE_SOURCE_DIR
-            ${CMAKE_SOURCE_DIR})
-else()
-  add_executable(${APP_PROJECT_NAME} ${APP_FILES})
-endif()
-
-create_source_groups(${APP_FILES})
-
-set_target_properties(${APP_PROJECT_NAME} PROPERTIES INCLUDE_CURRENT_DIR ON)
-
-target_link_libraries(
-  ${APP_PROJECT_NAME}
-  ${LIB_GUI_PROJECT_NAME}
-  $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>
-  ${LIB_PROJECT_NAME}
-  Qt5::Widgets
-  Qt5::Network)
-
-set_property(
-  TARGET ${APP_PROJECT_NAME}
-  PROPERTY INCLUDE_DIRECTORIES
-           "${APP_INCLUDE_PATHS}"
-           "${LIB_INCLUDE_PATHS}"
-           "${LIB_UTILITY_INCLUDE_PATHS}"
-           "${LIB_GUI_INCLUDE_PATHS}"
-           "${CMAKE_BINARY_DIR}/src/lib_gui"
-           "${CMAKE_BINARY_DIR}/src/lib"
-           $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_INCLUDE_PATHS}>
-           $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_INCLUDE_PATHS}>
-           $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_INCLUDE_PATHS}>)
-
-set_target_properties(${APP_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
-
-target_include_directories(${APP_PROJECT_NAME} SYSTEM PUBLIC ${Boost_INCLUDE_DIRS} "${EXTERNAL_INCLUDE_PATHS}"
-                                                             "${EXTERNAL_C_INCLUDE_PATHS}")
-
-# add platform specific libraries
-if(APPLE)
-  find_library(CORE_FOUNDATION CoreFoundation)
-  target_link_libraries(${APP_PROJECT_NAME} ${CORE_FOUNDATION})
-endif()
-
-add_dependencies(${APP_PROJECT_NAME} ${APP_INDEXER_NAME})
-
-set_project_warnings(${APP_PROJECT_NAME})
-
-# macOS Bundle ----------------------------------------------------------------
-
+add_subdirectory(src/app)
+# macOS Bundle --------------------------------------------------------------
 if(APPLE)
   set(MACOS_BUNDLE_NAME ${PROJECT_NAME})
   set(MACOS_BUNDLE_VERSION ${VERSION_STRING})
-  set(MACOS_BINARY_NAME ${APP_PROJECT_NAME})
-  set(MACOS_INDEXER_BINARY_NAME ${APP_INDEXER_NAME})
+  set(MACOS_BINARY_NAME Sourcetrail)
+  set(MACOS_INDEXER_BINARY_NAME Sourcetrail_indexer)
 
   get_property(
     QT_CORE_PATH
@@ -780,7 +643,6 @@ if(APPLE)
   configure_file(${PROJECT_SOURCE_DIR}/setup/macOS/bundle_info.plist.in
                  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/bundle_info.plist @ONLY)
 endif()
-
 # Test ----------------------------------------------------------------------
 if(BUILD_FUNC OR BUILD_TEST OR BUILD_BENCHMARK)
   add_library(test_main OBJECT src/test/test_main.cpp)
@@ -808,7 +670,6 @@ if(BUILD_FUNC OR BUILD_TEST OR BUILD_BENCHMARK)
     add_subdirectory(src/benchmark)
   endif()
 endif()
-
 # Data ----------------------------------------------------------------------
 execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/app")
 execute_process(
