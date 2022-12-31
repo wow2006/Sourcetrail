@@ -354,6 +354,7 @@ configure_file(${CMAKE_SOURCE_DIR}/cmake/version.txt.in
 configure_file(${CMAKE_SOURCE_DIR}/cmake/productVersion.h.in
                ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h)
 
+set_project_warnings(Sourcetrail_lib_gui)
 
 add_custom_target(CreateTestAppSymLink
                COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/app" &&
