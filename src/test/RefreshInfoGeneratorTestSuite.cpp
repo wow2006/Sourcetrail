@@ -13,9 +13,9 @@
 
 namespace {
 
-const auto m_indexDbPath    = FilePath(L"data/RefreshInfoGeneratorTestSuite/project.srctrldb");
+const auto m_indexDbPath = FilePath(L"data/RefreshInfoGeneratorTestSuite/project.srctrldb");
 const auto m_bookmarkDbPath = FilePath(L"data/RefreshInfoGeneratorTestSuite/project.srctrlbm");
-const auto m_sourceFolder   = FilePath(L"data/RefreshInfoGeneratorTestSuite/src");
+const auto m_sourceFolder = FilePath(L"data/RefreshInfoGeneratorTestSuite/src");
 
 class SourceGroupSettingsTest : public SourceGroupSettings {
 public:
@@ -30,7 +30,7 @@ public:
 
   void saveSettings(ConfigManager* config) override {}
 
-  bool equalsSettings(const SourceGroupSettingsBase* other) override {
+  bool equalsSettings(const SourceGroupSettingsBase* /*other*/) override {
     return true;
   }
 };
@@ -63,7 +63,8 @@ public:
     return m_sourceFilePaths;
   }
 
-  std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const RefreshInfo& info) const override {
+  std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
+      const RefreshInfo& /*info*/) const override {
     return std::vector<std::shared_ptr<IndexerCommand>>();
   }
 
