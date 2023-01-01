@@ -10,7 +10,7 @@
 
 ErrorController::ErrorController(StorageAccess* storageAccess): m_storageAccess(storageAccess) {}
 
-ErrorController::~ErrorController() {}
+ErrorController::~ErrorController() = default;
 
 void ErrorController::errorFilterChanged(const ErrorFilter& filter) {
   if(m_tabActiveFilePath[TabId::currentTab()].empty()) {

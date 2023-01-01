@@ -11,7 +11,7 @@
 
 TaskFinishParsing::TaskFinishParsing(std::shared_ptr<PersistentStorage> storage,
                                      std::shared_ptr<DialogView> dialogView)
-    : m_storage(storage), m_dialogView(dialogView) {}
+    : m_storage(std::move(storage)), m_dialogView(std::move(dialogView)) {}
 
 void TaskFinishParsing::terminate() {
   m_dialogView->clearDialogs();
@@ -99,4 +99,4 @@ void TaskFinishParsing::doExit(std::shared_ptr<Blackboard> /*blackboard*/) {
   m_storage.reset();
 }
 
-void TaskFinishParsing::doReset(std::shared_ptr<Blackboard> blackboard) {}
+void TaskFinishParsing::doReset(std::shared_ptr<Blackboard> /*blackboard*/) {}

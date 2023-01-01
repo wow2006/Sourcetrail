@@ -10,8 +10,8 @@ TaskCleanStorage::TaskCleanStorage(std::weak_ptr<PersistentStorage> storage,
                                    std::shared_ptr<DialogView> dialogView,
                                    const std::vector<FilePath>& filePaths,
                                    bool clearAllErrors)
-    : m_storage(storage)
-    , m_dialogView(dialogView)
+    : m_storage(std::move(storage))
+    , m_dialogView(std::move(dialogView))
     , m_filePaths(filePaths)
     , m_clearAllErrors(clearAllErrors) {}
 
@@ -51,4 +51,4 @@ void TaskCleanStorage::doExit(std::shared_ptr<Blackboard> blackboard) {
   m_dialogView->hideProgressDialog();
 }
 
-void TaskCleanStorage::doReset(std::shared_ptr<Blackboard> blackboard) {}
+void TaskCleanStorage::doReset(std::shared_ptr<Blackboard> /*blackboard*/) {}

@@ -39,18 +39,18 @@ void CompositeView::addView(View* view)
 
 void CompositeView::removeView(View* view)
 {
-	std::vector<View*>::iterator it = std::find(m_views.begin(), m_views.end(), view);
-	if (it == m_views.end())
+	auto itr = std::find(m_views.begin(), m_views.end(), view);
+	if (itr == m_views.end())
 	{
 		return;
 	}
 
-	m_views.erase(it);
+	m_views.erase(itr);
 }
 
-void CompositeView::showView(View* view) {}
+void CompositeView::showView(View* /*view*/) {}
 
-void CompositeView::hideView(View* view) {}
+void CompositeView::hideView(View* /*view*/) {}
 
 void CompositeView::setViewEnabled(View* view, bool enabled)
 {

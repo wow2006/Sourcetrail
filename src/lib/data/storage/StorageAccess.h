@@ -131,10 +131,8 @@ public:
 	virtual TooltipInfo getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
 		const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const = 0;
 
-	virtual void setUseErrorCache(bool enabled) {}
-	virtual void addErrorsToCache(const std::vector<ErrorInfo>& newErrors, const ErrorCountInfo& errorCount)
-	{
-	}
+	virtual void setUseErrorCache(bool /*enabled*/) {}
+	virtual void addErrorsToCache(const std::vector<ErrorInfo>& /*newErrors*/, const ErrorCountInfo& /*errorCount*/) {}
 };
 
 #endif	  // STORAGE_ACCESS_H

@@ -36,7 +36,7 @@ T& Property<T>::operator=(const T& value)
 }
 
 template <class T>
-Property<T>& Property<T>::operator=(const Property<T>& property)
+Property<T>& Property<T>::operator=(const Property<T>&  /*property*/)
 {
 	return *this;
 }

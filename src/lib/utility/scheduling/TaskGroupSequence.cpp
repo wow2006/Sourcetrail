@@ -1,6 +1,6 @@
 #include "TaskGroupSequence.h"
 
-TaskGroupSequence::TaskGroupSequence() {}
+TaskGroupSequence::TaskGroupSequence() = default;
 
 void TaskGroupSequence::addTask(std::shared_ptr<Task> task) {
   m_taskRunners.push_back(std::make_shared<TaskRunner>(task));
@@ -11,9 +11,10 @@ void TaskGroupSequence::doEnter(std::shared_ptr<Blackboard> /*blackboard*/) {
 }
 
 Task::TaskState TaskGroupSequence::doUpdate(std::shared_ptr<Blackboard> blackboard) {
-  if(m_taskIndex >= int(m_taskRunners.size())) {
+  if(m_taskIndex >= static_cast<int>(m_taskRunners.size())) {
     return STATE_SUCCESS;
-  } else if(m_taskIndex < 0) {
+  }
+  if(m_taskIndex < 0) {
     return STATE_FAILURE;
   }
 
@@ -30,16 +31,16 @@ Task::TaskState TaskGroupSequence::doUpdate(std::shared_ptr<Blackboard> blackboa
   return STATE_RUNNING;
 }
 
-void TaskGroupSequence::doExit(std::shared_ptr<Blackboard> blackboard) {}
+void TaskGroupSequence::doExit(std::shared_ptr<Blackboard> /*blackboard*/) {}
 
 void TaskGroupSequence::doReset(std::shared_ptr<Blackboard> /*blackboard*/) {
-  for(size_t i = 0; i < m_taskRunners.size(); i++) {
-    m_taskRunners[i]->reset();
+  for(auto & m_taskRunner : m_taskRunners) {
+    m_taskRunner->reset();
   }
 }
 
 void TaskGroupSequence::doTerminate() {
-  for(size_t i = 0; i < m_taskRunners.size(); i++) {
-    m_taskRunners[i]->terminate();
+  for(auto & m_taskRunner : m_taskRunners) {
+    m_taskRunner->terminate();
   }
 }

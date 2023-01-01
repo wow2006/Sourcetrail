@@ -32,7 +32,7 @@ public:
 		MessageQueue::getInstance()->processMessage(message, true);
 	}
 
-	virtual void print(std::wostream& os) const {}
+	virtual void print(std::wostream& /*os*/) const {}
 };
 
 #endif	  // MESSAGE_H

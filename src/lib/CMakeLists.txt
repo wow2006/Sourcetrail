@@ -3,7 +3,7 @@ add_library(Sourcetrail_lib)
 
 add_library(Sourcetrail::lib ALIAS Sourcetrail_lib)
 
-qt5_wrap_cpp(MOCED_FILES ../lib_gui/qt/utility/QtThreadedFunctor.h OPTIONS -w)
+qt5_wrap_cpp(MOCED_FILES ../lib_gui/qt/utility/QtThreadedFunctor.h OPTIONS --no-warnings)
 
 target_sources(
   Sourcetrail_lib

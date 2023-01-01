@@ -362,7 +362,7 @@ void QtProjectWizard::newProject()
 	setup();
 }
 
-void QtProjectWizard::newProjectFromCDB(const FilePath& filePath)
+void QtProjectWizard::newProjectFromCDB([[maybe_unused]] const FilePath& filePath)
 {
 #if BUILD_CXX_LANGUAGE_PACKAGE
 	if (!m_projectSettings)

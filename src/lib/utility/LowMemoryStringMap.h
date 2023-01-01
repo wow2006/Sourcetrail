@@ -225,14 +225,14 @@ private:
 	class EmptyString
 	{
 	public:
-		EmptyString(const StringT& str) {}
+		EmptyString(const StringT& /*str*/) {}
 
 		StringT getString() const
 		{
 			return StringT();
 		}
 
-		std::pair<bool, size_t> compareString(const StringT& str, size_t idx) const
+		std::pair<bool, size_t> compareString(const StringT&  /*str*/, size_t  /*idx*/) const
 		{
 			return std::make_pair(true, 0);
 		}

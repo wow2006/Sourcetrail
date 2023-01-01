@@ -11,7 +11,7 @@ void TaskGroupSelector::doEnter(std::shared_ptr<Blackboard> /*blackboard*/) {
 }
 
 Task::TaskState TaskGroupSelector::doUpdate(std::shared_ptr<Blackboard> blackboard) {
-  if(m_taskIndex >= int(m_taskRunners.size())) {
+  if(m_taskIndex >= static_cast<int>(m_taskRunners.size())) {
     return STATE_FAILURE;
   }
 
@@ -32,16 +32,16 @@ Task::TaskState TaskGroupSelector::doUpdate(std::shared_ptr<Blackboard> blackboa
   return STATE_RUNNING;
 }
 
-void TaskGroupSelector::doExit(std::shared_ptr<Blackboard> blackboard) {}
+void TaskGroupSelector::doExit(std::shared_ptr<Blackboard> /*blackboard*/) {}
 
 void TaskGroupSelector::doReset(std::shared_ptr<Blackboard> /*blackboard*/) {
-  for(size_t i = 0; i < m_taskRunners.size(); i++) {
-    m_taskRunners[i]->reset();
+  for(auto& m_taskRunner : m_taskRunners) {
+    m_taskRunner->reset();
   }
 }
 
 void TaskGroupSelector::doTerminate() {
-  for(size_t i = 0; i < m_taskRunners.size(); i++) {
-    m_taskRunners[i]->terminate();
+  for(auto& m_taskRunner : m_taskRunners) {
+    m_taskRunner->terminate();
   }
 }

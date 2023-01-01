@@ -22,7 +22,7 @@
 	typedef __type__ __shared_type__;                                                              \
                                                                                                    \
 	inline const __shared_type__& toShared(                                                        \
-		const __type__& instance, SharedMemory::Allocator* allocator)                              \
+		const __type__& instance, SharedMemory::Allocator* /*allocator*/)                          \
 	{                                                                                              \
 		return instance;                                                                           \
 	}                                                                                              \

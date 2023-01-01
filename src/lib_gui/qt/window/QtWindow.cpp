@@ -256,7 +256,7 @@ void QtWindow::keyPressEvent(QKeyEvent* event) {
   QWidget::keyPressEvent(event);
 }
 
-void QtWindow::populateWindow(QWidget* widget) {}
+void QtWindow::populateWindow(QWidget* /*widget*/) {}
 
 void QtWindow::windowReady() {}
 

@@ -3,9 +3,9 @@
 #include "StorageProvider.h"
 
 TaskMergeStorages::TaskMergeStorages(std::shared_ptr<StorageProvider> storageProvider)
-    : m_storageProvider(storageProvider) {}
+    : m_storageProvider(std::move(storageProvider)) {}
 
-void TaskMergeStorages::doEnter(std::shared_ptr<Blackboard> blackboard) {}
+void TaskMergeStorages::doEnter(std::shared_ptr<Blackboard> /*blackboard*/) {}
 
 Task::TaskState TaskMergeStorages::doUpdate(std::shared_ptr<Blackboard> /*blackboard*/) {
   if(m_storageProvider->getStorageCount() > 2)    // largest storage won't be touched here
@@ -29,6 +29,6 @@ Task::TaskState TaskMergeStorages::doUpdate(std::shared_ptr<Blackboard> /*blackb
   return STATE_FAILURE;
 }
 
-void TaskMergeStorages::doExit(std::shared_ptr<Blackboard> blackboard) {}
+void TaskMergeStorages::doExit(std::shared_ptr<Blackboard> /*blackboard*/) {}
 
-void TaskMergeStorages::doReset(std::shared_ptr<Blackboard> blackboard) {}
+void TaskMergeStorages::doReset(std::shared_ptr<Blackboard> /*blackboard*/) {}

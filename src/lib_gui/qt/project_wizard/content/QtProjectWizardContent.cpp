@@ -14,7 +14,7 @@ QtProjectWizardContent::QtProjectWizardContent(QtProjectWizardWindow* window)
 {
 }
 
-void QtProjectWizardContent::populate(QGridLayout* layout, int& row) {}
+void QtProjectWizardContent::populate(QGridLayout* /*layout*/, int& /*row*/) {}
 
 void QtProjectWizardContent::windowReady() {}
 
