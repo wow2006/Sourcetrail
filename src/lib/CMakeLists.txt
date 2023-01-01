@@ -3,9 +3,16 @@ add_library(Sourcetrail_lib)
 
 add_library(Sourcetrail::lib ALIAS Sourcetrail_lib)
 
+qt5_wrap_cpp(MOCED_FILES ../lib_gui/qt/utility/QtThreadedFunctor.h OPTIONS -w)
+
 target_sources(
   Sourcetrail_lib
   PRIVATE
+    ${MOCED_FILES}
+    ../lib_gui/qt/utility/QtThreadedFunctor.cpp
+    ../lib_gui/utility/utilityApp.cpp
+    ../lib_gui/qt/utility/QtHelpButtonInfo.cpp
+    #
     app/paths/AppPath.cpp
     app/paths/ResourcePaths.cpp
     app/paths/UserPaths.cpp
@@ -283,6 +290,7 @@ target_link_libraries(
           Boost::date_time
           sqlite::sqlite
           Qt5::Core
+          Qt5::Widgets # for QtHelpButtonInfo.cpp
           tinyxml::tinyxml)
 
 # configure language package defines

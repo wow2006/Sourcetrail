@@ -1,5 +1,4 @@
-#ifndef QT_THREADED_FUCTOR_H
-#define QT_THREADED_FUCTOR_H
+#pragma once
 
 #include <functional>
 
@@ -13,45 +12,21 @@
 class QtThreadedFunctorHelper
     : public QObject
     , public MessageListener<MessageWindowClosed> {
-  Q_OBJECT
+  Q_OBJECT // NOLINT(readability-identifier-length
 
 signals:
   void signalExecution();
 
 private slots:
-  void execute() {
-    std::function<void(void)> callback = m_callback;
-    m_freeCallbacks.release();
-    callback();
-  }
+  void execute();
 
 public:
-  QtThreadedFunctorHelper(): m_freeCallbacks(1) {
-    QObject::connect(this,
-                     &QtThreadedFunctorHelper::signalExecution,
-                     this,
-                     &QtThreadedFunctorHelper::execute,
-                     Qt::QueuedConnection);
-  }
+  QtThreadedFunctorHelper();
 
-  void operator()(std::function<void(void)> callback) {
-    if(QThread::currentThread() == this->thread()) {
-      callback();
-      return;
-    }
-
-    m_freeCallbacks.acquire();
-    m_callback = callback;
-    emit signalExecution();
-  }
+  void operator()(std::function<void(void)> callback);
 
 private:
-  void handleMessage(MessageWindowClosed* message) override {
-    // The QT thread probably won't relay signals anymore. So this stops other
-    // threads from getting stuck here (if they have less than 1000 open tasks,
-    // but that should be a reasonable assumption).
-    m_freeCallbacks.release(1000);
-  }
+  void handleMessage(MessageWindowClosed* message) override;
 
   std::function<void(void)> m_callback;
   QSemaphore m_freeCallbacks;
@@ -127,15 +102,10 @@ private:
   std::function<void(void)> m_callback;
 };
 
-
 class QtThreadedLambdaFunctor {
 public:
-  void operator()(std::function<void(void)> callback) {
-    m_helper(callback);
-  }
+  void operator()(std::function<void(void)> callback);
 
 private:
   QtThreadedFunctorHelper m_helper;
 };
-
-#endif    // QT_THREADED_FUCTOR_H

@@ -5,7 +5,6 @@ add_library(Sourcetrail::lib_gui ALIAS Sourcetrail_lib_gui)
 
 target_sources(
   Sourcetrail_lib_gui
-  PUBLIC qt/utility/QtThreadedFunctor.h
   PRIVATE
     qt/element/bookmark/QtBookmark.cpp
     qt/element/bookmark/QtBookmark.h
@@ -178,8 +177,6 @@ target_sources(
     qt/utility/QtFilesAndDirectoriesDialog.h
     qt/utility/QtFlowLayout.cpp
     qt/utility/QtFlowLayout.h
-    qt/utility/QtHelpButtonInfo.cpp
-    qt/utility/QtHelpButtonInfo.h
     qt/utility/QtHighlighter.cpp
     qt/utility/QtHighlighter.h
     qt/utility/QtScrollSpeedChangeListener.cpp
@@ -280,8 +277,6 @@ target_sources(
     utility/path_detector/CombinedPathDetector.h
     utility/path_detector/PathDetector.cpp
     utility/path_detector/PathDetector.h
-    utility/utilityApp.cpp
-    utility/utilityApp.h
     utility/utilityPathDetection.cpp
     utility/utilityPathDetection.h)
 
