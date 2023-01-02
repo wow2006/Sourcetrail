@@ -1737,7 +1737,7 @@ std::vector<EdgeBookmark> PersistentStorage::getAllEdgeBookmarks() const {
 
   std::vector<EdgeBookmark> edgeBookmarks;
 
-  UnorderedCache<std::wstring, Id> nodeIdCache([&](const std::wstring& serializedNodeName) {
+  utility::UnorderedCache<std::wstring, Id> nodeIdCache([&](const std::wstring& serializedNodeName) {
     return m_sqliteIndexStorage.getNodeBySerializedName(serializedNodeName).id;
   });
 
