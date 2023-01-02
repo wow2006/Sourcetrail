@@ -1,5 +1,4 @@
-#ifndef STATUS_CONTROLLER_H
-#define STATUS_CONTROLLER_H
+#pragma once
 
 #include "Controller.h"
 
@@ -14,30 +13,27 @@ class StatusView;
 class StorageAccess;
 
 class StatusController
-	: public Controller
-	, public MessageListener<MessageClearStatusView>
-	, public MessageListener<MessageShowStatus>
-	, public MessageListener<MessageStatus>
-	, public MessageListener<MessageStatusFilterChanged>
-{
+    : public Controller
+    , public MessageListener<MessageClearStatusView>
+    , public MessageListener<MessageShowStatus>
+    , public MessageListener<MessageStatus>
+    , public MessageListener<MessageStatusFilterChanged> {
 public:
-	StatusController();
-	~StatusController();
+  StatusController();
+  ~StatusController();
 
 private:
-	StatusView* getView() const;
+  [[nodiscard]] StatusView* getView() const;
 
-	virtual void clear();
+  void clear() override;
 
-	virtual void handleMessage(MessageClearStatusView* message);
-	virtual void handleMessage(MessageShowStatus* message);
-	virtual void handleMessage(MessageStatus* message);
-	virtual void handleMessage(MessageStatusFilterChanged* message);
+  void handleMessage(MessageClearStatusView* message) override;
+  void handleMessage(MessageShowStatus* message) override;
+  void handleMessage(MessageStatus* message) override;
+  void handleMessage(MessageStatusFilterChanged* message) override;
 
-	void addStatus(const std::vector<Status> status);
+  void addStatus(const std::vector<utility::Status>& status);
 
-	std::vector<Status> m_status;
-	StatusFilter m_statusFilter;
+  std::vector<utility::Status> m_status;
+  utility::StatusFilter m_statusFilter;
 };
-
-#endif	  // STATUS_CONTROLLER_H

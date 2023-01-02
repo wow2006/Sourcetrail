@@ -8,7 +8,7 @@ StatusController::StatusController() {
   m_statusFilter = ApplicationSettings::getInstance()->getStatusFilter();
 }
 
-StatusController::~StatusController() {}
+StatusController::~StatusController() = default;
 
 StatusView* StatusController::getView() const {
   return Controller::getView<StatusView>();
@@ -30,10 +30,10 @@ void StatusController::handleMessage(MessageStatus* message) {
     return;
   }
 
-  std::vector<Status> stati;
+  std::vector<utility::Status> stati;
 
-  for(const std::wstring& status: message->stati()) {
-    stati.push_back(Status(status, message->isError));
+  for(const auto& status : message->stati()) {
+    stati.emplace_back(status, message->isError);
   }
 
   utility::append(m_status, stati);
@@ -52,12 +52,12 @@ void StatusController::handleMessage(MessageStatusFilterChanged* message) {
   settings->save();
 }
 
-void StatusController::addStatus(const std::vector<Status> status) {
-  std::vector<Status> filteredStatus;
+void StatusController::addStatus(const std::vector<utility::Status>& status) {
+  std::vector<utility::Status> filteredStatus;
 
-  for(const Status& s: status) {
-    if(s.type & m_statusFilter) {
-      filteredStatus.push_back(s);
+  for(const auto& stat : status) {
+    if(stat.type & m_statusFilter) {
+      filteredStatus.push_back(stat);
     }
   }
 

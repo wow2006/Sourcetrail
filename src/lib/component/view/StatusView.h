@@ -1,21 +1,21 @@
-#ifndef STATUS_VIEW_H
-#define STATUS_VIEW_H
-
-#include <vector>
+#pragma once
 
 #include "Status.h"
 #include "View.h"
 
-class StatusView: public View
-{
+namespace utility {
+struct Status;
+} // namespace utility
+
+class StatusView : public View {
 public:
-	StatusView(ViewLayout* viewLayout);
-	virtual ~StatusView();
+  explicit StatusView(ViewLayout* viewLayout);
 
-	virtual std::string getName() const;
+  ~StatusView() override;
 
-	virtual void addStatus(const std::vector<Status>& status) = 0;
-	virtual void clear() = 0;
+  [[nodiscard]] std::string getName() const override;
+
+  virtual void addStatus(const std::vector<utility::Status>& status) = 0;
+
+  virtual void clear() = 0;
 };
-
-#endif	  // STATUS_VIEW_H
