@@ -1168,7 +1168,7 @@ std::shared_ptr<DummyNode> GraphController::bundleNodesMatching(
 
 std::shared_ptr<DummyNode> GraphController::bundleByType(std::list<std::shared_ptr<DummyNode>>& nodes,
                                                          const NodeType& type,
-                                                         const Tree<NodeType::BundleInfo>& bundleInfoTree,
+                                                         const utility::Tree<NodeType::BundleInfo>& bundleInfoTree,
                                                          const bool considerInvisibleNodes) {
   std::shared_ptr<DummyNode> bundleNode = bundleNodesMatching(
       nodes,
@@ -1188,7 +1188,7 @@ std::shared_ptr<DummyNode> GraphController::bundleByType(std::list<std::shared_p
       bundleNode->bundledNodes.clear();
 
       // crate a sub-bundle for anonymous namespaces
-      for(const Tree<NodeType::BundleInfo>& childBundleInfoTree: bundleInfoTree.children) {
+      for(const auto& childBundleInfoTree : bundleInfoTree.children) {
         std::shared_ptr<DummyNode> childBundle = bundleByType(
             bundledNodes, type, childBundleInfoTree, true);
         if(childBundle) {
@@ -1213,7 +1213,7 @@ void GraphController::bundleNodesByType() {
   bool hasNonFileBundle = false;
 
   for(const NodeType& nodeType: NodeType::overviewBundleNodeTypesOrdered) {
-    Tree<NodeType::BundleInfo> bundleInfoTree = nodeType.getOverviewBundleTree();
+    utility::Tree<NodeType::BundleInfo> bundleInfoTree = nodeType.getOverviewBundleTree();
     if(bundleInfoTree.data.isValid()) {
       std::shared_ptr<DummyNode> bundleNode = bundleByType(nodes, nodeType, bundleInfoTree, false);
       if(bundleNode) {
@@ -1227,7 +1227,7 @@ void GraphController::bundleNodesByType() {
   }
 
   if(nodes.size() && !hasNonFileBundle) {
-    Tree<NodeType::BundleInfo> bundleInfoTree(NodeType::BundleInfo(L"Symbols"));
+    utility::Tree<NodeType::BundleInfo> bundleInfoTree(NodeType::BundleInfo(L"Symbols"));
     std::shared_ptr<DummyNode> bundleNode = bundleByType(
         nodes, NodeType(NODE_SYMBOL), bundleInfoTree, false);
     if(bundleNode) {

@@ -119,7 +119,7 @@ private:
 	std::shared_ptr<DummyNode> bundleByType(
 		std::list<std::shared_ptr<DummyNode>>& nodes,
 		const NodeType& type,
-		const Tree<NodeType::BundleInfo>& bundleInfoTree,
+		const utility::Tree<NodeType::BundleInfo>& bundleInfoTree,
 		const bool considerInvisibleNodes);
 	void bundleNodesByType();
 

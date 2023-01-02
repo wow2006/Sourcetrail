@@ -129,18 +129,18 @@ bool NodeType::hasSearchFilter() const
 	return ((m_kind & mask) > 0);
 }
 
-Tree<NodeType::BundleInfo> NodeType::getOverviewBundleTree() const
+utility::Tree<NodeType::BundleInfo> NodeType::getOverviewBundleTree() const
 {
 	switch (m_kind)
 	{
 	case NODE_FILE:
-		return Tree<BundleInfo>(BundleInfo(L"Files"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Files"));
 	case NODE_MACRO:
-		return Tree<BundleInfo>(BundleInfo(L"Macros"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Macros"));
 	case NODE_NAMESPACE:
 	{
-		Tree<BundleInfo> tree(BundleInfo(L"Namespaces"));
-		tree.children.push_back(Tree<BundleInfo>(BundleInfo(
+		utility::Tree<BundleInfo> tree(BundleInfo(L"Namespaces"));
+		tree.children.push_back(utility::Tree<BundleInfo>(BundleInfo(
 			[](const std::wstring& nodeName) {
 				return nodeName.find(L"anonymous namespace") != std::wstring::npos;
 			},
@@ -148,34 +148,34 @@ Tree<NodeType::BundleInfo> NodeType::getOverviewBundleTree() const
 		return tree;
 	}
 	case NODE_MODULE:
-		return Tree<BundleInfo>(BundleInfo(L"Modules"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Modules"));
 	case NODE_PACKAGE:
-		return Tree<BundleInfo>(BundleInfo(L"Packages"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Packages"));
 	case NODE_CLASS:
-		return Tree<BundleInfo>(BundleInfo(L"Classes"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Classes"));
 	case NODE_INTERFACE:
-		return Tree<BundleInfo>(BundleInfo(L"Interfaces"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Interfaces"));
 	case NODE_ANNOTATION:
-		return Tree<BundleInfo>(BundleInfo(L"Annotations"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Annotations"));
 	case NODE_STRUCT:
-		return Tree<BundleInfo>(BundleInfo(L"Structs"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Structs"));
 	case NODE_FUNCTION:
-		return Tree<BundleInfo>(BundleInfo(L"Functions"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Functions"));
 	case NODE_GLOBAL_VARIABLE:
-		return Tree<BundleInfo>(BundleInfo(L"Global Variables"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Global Variables"));
 	case NODE_TYPE:
-		return Tree<BundleInfo>(BundleInfo(L"Types"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Types"));
 	case NODE_TYPEDEF:
-		return Tree<BundleInfo>(BundleInfo(L"Typedefs"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Typedefs"));
 	case NODE_ENUM:
-		return Tree<BundleInfo>(BundleInfo(L"Enums"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Enums"));
 	case NODE_UNION:
-		return Tree<BundleInfo>(BundleInfo(L"Unions"));
+		return utility::Tree<BundleInfo>(BundleInfo(L"Unions"));
 	default:
 		break;
 	}
 
-	return Tree<BundleInfo>();
+	return utility::Tree<BundleInfo>();
 }
 
 FilePath NodeType::getIconPath() const

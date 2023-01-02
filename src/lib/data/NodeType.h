@@ -69,7 +69,7 @@ public:
 	bool isCollapsible() const;
 	bool isVisibleAsParentInGraph() const;
 	bool hasSearchFilter() const;
-	Tree<BundleInfo> getOverviewBundleTree() const;
+	utility::Tree<BundleInfo> getOverviewBundleTree() const;
 
 	FilePath getIconPath() const;
 
