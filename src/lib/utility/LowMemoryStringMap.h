@@ -1,11 +1,4 @@
-#ifndef LOW_MEMORY_STRING_MAP_H
-#define LOW_MEMORY_STRING_MAP_H
-
-#include <cstring>
-#include <iostream>
-#include <map>
-#include <memory>
-#include <string>
+#pragma once
 
 /*
  * StringTraits
@@ -593,5 +586,3 @@ private:
 
 	size_t m_uncompressedByteSize = 0;
 };
-
-#endif	  // LOW_MEMORY_STRING_MAP_H
