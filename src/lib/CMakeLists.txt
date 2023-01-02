@@ -296,7 +296,7 @@ target_link_libraries(
 
 target_precompile_headers(
   Sourcetrail_lib
-  PRIVATE
+  PUBLIC
   precompiled.hpp
 )
 
