@@ -300,6 +300,11 @@ target_precompile_headers(
   precompiled.hpp
 )
 
+set_source_files_properties(
+  ${MOCED_FILES}
+  PROPERTIES
+  COMPILE_FLAGS -w)
+
 # configure language package defines
 configure_file("${CMAKE_SOURCE_DIR}/cmake/language_packages.h.in"
                "${CMAKE_BINARY_DIR}/src/lib/language_packages.h")
