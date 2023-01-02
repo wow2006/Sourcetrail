@@ -1,14 +1,14 @@
 #include "utility.h"
 
-size_t utility::digits(size_t n)
-{
-	int digits = 1;
+constexpr auto Digit = 10;
 
-	while (n >= 10)
-	{
-		n /= 10;
-		digits++;
-	}
+size_t utility::digits(size_t number) {
+  int digits = 1;
 
-	return digits;
+  while(number >= Digit) {
+    number /= Digit;
+    digits++;
+  }
+
+  return static_cast<size_t>(digits);
 }

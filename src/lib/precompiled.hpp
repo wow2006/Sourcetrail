@@ -1,8 +1,16 @@
 // STL
+#include <algorithm>
+#include <cstdarg>
 #include <cstddef>
 #include <cstdint>
+#include <deque>
+#include <functional>
+#include <list>
+#include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
