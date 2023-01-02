@@ -27,13 +27,13 @@ bool SourceGroupSettingsWithIndexedHeaderPaths::equals(const SourceGroupSettings
 	return (otherPtr && utility::isPermutation(m_indexedHeaderPaths, otherPtr->m_indexedHeaderPaths));
 }
 
-void SourceGroupSettingsWithIndexedHeaderPaths::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithIndexedHeaderPaths::load(const utility::ConfigManagerigManagerigManager* config, const std::string& key)
 {
 	setIndexedHeaderPaths(config->getValuesOrDefaults(
 		key + "/indexed_header_paths/indexed_header_path", std::vector<FilePath>()));
 }
 
-void SourceGroupSettingsWithIndexedHeaderPaths::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithIndexedHeaderPaths::save(utility::ConfigManagerigManagerigManager* config, const std::string& key)
 {
 	config->setValues(key + "/indexed_header_paths/indexed_header_path", getIndexedHeaderPaths());
 }

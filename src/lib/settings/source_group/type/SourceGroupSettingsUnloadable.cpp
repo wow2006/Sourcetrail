@@ -19,7 +19,7 @@ std::shared_ptr<SourceGroupSettings> SourceGroupSettingsUnloadable::createCopy()
 	return std::make_shared<SourceGroupSettingsUnloadable>(*this);
 }
 
-void SourceGroupSettingsUnloadable::loadSettings(const ConfigManager* config)
+void SourceGroupSettingsUnloadable::loadSettings(const utility::ConfigManager* config)
 {
 	const std::string key = s_keyPrefix + getId();
 
@@ -52,7 +52,7 @@ void SourceGroupSettingsUnloadable::loadSettings(const ConfigManager* config)
 	}
 }
 
-void SourceGroupSettingsUnloadable::saveSettings(ConfigManager* config)
+void SourceGroupSettingsUnloadable::saveSettings(utility::ConfigManager* config)
 {
 	for (auto it: m_content)
 	{

@@ -33,7 +33,7 @@ bool Settings::load(const FilePath& filePath, bool readOnly) {
   m_readOnly = readOnly;
 
   if(filePath.exists()) {
-    m_config = ConfigManager::createAndLoad(TextAccess::createFromFile(filePath));
+    m_config = utility::ConfigManager::createAndLoad(TextAccess::createFromFile(filePath));
     m_filePath = filePath;
     return true;
   }
@@ -46,7 +46,7 @@ bool Settings::load(const FilePath& filePath, bool readOnly) {
 bool Settings::loadFromString(const std::string& text, bool readOnly) {
   m_readOnly = readOnly;
 
-  m_config = ConfigManager::createAndLoad(TextAccess::createFromString(text));
+  m_config = utility::ConfigManager::createAndLoad(TextAccess::createFromString(text));
   m_filePath = FilePath();
   return true;
 }
@@ -75,7 +75,7 @@ bool Settings::save(const FilePath& filePath) {
 }
 
 void Settings::clear() {
-  m_config = ConfigManager::createEmpty();
+  m_config = utility::ConfigManager::createEmpty();
   m_filePath = FilePath();
 }
 

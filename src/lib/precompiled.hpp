@@ -5,12 +5,16 @@
 #include <cstdint>
 #include <deque>
 #include <functional>
+#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
+#include <mutex>
 #include <set>
 #include <sstream>
+#include <stack>
 #include <string>
+#include <thread>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -18,3 +22,6 @@
 #include <vector>
 // fmt
 #include <fmt/format.h>
+// range-v3
+#include <range/v3/algorithm/transform.hpp>
+#include <range/v3/iterator/insert_iterators.hpp>

@@ -45,14 +45,14 @@ bool SourceGroupSettingsWithJavaGradle::equals(const SourceGroupSettingsBase* ot
 		m_shouldIndexGradleTests == otherPtr->m_shouldIndexGradleTests);
 }
 
-void SourceGroupSettingsWithJavaGradle::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithJavaGradle::load(const utility::ConfigManager* config, const std::string& key)
 {
 	setGradleProjectFilePath(
 		config->getValueOrDefault(key + "/gradle/project_file_path", FilePath(L"")));
 	setShouldIndexGradleTests(config->getValueOrDefault(key + "/gradle/should_index_tests", false));
 }
 
-void SourceGroupSettingsWithJavaGradle::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithJavaGradle::save(utility::ConfigManager* config, const std::string& key)
 {
 	config->setValue(key + "/gradle/project_file_path", getGradleProjectFilePath().wstr());
 	config->setValue(key + "/gradle/should_index_tests", getShouldIndexGradleTests());

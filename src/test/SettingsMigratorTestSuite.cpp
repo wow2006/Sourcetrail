@@ -14,7 +14,7 @@ public:
 	static MigratorTestSettings createFromText(const std::shared_ptr<TextAccess> textAccess)
 	{
 		MigratorTestSettings settings;
-		settings.m_config = ConfigManager::createAndLoad(textAccess);
+		settings.m_config = utility::ConfigManager::createAndLoad(textAccess);
 		return settings;
 	}
 

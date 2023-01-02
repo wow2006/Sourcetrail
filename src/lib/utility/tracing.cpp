@@ -1,6 +1,7 @@
+// Internal
 #include "tracing.h"
-// STL
-#include <set>
+
+namespace utility {
 
 std::shared_ptr<Tracer> Tracer::s_instance;
 Id Tracer::s_nextTraceId = 0;
@@ -16,13 +17,12 @@ Tracer* Tracer::getInstance() {
 std::shared_ptr<TraceEvent> Tracer::startEvent(const std::string& eventName) {
   std::lock_guard<std::mutex> lock(m_mutex);
 
-  const std::thread::id id = std::this_thread::get_id();
+  const auto threadId = std::this_thread::get_id();
 
-  std::shared_ptr<TraceEvent> event = std::make_shared<TraceEvent>(
-      eventName, s_nextTraceId++, m_startedEvents[id].size());
+  auto event = std::make_shared<TraceEvent>(eventName, s_nextTraceId++, m_startedEvents[threadId].size());
 
-  m_events[id].push_back(event);
-  m_startedEvents[id].push(event.get());
+  m_events[threadId].push_back(event);
+  m_startedEvents[threadId].push(event.get());
 
   return event;
 }
@@ -39,18 +39,18 @@ void Tracer::printTraces() {
   std::lock_guard<std::mutex> lock(m_mutex);
 
   size_t unfinishEvents = 0;
-  for(auto& p : m_startedEvents) {
+  for(auto& p: m_startedEvents) {
     unfinishEvents += p.second.size();
   }
 
   if(unfinishEvents > 0) {
     std::cout << "TRACING: Trace events are still running." << std::endl;
     return;
-  } else if(m_events.empty()) {
+  }
+  if(m_events.empty()) {
     std::cout << "TRACING: No trace events collected." << std::endl;
     return;
   }
-
 
   std::cout << "TRACING\n--------------------------\n" << std::endl;
 
@@ -60,10 +60,10 @@ void Tracer::printTraces() {
   std::cout << "-----------------------------------------------------------------";
   std::cout << "------------------------------------------------------------\n";
 
-  for(auto& p : m_events) {
+  for(auto& p: m_events) {
     std::cout << "thread: " << p.first << std::endl;
 
-    for(const std::shared_ptr<TraceEvent>& event : p.second) {
+    for(const std::shared_ptr<TraceEvent>& event: p.second) {
       std::cout.width(8 + 2 * event->depth);
       std::cout << std::right << std::setprecision(3) << std::fixed << event->time;
 
@@ -94,14 +94,14 @@ void Tracer::printTraces() {
 
   std::map<std::string, AccumulatedTraceEvent> accumulatedEvents;
 
-  for(auto& p : m_events) {
-    for(const std::shared_ptr<TraceEvent>& event : p.second) {
+  for(const auto& parentEvent : m_events) {
+    for(const auto& event : parentEvent.second) {
       const std::string name = event->eventName + event->functionName + event->locationName;
 
       std::pair<std::map<std::string, AccumulatedTraceEvent>::iterator, bool> p =
           accumulatedEvents.emplace(name, AccumulatedTraceEvent());
 
-      AccumulatedTraceEvent* acc = &p.first->second;
+      auto* acc = &p.first->second;
       if(p.second) {
         acc->event = event.get();
         acc->time = static_cast<float>(event->time);
@@ -119,11 +119,11 @@ void Tracer::printTraces() {
         return a.time > b.time;
       });
 
-  for(const std::pair<std::string, AccumulatedTraceEvent>& p : accumulatedEvents) {
-    sortedEvents.insert(p.second);
+  for(const auto& item : accumulatedEvents) {
+    sortedEvents.insert(item.second);
   }
 
-  for(const AccumulatedTraceEvent& acc : sortedEvents) {
+  for(const AccumulatedTraceEvent& acc: sortedEvents) {
     std::cout.width(8);
     std::cout << std::right << std::setprecision(3) << std::fixed << acc.time;
 
@@ -148,7 +148,8 @@ Tracer::Tracer() noexcept = default;
 std::shared_ptr<AccumulatingTracer> AccumulatingTracer::s_instance;
 Id AccumulatingTracer::s_nextTraceId = 0;
 
-AccumulatingTracer* AccumulatingTracer::getInstance() { if(!s_instance) {
+AccumulatingTracer* AccumulatingTracer::getInstance() {
+  if(!s_instance) {
     s_instance = std::shared_ptr<AccumulatingTracer>(new AccumulatingTracer());
   }
 
@@ -158,12 +159,12 @@ AccumulatingTracer* AccumulatingTracer::getInstance() { if(!s_instance) {
 std::shared_ptr<TraceEvent> AccumulatingTracer::startEvent(const std::string& eventName) {
   std::lock_guard<std::mutex> lock(m_mutex);
 
-  const std::thread::id id = std::this_thread::get_id();
+  const auto threadId = std::this_thread::get_id();
 
-  std::shared_ptr<TraceEvent> event = std::make_shared<TraceEvent>(
-      eventName, s_nextTraceId++, m_startedEvents[id].size());
+  auto event = std::make_shared<TraceEvent>(
+      eventName, s_nextTraceId++, m_startedEvents[threadId].size());
 
-  m_startedEvents[id].push(event.get());
+  m_startedEvents[threadId].push(event.get());
 
   return event;
 }
@@ -193,8 +194,8 @@ void AccumulatingTracer::finishEvent(const std::shared_ptr<TraceEvent>& event) {
 void AccumulatingTracer::printTraces() {
   std::lock_guard<std::mutex> lock(m_mutex);
 
-  for(auto& p : m_startedEvents) {
-    if(!p.second.empty()) {
+  for(const auto& event : m_startedEvents) {
+    if(!event.second.empty()) {
       std::cout << "TRACING: Trace events are still running." << std::endl;
     }
   }
@@ -211,11 +212,11 @@ void AccumulatingTracer::printTraces() {
         return a.time > b.time;
       });
 
-  for(const std::pair<std::string, AccumulatedTraceEvent>& p : m_accumulatedEvents) {
-    sortedEvents.insert(p.second);
+  for(const auto& item : m_accumulatedEvents) {
+    sortedEvents.insert(item.second);
   }
 
-  for(const AccumulatedTraceEvent& acc : sortedEvents) {
+  for(const AccumulatedTraceEvent& acc: sortedEvents) {
     std::cout.width(8);
     std::cout << std::right << std::setprecision(3) << std::fixed << acc.time;
 
@@ -235,3 +236,5 @@ void AccumulatingTracer::printTraces() {
 }
 
 AccumulatingTracer::AccumulatingTracer() = default;
+
+}    // namespace utility

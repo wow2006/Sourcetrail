@@ -12,8 +12,8 @@ public:
 	SourceGroupSettingsUnloadable(const std::string& id, const ProjectSettings* projectSettings);
 	std::string getTypeString();
 	std::shared_ptr<SourceGroupSettings> createCopy() const override;
-	void loadSettings(const ConfigManager* config) override;
-	void saveSettings(ConfigManager* config) override;
+	void loadSettings(const utility::ConfigManager* config) override;
+	void saveSettings(utility::ConfigManager* config) override;
 	bool equalsSettings(const SourceGroupSettingsBase* other) override;
 
 private:

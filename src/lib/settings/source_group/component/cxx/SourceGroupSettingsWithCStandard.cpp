@@ -57,12 +57,12 @@ bool SourceGroupSettingsWithCStandard::equals(const SourceGroupSettingsBase* oth
 	return (otherPtr && m_cStandard == otherPtr->m_cStandard);
 }
 
-void SourceGroupSettingsWithCStandard::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithCStandard::load(const utility::ConfigManager* config, const std::string& key)
 {
 	setCStandard(config->getValueOrDefault<std::wstring>(key + "/c_standard", L""));
 }
 
-void SourceGroupSettingsWithCStandard::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithCStandard::save(utility::ConfigManager* config, const std::string& key)
 {
 	config->setValue(key + "/c_standard", getCStandard());
 }

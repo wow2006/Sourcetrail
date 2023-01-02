@@ -49,12 +49,12 @@ bool SourceGroupSettingsWithJavaStandard::equals(const SourceGroupSettingsBase* 
 	return (otherPtr && m_javaStandard == otherPtr->m_javaStandard);
 }
 
-void SourceGroupSettingsWithJavaStandard::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithJavaStandard::load(const utility::ConfigManager* config, const std::string& key)
 {
 	setJavaStandard(config->getValueOrDefault<std::wstring>(key + "/java_standard", L""));
 }
 
-void SourceGroupSettingsWithJavaStandard::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithJavaStandard::save(utility::ConfigManager* config, const std::string& key)
 {
 	config->setValue(key + "/java_standard", getJavaStandard());
 }

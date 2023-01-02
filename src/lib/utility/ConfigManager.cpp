@@ -1,19 +1,14 @@
 #include "ConfigManager.h"
-
-#include <algorithm>
-#include <iterator>
-#include <set>
-
-#include <range/v3/algorithm/transform.hpp>
-#include <range/v3/iterator/insert_iterators.hpp>
-
+// tinyxml
 #include "tinyxml.h"
-
+// internal
 #include "FilePath.h"
 #include "TextAccess.h"
 #include "logging.h"
 #include "utility.h"
 #include "utilityString.h"
+
+namespace utility {
 
 std::shared_ptr<ConfigManager> ConfigManager::createEmpty() {
   return std::shared_ptr<ConfigManager>(new ConfigManager());
@@ -381,3 +376,5 @@ std::string ConfigManager::toString() {
   createXmlDocument(false, "", output);
   return output;
 }
+
+}    // namespace utility

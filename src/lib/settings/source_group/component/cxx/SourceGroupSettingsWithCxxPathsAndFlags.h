@@ -25,8 +25,8 @@ public:
 protected:
 	bool equals(const SourceGroupSettingsBase* other) const override;
 
-	void load(const ConfigManager* config, const std::string& key) override;
-	void save(ConfigManager* config, const std::string& key) override;
+	void load(const utility::utility::ConfigManagerigManager* config, const std::string& key) override;
+	void save(utility::utility::ConfigManagerigManager* config, const std::string& key) override;
 
 private:
 	std::vector<FilePath> m_headerSearchPaths;

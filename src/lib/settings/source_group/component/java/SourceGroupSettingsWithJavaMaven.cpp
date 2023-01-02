@@ -62,7 +62,7 @@ bool SourceGroupSettingsWithJavaMaven::equals(const SourceGroupSettingsBase* oth
 		m_shouldIndexMavenTests == otherPtr->m_shouldIndexMavenTests);
 }
 
-void SourceGroupSettingsWithJavaMaven::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithJavaMaven::load(const utility::ConfigManager* config, const std::string& key)
 {
 	setMavenProjectFilePath(
 		config->getValueOrDefault(key + "/maven/project_file_path", FilePath(L"")));
@@ -71,7 +71,7 @@ void SourceGroupSettingsWithJavaMaven::load(const ConfigManager* config, const s
 	setShouldIndexMavenTests(config->getValueOrDefault(key + "/maven/should_index_tests", false));
 }
 
-void SourceGroupSettingsWithJavaMaven::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithJavaMaven::save(utility::ConfigManager* config, const std::string& key)
 {
 	config->setValue(key + "/maven/project_file_path", getMavenProjectFilePath().wstr());
 	config->setValue(key + "/maven/settings_file_path", getMavenSettingsFilePath().wstr());

@@ -1,24 +1,30 @@
 #pragma once
-// STL
-#include <mutex>
-#include <stack>
-#include <string>
-#include <thread>
 // Internal
 #include "FilePath.h"
 #include "TimeStamp.h"
 #include "types.h"
 #include "utilityString.h"
 
-// #define TRACING_ENABLED
-// #define USE_ACCUMULATED_TRACING
+/**
+ * @brief Tracing utilities
+ * To enable the tracing add the following definition to cmake or header
+ * @code{.cpp}
+ * #define TRACING_ENABLED
+ * @endcode
+ *
+ * To enable the accumulated tracing add the following definition to cmake or header
+ * @code{.cpp}
+ * #define USE_ACCUMULATED_TRACING
+ * @endcode
+ */
+namespace utility {
 
 struct TraceEvent final {
 public:
   TraceEvent() = default;
 
-  TraceEvent(std::string eventName, Id id, size_t depth)
-      : eventName(std::move(eventName)), id(id), depth(depth) {}
+  TraceEvent(std::string eventName_, Id id_, size_t depth_)
+      : eventName(std::move(eventName_)), id(id_), depth(depth_) {}
 
   std::string eventName;
   Id id = 0;
@@ -124,16 +130,18 @@ ScopedTrace<TracerType>::~ScopedTrace() {
   TracerType::getInstance()->finishEvent(m_event);
 }
 
+} // namespace utility
+
 #ifdef TRACING_ENABLED
 #  ifdef USE_ACCUMULATED_TRACING
 #    define TRACE(__name__)                                                                        \
-      ScopedTrace<AccumulatingTracer> __trace__(                                                   \
+      utility::ScopedTrace<utility::AccumulatingTracer> __trace__(                                 \
           std::string(__name__), __FILE__, __LINE__, __FUNCTION__)
-#    define PRINT_TRACES() AccumulatingTracer::getInstance()->printTraces()
+#    define PRINT_TRACES() utility::AccumulatingTracer::getInstance()->printTraces()
 #  else
 #    define TRACE(__name__)                                                                        \
-      ScopedTrace<Tracer> __trace__(std::string(__name__), __FILE__, __LINE__, __FUNCTION__)
-#    define PRINT_TRACES() Tracer::getInstance()->printTraces()
+      utility::ScopedTrace<utility::Tracer> __trace__(std::string(__name__), __FILE__, __LINE__, __FUNCTION__)
+#    define PRINT_TRACES() utility::Tracer::getInstance()->printTraces()
 #  endif
 #else
 #  define TRACE(__name__)

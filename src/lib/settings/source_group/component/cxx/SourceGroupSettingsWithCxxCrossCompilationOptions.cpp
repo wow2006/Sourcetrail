@@ -177,7 +177,7 @@ bool SourceGroupSettingsWithCxxCrossCompilationOptions::equals(const SourceGroup
 }
 
 void SourceGroupSettingsWithCxxCrossCompilationOptions::load(
-	const ConfigManager* config, const std::string& key)
+	const utility::ConfigManagerigManagerigManager* config, const std::string& key)
 {
 	setTargetOptionsEnabled(
 		config->getValueOrDefault<bool>(key + "/cross_compilation/target_options_enabled", false));
@@ -192,7 +192,7 @@ void SourceGroupSettingsWithCxxCrossCompilationOptions::load(
 }
 
 void SourceGroupSettingsWithCxxCrossCompilationOptions::save(
-	ConfigManager* config, const std::string& key)
+	utility::ConfigManagerigManagerigManager* config, const std::string& key)
 {
 	config->setValue(key + "/cross_compilation/target_options_enabled", getTargetOptionsEnabled());
 	config->setValue(key + "/cross_compilation/target/arch", getTargetArch());

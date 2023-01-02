@@ -211,7 +211,7 @@ void CommandLineParser::processProjectfile()
 		return;
 	}
 
-	std::shared_ptr<ConfigManager> configManager = ConfigManager::createEmpty();
+	std::shared_ptr<utility::ConfigManager> configManager = utility::ConfigManager::createEmpty();
 	if (!configManager->load(TextAccess::createFromFile(m_projectFile)))
 	{
 		m_errorString = errorstring + L" could not be loaded (invalid)";

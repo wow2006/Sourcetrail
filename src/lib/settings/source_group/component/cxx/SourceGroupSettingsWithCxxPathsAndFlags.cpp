@@ -57,7 +57,7 @@ bool SourceGroupSettingsWithCxxPathsAndFlags::equals(const SourceGroupSettingsBa
 		utility::isPermutation(m_compilerFlags, otherPtr->m_compilerFlags));
 }
 
-void SourceGroupSettingsWithCxxPathsAndFlags::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithCxxPathsAndFlags::load(const utility::ConfigManagerigManagerigManager* config, const std::string& key)
 {
 	setHeaderSearchPaths(config->getValuesOrDefaults(
 		key + "/header_search_paths/header_search_path", std::vector<FilePath>()));
@@ -67,7 +67,7 @@ void SourceGroupSettingsWithCxxPathsAndFlags::load(const ConfigManager* config, 
 		key + "/compiler_flags/compiler_flag", std::vector<std::wstring>()));
 }
 
-void SourceGroupSettingsWithCxxPathsAndFlags::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithCxxPathsAndFlags::save(utility::ConfigManagerigManagerigManager* config, const std::string& key)
 {
 	config->setValues(key + "/header_search_paths/header_search_path", getHeaderSearchPaths());
 	config->setValues(

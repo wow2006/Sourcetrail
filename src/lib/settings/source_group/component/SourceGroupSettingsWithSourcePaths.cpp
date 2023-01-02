@@ -26,13 +26,13 @@ bool SourceGroupSettingsWithSourcePaths::equals(const SourceGroupSettingsBase* o
 	return (otherPtr && utility::isPermutation(m_sourcePaths, otherPtr->m_sourcePaths));
 }
 
-void SourceGroupSettingsWithSourcePaths::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithSourcePaths::load(const utility::ConfigManager* config, const std::string& key)
 {
 	setSourcePaths(
 		config->getValuesOrDefaults(key + "/source_paths/source_path", std::vector<FilePath>()));
 }
 
-void SourceGroupSettingsWithSourcePaths::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithSourcePaths::save(utility::ConfigManager* config, const std::string& key)
 {
 	config->setValues(key + "/source_paths/source_path", getSourcePaths());
 }

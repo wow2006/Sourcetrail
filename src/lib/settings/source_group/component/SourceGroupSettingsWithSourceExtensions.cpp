@@ -26,13 +26,13 @@ bool SourceGroupSettingsWithSourceExtensions::equals(const SourceGroupSettingsBa
 	return (otherPtr && utility::isPermutation(m_sourceExtensions, otherPtr->m_sourceExtensions));
 }
 
-void SourceGroupSettingsWithSourceExtensions::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithSourceExtensions::load(const utility::ConfigManager* config, const std::string& key)
 {
 	setSourceExtensions(config->getValuesOrDefaults(
 		key + "/source_extensions/source_extension", std::vector<std::wstring>()));
 }
 
-void SourceGroupSettingsWithSourceExtensions::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithSourceExtensions::save(utility::ConfigManager* config, const std::string& key)
 {
 	config->setValues(key + "/source_extensions/source_extension", getSourceExtensions());
 }

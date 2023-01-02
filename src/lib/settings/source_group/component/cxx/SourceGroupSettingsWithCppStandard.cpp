@@ -52,12 +52,12 @@ bool SourceGroupSettingsWithCppStandard::equals(const SourceGroupSettingsBase* o
 	return (otherPtr && m_cppStandard == otherPtr->m_cppStandard);
 }
 
-void SourceGroupSettingsWithCppStandard::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithCppStandard::load(const utility::ConfigManagerigManager* config, const std::string& key)
 {
 	setCppStandard(config->getValueOrDefault<std::wstring>(key + "/cpp_standard", L""));
 }
 
-void SourceGroupSettingsWithCppStandard::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithCppStandard::save(utility::ConfigManagerigManager* config, const std::string& key)
 {
 	config->setValue(key + "/cpp_standard", getCppStandard());
 }

@@ -17,8 +17,8 @@ public:
 protected:
 	bool equals(const SourceGroupSettingsBase* other) const override;
 
-	void load(const ConfigManager* config, const std::string& key) override;
-	void save(ConfigManager* config, const std::string& key) override;
+	void load(const utility::ConfigManager* config, const std::string& key) override;
+	void save(utility::ConfigManager* config, const std::string& key) override;
 
 private:
 	std::wstring m_customCommand;

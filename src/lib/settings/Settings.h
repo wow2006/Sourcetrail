@@ -57,7 +57,7 @@ protected:
   void enableWarnings() const;
   void disableWarnings() const;
 
-  std::shared_ptr<ConfigManager> m_config;
+  std::shared_ptr<utility::ConfigManager> m_config;
 
 private:
   FilePath m_filePath;

@@ -38,14 +38,14 @@ bool SourceGroupSettingsWithClasspath::equals(const SourceGroupSettingsBase* oth
 		utility::isPermutation(m_classpath, otherPtr->m_classpath));
 }
 
-void SourceGroupSettingsWithClasspath::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithClasspath::load(const utility::ConfigManager* config, const std::string& key)
 {
 	setClasspath(
 		config->getValuesOrDefaults(key + "/class_paths/class_path", std::vector<FilePath>()));
 	setUseJreSystemLibrary(config->getValueOrDefault(key + "/use_jre_system_library", true));
 }
 
-void SourceGroupSettingsWithClasspath::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithClasspath::save(utility::ConfigManager* config, const std::string& key)
 {
 	config->setValues(key + "/class_paths/class_path", getClasspath());
 	config->setValue(key + "/use_jre_system_library", getUseJreSystemLibrary());

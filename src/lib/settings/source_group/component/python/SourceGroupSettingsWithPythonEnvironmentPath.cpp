@@ -28,12 +28,12 @@ bool SourceGroupSettingsWithPythonEnvironmentPath::equals(const SourceGroupSetti
 }
 
 void SourceGroupSettingsWithPythonEnvironmentPath::load(
-	const ConfigManager* config, const std::string& key)
+	const utility::ConfigManager* config, const std::string& key)
 {
 	setEnvironmentPath(config->getValueOrDefault(key + "/python_environment_path", FilePath(L"")));
 }
 
-void SourceGroupSettingsWithPythonEnvironmentPath::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithPythonEnvironmentPath::save(utility::ConfigManager* config, const std::string& key)
 {
 	config->setValue(key + "/python_environment_path", getEnvironmentPath().wstr());
 }

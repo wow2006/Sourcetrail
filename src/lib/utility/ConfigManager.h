@@ -1,13 +1,10 @@
 #pragma once
 
-#include <map>
-#include <memory>
-#include <string>
-#include <vector>
-
 class TextAccess;
 class TiXmlNode;
 class FilePath;
+
+namespace utility {
 
 class ConfigManager final {
 public:
@@ -82,7 +79,7 @@ private:
 template <typename T>
 T ConfigManager::getValueOrDefault(const std::string& key, T defaultValue) const {
   T value;
-  if (getValue(key, value)) {
+  if(getValue(key, value)) {
     return value;
   }
   return defaultValue;
@@ -92,8 +89,10 @@ template <typename T>
 std::vector<T> ConfigManager::getValuesOrDefaults(const std::string& key,
                                                   std::vector<T> defaultValues) const {
   std::vector<T> values;
-  if (getValues(key, values)) {
+  if(getValues(key, values)) {
     return values;
   }
   return defaultValues;
 }
+
+}    // namespace utility

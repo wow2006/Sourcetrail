@@ -29,7 +29,7 @@ std::shared_ptr<TextAccess> getConfigTextAccess() {
 }    // namespace
 
 TEST_CASE("config manager returns true when key is found", "[lib]") {
-  auto config = ConfigManager::createAndLoad(getConfigTextAccess());
+  auto config = utility::ConfigManager::createAndLoad(getConfigTextAccess());
 
   float value = {};
   bool success = config->getValue("path/to/single_value", value);
@@ -39,7 +39,7 @@ TEST_CASE("config manager returns true when key is found", "[lib]") {
 
 
 TEST_CASE("config manager returns false when key is not found", "[lib]") {
-  auto config = ConfigManager::createAndLoad(getConfigTextAccess());
+  auto config = utility::ConfigManager::createAndLoad(getConfigTextAccess());
 
   float value = {};
   bool success = config->getValue("path/to/nowhere", value);
@@ -49,7 +49,7 @@ TEST_CASE("config manager returns false when key is not found", "[lib]") {
 
 
 TEST_CASE("config manager returns correct string for key", "[lib]") {
-  auto config = ConfigManager::createAndLoad(getConfigTextAccess());
+  auto config = utility::ConfigManager::createAndLoad(getConfigTextAccess());
 
   std::wstring value;
   config->getValue("path/to/single_value", value);
@@ -60,7 +60,7 @@ TEST_CASE("config manager returns correct string for key", "[lib]") {
 
 TEST_CASE("config manager returns correct float for key", "[lib]") {
   constexpr auto FloatValue = 42.0F;
-  auto config = ConfigManager::createAndLoad(getConfigTextAccess());
+  auto config = utility::ConfigManager::createAndLoad(getConfigTextAccess());
 
   float value = {};
   config->getValue("path/to/single_value", value);
@@ -69,7 +69,7 @@ TEST_CASE("config manager returns correct float for key", "[lib]") {
 }
 
 TEST_CASE("config manager returns correct bool for key if value is true", "[lib]") {
-  auto config = ConfigManager::createAndLoad(getConfigTextAccess());
+  auto config = utility::ConfigManager::createAndLoad(getConfigTextAccess());
 
   float value = {};
   bool success(config->getValue("path/to/bool_that_is_true", value));
@@ -79,7 +79,7 @@ TEST_CASE("config manager returns correct bool for key if value is true", "[lib]
 }
 
 TEST_CASE("config manager returns correct bool for key if value is false", "[lib]") {
-  auto config = ConfigManager::createAndLoad(getConfigTextAccess());
+  auto config = utility::ConfigManager::createAndLoad(getConfigTextAccess());
 
   float value = {};
   bool success(config->getValue("path/to/bool_that_is_false", value));
@@ -89,7 +89,7 @@ TEST_CASE("config manager returns correct bool for key if value is false", "[lib
 }
 
 TEST_CASE("config manager adds new key when empty", "[lib]") {
-  auto config = ConfigManager::createEmpty();
+  auto config = utility::ConfigManager::createEmpty();
 
   config->setValue("path/to/true_bool", true);
 
@@ -101,7 +101,7 @@ TEST_CASE("config manager adds new key when empty", "[lib]") {
 }
 
 TEST_CASE("config manager adds new key when not empty", "[lib]") {
-  auto config = ConfigManager::createAndLoad(getConfigTextAccess());
+  auto config = utility::ConfigManager::createAndLoad(getConfigTextAccess());
 
   config->setValue("path/to/true_bool", true);
 
@@ -113,7 +113,7 @@ TEST_CASE("config manager adds new key when not empty", "[lib]") {
 }
 
 TEST_CASE("config manager returns correct list for key", "[lib]") {
-  auto config = ConfigManager::createAndLoad(getConfigTextAccess());
+  auto config = utility::ConfigManager::createAndLoad(getConfigTextAccess());
 
   std::vector<int> values;
 
@@ -129,15 +129,15 @@ TEST_CASE("config manager returns correct list for key", "[lib]") {
 TEST_CASE("config manager save and load configuration and compare", "[lib]") {
   const FilePath path(L"data/ConfigManagerTestSuite/temp.xml");
 
-  auto config = ConfigManager::createAndLoad(getConfigTextAccess());
+  auto config = utility::ConfigManager::createAndLoad(getConfigTextAccess());
   config->save(path.str());
-  std::shared_ptr<ConfigManager> config2 = ConfigManager::createAndLoad(
+  std::shared_ptr<utility::ConfigManager> config2 = utility::ConfigManager::createAndLoad(
       TextAccess::createFromFile(path));
   REQUIRE(config->toString() == config2->toString());
 }
 
 TEST_CASE("config manager loads special character", "[lib]") {
-  auto config = ConfigManager::createAndLoad(
+  auto config = utility::ConfigManager::createAndLoad(
       TextAccess::createFromFile(FilePath(L"data/ConfigManagerTestSuite/test_data.xml")));
   std::wstring loadedSpecialCharacter;
   config->getValue("path/to/special_character", loadedSpecialCharacter);
@@ -154,11 +154,11 @@ TEST_CASE("config manager save and load special character and compare", "[lib]")
   std::wstring specialCharacter;
   specialCharacter.push_back(SpecialCharacter);
 
-  auto config = ConfigManager::createEmpty();
+  auto config = utility::ConfigManager::createEmpty();
   config->setValue("path/to/special_character", specialCharacter);
   config->save(path.str());
 
-  std::shared_ptr<ConfigManager> config2 = ConfigManager::createAndLoad(
+  std::shared_ptr<utility::ConfigManager> config2 = utility::ConfigManager::createAndLoad(
       TextAccess::createFromFile(path));
   REQUIRE(config->toString() == config2->toString());
 }

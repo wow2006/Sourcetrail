@@ -27,7 +27,7 @@ bool SourceGroupSettings::equals(const SourceGroupSettingsBase* other) const
 		m_type == otherPtr->m_type && m_status == otherPtr->m_status);
 }
 
-void SourceGroupSettings::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettings::load(const utility::ConfigManager* config, const std::string& key)
 {
 	const std::string name = config->getValueOrDefault<std::string>(key + "/name", "");
 	if (!name.empty())
@@ -39,7 +39,7 @@ void SourceGroupSettings::load(const ConfigManager* config, const std::string& k
 		key + "/status", sourceGroupStatusTypeToString(SOURCE_GROUP_STATUS_ENABLED))));
 }
 
-void SourceGroupSettings::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettings::save(utility::ConfigManager* config, const std::string& key)
 {
 	config->setValue(key + "/status", sourceGroupStatusTypeToString(getStatus()));
 	config->setValue(key + "/name", getName());

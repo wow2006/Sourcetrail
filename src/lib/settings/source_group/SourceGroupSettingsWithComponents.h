@@ -17,7 +17,7 @@ public:
 
 	virtual ~SourceGroupSettingsWithComponents() = default;
 
-	void loadSettings(const ConfigManager* config) override
+	void loadSettings(const utility::ConfigManager* config) override
 	{
 		const std::string key = s_keyPrefix + getId();
 
@@ -27,7 +27,7 @@ public:
 		expand_type a {false, loadHelper<ComponentTypes>(config, key)...};
 	}
 
-	void saveSettings(ConfigManager* config) override
+	void saveSettings(utility::ConfigManager* config) override
 	{
 		const std::string key = s_keyPrefix + getId();
 
@@ -70,14 +70,14 @@ private:
 	}
 
 	template <typename T>
-	bool loadHelper(const ConfigManager* config, const std::string& key)
+	bool loadHelper(const utility::ConfigManager* config, const std::string& key)
 	{
 		T::load(config, key);
 		return true;
 	}
 
 	template <typename T>
-	bool saveHelper(ConfigManager* config, const std::string& key)
+	bool saveHelper(utility::ConfigManager* config, const std::string& key)
 	{
 		T::save(config, key);
 		return true;

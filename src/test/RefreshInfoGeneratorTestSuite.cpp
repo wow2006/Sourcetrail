@@ -26,9 +26,9 @@ public:
     return nullptr;
   }
 
-  void loadSettings(const ConfigManager* config) override {}
+  void loadSettings(const utility::ConfigManager* config) override {}
 
-  void saveSettings(ConfigManager* config) override {}
+  void saveSettings(utility::ConfigManager* config) override {}
 
   bool equalsSettings(const SourceGroupSettingsBase* /*other*/) override {
     return true;

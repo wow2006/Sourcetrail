@@ -30,13 +30,13 @@ bool SourceGroupSettingsWithCustomCommand::equals(const SourceGroupSettingsBase*
 	return (otherPtr && m_customCommand == otherPtr->m_customCommand);
 }
 
-void SourceGroupSettingsWithCustomCommand::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithCustomCommand::load(const utility::ConfigManager* config, const std::string& key)
 {
 	setCustomCommand(config->getValueOrDefault(key + "/custom_command", std::wstring()));
 	setRunInParallel(config->getValueOrDefault(key + "/run_in_parallel", false));
 }
 
-void SourceGroupSettingsWithCustomCommand::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithCustomCommand::save(utility::ConfigManager* config, const std::string& key)
 {
 	config->setValue(key + "/custom_command", getCustomCommand());
 	config->setValue(key + "/run_in_parallel", getRunInParallel());

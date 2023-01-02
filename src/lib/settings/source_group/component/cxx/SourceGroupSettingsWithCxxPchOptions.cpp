@@ -36,7 +36,7 @@ bool SourceGroupSettingsWithCxxPchOptions::equals(const SourceGroupSettingsBase*
 		m_useCompilerFlags == otherPtr->m_useCompilerFlags);
 }
 
-void SourceGroupSettingsWithCxxPchOptions::load(const ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithCxxPchOptions::load(const utility::ConfigManager* config, const std::string& key)
 {
 	setPchInputFilePathFilePath(
 		config->getValueOrDefault(key + "/pch_input_file_path", FilePath(L"")));
@@ -44,7 +44,7 @@ void SourceGroupSettingsWithCxxPchOptions::load(const ConfigManager* config, con
 	setUseCompilerFlags(config->getValueOrDefault(key + "/pch_flags/use_compiler_flags", false));
 }
 
-void SourceGroupSettingsWithCxxPchOptions::save(ConfigManager* config, const std::string& key)
+void SourceGroupSettingsWithCxxPchOptions::save(utility::ConfigManager* config, const std::string& key)
 {
 	config->setValue(key + "/pch_input_file_path", getPchInputFilePath().wstr());
 	config->setValues(key + "/pch_flags/pch_flag", getPchFlags());
