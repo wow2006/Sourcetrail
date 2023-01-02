@@ -45,6 +45,7 @@ set(test_files
     SourceLocationCollectionTestSuite
     SqliteBookmarkStorageTestSuite
     SqliteIndexStorageTestSuite
+    StatusTestSuite
     StorageTestSuite
     TaskSchedulerTestSuite
     TextAccessTestSuite
