@@ -94,12 +94,11 @@ function(set_project_warnings project_name)
   elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
     set(PROJECT_WARNINGS
         ${CLANG_WARNINGS}
-        -fcolor-diagnostics
         -Wno-enum-enum-conversion # TODO: Removed after fixing QKeySequence
         -Wno-unknown-warning-option
         -fvisibility-inlines-hidden)
   elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(PROJECT_WARNINGS ${GCC_WARNINGS} -fdiagnostics-color=always)
+    set(PROJECT_WARNINGS ${GCC_WARNINGS})
   else()
     message(AUTHOR_WARNING "No compiler warnings set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
   endif()

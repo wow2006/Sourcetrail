@@ -107,6 +107,12 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD 11)
 
+if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+  add_compile_options(-fcolor-diagnostics)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  add_compile_options(-fdiagnostics-color=always)
+endif()
+
 if(BUILD_COVERAGE)
   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(CMAKE_CXX_FLAGS
