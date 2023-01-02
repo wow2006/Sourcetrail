@@ -131,6 +131,7 @@ if(BUILD_COVERAGE)
 endif()
 
 # Packages ---------------------------------------------------------------------
+find_package(fmt      REQUIRED)
 find_package(range-v3 REQUIRED)
 # Clang ------------------------------------------------------------------------
 if(BUILD_CXX_LANGUAGE_PACKAGE)

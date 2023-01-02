@@ -280,7 +280,7 @@ target_include_directories(
          ${CMAKE_CURRENT_LIST_DIR}/utility/commandline
          ${CMAKE_CURRENT_LIST_DIR}/utility/commandline/commands)
 
-target_link_libraries(Sourcetrail_lib PUBLIC sqlite::sqlite)
+target_link_libraries(Sourcetrail_lib PUBLIC sqlite::sqlite fmt::fmt)
 
 target_link_libraries(
   Sourcetrail_lib
