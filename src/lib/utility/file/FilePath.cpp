@@ -1,13 +1,13 @@
 #include "FilePath.h"
 
 #include <algorithm>
-#include <bits/ranges_algo.h>
 #include <iterator>
-#include <ranges>
 #include <regex>
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
+
+#include <range/v3/algorithm/any_of.hpp>
 
 #include "logging.h"
 #include "utilityString.h"
@@ -418,5 +418,5 @@ FilePath FilePath::replaceExtension(const std::wstring& extension) const {
 
 bool FilePath::hasExtension(const std::vector<std::wstring>& extensions) const {
   const std::wstring ext = extension();
-  return std::ranges::any_of(extensions, [ext](const auto& value) { return ext == value; });
+  return ranges::cpp20::any_of(extensions, [ext](const auto& value) { return ext == value; });
 }

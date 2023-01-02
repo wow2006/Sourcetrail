@@ -4,6 +4,9 @@
 #include <iterator>
 #include <set>
 
+#include <range/v3/algorithm/transform.hpp>
+#include <range/v3/iterator/insert_iterators.hpp>
+
 #include "tinyxml.h"
 
 #include "FilePath.h"
@@ -210,7 +213,7 @@ void ConfigManager::setValues(const std::string& key, const std::vector<std::str
 
 void ConfigManager::setValues(const std::string& key, const std::vector<std::wstring>& values) {
   std::vector<std::string> stringValues;
-  std::ranges::transform(values, std::back_inserter(stringValues), [](const auto& value) {
+  ranges::cpp20::transform(values, ranges::back_inserter(stringValues), [](const auto& value) {
     return utility::encodeToUtf8(value);
   });
   setValues(key, stringValues);
@@ -218,7 +221,7 @@ void ConfigManager::setValues(const std::string& key, const std::vector<std::wst
 
 void ConfigManager::setValues(const std::string& key, const std::vector<int>& values) {
   std::vector<std::string> stringValues;
-  std::ranges::transform(values, std::back_inserter(stringValues), [](const auto& value) {
+  ranges::cpp20::transform(values, ranges::back_inserter(stringValues), [](const auto& value) {
     return std::to_string(value);
   });
   setValues(key, stringValues);
@@ -226,7 +229,7 @@ void ConfigManager::setValues(const std::string& key, const std::vector<int>& va
 
 void ConfigManager::setValues(const std::string& key, const std::vector<float>& values) {
   std::vector<std::string> stringValues;
-  std::ranges::transform(values, std::back_inserter(stringValues), [](const auto& value) {
+  ranges::cpp20::transform(values, ranges::back_inserter(stringValues), [](const auto& value) {
     return std::to_string(value);
   });
   setValues(key, stringValues);
@@ -234,7 +237,7 @@ void ConfigManager::setValues(const std::string& key, const std::vector<float>& 
 
 void ConfigManager::setValues(const std::string& key, const std::vector<bool>& values) {
   std::vector<std::string> stringValues;
-  std::ranges::transform(values, std::back_inserter(stringValues), [](const auto& value) {
+  ranges::cpp20::transform(values, ranges::back_inserter(stringValues), [](const auto& value) {
     return std::string(value ? "1" : "0");
   });
   setValues(key, stringValues);
@@ -242,8 +245,8 @@ void ConfigManager::setValues(const std::string& key, const std::vector<bool>& v
 
 void ConfigManager::setValues(const std::string& key, const std::vector<FilePath>& values) {
   std::vector<std::wstring> stringValues;
-  std::ranges::transform(
-      values, std::back_inserter(stringValues), [](const auto& value) { return value.wstr(); });
+  ranges::cpp20::transform(
+      values, ranges::back_inserter(stringValues), [](const auto& value) { return value.wstr(); });
   setValues(key, stringValues);
 }
 

@@ -1,5 +1,8 @@
 #include "Settings.h"
 
+#include <range/v3/algorithm/transform.hpp>
+#include <range/v3/iterator/insert_iterators.hpp>
+
 #include "FilePath.h"
 #include "TextAccess.h"
 #include "logging.h"
@@ -94,16 +97,16 @@ void Settings::setFilePath(const FilePath& filePath) {
 
 std::vector<FilePath> Settings::getPathValues(const std::string& key) const {
   std::vector<FilePath> paths;
-  std::ranges::transform(getValues<std::wstring>(key, {}),
-                         std::back_inserter(paths),
-                         [](const auto& path) -> FilePath { return FilePath {path}; });
+  ranges::cpp20::transform(getValues<std::wstring>(key, {}),
+                           ranges::back_inserter(paths),
+                           [](const auto& path) -> FilePath { return FilePath {path}; });
   return paths;
 }
 
 bool Settings::setPathValues(const std::string& key, const std::vector<FilePath>& paths) {
   std::vector<std::wstring> values;
-  std::ranges::transform(
-      paths, std::back_inserter(values), [](const auto& path) { return path.wstr(); });
+  ranges::cpp20::transform(
+      paths, ranges::back_inserter(values), [](const auto& path) { return path.wstr(); });
   return setValues(key, values);
 }
 

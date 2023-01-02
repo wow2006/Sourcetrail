@@ -285,6 +285,7 @@ target_link_libraries(Sourcetrail_lib PUBLIC sqlite::sqlite)
 target_link_libraries(
   Sourcetrail_lib
   PRIVATE Sourcetrail::lib_utility
+          range-v3
           Boost::program_options
           Boost::filesystem
           Boost::date_time

@@ -1,10 +1,11 @@
 #include "catch.hpp"
 
 #include <algorithm>
-#include <bits/ranges_algo.h>
 #include <fstream>
 #include <string>
 #include <vector>
+
+#include <range/v3/algorithm/any_of.hpp>
 
 #include "FileSystem.h"
 #include "utility.h"
@@ -15,7 +16,7 @@ bool isInFiles(const std::set<FilePath>& files, const FilePath& filename) {
 }
 
 bool isInFileInfos(const std::vector<FileInfo>& infos, const std::wstring& filename) {
-  return std::ranges::any_of(infos, [filename](const auto& info) {
+  return ranges::cpp20::any_of(infos, [filename](const auto& info) {
     return info.path.getAbsolute().wstr() == FilePath(filename).getCanonical().wstr();
   });
 }
@@ -23,7 +24,7 @@ bool isInFileInfos(const std::vector<FileInfo>& infos, const std::wstring& filen
 bool isInFileInfos(const std::vector<FileInfo>& infos,
                    const std::wstring& filename,
                    const std::wstring& filename2) {
-  return std::ranges::any_of(infos, [filename, filename2](const auto& info) {
+  return ranges::cpp20::any_of(infos, [filename, filename2](const auto& info) {
     return info.path.wstr() == FilePath(filename).getCanonical().wstr() ||
         info.path.wstr() == FilePath(filename2).getCanonical().wstr();
   });

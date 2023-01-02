@@ -124,6 +124,8 @@ if(BUILD_COVERAGE)
   endif()
 endif()
 
+# Packages ---------------------------------------------------------------------
+find_package(range-v3 REQUIRED)
 # Clang ------------------------------------------------------------------------
 if(BUILD_CXX_LANGUAGE_PACKAGE)
   find_package(Clang REQUIRED)
