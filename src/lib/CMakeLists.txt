@@ -294,6 +294,12 @@ target_link_libraries(
           Qt5::Widgets # for QtHelpButtonInfo.cpp
           tinyxml::tinyxml)
 
+target_precompile_headers(
+  Sourcetrail_lib
+  PRIVATE
+  precompiled.hpp
+)
+
 # configure language package defines
 configure_file("${CMAKE_SOURCE_DIR}/cmake/language_packages.h.in"
                "${CMAKE_BINARY_DIR}/src/lib/language_packages.h")

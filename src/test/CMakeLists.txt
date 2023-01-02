@@ -54,7 +54,8 @@ set(test_files
     UtilityStringTestSuite
     UtilityTestSuite
     Vector2TestSuite
-    VersionTestSuite)
+    VersionTestSuite
+    UtilityXmlTestSuite)
 
 foreach(test_file IN LISTS test_files)
   add_executable(${test_file} ${test_file}.cpp $<TARGET_OBJECTS:test_main>)
