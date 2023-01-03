@@ -7,8 +7,8 @@
 class MessageMoveIDECursor: public Message<MessageMoveIDECursor>
 {
 public:
-	MessageMoveIDECursor(const FilePath& filePath, const unsigned int row, const unsigned int column)
-		: filePath(filePath), row(row), column(column)
+	MessageMoveIDECursor(const FilePath& filePath_, const unsigned int row_, const unsigned int column_)
+		: filePath(filePath_), row(row_), column(column_)
 	{
 	}
 

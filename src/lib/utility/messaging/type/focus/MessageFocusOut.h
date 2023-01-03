@@ -10,7 +10,7 @@
 class MessageFocusOut: public Message<MessageFocusOut>
 {
 public:
-	MessageFocusOut(const std::vector<Id>& tokenIds): tokenIds(tokenIds)
+	MessageFocusOut(const std::vector<Id>& tokenIds_): tokenIds(tokenIds_)
 	{
 		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());

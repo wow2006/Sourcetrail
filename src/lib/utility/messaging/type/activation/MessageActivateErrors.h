@@ -17,8 +17,8 @@ public:
 		return "MessageActivateErrors";
 	}
 
-	MessageActivateErrors(const ErrorFilter& filter, const FilePath& file = FilePath())
-		: filter(filter), file(file)
+	MessageActivateErrors(const ErrorFilter& filter_, const FilePath& file_ = FilePath())
+		: filter(filter_), file(file_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

@@ -25,10 +25,10 @@ struct DummyEdge
 	{
 	}
 
-	DummyEdge(const Id ownerId, const Id targetId, const Edge* data)
-		: ownerId(ownerId)
-		, targetId(targetId)
-		, data(data)
+	DummyEdge(const Id ownerId_, const Id targetId_, const Edge* data_)
+		: ownerId(ownerId_)
+		, targetId(targetId_)
+		, data(data_)
 		, visible(false)
 		, hidden(false)
 		, active(false)

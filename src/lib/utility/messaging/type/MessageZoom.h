@@ -6,7 +6,7 @@
 class MessageZoom: public Message<MessageZoom>
 {
 public:
-	MessageZoom(bool zoomIn): zoomIn(zoomIn) {}
+	MessageZoom(bool zoomIn_): zoomIn(zoomIn_) {}
 
 	static const std::string getStaticType()
 	{

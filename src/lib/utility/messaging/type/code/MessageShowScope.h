@@ -8,8 +8,8 @@
 class MessageShowScope: public Message<MessageShowScope>
 {
 public:
-	MessageShowScope(Id scopeLocationId, bool showErrors)
-		: scopeLocationId(scopeLocationId), showErrors(showErrors)
+	MessageShowScope(Id scopeLocationId_, bool showErrors_)
+		: scopeLocationId(scopeLocationId_), showErrors(showErrors_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

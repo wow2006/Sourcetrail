@@ -7,7 +7,7 @@ struct StorageComponentAccess
 {
 	StorageComponentAccess(): nodeId(0), type(0) {}
 
-	StorageComponentAccess(Id nodeId, int type): nodeId(nodeId), type(type) {}
+	StorageComponentAccess(Id nodeId_, int type_): nodeId(nodeId_), type(type_) {}
 
 	bool operator<(const StorageComponentAccess& other) const
 	{

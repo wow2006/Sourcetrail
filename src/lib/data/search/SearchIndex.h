@@ -14,11 +14,11 @@
 // SearchResult is only used as an internal type in the SearchIndex and the PersistentStorage
 struct SearchResult
 {
-	SearchResult(std::wstring text, std::vector<Id> elementIds, std::vector<size_t> indices, int score)
-		: text(std::move(text))
-		, elementIds(std::move(elementIds))
-		, indices(std::move(indices))
-		, score(score)
+	SearchResult(std::wstring text_, std::vector<Id> elementIds_, std::vector<size_t> indices_, int score_)
+		: text(std::move(text_))
+		, elementIds(std::move(elementIds_))
+		, indices(std::move(indices_))
+		, score(score_)
 	{
 	}
 
@@ -55,7 +55,7 @@ private:
 
 	struct SearchNode
 	{
-		SearchNode(NodeTypeSet containedTypes): containedTypes(containedTypes) {}
+		SearchNode(NodeTypeSet containedTypes_): containedTypes(containedTypes_) {}
 
 		std::map<Id, NodeType> elementIds;
 		NodeTypeSet containedTypes;
@@ -64,7 +64,7 @@ private:
 
 	struct SearchEdge
 	{
-		SearchEdge(SearchNode* target, std::wstring s): target(target), s(std::move(s)) {}
+		SearchEdge(SearchNode* target_, std::wstring str): target(target_), s(std::move(str)) {}
 
 		SearchNode* target;
 		std::wstring s;
@@ -73,8 +73,8 @@ private:
 
 	struct SearchPath
 	{
-		SearchPath(std::wstring text, std::vector<size_t> indices, SearchNode* node)
-			: text(std::move(text)), indices(std::move(indices)), node(node)
+		SearchPath(std::wstring text_, std::vector<size_t> indices_, SearchNode* node_)
+			: text(std::move(text_)), indices(std::move(indices_)), node(node_)
 		{
 		}
 

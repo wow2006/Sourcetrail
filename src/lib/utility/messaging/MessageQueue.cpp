@@ -290,11 +290,11 @@ void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool 
 			{
 				Id listenerId = listener->getId();
 				taskGroup->addTask(std::make_shared<TaskLambda>([listenerId, message]() {
-					MessageListenerBase* listener = MessageQueue::getInstance()->getListenerById(
+					MessageListenerBase* listener2 = MessageQueue::getInstance()->getListenerById(
 						listenerId);
-					if (listener)
+					if (listener2)
 					{
-						listener->handleMessageBase(message.get());
+						listener2->handleMessageBase(message.get());
 					}
 				}));
 			}

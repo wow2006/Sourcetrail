@@ -11,13 +11,13 @@ struct StorageSourceLocationData
 	}
 
 	StorageSourceLocationData(
-		Id fileNodeId, size_t startLine, size_t startCol, size_t endLine, size_t endCol, int type)
-		: fileNodeId(fileNodeId)
-		, startLine(startLine)
-		, startCol(startCol)
-		, endLine(endLine)
-		, endCol(endCol)
-		, type(type)
+		Id fileNodeId_, size_t startLine_, size_t startCol_, size_t endLine_, size_t endCol_, int type_)
+		: fileNodeId(fileNodeId_)
+		, startLine(startLine_)
+		, startCol(startCol_)
+		, endLine(endLine_)
+		, endCol(endCol_)
+		, type(type_)
 	{
 	}
 
@@ -61,14 +61,14 @@ struct StorageSourceLocation: public StorageSourceLocationData
 {
 	StorageSourceLocation(): StorageSourceLocationData(), id(0) {}
 
-	StorageSourceLocation(Id id, const StorageSourceLocationData& data)
-		: StorageSourceLocationData(data), id(id)
+	StorageSourceLocation(Id id_, const StorageSourceLocationData& data_)
+		: StorageSourceLocationData(data_), id(id_)
 	{
 	}
 
 	StorageSourceLocation(
-		Id id, Id fileNodeId, size_t startLine, size_t startCol, size_t endLine, size_t endCol, int type)
-		: StorageSourceLocationData(fileNodeId, startLine, startCol, endLine, endCol, type), id(id)
+		Id id_, Id fileNodeId_, size_t startLine_, size_t startCol_, size_t endLine_, size_t endCol_, int type_)
+		: StorageSourceLocationData(fileNodeId_, startLine_, startCol_, endLine_, endCol_, type_), id(id_)
 	{
 	}
 

@@ -7,7 +7,7 @@ struct ErrorCountInfo
 {
 	ErrorCountInfo(): total(0), fatal(0) {}
 
-	ErrorCountInfo(size_t total, size_t fatal): total(total), fatal(fatal) {}
+	ErrorCountInfo(size_t total_, size_t fatal_): total(total_), fatal(fatal_) {}
 
 	ErrorCountInfo(const std::vector<ErrorInfo>& errors): total(0), fatal(0)
 	{

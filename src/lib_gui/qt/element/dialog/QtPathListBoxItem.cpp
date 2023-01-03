@@ -51,16 +51,16 @@ void QtPathListBoxItem::handleButtonPress()
 
 	if (!list.isEmpty())
 	{
-		FilePath path(list.at(0).toStdWString());
-		m_listBox->makeRelativeIfShorter(path);
-		setText(QString::fromStdWString(path.wstr()));
+		FilePath tempPath(list.at(0).toStdWString());
+		m_listBox->makeRelativeIfShorter(tempPath);
+		setText(QString::fromStdWString(tempPath.wstr()));
 	}
 
 	for (int i = 1; i < list.size(); i++)
 	{
-		FilePath path(list.at(i).toStdWString());
-		m_listBox->makeRelativeIfShorter(path);
-		getListBox()->addListBoxItemWithText(QString::fromStdWString(path.wstr()));
+		FilePath tempPath(list.at(i).toStdWString());
+		m_listBox->makeRelativeIfShorter(tempPath);
+		getListBox()->addListBoxItemWithText(QString::fromStdWString(tempPath.wstr()));
 	}
 
 	selectItem();

@@ -685,10 +685,10 @@ void QtProjectWizard::selectedSourceGroupChanged(int index)
 		addSourceGroupContents(summary, settings, this);
 	}
 	else if (
-		std::shared_ptr<SourceGroupSettingsUnloadable> settings =
+		std::shared_ptr<SourceGroupSettingsUnloadable> groupSettings =
 			std::dynamic_pointer_cast<SourceGroupSettingsUnloadable>(group))
 	{
-		addSourceGroupContents(summary, settings, this);
+		addSourceGroupContents(summary, groupSettings, this);
 	}
 #if BUILD_CXX_LANGUAGE_PACKAGE
 	else if (
@@ -902,9 +902,9 @@ void QtProjectWizard::newSourceGroup()
 		return;
 	}
 
-	QtProjectWizardWindow* window = createWindowWithContent([](QtProjectWizardWindow* window) {
-		window->setPreferredSize(QSize(560, 520));
-		return new QtProjectWizardContentSelect(window);
+	QtProjectWizardWindow* window = createWindowWithContent([](QtProjectWizardWindow* win) {
+		win->setPreferredSize(QSize(560, 520));
+		return new QtProjectWizardContentSelect(win);
 	});
 	window->resize(QSize(560, 520));
 

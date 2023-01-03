@@ -8,8 +8,8 @@
 class MessageShowReference: public Message<MessageShowReference>
 {
 public:
-	MessageShowReference(size_t refIndex, Id tokenId, Id locationId, bool fromUser)
-		: refIndex(refIndex), tokenId(tokenId), locationId(locationId), fromUser(fromUser)
+	MessageShowReference(size_t refIndex_, Id tokenId_, Id locationId_, bool fromUser_)
+		: refIndex(refIndex_), tokenId(tokenId_), locationId(locationId_), fromUser(fromUser_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

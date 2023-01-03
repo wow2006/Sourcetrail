@@ -92,7 +92,7 @@ void ParserClientImpl::recordError(
 	if (location.fileId != 0)
 	{
 		Id errorId = m_storage->addError(
-			StorageErrorData(message, translationUnit.wstr(), fatal, indexed));
+			utility::StorageErrorData(message, translationUnit.wstr(), fatal, indexed));
 
 		addSourceLocation(errorId, location, LOCATION_ERROR);
 	}

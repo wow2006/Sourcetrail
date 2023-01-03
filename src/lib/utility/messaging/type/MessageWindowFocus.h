@@ -6,7 +6,7 @@
 class MessageWindowFocus: public Message<MessageWindowFocus>
 {
 public:
-	MessageWindowFocus(bool focusIn): focusIn(focusIn) {}
+	MessageWindowFocus(bool focusIn_): focusIn(focusIn_) {}
 
 	static const std::string getStaticType()
 	{

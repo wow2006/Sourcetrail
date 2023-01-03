@@ -18,9 +18,9 @@ public:
 		return "MessageBookmarkButtonState";
 	}
 
-	MessageBookmarkButtonState(Id schedulerId, ButtonState state): state(state)
+	MessageBookmarkButtonState(Id schedulerId_, ButtonState state_): state(state_)
 	{
-		setSchedulerId(schedulerId);
+		setSchedulerId(schedulerId_);
 	}
 
 	const ButtonState state;

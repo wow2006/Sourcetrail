@@ -36,15 +36,15 @@ void UndoRedoController::clear() {
   getView()->setRedoButtonEnabled(false);
 }
 
-UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message,
-                                     Order order,
-                                     bool replayLastOnly)
-    : message(message), order(order), replayLastOnly(replayLastOnly) {}
+UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message_,
+                                     Order order_,
+                                     bool replayLastOnly_)
+    : message(std::move(message_)), order(order_), replayLastOnly(replayLastOnly_) {}
 
 void UndoRedoController::handleMessage(MessageActivateErrors* message) {
   if(sameMessageTypeAsLast(message) &&
-     static_cast<MessageActivateErrors*>(lastMessage())->filter == message->filter &&
-     static_cast<MessageActivateErrors*>(lastMessage())->file == message->file) {
+     dynamic_cast<MessageActivateErrors*>(lastMessage())->filter == message->filter &&
+     dynamic_cast<MessageActivateErrors*>(lastMessage())->file == message->file) {
     return;
   }
 
@@ -54,8 +54,8 @@ void UndoRedoController::handleMessage(MessageActivateErrors* message) {
 
 void UndoRedoController::handleMessage(MessageActivateFullTextSearch* message) {
   if(sameMessageTypeAsLast(message) &&
-     static_cast<MessageActivateFullTextSearch*>(lastMessage())->searchTerm == message->searchTerm &&
-     static_cast<MessageActivateFullTextSearch*>(lastMessage())->caseSensitive ==
+     dynamic_cast<MessageActivateFullTextSearch*>(lastMessage())->searchTerm == message->searchTerm &&
+     dynamic_cast<MessageActivateFullTextSearch*>(lastMessage())->caseSensitive ==
          message->caseSensitive) {
     return;
   }
@@ -75,7 +75,7 @@ void UndoRedoController::handleMessage(MessageActivateLegend* message) {
 
 void UndoRedoController::handleMessage(MessageActivateLocalSymbols* message) {
   if(sameMessageTypeAsLast(message)) {
-    static_cast<MessageActivateLocalSymbols*>(lastMessage())->symbolIds = message->symbolIds;
+    dynamic_cast<MessageActivateLocalSymbols*>(lastMessage())->symbolIds = message->symbolIds;
     return;
   }
 
@@ -85,7 +85,7 @@ void UndoRedoController::handleMessage(MessageActivateLocalSymbols* message) {
 
 void UndoRedoController::handleMessage(MessageActivateOverview* message) {
   if(sameMessageTypeAsLast(message) &&
-     static_cast<MessageActivateOverview*>(lastMessage())->acceptedNodeTypes ==
+     dynamic_cast<MessageActivateOverview*>(lastMessage())->acceptedNodeTypes ==
          message->acceptedNodeTypes) {
     return;
   }
@@ -96,7 +96,7 @@ void UndoRedoController::handleMessage(MessageActivateOverview* message) {
 
 void UndoRedoController::handleMessage(MessageActivateTokens* message) {
   if(sameMessageTypeAsLast(message) &&
-     static_cast<MessageActivateTokens*>(lastMessage())->tokenIds == message->tokenIds) {
+     dynamic_cast<MessageActivateTokens*>(lastMessage())->tokenIds == message->tokenIds) {
     return;
   }
 
@@ -107,8 +107,8 @@ void UndoRedoController::handleMessage(MessageActivateTokens* message) {
 
 void UndoRedoController::handleMessage(MessageActivateTrail* message) {
   if(sameMessageTypeAsLast(message) &&
-     static_cast<MessageActivateTrail*>(lastMessage())->originId == message->originId &&
-     static_cast<MessageActivateTrail*>(lastMessage())->targetId == message->targetId) {
+     dynamic_cast<MessageActivateTrail*>(lastMessage())->originId == message->originId &&
+     dynamic_cast<MessageActivateTrail*>(lastMessage())->targetId == message->targetId) {
     return;
   }
 
@@ -119,7 +119,7 @@ void UndoRedoController::handleMessage(MessageActivateTrail* message) {
 
 void UndoRedoController::handleMessage(MessageActivateTrailEdge* message) {
   if(sameMessageTypeAsLast(message) &&
-     static_cast<MessageActivateTrailEdge*>(lastMessage())->edgeIds == message->edgeIds) {
+     dynamic_cast<MessageActivateTrailEdge*>(lastMessage())->edgeIds == message->edgeIds) {
     return;
   }
 
@@ -135,7 +135,7 @@ void UndoRedoController::handleMessage(MessageChangeFileView* message) {
 
 void UndoRedoController::handleMessage(MessageCodeShowDefinition* message) {
   if(sameMessageTypeAsLast(message) &&
-     static_cast<MessageCodeShowDefinition*>(lastMessage())->nodeId == message->nodeId) {
+     dynamic_cast<MessageCodeShowDefinition*>(lastMessage())->nodeId == message->nodeId) {
     return;
   }
 
@@ -145,7 +145,7 @@ void UndoRedoController::handleMessage(MessageCodeShowDefinition* message) {
 
 void UndoRedoController::handleMessage(MessageDeactivateEdge* message) {
   if(sameMessageTypeAsLast(message) &&
-     static_cast<MessageDeactivateEdge*>(lastMessage())->scrollToDefinition ==
+     dynamic_cast<MessageDeactivateEdge*>(lastMessage())->scrollToDefinition ==
          message->scrollToDefinition) {
     return;
   }

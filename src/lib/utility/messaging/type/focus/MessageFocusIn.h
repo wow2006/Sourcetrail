@@ -11,8 +11,8 @@
 class MessageFocusIn: public Message<MessageFocusIn>
 {
 public:
-	MessageFocusIn(const std::vector<Id>& tokenIds, TooltipOrigin origin = TOOLTIP_ORIGIN_NONE)
-		: tokenIds(tokenIds), origin(origin)
+	MessageFocusIn(const std::vector<Id>& tokenIds_, TooltipOrigin origin_ = TOOLTIP_ORIGIN_NONE)
+		: tokenIds(tokenIds_), origin(origin_)
 	{
 		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());

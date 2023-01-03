@@ -1,8 +1,5 @@
 #include "SqliteIndexStorage.h"
 
-#include <sstream>
-#include <unordered_map>
-
 #include "FileSystem.h"
 #include "LocationType.h"
 #include "SourceLocationCollection.h"
@@ -234,10 +231,10 @@ std::vector<Id> SqliteIndexStorage::addLocalSymbols(const std::set<StorageLocalS
     const StorageLocalSymbol& data = *it;
     std::pair<std::wstring, std::wstring> name = splitLocalSymbolName(data.name);
     if(name.second.size()) {
-      auto it = m_tempLocalSymbolIndex.find(name.first);
-      if(it != m_tempLocalSymbolIndex.end()) {
-        auto it2 = it->second.find(name.second);
-        if(it2 != it->second.end()) {
+      auto itr = m_tempLocalSymbolIndex.find(name.first);
+      if(itr != m_tempLocalSymbolIndex.end()) {
+        auto it2 = itr->second.find(name.second);
+        if(it2 != itr->second.end()) {
           symbolIds[i] = it2->second;
         }
       }
@@ -350,7 +347,7 @@ void SqliteIndexStorage::addElementComponents(const std::vector<StorageElementCo
   }
 }
 
-StorageError SqliteIndexStorage::addError(const StorageErrorData& data) {
+utility::StorageError SqliteIndexStorage::addError(const utility::StorageErrorData& data) {
   const std::wstring sanitizedMessage = utility::replace(data.message, L"'", L"''");
 
   Id id = 0;
@@ -381,7 +378,7 @@ StorageError SqliteIndexStorage::addError(const StorageErrorData& data) {
     }
   }
 
-  return StorageError(id, data);
+  return utility::StorageError(id, data);
 }
 
 void SqliteIndexStorage::removeElement(Id id) {
@@ -1432,8 +1429,8 @@ void SqliteIndexStorage::forEach<StorageElementComponent>(
 }
 
 template <>
-void SqliteIndexStorage::forEach<StorageError>(const std::string& query,
-                                               std::function<void(StorageError&&)> func) const {
+void SqliteIndexStorage::forEach<utility::StorageError>(const std::string& query,
+                                               std::function<void(utility::StorageError&&)> func) const {
   CppSQLite3Query q = executeQuery(
       "SELECT id, message, fatal, indexed, translation_unit FROM error " + query + ";");
 
@@ -1445,7 +1442,7 @@ void SqliteIndexStorage::forEach<StorageError>(const std::string& query,
     const std::string translationUnit = q.getStringField(4, "");
 
     if(id != 0) {
-      func(StorageError(id,
+      func(utility::StorageError(id,
                         utility::decodeFromUtf8(message),
                         utility::decodeFromUtf8(translationUnit),
                         fatal,

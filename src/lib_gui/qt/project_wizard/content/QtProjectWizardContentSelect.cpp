@@ -36,8 +36,8 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& /*row*/) {
   }
 
   struct SourceGroupInfo {
-    SourceGroupInfo(SourceGroupType type, bool recommended = false)
-        : type(type), recommended(recommended) {}
+    SourceGroupInfo(SourceGroupType type_, bool recommended_ = false)
+        : type(type_), recommended(recommended_) {}
     const SourceGroupType type;
     const bool recommended;
   };
@@ -160,12 +160,12 @@ void QtProjectWizardContentSelect::populate(QGridLayout* layout, int& /*row*/) {
             bool hasRecommended = false;
             for(auto& it: m_buttons) {
               it.second->setExclusive(false);
-              for(QAbstractButton* button: it.second->buttons()) {
-                button->setChecked(false);
-                button->setVisible(it.first == selectedLanguage);
+              for(QAbstractButton* currentButton: it.second->buttons()) {
+                currentButton->setChecked(false);
+                currentButton->setVisible(it.first == selectedLanguage);
 
                 if(it.first == selectedLanguage) {
-                  hasRecommended = hasRecommended | button->property("recommended").toBool();
+                  hasRecommended = hasRecommended | currentButton->property("recommended").toBool();
                 }
               }
               it.second->setExclusive(true);

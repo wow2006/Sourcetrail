@@ -41,7 +41,7 @@ public:
 	virtual void addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses) = 0;
 	virtual void addElementComponent(const StorageElementComponent& component) = 0;
 	virtual void addElementComponents(const std::vector<StorageElementComponent>& components) = 0;
-	virtual Id addError(const StorageErrorData& data) = 0;
+	virtual Id addError(const utility::StorageErrorData& data) = 0;
 
 	virtual const std::vector<StorageNode>& getStorageNodes() const = 0;
 	virtual const std::vector<StorageFile>& getStorageFiles() const = 0;
@@ -52,7 +52,7 @@ public:
 	virtual const std::set<StorageOccurrence>& getStorageOccurrences() const = 0;
 	virtual const std::set<StorageComponentAccess>& getComponentAccesses() const = 0;
 	virtual const std::set<StorageElementComponent>& getElementComponents() const = 0;
-	virtual const std::vector<StorageError>& getErrors() const = 0;
+	virtual const std::vector<utility::StorageError>& getErrors() const = 0;
 
 	void inject(Storage* injected);
 

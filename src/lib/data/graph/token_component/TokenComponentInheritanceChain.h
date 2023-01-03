@@ -6,8 +6,8 @@
 class TokenComponentInheritanceChain: public TokenComponent
 {
 public:
-	TokenComponentInheritanceChain(const std::vector<Id>& inheritanceEdgeIds)
-		: inheritanceEdgeIds(inheritanceEdgeIds)
+	TokenComponentInheritanceChain(const std::vector<Id>& inheritanceEdgeIds_)
+		: inheritanceEdgeIds(inheritanceEdgeIds_)
 	{
 	}
 

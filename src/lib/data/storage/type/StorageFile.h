@@ -18,18 +18,18 @@ struct StorageFile
 	}
 
 	StorageFile(
-		Id id,
-		std::wstring filePath,
-		std::wstring languageIdentifier,
-		std::string modificationTime,
-		bool indexed,
-		bool complete)
-		: id(id)
-		, filePath(std::move(filePath))
-		, languageIdentifier(std::move(languageIdentifier))
-		, modificationTime(std::move(modificationTime))
-		, indexed(indexed)
-		, complete(complete)
+		Id id_,
+		std::wstring filePath_,
+		std::wstring languageIdentifier_,
+		std::string modificationTime_,
+		bool indexed_,
+		bool complete_)
+		: id(id_)
+		, filePath(std::move(filePath_))
+		, languageIdentifier(std::move(languageIdentifier_))
+		, modificationTime(std::move(modificationTime_))
+		, indexed(indexed_)
+		, complete(complete_)
 	{
 	}
 

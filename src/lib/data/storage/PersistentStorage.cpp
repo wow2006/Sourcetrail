@@ -127,7 +127,7 @@ void PersistentStorage::addElementComponents(const std::vector<StorageElementCom
   m_sqliteIndexStorage.addElementComponents(components);
 }
 
-Id PersistentStorage::addError(const StorageErrorData& data) {
+Id PersistentStorage::addError(const utility::StorageErrorData& data) {
   return m_sqliteIndexStorage.addError(data).id;
 }
 
@@ -190,9 +190,9 @@ const std::set<StorageElementComponent>& PersistentStorage::getElementComponents
              m_sqliteIndexStorage.getAll<StorageElementComponent>());
 }
 
-const std::vector<StorageError>& PersistentStorage::getErrors() const {
-  std::vector<StorageError> errors;
-  for(const StorageError& error: m_sqliteIndexStorage.getAll<StorageError>()) {
+const std::vector<utility::StorageError>& PersistentStorage::getErrors() const {
+  std::vector<utility::StorageError> errors;
+  for(const utility::StorageError& error: m_sqliteIndexStorage.getAll<utility::StorageError>()) {
     errors.emplace_back(error);
   }
   return m_storageData.errors = errors;

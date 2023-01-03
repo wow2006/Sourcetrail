@@ -13,8 +13,8 @@ public:
 		REFERENCE_NEXT
 	};
 
-	MessageCodeReference(ReferenceType type, bool localReference)
-		: type(type), localReference(localReference)
+	MessageCodeReference(ReferenceType type_, bool localReference_)
+		: type(type_), localReference(localReference_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

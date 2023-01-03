@@ -15,8 +15,8 @@ public:
 		return "MessageActivateFullTextSearch";
 	}
 
-	MessageActivateFullTextSearch(const std::wstring& searchTerm, bool caseSensitive = false)
-		: searchTerm(searchTerm), caseSensitive(caseSensitive)
+	MessageActivateFullTextSearch(const std::wstring& searchTerm_, bool caseSensitive_ = false)
+		: searchTerm(searchTerm_), caseSensitive(caseSensitive_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

@@ -14,7 +14,7 @@ public:
 		TOGGLE
 	};
 
-	MessageFocusView(ViewType type): type(type)
+	MessageFocusView(ViewType type_): type(type_)
 	{
 		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());

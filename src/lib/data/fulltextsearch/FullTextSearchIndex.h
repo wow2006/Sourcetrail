@@ -19,7 +19,7 @@ struct FullTextSearchResult
 
 struct FullTextSearchFile
 {
-	FullTextSearchFile(Id fileId, SuffixArray array): fileId(fileId), array(array) {};
+	FullTextSearchFile(Id fileId_, SuffixArray array_): fileId(fileId_), array(array_) {};
 	Id fileId;
 	SuffixArray array;
 };

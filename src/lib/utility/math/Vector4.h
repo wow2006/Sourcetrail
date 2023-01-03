@@ -54,17 +54,17 @@ Vector4<T>::Vector4()
 }
 
 template <class T>
-Vector4<T>::Vector4(const T& x, const T& y, const T& z, const T& w)
+Vector4<T>::Vector4(const T& x_, const T& y_, const T& z_, const T& w_)
 	: VectorBase<T, 4>()
 	, x(&VectorBase<T, 4>::m_values[m_xIndex])
 	, y(&VectorBase<T, 4>::m_values[m_yIndex])
 	, z(&VectorBase<T, 4>::m_values[m_zIndex])
 	, w(&VectorBase<T, 4>::m_values[m_wIndex])
 {
-	setValue(m_xIndex, x);
-	setValue(m_yIndex, y);
-	setValue(m_zIndex, z);
-	setValue(m_wIndex, w);
+	setValue(m_xIndex, x_);
+	setValue(m_yIndex, y_);
+	setValue(m_zIndex, z_);
+	setValue(m_wIndex, w_);
 }
 
 template <class T>

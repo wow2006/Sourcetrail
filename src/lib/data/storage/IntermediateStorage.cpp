@@ -42,14 +42,14 @@ size_t IntermediateStorage::getByteSize(size_t stringSize) const
 		byteSize += stringSize + storageFile.modificationTime.size();
 	}
 
-	for (const StorageErrorData& storageError: getErrors())
+	for (const auto& storageError: getErrors())
 	{
-		byteSize += sizeof(StorageErrorData);
+		byteSize += sizeof(utility::StorageErrorData);
 		byteSize += stringSize + storageError.message.size();
 		byteSize += stringSize + storageError.translationUnit.size();
 	}
 
-	for (const StorageNode& storageNode: getStorageNodes())
+	for (const auto& storageNode: getStorageNodes())
 	{
 		byteSize += sizeof(StorageNode);
 		byteSize += stringSize + storageNode.serializedName.size();
@@ -77,7 +77,7 @@ size_t IntermediateStorage::getSourceLocationCount() const
 
 bool IntermediateStorage::hasFatalErrors() const
 {
-	for (const StorageErrorData& error: m_errors)
+	for (const auto& error: m_errors)
 	{
 		if (error.fatal)
 		{
@@ -308,7 +308,7 @@ void IntermediateStorage::addElementComponents(const std::vector<StorageElementC
 	m_elementComponents.insert(components.begin(), components.end());
 }
 
-Id IntermediateStorage::addError(const StorageErrorData& errorData)
+Id IntermediateStorage::addError(const utility::StorageErrorData& errorData)
 {
 	auto it = m_errorsIndex.find(errorData);
 	if (it != m_errorsIndex.end())
@@ -367,7 +367,7 @@ const std::set<StorageElementComponent>& IntermediateStorage::getElementComponen
 	return m_elementComponents;
 }
 
-const std::vector<StorageError>& IntermediateStorage::getErrors() const
+const std::vector<utility::StorageError>& IntermediateStorage::getErrors() const
 {
 	return m_errors;
 }
@@ -439,7 +439,7 @@ void IntermediateStorage::setElementComponents(std::set<StorageElementComponent>
 	m_elementComponents = std::move(components);
 }
 
-void IntermediateStorage::setErrors(std::vector<StorageError> errors)
+void IntermediateStorage::setErrors(std::vector<utility::StorageError> errors)
 {
 	m_errors = std::move(errors);
 

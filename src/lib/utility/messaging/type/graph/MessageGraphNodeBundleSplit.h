@@ -8,8 +8,8 @@
 class MessageGraphNodeBundleSplit: public Message<MessageGraphNodeBundleSplit>
 {
 public:
-	MessageGraphNodeBundleSplit(Id bundleId, bool removeOtherNodes = false, bool layoutToList = false)
-		: bundleId(bundleId), removeOtherNodes(removeOtherNodes), layoutToList(layoutToList)
+	MessageGraphNodeBundleSplit(Id bundleId_, bool removeOtherNodes_ = false, bool layoutToList_ = false)
+		: bundleId(bundleId_), removeOtherNodes(removeOtherNodes_), layoutToList(layoutToList_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

@@ -8,7 +8,7 @@
 class SettingsMigrationLambda: public SettingsMigration
 {
 public:
-	SettingsMigrationLambda(std::function<void(const SettingsMigration*, Settings*)> m_lambda);
+	SettingsMigrationLambda(std::function<void(const SettingsMigration*, Settings*)> lambda);
 	virtual ~SettingsMigrationLambda();
 	virtual void apply(Settings* migratable) const;
 

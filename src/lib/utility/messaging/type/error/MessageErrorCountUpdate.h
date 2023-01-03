@@ -13,8 +13,8 @@ public:
 		return "MessageErrorCountUpdate";
 	}
 
-	MessageErrorCountUpdate(const ErrorCountInfo& errorCount, const std::vector<ErrorInfo>& newErrors)
-		: errorCount(errorCount), newErrors(newErrors)
+	MessageErrorCountUpdate(const ErrorCountInfo& errorCount_, const std::vector<ErrorInfo>& newErrors_)
+		: errorCount(errorCount_), newErrors(newErrors_)
 	{
 		setSendAsTask(false);
 	}

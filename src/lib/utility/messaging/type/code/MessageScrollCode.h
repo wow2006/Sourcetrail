@@ -7,7 +7,7 @@
 class MessageScrollCode: public Message<MessageScrollCode>
 {
 public:
-	MessageScrollCode(int value, bool inListMode): value(value), inListMode(inListMode)
+	MessageScrollCode(int value_, bool inListMode_): value(value_), inListMode(inListMode_)
 	{
 		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());

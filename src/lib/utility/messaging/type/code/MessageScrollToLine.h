@@ -8,7 +8,7 @@
 class MessageScrollToLine: public Message<MessageScrollToLine>
 {
 public:
-	MessageScrollToLine(const FilePath& filePath, size_t line): filePath(filePath), line(line)
+	MessageScrollToLine(const FilePath& filePath_, size_t line_): filePath(filePath_), line(line_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

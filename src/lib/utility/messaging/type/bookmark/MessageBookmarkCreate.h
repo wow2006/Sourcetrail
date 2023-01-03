@@ -6,7 +6,7 @@
 class MessageBookmarkCreate: public Message<MessageBookmarkCreate>
 {
 public:
-	MessageBookmarkCreate(Id nodeId = 0): nodeId(nodeId) {}
+	MessageBookmarkCreate(Id nodeId_ = 0): nodeId(nodeId_) {}
 
 	static const std::string getStaticType()
 	{

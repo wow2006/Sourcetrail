@@ -8,7 +8,7 @@ enum class GroupType
 	NONE,
 	DEFAULT,
 	FRAMELESS,
-	FILE,
+	FILE_TYPE,
 	NAMESPACE,
 	INHERITANCE
 };

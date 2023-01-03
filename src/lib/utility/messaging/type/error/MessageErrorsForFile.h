@@ -11,7 +11,7 @@ public:
 		return "MessageErrorsForFile";
 	}
 
-	MessageErrorsForFile(const FilePath& file): file(file) {}
+	MessageErrorsForFile(const FilePath& file_): file(file) {}
 
 	const FilePath& file;
 };

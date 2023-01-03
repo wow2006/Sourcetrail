@@ -9,8 +9,8 @@ struct StorageElementComponent
 {
 	StorageElementComponent(): elementId(0), type(0), data(L"") {}
 
-	StorageElementComponent(Id elementId, int type, std::wstring data)
-		: elementId(elementId), type(type), data(std::move(data))
+	StorageElementComponent(Id elementId_, int type_, std::wstring data_)
+		: elementId(elementId_), type(type_), data(std::move(data_))
 	{
 	}
 

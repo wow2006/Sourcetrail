@@ -433,9 +433,9 @@ void QtCodeNavigator::focusInitialLocation(Id locationId) {
       return;
     }
   } else {
-    const Id locationId = m_single->getLocationIdOfFirstActiveLocationOfTokenId(0);
-    if(locationId) {
-      m_single->setFocus(locationId);
+    const Id locationTokenId = m_single->getLocationIdOfFirstActiveLocationOfTokenId(0);
+    if(locationTokenId) {
+      m_single->setFocus(locationTokenId);
       return;
     }
   }

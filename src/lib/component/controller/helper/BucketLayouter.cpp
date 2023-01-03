@@ -5,7 +5,7 @@
 
 Bucket::Bucket(): i(0), j(0), m_width(0), m_height(0) {}
 
-Bucket::Bucket(int i, int j): i(i), j(j), m_width(0), m_height(0) {}
+Bucket::Bucket(int i_, int j_): i(i_), j(j_), m_width(0), m_height(0) {}
 
 int Bucket::getWidth() const
 {
@@ -103,12 +103,12 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 	m_width = x + width;
 	m_height -= GraphViewStyle::s_gridCellPadding;
 
-	for (size_t i = 0; i < nodesInCol.size(); i++)
+	for (size_t index = 0; index < nodesInCol.size(); index++)
 	{
-		for (DummyNode* node: nodesInCol[i])
+		for (DummyNode* node: nodesInCol[index])
 		{
-			node->columnSize.x = colWidths[i];
-			node->columnSize.y = colHeights[i];
+			node->columnSize.x = colWidths[index];
+			node->columnSize.y = colHeights[index];
 		}
 	}
 
@@ -125,11 +125,11 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 	// positioning next to active node.
 	int nodeOffset = GraphViewStyle::s_gridCellPadding + GraphViewStyle::s_gridCellSize;
 
-	for (size_t i = 0; i < nodesInCol.size(); i++)
+	for (size_t index = 0; index < nodesInCol.size(); index++)
 	{
 		int offset = 0;
 		bool hasOffset = false;
-		int mid = colHeights[i] / 2;
+		int mid = colHeights[index] / 2;
 
 		std::vector<DummyNode*> aboveNodes;
 		std::vector<DummyNode*> belowNodes;
@@ -137,7 +137,7 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 		int aboveNodesMaxWidth = 0;
 		int belowNodesMaxWidth = 0;
 
-		for (DummyNode* node: nodesInCol[i])
+		for (DummyNode* node: nodesInCol[index])
 		{
 			bool above = true;
 
@@ -145,7 +145,7 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 			{
 				above = false;
 			}
-			else if (nodesInCol[i].size() == 1)
+			else if (nodesInCol[index].size() == 1)
 			{
 				offset -= (node->size.y + GraphViewStyle::s_gridCellPadding) / 2;
 			}
@@ -182,7 +182,7 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 			}
 		}
 
-		offset += (m_height - colHeights[i]) / 2;
+		offset += (m_height - colHeights[index]) / 2;
 		for (DummyNode* node: aboveNodes)
 		{
 			node->position.y() += offset - nodeOffset;

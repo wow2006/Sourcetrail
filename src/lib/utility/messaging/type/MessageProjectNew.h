@@ -7,7 +7,7 @@
 class MessageProjectNew: public Message<MessageProjectNew>
 {
 public:
-	MessageProjectNew(const FilePath& cdbPath): cdbPath(cdbPath) {}
+	MessageProjectNew(const FilePath& cdbPath_): cdbPath(cdbPath_) {}
 
 	static const std::string getStaticType()
 	{

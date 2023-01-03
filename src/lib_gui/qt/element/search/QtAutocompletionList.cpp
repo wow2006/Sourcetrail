@@ -230,9 +230,9 @@ void QtAutocompletionDelegate::paint(QPainter* painter,
 
     // draw subtext highlighted
     painter->save();
-    QPen highlightPen = painter->pen();
-    highlightPen.setColor(textColor);
-    painter->setPen(highlightPen);
+    QPen highlightPen2 = painter->pen();
+    highlightPen2.setColor(textColor);
+    painter->setPen(highlightPen2);
     painter->drawText(option.rect.adjusted(static_cast<int>((3 * m_charWidth2) + 2), top2, 0, 0),
                       Qt::AlignLeft,
                       highlightSubtext);

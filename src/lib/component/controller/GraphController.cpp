@@ -1282,7 +1282,7 @@ bool GraphController::hasCharacterIndex() const {
 void GraphController::groupNodesByParents(GroupType groupType) {
   TRACE();
 
-  if(groupType != GroupType::FILE && groupType != GroupType::NAMESPACE) {
+  if(groupType != GroupType::FILE_TYPE && groupType != GroupType::NAMESPACE) {
     return;
   }
 
@@ -1290,7 +1290,7 @@ void GraphController::groupNodesByParents(GroupType groupType) {
   std::map<std::wstring, std::vector<std::shared_ptr<DummyNode>>> nodesToGroup;
 
   std::map<Id, std::pair<Id, NameHierarchy>> nodeIdtoParentMap;
-  if(groupType == GroupType::FILE) {
+  if(groupType == GroupType::FILE_TYPE) {
     std::vector<Id> nodeIds;
     for(const std::shared_ptr<DummyNode>& dummyNode: m_dummyNodes) {
       if(dummyNode->isGraphNode()) {
@@ -1306,7 +1306,7 @@ void GraphController::groupNodesByParents(GroupType groupType) {
     if(dummyNode->isGroupNode()) {
       groupNodes.emplace(dummyNode->name, dummyNode);
     } else if(dummyNode->visible) {
-      if(groupType == GroupType::FILE) {
+      if(groupType == GroupType::FILE_TYPE) {
         if(dummyNode->isGraphNode()) {
           auto it = nodeIdtoParentMap.find(dummyNode->tokenId);
           if(it != nodeIdtoParentMap.end()) {
@@ -1339,13 +1339,13 @@ void GraphController::groupNodesByParents(GroupType groupType) {
     std::shared_ptr<DummyNode> groupNode;
 
     std::wstring name = p.first;
-    if(groupType == GroupType::FILE) {
+    if(groupType == GroupType::FILE_TYPE) {
       name = FilePath(p.first).fileName();
     }
 
-    auto it = groupNodes.find(name);
-    if(it != groupNodes.end()) {
-      groupNode = it->second;
+    auto groupIterator = groupNodes.find(name);
+    if(groupIterator != groupNodes.end()) {
+      groupNode = groupIterator->second;
     } else {
       groupNode = std::make_shared<DummyNode>(DummyNode::DUMMY_GROUP);
       groupNode->visible = true;
@@ -1353,9 +1353,9 @@ void GraphController::groupNodesByParents(GroupType groupType) {
       groupNode->groupLayout = GroupLayout::BUCKET;
       groupNode->name = name;
 
-      auto it = nodeIdtoParentMap.find(p.second[0]->tokenId);
-      if(it != nodeIdtoParentMap.end()) {
-        groupNode->tokenId = it->second.first;
+      auto iterator = nodeIdtoParentMap.find(p.second[0]->tokenId);
+      if(iterator != nodeIdtoParentMap.end()) {
+        groupNode->tokenId = iterator->second.first;
       }
       m_topLevelAncestorIds[groupNode->tokenId] = groupNode->tokenId;
       m_dummyNodes.push_back(groupNode);
@@ -1486,18 +1486,18 @@ void GraphController::groupTrailNodes(GroupType groupType) {
 
     std::vector<Id> hiddenEdgeIds;
 
-    for(TrailNode& node: group) {
-      std::shared_ptr<DummyNode> dummyNode = getDummyGraphNodeById(node.nodeId);
+    for(TrailNode& tailNode: group) {
+      std::shared_ptr<DummyNode> dummyNode = getDummyGraphNodeById(tailNode.nodeId);
       if(!dummyNode) {
         continue;
       }
 
-      groupedNodeIds.insert(node.nodeId);
+      groupedNodeIds.insert(tailNode.nodeId);
       groupNode->subNodes.push_back(dummyNode);
 
-      m_topLevelAncestorIds[node.nodeId] = groupNode->tokenId;
+      m_topLevelAncestorIds[tailNode.nodeId] = groupNode->tokenId;
 
-      for(DummyEdge* edge: node.targetEdges) {
+      for(DummyEdge* edge: tailNode.targetEdges) {
         if(!targetEdge->visible) {
           targetEdge->visible = true;
           targetEdge->targetId = edge->targetId;
@@ -1512,7 +1512,7 @@ void GraphController::groupTrailNodes(GroupType groupType) {
         }
       }
 
-      for(DummyEdge* edge: node.originEdges) {
+      for(DummyEdge* edge: tailNode.originEdges) {
         if(!originEdge->visible) {
           originEdge->visible = true;
           originEdge->ownerId = edge->ownerId;
@@ -2191,7 +2191,7 @@ void GraphController::createLegendGraph() {
       Edge* edge = addEdge(Edge::EDGE_BUNDLED_EDGES, typeA, typeB);
       std::shared_ptr<TokenComponentBundledEdges> bundledEdgesComp =
           std::make_shared<TokenComponentBundledEdges>();
-      for(size_t i = 0; i < 10; i++) {
+      for(size_t index = 0; index < 10; index++) {
         bundledEdgesComp->addBundledEdgesId(++id, true);
       }
       edge->addComponent(bundledEdgesComp);

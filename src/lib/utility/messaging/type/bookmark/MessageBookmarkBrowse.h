@@ -8,9 +8,9 @@ class MessageBookmarkBrowse: public Message<MessageBookmarkBrowse>
 {
 public:
 	MessageBookmarkBrowse(
-		Bookmark::BookmarkFilter filter = Bookmark::FILTER_UNKNOWN,
-		Bookmark::BookmarkOrder order = Bookmark::ORDER_NONE)
-		: filter(filter), order(order)
+		Bookmark::BookmarkFilter filter_ = Bookmark::FILTER_UNKNOWN,
+		Bookmark::BookmarkOrder order_ = Bookmark::ORDER_NONE)
+		: filter(filter_), order(order_)
 	{
 	}
 

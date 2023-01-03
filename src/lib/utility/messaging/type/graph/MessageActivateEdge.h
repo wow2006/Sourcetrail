@@ -13,14 +13,14 @@ class MessageActivateEdge: public Message<MessageActivateEdge>
 {
 public:
 	MessageActivateEdge(
-		Id tokenId,
-		Edge::EdgeType type,
-		const NameHierarchy& sourceNameHierarchy,
-		const NameHierarchy& targetNameHierarchy)
-		: tokenId(tokenId)
-		, type(type)
-		, sourceNameHierarchy(sourceNameHierarchy)
-		, targetNameHierarchy(targetNameHierarchy)
+		Id tokenId_,
+		Edge::EdgeType type_,
+		const NameHierarchy& sourceNameHierarchy_,
+		const NameHierarchy& targetNameHierarchy_)
+		: tokenId(tokenId_)
+		, type(type_)
+		, sourceNameHierarchy(sourceNameHierarchy_)
+		, targetNameHierarchy(targetNameHierarchy_)
 	{
 		if (!isBundledEdges())
 		{

@@ -242,11 +242,11 @@ std::multiset<SearchResult> SearchIndex::createScoredResults(
 					(acceptedNodeTypes.intersectsWith(path.node->containedTypes)))
 				{
 					std::vector<Id> elementIds;
-					for (const auto& p: path.node->elementIds)
+					for (const auto& nodeId: path.node->elementIds)
 					{
-						if (acceptedNodeTypes.contains(p.second))
+						if (acceptedNodeTypes.contains(nodeId.second))
 						{
-							elementIds.push_back(p.first);
+							elementIds.push_back(nodeId.first);
 						}
 					}
 
@@ -265,9 +265,9 @@ std::multiset<SearchResult> SearchIndex::createScoredResults(
 					}
 				}
 
-				for (auto p: path.node->edges)
+				for (auto nodeEdge: path.node->edges)
 				{
-					const SearchEdge* edge = p.second;
+					const SearchEdge* edge = nodeEdge.second;
 					nextPaths.emplace_back(path.text + edge->s, path.indices, edge->target);
 				}
 			}

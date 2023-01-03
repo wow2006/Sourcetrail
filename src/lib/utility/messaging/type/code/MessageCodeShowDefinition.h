@@ -13,7 +13,7 @@ public:
 		return "MessageCodeShowDefinition";
 	}
 
-	MessageCodeShowDefinition(Id nodeId, bool inIDE = false): nodeId(nodeId), inIDE(inIDE)
+	MessageCodeShowDefinition(Id nodeId_, bool inIDE_ = false): nodeId(nodeId_), inIDE(inIDE_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

@@ -21,10 +21,10 @@ void executeTask(Task& task) {
 
 class TestTask : public Task {
 public:
-  TestTask(int* orderCountPtr, int updateCount, TaskState returnState = STATE_SUCCESS)
-      : orderCount(*orderCountPtr)
-      , updateCount(updateCount)
-      , returnState(returnState)
+  TestTask(int* orderCountPtr_, int updateCount_, TaskState returnState_ = STATE_SUCCESS)
+      : orderCount(*orderCountPtr_)
+      , updateCount(updateCount_)
+      , returnState(returnState_)
       , enterCallOrder(0)
       , updateCallOrder(0)
       , exitCallOrder(0)
@@ -70,8 +70,8 @@ public:
 
 class TestTaskDispatch : public TestTask {
 public:
-  TestTaskDispatch(int* orderCountPtr, int updateCount, TaskScheduler* scheduler)
-      : TestTask(orderCountPtr, updateCount), scheduler(scheduler) {}
+  TestTaskDispatch(int* orderCountPtr_, int updateCount_, TaskScheduler* scheduler_)
+      : TestTask(orderCountPtr_, updateCount_), scheduler(scheduler_) {}
 
   virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard) {
     subTask = std::make_shared<TestTask>(&orderCount, 1);

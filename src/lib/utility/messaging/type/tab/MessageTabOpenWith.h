@@ -13,11 +13,11 @@ public:
 		return "MessageTabOpenWith";
 	}
 
-	MessageTabOpenWith(Id tokenId, Id locationId = 0): tokenId(tokenId), locationId(locationId) {}
+	MessageTabOpenWith(Id tokenId_, Id locationId_ = 0): tokenId(tokenId_), locationId(locationId_) {}
 
-	MessageTabOpenWith(const FilePath& path, size_t line = 0): filePath(path), line(line) {}
+	MessageTabOpenWith(const FilePath& path_, size_t line_ = 0): filePath(path_), line(line_) {}
 
-	MessageTabOpenWith(const SearchMatch& match): match(match) {}
+	MessageTabOpenWith(const SearchMatch& match_): match(match_) {}
 
 	MessageTabOpenWith& showNewTab(bool show)
 	{

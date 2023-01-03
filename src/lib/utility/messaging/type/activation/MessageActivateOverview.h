@@ -17,8 +17,8 @@ public:
 		return "MessageActivateOverview";
 	}
 
-	MessageActivateOverview(NodeTypeSet acceptedNodeTypes = NodeTypeSet::all())
-		: acceptedNodeTypes(acceptedNodeTypes)
+	MessageActivateOverview(NodeTypeSet acceptedNodeTypes_ = NodeTypeSet::all())
+		: acceptedNodeTypes(acceptedNodeTypes_)
 	{
 		setIsParallel(true);
 		setSchedulerId(TabId::currentTab());

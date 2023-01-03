@@ -120,6 +120,7 @@ target_sources(
     data/parser/TaskParseWrapper.cpp
     data/search/SearchIndex.cpp
     data/search/SearchMatch.cpp
+    data/storage/type/StorageError.cpp
     data/storage/migration/SqliteStorageMigration.cpp
     data/storage/migration/SqliteStorageMigrationLambda.cpp
     data/storage/sqlite/SqliteBookmarkStorage.cpp

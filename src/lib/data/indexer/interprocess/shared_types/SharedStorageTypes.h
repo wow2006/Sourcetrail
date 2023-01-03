@@ -42,8 +42,8 @@ CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(StorageComponentAccess, SharedStorageCompone
 struct SharedStorageNode
 {
 	SharedStorageNode(
-		Id id, int type, const std::string& serializedName, SharedMemory::Allocator* allocator)
-		: id(id), type(type), serializedName(serializedName.c_str(), allocator)
+		Id id_, int type_, const std::string& serializedName_, SharedMemory::Allocator* allocator_)
+		: id(id_), type(type_), serializedName(serializedName_.c_str(), allocator_)
 	{
 	}
 
@@ -67,17 +67,17 @@ inline StorageNode fromShared(const SharedStorageNode& node)
 struct SharedStorageFile
 {
 	SharedStorageFile(
-		Id id,
-		const std::string& filePath,
-		const std::string& languageIdentifier,
-		bool indexed,
-		bool complete,
-		SharedMemory::Allocator* allocator)
-		: id(id)
-		, filePath(filePath.c_str(), allocator)
-		, languageIdentifier(languageIdentifier.c_str(), allocator)
-		, indexed(indexed)
-		, complete(complete)
+		Id id_,
+		const std::string& filePath_,
+		const std::string& languageIdentifier_,
+		bool indexed_,
+		bool complete_,
+		SharedMemory::Allocator* allocator_)
+		: id(id_)
+		, filePath(filePath_.c_str(), allocator_)
+		, languageIdentifier(languageIdentifier_.c_str(), allocator_)
+		, indexed(indexed_)
+		, complete(complete_)
 	{
 	}
 
@@ -113,8 +113,8 @@ inline StorageFile fromShared(const SharedStorageFile& file)
 
 struct SharedStorageLocalSymbol
 {
-	SharedStorageLocalSymbol(Id id, const std::string& name, SharedMemory::Allocator* allocator)
-		: id(id), name(name.c_str(), allocator)
+	SharedStorageLocalSymbol(Id id_, const std::string& name_, SharedMemory::Allocator* allocator_)
+		: id(id_), name(name_.c_str(), allocator_)
 	{
 	}
 
@@ -137,17 +137,17 @@ inline StorageLocalSymbol fromShared(const SharedStorageLocalSymbol& symbol)
 struct SharedStorageError
 {
 	SharedStorageError(
-		Id id,
-		const std::string& message,
-		const std::string& translationUnit,
-		bool fatal,
-		bool indexed,
+		Id id_,
+		const std::string& message_,
+		const std::string& translationUnit_,
+		bool fatal_,
+		bool indexed_,
 		SharedMemory::Allocator* allocator)
-		: id(id)
-		, message(message.c_str(), allocator)
-		, translationUnit(translationUnit.c_str(), allocator)
-		, fatal(fatal)
-		, indexed(indexed)
+		: id(id_)
+		, message(message_.c_str(), allocator)
+		, translationUnit(translationUnit_.c_str(), allocator)
+		, fatal(fatal_)
+		, indexed(indexed_)
 	{
 	}
 
@@ -158,7 +158,7 @@ struct SharedStorageError
 	bool indexed;
 };
 
-inline SharedStorageError toShared(const StorageError& error, SharedMemory::Allocator* allocator)
+inline SharedStorageError toShared(const utility::StorageError& error, SharedMemory::Allocator* allocator)
 {
 	return SharedStorageError(
 		error.id,
@@ -169,9 +169,9 @@ inline SharedStorageError toShared(const StorageError& error, SharedMemory::Allo
 		allocator);
 }
 
-inline StorageError fromShared(const SharedStorageError& error)
+inline utility::StorageError fromShared(const SharedStorageError& error)
 {
-	return StorageError(
+	return utility::StorageError(
 		error.id,
 		utility::decodeFromUtf8(error.message.c_str()),
 		utility::decodeFromUtf8(error.translationUnit.c_str()),

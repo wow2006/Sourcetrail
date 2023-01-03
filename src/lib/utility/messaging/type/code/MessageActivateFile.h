@@ -8,8 +8,8 @@
 class MessageActivateFile: public Message<MessageActivateFile>
 {
 public:
-	MessageActivateFile(const FilePath& filePath, unsigned int line = 0)
-		: filePath(filePath), line(line)
+	MessageActivateFile(const FilePath& filePath_, unsigned int line_ = 0)
+		: filePath(filePath_), line(line_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

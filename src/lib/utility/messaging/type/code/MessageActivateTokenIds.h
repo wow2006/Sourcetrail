@@ -8,7 +8,7 @@
 class MessageActivateTokenIds: public Message<MessageActivateTokenIds>
 {
 public:
-	MessageActivateTokenIds(const std::vector<Id>& tokenIds): tokenIds(tokenIds)
+	MessageActivateTokenIds(const std::vector<Id>& tokenIds_): tokenIds(tokenIds_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

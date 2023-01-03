@@ -9,7 +9,7 @@
 class MessageGraphNodeMove: public Message<MessageGraphNodeMove>
 {
 public:
-	MessageGraphNodeMove(Id tokenId, const Vec2i& delta): tokenId(tokenId), delta(delta)
+	MessageGraphNodeMove(Id tokenId_, const Vec2i& delta_): tokenId(tokenId_), delta(delta_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

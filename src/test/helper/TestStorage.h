@@ -293,7 +293,7 @@ public:
 				L"COMMENT: comment" + addFileName(locStr, filePathMap[location.fileNodeId]));
 		}
 
-		for (const StorageError& error: storage->getErrors())
+		for (const utility::StorageError& error: storage->getErrors())
 		{
 			for (auto errorLocationIt = errorLocationMap.find(error.id);
 				 errorLocationIt != errorLocationMap.end() && errorLocationIt->first == error.id;

@@ -7,7 +7,7 @@
 class MessageScrollGraph: public Message<MessageScrollGraph>
 {
 public:
-	MessageScrollGraph(int xValue, int yValue): xValue(xValue), yValue(yValue)
+	MessageScrollGraph(int xValue_, int yValue_): xValue(xValue_), yValue(yValue_)
 	{
 		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());

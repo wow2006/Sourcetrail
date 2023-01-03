@@ -57,27 +57,27 @@ void QtLicenseWindow::populateWindow(QWidget* widget)
 
 	for (LicenseInfo license: licenses3rdParties)
 	{
-		QLabel* licenseName = new QLabel();
-		licenseName->setText(
+		QLabel* licenseNameLabel = new QLabel();
+		licenseNameLabel->setText(
 			QString::fromLatin1(license.name) +
 			QString::fromLatin1(
 				std::string(license.version).empty()
 					? ""
 					: (std::string(" (v") + license.version + ")").c_str()));
-		licenseName->setFont(_font);
-		layout->addWidget(licenseName);
+		licenseNameLabel->setFont(_font);
+		layout->addWidget(licenseNameLabel);
 
-		QLabel* licenseURL = new QLabel();
-		licenseURL->setText(
+		QLabel* licenseURLLabel = new QLabel();
+		licenseURLLabel->setText(
 			QString::fromLatin1("<a href=\"%1\">%1</a>").arg(QString::fromLatin1(license.url)));
-		licenseURL->setOpenExternalLinks(true);
-		layout->addWidget(licenseURL);
+		licenseURLLabel->setOpenExternalLinks(true);
+		layout->addWidget(licenseURLLabel);
 
-		QLabel* licenseText = new QLabel();
-		licenseText->setFixedWidth(550);
-		licenseText->setWordWrap(true);
-		licenseText->setText(QString::fromLatin1(license.license));
-		layout->addWidget(licenseText);
+		QLabel* licenseText2 = new QLabel();
+		licenseText2->setFixedWidth(550);
+		licenseText2->setWordWrap(true);
+		licenseText2->setText(QString::fromLatin1(license.license));
+		layout->addWidget(licenseText2);
 
 		layout->addSpacing(30);
 	}

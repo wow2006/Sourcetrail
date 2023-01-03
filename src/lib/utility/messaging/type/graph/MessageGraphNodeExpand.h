@@ -8,8 +8,8 @@
 class MessageGraphNodeExpand: public Message<MessageGraphNodeExpand>
 {
 public:
-	MessageGraphNodeExpand(Id tokenId, bool expand, bool ignoreIfNotReplayed = false)
-		: tokenId(tokenId), expand(expand), ignoreIfNotReplayed(ignoreIfNotReplayed)
+	MessageGraphNodeExpand(Id tokenId_, bool expand_, bool ignoreIfNotReplayed_ = false)
+		: tokenId(tokenId_), expand(expand_), ignoreIfNotReplayed(ignoreIfNotReplayed_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

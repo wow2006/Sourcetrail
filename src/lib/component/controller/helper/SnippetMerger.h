@@ -10,7 +10,7 @@ class SnippetMerger
 public:
 	struct Border
 	{
-		Border(int row, bool strong): row(row), strong(strong) {}
+		Border(int row_, bool strong_): row(row_), strong(strong_) {}
 		int row;
 		bool strong;
 	};
@@ -38,7 +38,7 @@ public:
 			return ranges;
 		}
 
-		Range(Border start, Border end): start(start), end(end) {}
+		Range(Border start_, Border end_): start(start_), end(end_) {}
 		Border start;
 		Border end;
 	};

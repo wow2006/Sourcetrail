@@ -12,7 +12,7 @@ public:
 		return "MessageShowError";
 	}
 
-	MessageShowError(Id errorId): errorId(errorId)
+	MessageShowError(Id errorId_): errorId(errorId_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

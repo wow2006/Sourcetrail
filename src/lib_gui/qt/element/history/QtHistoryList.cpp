@@ -16,19 +16,19 @@
 #include "ColorScheme.h"
 #include "GraphViewStyle.h"
 
-QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurrent)
-    : index(index), m_match(match) {
+QtHistoryItem::QtHistoryItem(const SearchMatch& match_, size_t index_, bool isCurrent_)
+    : index(index_), m_match(match_) {
   QBoxLayout* layout = new QHBoxLayout();
   layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setAlignment(Qt::AlignTop);
 
-  const std::wstring name = utility::elide(match.getFullName(), utility::ELIDE_RIGHT, 100);
+  const std::wstring name = utility::elide(match_.getFullName(), utility::ELIDE_RIGHT, 100);
 
   m_name = new QLabel(QString::fromStdWString(name), this);
   m_name->setAttribute(Qt::WA_MacShowFocusRect, 0);
   m_name->setAttribute(Qt::WA_LayoutUsesWidgetRect);    // fixes layouting on Mac
-  m_name->setObjectName(isCurrent ? QStringLiteral("history_item_current") :
+  m_name->setObjectName(isCurrent_ ? QStringLiteral("history_item_current") :
                                     QStringLiteral("history_item"));
   m_name->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
@@ -43,23 +43,23 @@ QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurr
   m_indicator->show();
 
   ColorScheme* scheme = ColorScheme::getInstance().get();
-  if(match.searchType == SearchMatch::SEARCH_TOKEN) {
+  if(match_.searchType == SearchMatch::SEARCH_TOKEN) {
     m_indicatorColor =
-        GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), false).fill;
+        GraphViewStyle::getNodeColor(match_.nodeType.getUnderscoredTypeString(), false).fill;
     m_indicatorHoverColor =
-        GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), true).fill;
+        GraphViewStyle::getNodeColor(match_.nodeType.getUnderscoredTypeString(), true).fill;
   } else {
     m_indicatorColor = scheme->getSearchTypeColor(
-        utility::encodeToUtf8(match.getSearchTypeName()), "fill");
+        utility::encodeToUtf8(match_.getSearchTypeName()), "fill");
     m_indicatorHoverColor = scheme->getSearchTypeColor(
-        utility::encodeToUtf8(match.getSearchTypeName()), "fill", "hover");
+        utility::encodeToUtf8(match_.getSearchTypeName()), "fill", "hover");
   }
 
   std::stringstream css;
   css << "QWidget { background-color:" << m_indicatorColor << ";}";
   m_indicator->setStyleSheet(css.str().c_str());
 
-  if(isCurrent) {
+  if(isCurrent_) {
     QtDeviceScaledPixmap pixmap(QString::fromStdWString(
         ResourcePaths::getGuiDirectoryPath().concatenate(L"history_list/images/arrow.png").wstr()));
     pixmap.scaleToHeight(size.height() / 3);

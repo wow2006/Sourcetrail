@@ -7,8 +7,8 @@ struct StorageEdgeData
 {
 	StorageEdgeData(): type(0), sourceNodeId(0), targetNodeId(0) {}
 
-	StorageEdgeData(int type, Id sourceNodeId, Id targetNodeId)
-		: type(type), sourceNodeId(sourceNodeId), targetNodeId(targetNodeId)
+	StorageEdgeData(int type_, Id sourceNodeId_, Id targetNodeId_)
+		: type(type_), sourceNodeId(sourceNodeId_), targetNodeId(targetNodeId_)
 	{
 	}
 
@@ -37,10 +37,10 @@ struct StorageEdge: public StorageEdgeData
 {
 	StorageEdge(): StorageEdgeData(), id(0) {}
 
-	StorageEdge(Id id, const StorageEdgeData& data): StorageEdgeData(data), id(id) {}
+	StorageEdge(Id id_, const StorageEdgeData& data_): StorageEdgeData(data_), id(id_) {}
 
-	StorageEdge(Id id, int type, Id sourceNodeId, Id targetNodeId)
-		: StorageEdgeData(type, sourceNodeId, targetNodeId), id(id)
+	StorageEdge(Id id_, int type_, Id sourceNodeId_, Id targetNodeId_)
+		: StorageEdgeData(type_, sourceNodeId_, targetNodeId_), id(id_)
 	{
 	}
 

@@ -9,8 +9,8 @@
 class MessageSearchAutocomplete: public Message<MessageSearchAutocomplete>
 {
 public:
-	MessageSearchAutocomplete(const std::wstring& query, NodeTypeSet acceptedNodeTypes)
-		: query(query), acceptedNodeTypes(acceptedNodeTypes)
+	MessageSearchAutocomplete(const std::wstring& query_, NodeTypeSet acceptedNodeTypes_)
+		: query(query_), acceptedNodeTypes(acceptedNodeTypes_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

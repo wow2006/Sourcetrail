@@ -1197,11 +1197,11 @@ bool CodeController::addAllSourceLocations() {
           snippet.locationFile->copySourceLocations(file.locationFile);
         }
       } else {
-        std::shared_ptr<SourceLocationFile> file = m_storageAccess->getSourceLocationsForLinesInFile(
+        std::shared_ptr<SourceLocationFile> sourceFile = m_storageAccess->getSourceLocationsForLinesInFile(
             snippet.locationFile->getFilePath(), snippet.startLineNumber, snippet.endLineNumber);
-        if(file) {
-          file->copySourceLocations(snippet.locationFile);
-          snippet.locationFile = file;
+        if(sourceFile) {
+          sourceFile->copySourceLocations(snippet.locationFile);
+          snippet.locationFile = sourceFile;
         }
       }
 

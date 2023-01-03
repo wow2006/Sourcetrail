@@ -7,7 +7,7 @@
 class MessageBookmarkActivate: public Message<MessageBookmarkActivate>
 {
 public:
-	MessageBookmarkActivate(const std::shared_ptr<Bookmark>& bookmark): bookmark(bookmark) {}
+	MessageBookmarkActivate(const std::shared_ptr<Bookmark>& bookmark_): bookmark(bookmark_) {}
 
 	static const std::string getStaticType()
 	{

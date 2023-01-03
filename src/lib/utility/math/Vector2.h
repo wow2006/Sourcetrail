@@ -46,13 +46,13 @@ Vector2<T>::Vector2()
 }
 
 template <class T>
-Vector2<T>::Vector2(const T& x, const T& y)
+Vector2<T>::Vector2(const T& x_, const T& y_)
 	: VectorBase<T, 2>()
 	, x(&VectorBase<T, 2>::m_values[m_xIndex])
 	, y(&VectorBase<T, 2>::m_values[m_yIndex])
 {
-	setValue(m_xIndex, x);
-	setValue(m_yIndex, y);
+	setValue(m_xIndex, x_);
+	setValue(m_yIndex, y_);
 }
 
 template <class T>

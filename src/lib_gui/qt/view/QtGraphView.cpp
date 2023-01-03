@@ -204,7 +204,7 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 		});
 
 		GroupType type = ApplicationSettings::getInstance()->getGraphGrouping();
-		if (type == GroupType::FILE)
+		if (type == GroupType::FILE_TYPE)
 		{
 			m_groupFileButton->setChecked(true);
 		}
@@ -217,14 +217,14 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 		m_groupWidget = new QWidget(widget);
 		m_groupWidget->setGeometry(38, 8, 54, 26);
 
-		QHBoxLayout* layout = new QHBoxLayout();
-		layout->setContentsMargins(0, 0, 0, 0);
-		layout->setSpacing(2);
+		QHBoxLayout* hLayout = new QHBoxLayout();
+		hLayout->setContentsMargins(0, 0, 0, 0);
+		hLayout->setSpacing(2);
 
-		layout->addWidget(m_groupNamespaceButton);
-		layout->addWidget(m_groupFileButton);
+		hLayout->addWidget(m_groupNamespaceButton);
+		hLayout->addWidget(m_groupFileButton);
 
-		m_groupWidget->setLayout(layout);
+		m_groupWidget->setLayout(hLayout);
 	}
 }
 
@@ -540,7 +540,7 @@ GroupType QtGraphView::getGrouping() const
 {
 	if (m_groupFileButton->isChecked())
 	{
-		return GroupType::FILE;
+		return GroupType::FILE_TYPE;
 	}
 	else if (m_groupNamespaceButton->isChecked())
 	{

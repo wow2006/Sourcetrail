@@ -6,7 +6,7 @@
 class MessageScrollSpeedChange: public Message<MessageScrollSpeedChange>
 {
 public:
-	MessageScrollSpeedChange(float scrollSpeed): scrollSpeed(scrollSpeed) {}
+	MessageScrollSpeedChange(float scrollSpeed_): scrollSpeed(scrollSpeed_) {}
 
 	static const std::string getStaticType()
 	{

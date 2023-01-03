@@ -7,7 +7,7 @@
 class MessageDeactivateEdge: public Message<MessageDeactivateEdge>
 {
 public:
-	MessageDeactivateEdge(bool scrollToDefinition): scrollToDefinition(scrollToDefinition)
+	MessageDeactivateEdge(bool scrollToDefinition_): scrollToDefinition(scrollToDefinition_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

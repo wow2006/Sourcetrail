@@ -37,8 +37,8 @@ public:
 	std::set<StorageComponentAccess> getStorageComponentAccesses() const;
 	void setStorageComponentAccesses(const std::set<StorageComponentAccess>& storageComponentAccesses);
 
-	std::vector<StorageError> getStorageErrors() const;
-	void setStorageErrors(const std::vector<StorageError>& errors);
+	std::vector<utility::StorageError> getStorageErrors() const;
+	void setStorageErrors(const std::vector<utility::StorageError>& errors);
 
 	Id getNextId() const;
 	void setNextId(const Id nextId);

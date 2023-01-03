@@ -9,17 +9,17 @@
 class MessageTooltipShow: public Message<MessageTooltipShow>
 {
 public:
-	MessageTooltipShow(TooltipInfo info, TooltipOrigin origin): tooltipInfo(info), origin(origin)
+	MessageTooltipShow(TooltipInfo info_, TooltipOrigin origin_): tooltipInfo(info_), origin(origin_)
 	{
 		setSendAsTask(false);
 		setIsLogged(false);
 	}
 
 	MessageTooltipShow(
-		const std::vector<Id>& sourceLocationIds,
-		const std::vector<Id>& localSymbolIds,
-		TooltipOrigin origin)
-		: sourceLocationIds(sourceLocationIds), localSymbolIds(localSymbolIds), origin(origin)
+		const std::vector<Id>& sourceLocationIds_,
+		const std::vector<Id>& localSymbolIds_,
+		TooltipOrigin origin_)
+		: sourceLocationIds(sourceLocationIds_), localSymbolIds(localSymbolIds_), origin(origin_)
 	{
 		setSendAsTask(false);
 		setIsLogged(false);

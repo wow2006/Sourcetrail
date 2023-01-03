@@ -13,14 +13,14 @@ class MessageActivateTrailEdge: public Message<MessageActivateTrailEdge>
 {
 public:
 	MessageActivateTrailEdge(
-		const std::vector<Id>& edgeIds,
-		Edge::EdgeType type,
-		const NameHierarchy& sourceNameHierarchy,
-		const NameHierarchy& targetNameHierarchy)
-		: edgeIds(edgeIds)
-		, type(type)
-		, sourceNameHierarchy(sourceNameHierarchy)
-		, targetNameHierarchy(targetNameHierarchy)
+		const std::vector<Id>& edgeIds_,
+		Edge::EdgeType type_,
+		const NameHierarchy& sourceNameHierarchy_,
+		const NameHierarchy& targetNameHierarchy_)
+		: edgeIds(edgeIds_)
+		, type(type_)
+		, sourceNameHierarchy(sourceNameHierarchy_)
+		, targetNameHierarchy(targetNameHierarchy_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

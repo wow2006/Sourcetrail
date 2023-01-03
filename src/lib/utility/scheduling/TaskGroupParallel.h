@@ -18,7 +18,7 @@ public:
 private:
 	struct TaskInfo
 	{
-		TaskInfo(std::shared_ptr<TaskRunner> taskRunner): taskRunner(taskRunner), active(false) {}
+		TaskInfo(std::shared_ptr<TaskRunner> taskRunner_): taskRunner(taskRunner_), active(false) {}
 		std::shared_ptr<TaskRunner> taskRunner;
 		std::shared_ptr<std::thread> thread;
 		volatile bool active;

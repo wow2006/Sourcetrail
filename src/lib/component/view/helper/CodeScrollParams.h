@@ -46,22 +46,22 @@ struct CodeScrollParams
 	}
 
 	CodeScrollParams(
-		Type type,
-		Target target,
-		FilePath filePath,
-		Id locationId,
-		Id scopeLocationId,
-		size_t line,
-		size_t value,
-		bool inListMode)
-		: type(type)
-		, target(target)
-		, filePath(filePath)
-		, locationId(locationId)
-		, scopeLocationId(scopeLocationId)
-		, line(line)
-		, value(value)
-		, inListMode(inListMode)
+		Type type_,
+		Target target_,
+		FilePath filePath_,
+		Id locationId_,
+		Id scopeLocationId_,
+		size_t line_,
+		size_t value_,
+		bool inListMode_)
+		: type(type_)
+		, target(target_)
+		, filePath(filePath_)
+		, locationId(locationId_)
+		, scopeLocationId(scopeLocationId_)
+		, line(line_)
+		, value(value_)
+		, inListMode(inListMode_)
 	{
 	}
 

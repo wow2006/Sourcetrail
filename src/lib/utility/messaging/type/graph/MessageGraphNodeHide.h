@@ -8,7 +8,7 @@
 class MessageGraphNodeHide: public Message<MessageGraphNodeHide>
 {
 public:
-	MessageGraphNodeHide(Id tokenId): tokenId(tokenId)
+	MessageGraphNodeHide(Id tokenId_): tokenId(tokenId_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

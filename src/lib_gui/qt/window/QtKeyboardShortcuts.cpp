@@ -72,8 +72,8 @@ void QtKeyboardShortcuts::windowReady() {
   setPreviousVisible(false);
 }
 
-QtKeyboardShortcuts::Shortcut::Shortcut(const QString& name, const QString& shortcut)
-    : name(name), shortcut(shortcut) {}
+QtKeyboardShortcuts::Shortcut::Shortcut(const QString& name_, const QString& shortcut_)
+    : name(name_), shortcut(shortcut_) {}
 
 QtKeyboardShortcuts::Shortcut QtKeyboardShortcuts::Shortcut::defaultOrMac(
     const QString& name, const QString& defaultShortcut, const QString& /*macShortcut*/) {

@@ -8,7 +8,7 @@ struct StorageSymbol
 {
 	StorageSymbol(): id(0), definitionKind(definitionKindToInt(DEFINITION_NONE)) {}
 
-	StorageSymbol(Id id, int definitionKind): id(id), definitionKind(definitionKind) {}
+	StorageSymbol(Id id_, int definitionKind_): id(id_), definitionKind(definitionKind_) {}
 
 	Id id;
 	int definitionKind;

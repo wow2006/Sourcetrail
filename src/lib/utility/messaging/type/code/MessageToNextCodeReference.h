@@ -7,8 +7,8 @@
 class MessageToNextCodeReference: public Message<MessageToNextCodeReference>
 {
 public:
-	MessageToNextCodeReference(const FilePath& filePath, size_t lineNumber, size_t columnNumber, bool next)
-		: filePath(filePath), lineNumber(lineNumber), columnNumber(columnNumber), next(next)
+	MessageToNextCodeReference(const FilePath& filePath_, size_t lineNumber_, size_t columnNumber_, bool next_)
+		: filePath(filePath), lineNumber(lineNumber_), columnNumber(columnNumber_), next(next_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

@@ -15,8 +15,8 @@ public:
 		return "MessageSearch";
 	}
 
-	MessageSearch(const std::vector<SearchMatch>& matches, NodeTypeSet acceptedNodeTypes)
-		: acceptedNodeTypes(acceptedNodeTypes), m_matches(matches)
+	MessageSearch(const std::vector<SearchMatch>& matches_, NodeTypeSet acceptedNodeTypes_)
+		: acceptedNodeTypes(acceptedNodeTypes_), m_matches(matches_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}

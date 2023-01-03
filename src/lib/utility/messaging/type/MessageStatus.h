@@ -10,15 +10,15 @@ class MessageStatus: public Message<MessageStatus>
 {
 public:
 	MessageStatus(
-		const std::wstring& status,
-		bool isError = false,
-		bool showLoader = false,
-		bool showInStatusBar = true);
+		const std::wstring& status_,
+		bool isError_ = false,
+		bool showLoader_ = false,
+		bool showInStatusBar_ = true);
 	MessageStatus(
-		const std::vector<std::wstring>& stati,
-		bool isError = false,
-		bool showLoader = false,
-		bool showInStatusBar = true);
+		const std::vector<std::wstring>& stati_,
+		bool isError_ = false,
+		bool showLoader_ = false,
+		bool showInStatusBar_ = true);
 
 	static const std::string getStaticType();
 

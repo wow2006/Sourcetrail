@@ -9,7 +9,7 @@ class SqliteStorageMigrationLambda: public SqliteStorageMigration
 {
 public:
 	SqliteStorageMigrationLambda(
-		std::function<void(const SqliteStorageMigration*, SqliteStorage*)> m_lambda);
+		std::function<void(const SqliteStorageMigration*, SqliteStorage*)> lambda);
 	virtual ~SqliteStorageMigrationLambda();
 	virtual void apply(SqliteStorage* migratable) const;
 

@@ -11,7 +11,7 @@ public:
 		return "MessageErrorsHelpMessage";
 	}
 
-	MessageErrorsHelpMessage(bool force = false): force(force) {}
+	MessageErrorsHelpMessage(bool force_ = false): force(force_) {}
 
 	const bool force;
 };

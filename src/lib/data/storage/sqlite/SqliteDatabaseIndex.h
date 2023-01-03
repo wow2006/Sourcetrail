@@ -1,15 +1,13 @@
-#ifndef SQLITE_DATABASE_INDEX_H
-#define SQLITE_DATABASE_INDEX_H
+#pragma once
 
 #include "CppSQLite3.h"
-#include <string>
 
 class SqliteDatabaseIndex
 {
 public:
-	SqliteDatabaseIndex(const std::string& indexName, const std::string& indexTarget);
+	SqliteDatabaseIndex(std::string indexName, std::string indexTarget);
 
-	std::string getName() const;
+	[[nodiscard]] std::string getName() const;
 
 	void createOnDatabase(CppSQLite3DB& database);
 	void removeFromDatabase(CppSQLite3DB& database);
@@ -18,5 +16,3 @@ private:
 	std::string m_indexName;
 	std::string m_indexTarget;
 };
-
-#endif	  // SQLITE_DATABASE_INDEX_H

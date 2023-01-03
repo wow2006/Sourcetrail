@@ -9,7 +9,7 @@ struct StorageBookmarkCategoryData
 {
 	StorageBookmarkCategoryData(): name(L"") {}
 
-	StorageBookmarkCategoryData(const std::wstring& name): name(name) {}
+	StorageBookmarkCategoryData(const std::wstring& name_): name(name_) {}
 
 	std::wstring name;
 };
@@ -18,13 +18,13 @@ struct StorageBookmarkCategory: public StorageBookmarkCategoryData
 {
 	StorageBookmarkCategory(): StorageBookmarkCategoryData(), id(0) {}
 
-	StorageBookmarkCategory(Id id, const StorageBookmarkCategoryData& data)
-		: StorageBookmarkCategoryData(data), id(id)
+	StorageBookmarkCategory(Id id_, const StorageBookmarkCategoryData& data_)
+		: StorageBookmarkCategoryData(data_), id(id_)
 	{
 	}
 
-	StorageBookmarkCategory(Id id, const std::wstring& name)
-		: StorageBookmarkCategoryData(name), id(id)
+	StorageBookmarkCategory(Id id_, const std::wstring& name_)
+		: StorageBookmarkCategoryData(name_), id(id_)
 	{
 	}
 

@@ -21,9 +21,9 @@ TEST_CASE("shared memory", "[lib]") { //NOLINT(readability-function-cognitive-co
   std::vector<std::shared_ptr<std::thread>> threads;
   for(unsigned int i = 0; i < 4; i++) {
     threads.push_back(std::make_shared<std::thread>([]() {
-      SharedMemory memory("memory", 0, SharedMemory::OPEN_ONLY);
+      SharedMemory SharedMemory("memory", 0, SharedMemory::OPEN_ONLY);
 
-      SharedMemory::ScopedAccess access(&memory);
+      SharedMemory::ScopedAccess access(&SharedMemory);
 
       if(access.getMemorySize() < 5000) {
         access.growMemory(5000 - access.getMemorySize());

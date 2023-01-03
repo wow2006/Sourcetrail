@@ -27,13 +27,13 @@ public:
 	{
 		BundleInfo() {}
 
-		BundleInfo(std::wstring bundleName)
-			: nameMatcher([](const std::wstring&) { return true; }), bundleName(bundleName)
+		BundleInfo(std::wstring bundleName_)
+			: nameMatcher([](const std::wstring&) { return true; }), bundleName(bundleName_)
 		{
 		}
 
-		BundleInfo(std::function<bool(std::wstring)> nameMatcher, std::wstring bundleName)
-			: nameMatcher(nameMatcher), bundleName(bundleName)
+		BundleInfo(std::function<bool(std::wstring)> nameMatcher_, std::wstring bundleName_)
+			: nameMatcher(nameMatcher_), bundleName(bundleName_)
 		{
 		}
 

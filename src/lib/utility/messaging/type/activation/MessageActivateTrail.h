@@ -13,34 +13,34 @@ class MessageActivateTrail
 {
 public:
 	MessageActivateTrail(
-		Id originId, Id targetId, Edge::TypeMask edgeTypes, size_t depth, bool horizontalLayout)
-		: originId(originId)
-		, targetId(targetId)
+		Id originId_, Id targetId_, Edge::TypeMask edgeTypes_, size_t depth_, bool horizontalLayout_)
+		: originId(originId_)
+		, targetId(targetId_)
 		, nodeTypes(0)
-		, edgeTypes(edgeTypes)
+		, edgeTypes(edgeTypes_)
 		, nodeNonIndexed(false)
-		, depth(depth)
-		, horizontalLayout(horizontalLayout)
+		, depth(depth_)
+		, horizontalLayout(horizontalLayout_)
 		, custom(false)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
 
 	MessageActivateTrail(
-		Id originId,
-		Id targetId,
-		NodeKindMask nodeTypes,
-		Edge::TypeMask edgeTypes,
-		bool nodeNonIndexed,
-		size_t depth,
-		bool horizontalLayout)
-		: originId(originId)
-		, targetId(targetId)
-		, nodeTypes(nodeTypes)
-		, edgeTypes(edgeTypes)
-		, nodeNonIndexed(nodeNonIndexed)
-		, depth(depth)
-		, horizontalLayout(horizontalLayout)
+		Id originId_,
+		Id targetId_,
+		NodeKindMask nodeTypes_,
+		Edge::TypeMask edgeTypes_,
+		bool nodeNonIndexed_,
+		size_t depth_,
+		bool horizontalLayout_)
+		: originId(originId_)
+		, targetId(targetId_)
+		, nodeTypes(nodeTypes_)
+		, edgeTypes(edgeTypes_)
+		, nodeNonIndexed(nodeNonIndexed_)
+		, depth(depth_)
+		, horizontalLayout(horizontalLayout_)
 		, custom(true)
 	{
 		setSchedulerId(TabId::currentTab());

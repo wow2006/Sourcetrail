@@ -105,8 +105,8 @@ void QtIndexingReportDialog::updateErrorCount(size_t errorCount, size_t fatalCou
       str += QStringLiteral(" (") + QString::number(fatalCount) + QStringLiteral(" Fatal)");
     }
 
-    QPushButton* errorCount = m_errorWidget->findChild<QPushButton*>(QStringLiteral("errorCount"));
-    errorCount->setText(str);
+    QPushButton* errorCountButton = m_errorWidget->findChild<QPushButton*>(QStringLiteral("errorCount"));
+    errorCountButton->setText(str);
 
     m_errorWidget->show();
   }

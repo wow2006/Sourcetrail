@@ -7,8 +7,8 @@ struct StorageOccurrence
 {
 	StorageOccurrence(): elementId(0), sourceLocationId(0) {}
 
-	StorageOccurrence(Id elementId, Id sourceLocationId)
-		: elementId(elementId), sourceLocationId(sourceLocationId)
+	StorageOccurrence(Id elementId_, Id sourceLocationId_)
+		: elementId(elementId_), sourceLocationId(sourceLocationId_)
 	{
 	}
 

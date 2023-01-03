@@ -1,61 +1,30 @@
-#ifndef STORAGE_ERROR_H
-#define STORAGE_ERROR_H
+#pragma once
 
-#include <string>
-
-#include "FilePath.h"
 #include "types.h"
 
-struct StorageErrorData
-{
-	StorageErrorData(): message(L""), translationUnit(L""), fatal(0), indexed(0) {}
+namespace utility {
 
-	StorageErrorData(std::wstring message, std::wstring translationUnit, bool fatal, bool indexed)
-		: message(std::move(message))
-		, translationUnit(std::move(translationUnit))
-		, fatal(fatal)
-		, indexed(indexed)
-	{
-	}
+struct StorageErrorData {
+  StorageErrorData();
 
-	bool operator<(const StorageErrorData& other) const
-	{
-		if (message != other.message)
-		{
-			return message < other.message;
-		}
-		else if (translationUnit != other.translationUnit)
-		{
-			return translationUnit < other.translationUnit;
-		}
-		else if (fatal != other.fatal)
-		{
-			return fatal < other.fatal;
-		}
-		else
-		{
-			return indexed < other.indexed;
-		}
-	}
+  StorageErrorData(std::wstring message_, std::wstring translationUnit_, bool fatal_, bool indexed_);
 
-	std::wstring message;
-	std::wstring translationUnit;
-	bool fatal;
-	bool indexed;
+  bool operator<(const StorageErrorData& other) const;
+
+  std::wstring message;
+  std::wstring translationUnit;
+  bool fatal = false;
+  bool indexed = false;
 };
 
-struct StorageError: public StorageErrorData
-{
-	StorageError(): StorageErrorData(), id(0) {}
+struct StorageError : public StorageErrorData {
+  StorageError();
 
-	StorageError(Id id, const StorageErrorData& data): StorageErrorData(data), id(id) {}
+  StorageError(Id id_, const StorageErrorData& data);
 
-	StorageError(Id id, std::wstring message, std::wstring translationUnit, bool fatal, bool indexed)
-		: StorageErrorData(std::move(message), std::move(translationUnit), fatal, indexed), id(id)
-	{
-	}
+  StorageError(Id id_, std::wstring message_, std::wstring translationUnit_, bool fatal_, bool indexed_);
 
-	Id id;
+  Id id = 0;
 };
 
-#endif	  // STORAGE_ERROR_H
+}    // namespace utility

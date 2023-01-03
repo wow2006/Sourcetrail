@@ -15,16 +15,16 @@ Id SearchController::getSchedulerId() const
 
 void SearchController::handleActivation(const MessageActivateBase* message)
 {
-	if (const MessageActivateTokens* m = dynamic_cast<const MessageActivateTokens*>(message))
+	if (const auto* messageAtivateTokens = dynamic_cast<const MessageActivateTokens*>(message))
 	{
-		if (!m->isEdge)
+		if (!messageAtivateTokens->isEdge)
 		{
-			updateMatches(message, !m->keepContent());
+			updateMatches(message, !messageAtivateTokens->keepContent());
 		}
 	}
-	else if (const MessageActivateTrail* m = dynamic_cast<const MessageActivateTrail*>(message))
+	if (const auto* messageAtivateTrail = dynamic_cast<const MessageActivateTrail*>(message))
 	{
-		if (m->custom)
+		if (messageAtivateTrail->custom)
 		{
 			updateMatches(message);
 		}

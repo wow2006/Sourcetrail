@@ -36,7 +36,7 @@ public:
 	void addComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses) override;
 	void addElementComponent(const StorageElementComponent& component) override;
 	void addElementComponents(const std::vector<StorageElementComponent>& components) override;
-	Id addError(const StorageErrorData& data) override;
+	Id addError(const utility::StorageErrorData& data) override;
 
 	void removeElement(const Id id);
 	void removeElements(const std::vector<Id>& ids);
@@ -53,7 +53,7 @@ public:
 	const std::set<StorageOccurrence>& getStorageOccurrences() const override;
 	const std::set<StorageComponentAccess>& getComponentAccesses() const override;
 	const std::set<StorageElementComponent>& getElementComponents() const override;
-	const std::vector<StorageError>& getErrors() const override;
+	const std::vector<utility::StorageError>& getErrors() const override;
 
 	void startInjection() override;
 	void finishInjection() override;
@@ -209,7 +209,7 @@ private:
 		std::set<StorageOccurrence> occurrences;
 		std::set<StorageComponentAccess> accesses;
 		std::set<StorageElementComponent> components;
-		std::vector<StorageError> errors;
+		std::vector<utility::StorageError> errors;
 	} m_storageData;
 
 	Id getFileNodeId(const FilePath& filePath) const;

@@ -100,8 +100,8 @@ public:
 		bool isReferencing;
 	};
 
-	DummyNode(Type type)
-		: type(type)
+	DummyNode(Type type_)
+		: type(type_)
 		, visible(false)
 		, hidden(false)
 		, childVisible(false)
@@ -299,21 +299,21 @@ public:
 		}
 	}
 
-	Id setBundleIdRecursive(Id bundleId)
+	Id setBundleIdRecursive(Id bundleId_)
 	{
 		if (isBundleNode())
 		{
-			bundleId++;
+			bundleId_++;
 		}
 
-		this->bundleId = bundleId;
+		this->bundleId = bundleId_;
 
 		for (const std::shared_ptr<DummyNode>& node: bundledNodes)
 		{
-			bundleId = node->setBundleIdRecursive(bundleId);
+			bundleId_ = node->setBundleIdRecursive(bundleId_);
 		}
 
-		return bundleId;
+		return bundleId_;
 	}
 
 	bool hasMissingChildNodes() const

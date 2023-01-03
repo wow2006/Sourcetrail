@@ -13,8 +13,8 @@ public:
 		CODE
 	};
 
-	MessageFocusChanged(ViewType type, Id tokenOrLocationId)
-		: type(type), tokenOrLocationId(tokenOrLocationId)
+	MessageFocusChanged(ViewType type_, Id tokenOrLocationId_)
+		: type(type_), tokenOrLocationId(tokenOrLocationId_)
 	{
 		setIsLogged(false);
 		setSchedulerId(TabId::currentTab());

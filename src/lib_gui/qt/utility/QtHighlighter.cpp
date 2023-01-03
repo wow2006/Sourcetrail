@@ -364,11 +364,11 @@ std::vector<std::tuple<QtHighlighter::HighlightType, int, int>> QtHighlighter::c
 
 QtHighlighter::HighlightingRule::HighlightingRule() {}
 
-QtHighlighter::HighlightingRule::HighlightingRule(HighlightType type,
-                                                  const QRegExp& regExp,
-                                                  bool priority,
-                                                  bool multiLine)
-    : type(type), pattern(regExp), priority(priority), multiLine(multiLine) {}
+QtHighlighter::HighlightingRule::HighlightingRule(HighlightType type_,
+                                                  const QRegExp& regExp_,
+                                                  bool priority_,
+                                                  bool multiLine_)
+    : type(type_), pattern(regExp_), priority(priority_), multiLine(multiLine_) {}
 
 bool QtHighlighter::isInRange(int pos,
                               const std::vector<std::tuple<HighlightType, int, int>>& ranges) const {

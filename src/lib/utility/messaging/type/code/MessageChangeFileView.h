@@ -1,6 +1,8 @@
 #ifndef MESSAGE_CHANGE_FILE_VIEW_H
 #define MESSAGE_CHANGE_FILE_VIEW_H
 
+#include <utility>
+
 #include "CodeScrollParams.h"
 #include "CodeSnippetParams.h"
 #include "FilePath.h"
@@ -25,16 +27,16 @@ public:
 	};
 
 	MessageChangeFileView(
-		const FilePath& filePath,
-		FileState state,
-		ViewMode viewMode,
-		CodeScrollParams scrollParams,
-		bool switchesViewMode = false)
-		: filePath(filePath)
-		, state(state)
-		, viewMode(viewMode)
-		, scrollParams(scrollParams)
-		, switchesViewMode(switchesViewMode)
+		const FilePath& filePath_,
+		FileState state_,
+		ViewMode viewMode_,
+		CodeScrollParams scrollParams_,
+		bool switchesViewMode_ = false)
+		: filePath(filePath_)
+		, state(state_)
+		, viewMode(viewMode_)
+		, scrollParams(std::move(scrollParams_))
+		, switchesViewMode(switchesViewMode_)
 	{
 		setSchedulerId(TabId::currentTab());
 	}
