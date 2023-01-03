@@ -25,7 +25,7 @@ set(DOCKER_BUILD
     OFF
     CACHE BOOL "Build runs in Docker")
 set(TREAT_WARNINGS_AS_ERRORS
-    ON
+    OFF
     CACHE BOOL "Treat compiler warnings as errors")
 set(BUILD_COVERAGE
     OFF
