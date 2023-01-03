@@ -1,5 +1,6 @@
 // STL
 #include <algorithm>
+#include <cmath>
 #include <cstdarg>
 #include <cstddef>
 #include <cstdint>
@@ -13,6 +14,7 @@
 #include <set>
 #include <sstream>
 #include <stack>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <type_traits>

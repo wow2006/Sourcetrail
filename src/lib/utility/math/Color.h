@@ -1,52 +1,37 @@
-#ifndef COLOR_H
-#define COLOR_H
-
-#include <sstream>
-#include <string>
+#pragma once
 
 template <class T>
-class Color
-{
+class Color {
 public:
-	static Color<T> fromString(std::string str);
+  static Color<T> fromString(const std::string& str);
 
-	Color();
-	Color(T r, T g, T b, T a);
+  Color();
+  Color(T r_, T g_, T b_, T a_);
 
-	std::string toString() const;
+  [[nodiscard]] std::string toString() const;
 
-	T r, g, b, a;
+  T r, g, b, a;
 };
 
 template <class T>
-Color<T> Color<T>::fromString(std::string str)
-{
-	Color<T> color;
-	std::stringstream ss;
-	ss << str;
-	ss >> color.r >> color.g >> color.b >> color.a;
-	return color;
+Color<T> Color<T>::fromString(const std::string& str) {
+  Color<T> color;
+  std::stringstream stringstream;
+  stringstream << str;
+  stringstream >> color.r >> color.g >> color.b >> color.a;
+  return color;
 }
 
 template <class T>
-Color<T>::Color(): r(0), g(0), b(0), a(0)
-{
-}
+Color<T>::Color(): r(0), g(0), b(0), a(0) {}
 
 template <class T>
-Color<T>::Color(T r, T g, T b, T a): r(r), g(g), b(b), a(a)
-{
-}
+Color<T>::Color(T r_, T g_, T b_, T a_): r(r_), g(g_), b(b_), a(a_) {}
 
 template <class T>
-std::string Color<T>::toString() const
-{
-	std::stringstream ss;
-	ss << r << ' ' << g << ' ' << b << ' ' << a;
-	return ss.str();
+std::string Color<T>::toString() const {
+  return fmt::format("{} {} {} {}", r, g, b, a);
 }
 
-typedef Color<float> Colorf;
-typedef Color<int> Colori;
-
-#endif	  // COLOR_H
+using Colorf = Color<float>;
+using Colori = Color<int>;
