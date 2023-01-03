@@ -1,20 +1,16 @@
-#ifndef SOURCE_GROUP_FACTORY_MODULE_H
-#define SOURCE_GROUP_FACTORY_MODULE_H
-
-#include <memory>
+#pragma once
 
 #include "SourceGroupType.h"
 
 class SourceGroup;
 class SourceGroupSettings;
 
-class SourceGroupFactoryModule
-{
+class SourceGroupFactoryModule {
 public:
-	virtual ~SourceGroupFactoryModule();
-	virtual bool supports(SourceGroupType type) const = 0;
-	virtual std::shared_ptr<SourceGroup> createSourceGroup(
-		std::shared_ptr<SourceGroupSettings> settings) const = 0;
-};
+  virtual ~SourceGroupFactoryModule();
 
-#endif	  // SOURCE_GROUP_FACTORY_MODULE_H
+  virtual bool supports(SourceGroupType type) const = 0;
+
+  virtual std::shared_ptr<SourceGroup> createSourceGroup(
+      std::shared_ptr<SourceGroupSettings> settings) const = 0;
+};

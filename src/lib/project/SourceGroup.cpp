@@ -3,9 +3,10 @@
 #include "FilePath.h"
 #include "FilePathFilter.h"
 #include "MemoryIndexerCommandProvider.h"
-#include "ProjectSettings.h"
 #include "SourceGroupSettings.h"
 #include "TaskLambda.h"
+
+SourceGroup::~SourceGroup() = default;
 
 std::shared_ptr<IndexerCommandProvider> SourceGroup::getIndexerCommandProvider(
     const RefreshInfo& info) const {
