@@ -1,6 +1,5 @@
 // STL
 #include <iostream>
-#include <ranges>
 #include <sstream>
 #include <vector>
 #include <string>

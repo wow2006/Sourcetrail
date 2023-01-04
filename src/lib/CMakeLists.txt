@@ -281,7 +281,11 @@ target_include_directories(
          ${CMAKE_CURRENT_LIST_DIR}/utility/commandline
          ${CMAKE_CURRENT_LIST_DIR}/utility/commandline/commands)
 
-target_link_libraries(Sourcetrail_lib PUBLIC sqlite::sqlite fmt::fmt)
+target_link_libraries(
+  Sourcetrail_lib
+  PUBLIC sqlite::sqlite
+         fmt::fmt
+         $<$<PLATFORM_ID:Linux>:rt>)
 
 target_link_libraries(
   Sourcetrail_lib
@@ -293,13 +297,17 @@ target_link_libraries(
           sqlite::sqlite
           Qt5::Core
           Qt5::Widgets # for QtHelpButtonInfo.cpp
-          tinyxml::tinyxml)
+          tinyxml::tinyxml
+          $<$<PLATFORM_ID:Windows>:bcrypt>)
+
+if(WIN32)
+    target_compile_definitions(Sourcetrail_lib PUBLIC NOMINMAX)
+endif()
 
 target_precompile_headers(
   Sourcetrail_lib
   PUBLIC
-  precompiled.hpp
-)
+  precompiled.hpp)
 
 set_source_files_properties(
   ${MOCED_FILES}

@@ -198,7 +198,6 @@ find_package(
   Boost 1.67
   COMPONENTS system program_options filesystem date_time
   REQUIRED)
-
 # Qt ---------------------------------------------------------------------------
 set(QT_MIN_VERSION "5.12.0")
 set(QT_MIN_VERSION_HEX 0x051200)
@@ -239,5 +238,7 @@ endif()
 if(BUILD_TEST OR BUILD_FUNC)
   enable_testing()
 endif()
+
+include(cmake/copy_qt_dll.cmake)
 
 add_subdirectory(src)

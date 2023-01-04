@@ -1,13 +1,16 @@
 # ${CMAKE_SOURCE_DIR}/src/app/CMakeLists.txt
+add_executable(Sourcetrail main.cpp)
+
 if(WIN32)
   file(
     WRITE ${CMAKE_BINARY_DIR}/Sourcetrail.rc
     "// Icon with lowest ID value placed first to ensure application icon\n"
     "// remains consistent on all systems.\n"
-    "IDI_ICON1               ICON                    \"${CMAKE_BINARY_DIR}/Sourcetrail.ico\"\n"
-  )
+    "IDI_ICON1               ICON                    \"${CMAKE_BINARY_DIR}/Sourcetrail.ico\"\n")
 
-  add_executable(Sourcetrail main.cpp ${CMAKE_BINARY_DIR}/Sourcetrail.rc)
+  target_sources(
+      Sourcetrail
+      PRIVATE ${CMAKE_BINARY_DIR}/Sourcetrail.rc)
 
   # also show the console when running a release build.
   set_target_properties(
@@ -26,8 +29,6 @@ if(WIN32)
                        ${CMAKE_BINARY_DIR})
   string(REGEX REPLACE "/" "\\\\" BACKSLASHED_CMAKE_SOURCE_DIR
                        ${CMAKE_SOURCE_DIR})
-else()
-  add_executable(Sourcetrail main.cpp)
 endif()
 
 create_source_groups(Sourcetrail)
@@ -35,13 +36,13 @@ create_source_groups(Sourcetrail)
 target_link_libraries(
   Sourcetrail
   PRIVATE
-  Sourcetrail_lib
-  Sourcetrail_lib_gui
-  $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
-  $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>
-  Qt5::Widgets
-  Qt5::Network)
+    Sourcetrail_lib
+    Sourcetrail_lib_gui
+    $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
+    $<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
+    $<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>
+    Qt5::Widgets
+    Qt5::Network)
 
 target_include_directories(
   Sourcetrail
