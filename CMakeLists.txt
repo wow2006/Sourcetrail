@@ -79,10 +79,13 @@ endif()
 # Variables --------------------------------------------------------------------
 if(WIN32)
   set(PLATFORM_INCLUDE "includesWindows.h")
+  add_compile_definitions(WINDOWS)
 elseif(APPLE)
   set(PLATFORM_INCLUDE "includesMac.h")
+  add_compile_definitions(APPLE)
 else()
   set(PLATFORM_INCLUDE "includesLinux.h")
+  add_compile_definitions(LINUX)
 endif()
 
 set(BASH "")
