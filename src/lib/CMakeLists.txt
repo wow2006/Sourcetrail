@@ -60,6 +60,7 @@ target_sources(
     component/view/TooltipView.cpp
     component/view/UndoRedoView.cpp
     component/view/View.cpp
+    component/view/ViewFactory.cpp
     component/view/ViewLayout.cpp
     component/view/ViewWidgetWrapper.cpp
     component/Component.cpp

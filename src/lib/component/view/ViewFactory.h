@@ -29,7 +29,7 @@ class ViewLayout;
 class ViewFactory
 {
 public:
-	virtual ~ViewFactory() = default;
+	virtual ~ViewFactory();
 
 	virtual std::shared_ptr<MainView> createMainView(StorageAccess* storageAccess) const = 0;
 	virtual std::shared_ptr<CompositeView> createCompositeView(
