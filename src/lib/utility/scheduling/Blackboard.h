@@ -9,14 +9,14 @@
 #include "logging.h"
 
 struct BlackboardItemBase {
-  virtual ~BlackboardItemBase() {}
+  virtual ~BlackboardItemBase();
 };
 
 template <typename T>
 struct BlackboardItem : public BlackboardItemBase {
   BlackboardItem(const T& v): value(v) {}
 
-  virtual ~BlackboardItem() {}
+  virtual ~BlackboardItem() = default;
 
   T value;
 };
@@ -61,10 +61,9 @@ template <typename T>
 bool Blackboard::get(const std::string& key, T& value) {
   std::lock_guard<std::mutex> lock(m_itemMutex);
 
-  ItemMap::const_iterator it = m_items.find(key);
-  if(it != m_items.end()) {
-    if(std::shared_ptr<BlackboardItem<T>> item = std::dynamic_pointer_cast<BlackboardItem<T>>(
-           it->second)) {
+  auto itr = m_items.find(key);
+  if(itr != m_items.end()) {
+    if(auto item = std::dynamic_pointer_cast<BlackboardItem<T>>(itr->second)) {
       value = item->value;
       return true;
     }
@@ -74,7 +73,7 @@ bool Blackboard::get(const std::string& key, T& value) {
     return m_parent->get(key, value);
   }
 
-  LOG_WARNING("Entry for \"" + key + "\" not found on blackboard.");
+  LOG_WARNING(fmt::format("Entry for \"{}\" not found on blackboard.", key));
   return false;
 }
 
@@ -82,15 +81,14 @@ template <typename T>
 bool Blackboard::update(const std::string& key, std::function<T(const T&)> updater) {
   std::lock_guard<std::mutex> lock(m_itemMutex);
 
-  ItemMap::const_iterator it = m_items.find(key);
-  if(it != m_items.end()) {
-    if(std::shared_ptr<BlackboardItem<T>> item = std::dynamic_pointer_cast<BlackboardItem<T>>(
-           it->second)) {
+  auto itr = m_items.find(key);
+  if(itr != m_items.end()) {
+    if(auto item = std::dynamic_pointer_cast<BlackboardItem<T>>(itr->second)) {
       item->value = updater(item->value);
       return true;
     }
   }
 
-  LOG_WARNING("Entry for \"" + key + "\" not found on blackboard.");
+  LOG_WARNING(fmt::format("Entry for \"{}\" not found on blackboard.", key));
   return false;
 }

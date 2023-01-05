@@ -85,6 +85,9 @@ endif()
     -Wno-enum-enum-conversion # TODO: Removed after fixing QKeySequence
     -Wno-unknown-warning-option
     -fvisibility-inlines-hidden
+    -Wweak-vtables
+    -Wuninitialized
+    -Wthread-safety
   )
 
   set(GCC_WARNINGS

@@ -1,6 +1,8 @@
 #include "IndexerCommandProvider.h"
 
-bool IndexerCommandProvider::empty() const
-{
-	return size() == 0;
+
+IndexerCommandProvider::~IndexerCommandProvider() = default;
+
+bool IndexerCommandProvider::empty() const {
+  return size() == 0;
 }

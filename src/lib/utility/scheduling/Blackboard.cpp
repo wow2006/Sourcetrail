@@ -1,5 +1,7 @@
 #include "Blackboard.h"
 
+BlackboardItemBase::~BlackboardItemBase() = default;
+
 Blackboard::Blackboard() = default;
 
 Blackboard::Blackboard(std::shared_ptr<Blackboard> parent): m_parent(std::move(parent)) {}
@@ -7,16 +9,16 @@ Blackboard::Blackboard(std::shared_ptr<Blackboard> parent): m_parent(std::move(p
 bool Blackboard::exists(const std::string& key) {
   std::lock_guard<std::mutex> lock(m_itemMutex);
 
-  ItemMap::const_iterator it = m_items.find(key);
-  return (it != m_items.end());
+  auto itr = m_items.find(key);
+  return (itr != m_items.end());
 }
 
 bool Blackboard::clear(const std::string& key) {
   std::lock_guard<std::mutex> lock(m_itemMutex);
 
-  ItemMap::const_iterator it = m_items.find(key);
-  if(it != m_items.end()) {
-    m_items.erase(it);
+  auto itr = m_items.find(key);
+  if(itr != m_items.end()) {
+    m_items.erase(itr);
     return true;
   }
   return false;

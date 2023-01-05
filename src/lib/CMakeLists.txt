@@ -114,6 +114,7 @@ target_sources(
     data/parser/AccessKind.cpp
     data/parser/ParseLocation.cpp
     data/parser/Parser.cpp
+    data/parser/ParserClient.cpp
     data/parser/ParserClientImpl.cpp
     data/parser/ReferenceKind.cpp
     data/parser/SymbolKind.cpp
@@ -130,6 +131,7 @@ target_sources(
     data/storage/IntermediateStorage.cpp
     data/storage/PersistentStorage.cpp
     data/storage/Storage.cpp
+    data/storage/StorageAccess.cpp
     data/storage/StorageAccessProxy.cpp
     data/storage/StorageCache.cpp
     data/storage/StorageProvider.cpp

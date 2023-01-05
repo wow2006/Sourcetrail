@@ -4,7 +4,6 @@
 
 #include "AppPath.h"
 #include "ApplicationSettings.h"
-#include "ConsoleLogger.h"
 #include "FileLogger.h"
 #include "InterprocessIndexer.h"
 #include "LanguagePackageManager.h"
@@ -20,23 +19,18 @@
 #endif    // BUILD_JAVA_LANGUAGE_PACKAGE
 
 void setupLogging(const FilePath& logFilePath) {
-  LogManager* logManager = LogManager::getInstance().get();
+  auto* pLogManager = LogManager::getInstance().get();
 
-  // std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
-  // // consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
-  // consoleLogger->setLogLevel(Logger::LOG_ALL);
-  // logManager->addLogger(consoleLogger);
-
-  std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
-  fileLogger->setLogFilePath(logFilePath);
-  fileLogger->setLogLevel(Logger::LOG_ALL);
-  logManager->addLogger(fileLogger);
+  auto pFileLogger = std::make_shared<FileLogger>();
+  pFileLogger->setLogFilePath(logFilePath);
+  pFileLogger->setLogLevel(Logger::LOG_ALL);
+  pLogManager->addLogger(pFileLogger);
 }
 
 void suppressCrashMessage() {
-#ifdef _WIN32
+#ifdef WINDOWS
   SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
-#endif    // _WIN32
+#endif    // WINDOWS
 }
 
 int main(int argc, char* argv[]) {
@@ -75,9 +69,9 @@ int main(int argc, char* argv[]) {
 
   suppressCrashMessage();
 
-  ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-  appSettings->load(FilePath(UserPaths::getAppSettingsFilePath()));
-  LogManager::getInstance()->setLoggingEnabled(appSettings->getLoggingEnabled());
+  auto* pAppSettings = ApplicationSettings::getInstance().get();
+  pAppSettings->load((UserPaths::getAppSettingsFilePath()));
+  LogManager::getInstance()->setLoggingEnabled(pAppSettings->getLoggingEnabled());
 
   LOG_INFO(L"sharedDataPath: " + AppPath::getSharedDataDirectoryPath().wstr());
   LOG_INFO(L"userDataPath: " + UserPaths::getUserDataDirectoryPath().wstr());
@@ -91,7 +85,7 @@ int main(int argc, char* argv[]) {
   LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageJava>());
 #endif    // BUILD_JAVA_LANGUAGE_PACKAGE
 
-  InterprocessIndexer indexer(instanceUuid, processId);
+  InterprocessIndexer indexer(instanceUuid, static_cast<Id>(processId));
   indexer.work();
 
   return 0;
