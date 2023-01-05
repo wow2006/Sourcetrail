@@ -1,14 +1,8 @@
 #include "Version.h"
-// STL
-#include <iostream>
-#include <regex>
-#include <sstream>
-#include <string>
-#include <vector>
 
 inline constexpr auto MinMinorNumber = 0;
 inline constexpr auto MaxMinorNumber = 5;
-inline constexpr auto MinYear        = 2016;
+inline constexpr auto MinYear = 2016;
 
 Version Version::s_version;    // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
@@ -32,7 +26,7 @@ Version Version::fromString(const std::string& versionString) {
     }
   }
 
-  return Version{};
+  return Version {};
 }
 
 void Version::setApplicationVersion(const Version& version) {
@@ -55,7 +49,7 @@ bool Version::isValid() const {
 }
 
 Version Version::toShortVersion() const {
-  return Version{m_year, m_minorNumber};
+  return Version {m_year, m_minorNumber};
 }
 
 std::string Version::toShortString() const {

@@ -52,16 +52,16 @@ void signalHandler(int /*signum*/) {
 }
 
 void setupLogging() {
-  LogManager* logManager = LogManager::getInstance().get();
+  auto* pLogManager = LogManager::getInstance().get();
 
-  std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
-  consoleLogger->setLogLevel(Logger::LOG_ALL);
-  logManager->addLogger(consoleLogger);
+  auto pConsoleLogger = std::make_shared<ConsoleLogger>();
+  pConsoleLogger->setLogLevel(Logger::LOG_ALL);
+  pLogManager->addLogger(pConsoleLogger);
 
-  std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
-  fileLogger->setLogLevel(Logger::LOG_ALL);
-  fileLogger->deleteLogFiles(FileLogger::generateDatedFileName(L"log", L"", -30));
-  logManager->addLogger(fileLogger);
+  auto pFileLogger = std::make_shared<FileLogger>();
+  pFileLogger->setLogLevel(Logger::LOG_ALL);
+  pFileLogger->deleteLogFiles(FileLogger::generateDatedFileName(L"log", L"", -30));
+  pLogManager->addLogger(pFileLogger);
 }
 
 void addLanguagePackages() {
@@ -89,13 +89,8 @@ void addLanguagePackages() {
 }
 
 int main(int argc, char* argv[]) {
-  // auto p = utility::executeProcessBoost(utility::searchPath(L"mvn") + L" --version",
-  // FilePath("/Users/ebsi/Documents/boost_1_67_0"), 3000); std::wcout << p.first << " " << p.second
-  // << std::endl; return 0;
-
-
   QCoreApplication::addLibraryPath(QStringLiteral("."));
-#ifdef WIN32
+#ifdef WINDOWS
 #pragma warning(push)
 #pragma warning(disable : 4996)
 #endif
@@ -103,7 +98,7 @@ int main(int argc, char* argv[]) {
      !FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/../share").exists()) {
     std::cout << "ERROR: Please run Sourcetrail via the Sourcetrail.sh script!" << std::endl;
   }
-#ifdef WIN32
+#ifdef WINDOWS
 #pragma warning(pop)
 #endif
 
@@ -167,7 +162,7 @@ int main(int argc, char* argv[]) {
     return QtCoreApplication::exec();
   }
 
-#ifdef _WIN32
+#ifdef WINDOWS
   {
     HWND consoleWnd = GetConsoleWindow();
     DWORD dwProcessId;
@@ -190,7 +185,7 @@ int main(int argc, char* argv[]) {
   QtNetworkFactory networkFactory;
 
   Application::createInstance(version, &viewFactory, &networkFactory);
-  ScopedFunctor f([]() { Application::destroyInstance(); });
+  ScopedFunctor destroyApplicationAtExist([]() { Application::destroyInstance(); });
 
   ApplicationSettingsPrefiller::prefillPaths(ApplicationSettings::getInstance().get());
   addLanguagePackages();

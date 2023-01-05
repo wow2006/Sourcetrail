@@ -1,9 +1,12 @@
 #include "QtBookmarkBrowser.h"
 
+#include <QComboBox>
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QLabel>
+#include <QListWidget>
 #include <QPushButton>
+#include <QTreeWidget>
 #include <QVBoxLayout>
 
 #include "QtBookmark.h"
@@ -15,7 +18,7 @@ QtBookmarkBrowser::QtBookmarkBrowser(ControllerProxy<BookmarkController>* contro
                                      QWidget* parent)
     : QtWindow(false, parent), m_controllerProxy(controllerProxy) {}
 
-QtBookmarkBrowser::~QtBookmarkBrowser() {}
+QtBookmarkBrowser::~QtBookmarkBrowser() = default;
 
 void QtBookmarkBrowser::setupBookmarkBrowser() {
   setStyleSheet((utility::getStyleSheet(

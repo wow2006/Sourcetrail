@@ -54,7 +54,7 @@ bool TimeStamp::isValid() const {
 
 std::string TimeStamp::toString() const {
   std::stringstream stream;
-  auto* facet = new boost::posix_time::time_facet(); // NOLINT(cppcoreguidelines-owning-memory)
+  auto* facet = new boost::posix_time::time_facet();    // NOLINT(cppcoreguidelines-owning-memory)
   facet->format("%Y-%m-%d %H:%M:%S");
   stream.imbue(std::locale(std::locale::classic(), facet));
   stream << m_time;
@@ -63,7 +63,7 @@ std::string TimeStamp::toString() const {
 
 std::string TimeStamp::getDDMMYYYYString() const {
   std::stringstream stream;
-  auto* facet = new boost::posix_time::time_facet(); // NOLINT(cppcoreguidelines-owning-memory)
+  auto* facet = new boost::posix_time::time_facet();    // NOLINT(cppcoreguidelines-owning-memory)
   facet->format("%d-%m-%Y");
   stream.imbue(std::locale(std::locale::classic(), facet));
   stream << m_time;
@@ -108,9 +108,9 @@ size_t TimeStamp::deltaHours(const TimeStamp& other) const {
 }
 
 bool TimeStamp::isSameDay(const TimeStamp& other) const {
-  return m_time.date().day()   == other.m_time.date().day() &&
-         m_time.date().month() == other.m_time.date().month() &&
-         m_time.date().year()  == other.m_time.date().year();
+  return m_time.date().day() == other.m_time.date().day() &&
+      m_time.date().month() == other.m_time.date().month() &&
+      m_time.date().year() == other.m_time.date().year();
 }
 
 size_t TimeStamp::deltaDays(const TimeStamp& other) const {

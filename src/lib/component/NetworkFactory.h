@@ -1,20 +1,15 @@
-#ifndef NETWORK_FACTORY_H
-#define NETWORK_FACTORY_H
-
-#include <memory>
+#pragma once
 
 class IDECommunicationController;
 class StorageAccess;
 class UpdateChecker;
 
-class NetworkFactory
-{
+class NetworkFactory {
 public:
-	NetworkFactory();
-	virtual ~NetworkFactory();
+  NetworkFactory();
 
-	virtual std::shared_ptr<IDECommunicationController> createIDECommunicationController(
-		StorageAccess* storageAccess) const = 0;
+  virtual ~NetworkFactory();
+
+  virtual std::shared_ptr<IDECommunicationController> createIDECommunicationController(
+      StorageAccess* storageAccess) const = 0;
 };
-
-#endif	  // NETWORK_FACTORY_H

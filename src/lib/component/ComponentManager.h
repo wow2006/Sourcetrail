@@ -1,8 +1,4 @@
-#ifndef COMPONENT_MANAGER_H
-#define COMPONENT_MANAGER_H
-
-#include <memory>
-#include <vector>
+#pragma once
 
 #include "Component.h"
 #include "ComponentFactory.h"
@@ -42,5 +38,3 @@ private:
 
 	std::map<DialogView::UseCase, std::shared_ptr<DialogView>> m_dialogViews;
 };
-
-#endif	  // COMPONENT_MANAGER_H

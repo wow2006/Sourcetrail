@@ -1,8 +1,4 @@
 #pragma once
-// STL
-#include <ctime>
-#include <string>
-#include <thread>
 
 struct LogMessage final {
 public:

@@ -1,6 +1,4 @@
 #pragma once
-// STL
-#include <string>
 
 class Version final {
 public:
@@ -27,7 +25,7 @@ public:
   Version& operator+=(const int& number);
 
 private:
-  static Version s_version; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+  static Version s_version;    // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
   int m_year;
   int m_minorNumber;

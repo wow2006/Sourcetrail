@@ -1,19 +1,15 @@
-#ifndef QT_APPLICATION_H
-#define QT_APPLICATION_H
+#pragma once
 
 #include <QApplication>
 
-class QtApplication: public QApplication
-{
-	Q_OBJECT
+class QtApplication : public QApplication {
+  Q_OBJECT
 public:
-	QtApplication(int& argc, char** argv);
+  QtApplication(int& argc, char** argv);
 
-	bool event(QEvent* event);
-	int exec();
+  bool event(QEvent* event);
+  int exec();
 
 private slots:
-	void onApplicationStateChanged(Qt::ApplicationState state);
+  void onApplicationStateChanged(Qt::ApplicationState state);
 };
-
-#endif	  // QT_APPLICATION_H

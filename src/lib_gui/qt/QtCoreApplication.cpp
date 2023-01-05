@@ -20,7 +20,7 @@ void QtCoreApplication::handleMessage(MessageStatus* message) {
     std::wcout << L"ERROR: ";
   }
 
-  for(const std::wstring& status: message->stati()) {
+  for(const auto& status: message->stati()) {
     std::wcout << status << std::endl;
   }
 }

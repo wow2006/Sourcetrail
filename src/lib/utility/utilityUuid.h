@@ -1,15 +1,5 @@
-#ifndef UTILITY_UUID_H
-#define UTILITY_UUID_H
+#pragma once
 
-#include <string>
-
-// #include <boost/uuid/uuid.hpp>
-
-namespace utility
-{
-// boost::uuids::uuid getUuid();
-// std::string uuidToString(const boost::uuids::uuid& uuid);
+namespace utility {
 std::string getUuidString();
-}	 // namespace utility
-
-#endif	  // UTILITY_UUID_H
+}    // namespace utility

@@ -1,7 +1,4 @@
-#ifndef UTILITY_APP_H
-#define UTILITY_APP_H
-
-#include <string>
+#pragma once
 
 #include "ApplicationArchitectureType.h"
 #include "FilePath.h"
@@ -55,5 +52,3 @@ constexpr ApplicationArchitectureType getApplicationArchitectureType() {
   return APPLICATION_ARCHITECTURE_UNKNOWN;
 }
 }    // namespace utility
-
-#endif    // UTILITY_APP_H

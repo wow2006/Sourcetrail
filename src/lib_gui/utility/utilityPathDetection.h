@@ -1,5 +1,4 @@
-#ifndef UTILITY_PATH_DETECTION_H
-#define UTILITY_PATH_DETECTION_H
+#pragma once
 
 #include "utility/path_detector/CombinedPathDetector.h"
 
@@ -12,6 +11,3 @@ std::shared_ptr<CombinedPathDetector> getCxxVsHeaderPathDetector();
 std::shared_ptr<CombinedPathDetector> getCxxHeaderPathDetector();
 std::shared_ptr<CombinedPathDetector> getCxxFrameworkPathDetector();
 }    // namespace utility
-
-
-#endif    // UTILITY_PATH_DETECTION_H

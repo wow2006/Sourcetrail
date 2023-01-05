@@ -1,7 +1,4 @@
-#ifndef TAB_H
-#define TAB_H
-
-#include <vector>
+#pragma once
 
 #include "ComponentManager.h"
 #include "MessageFocusView.h"
@@ -47,5 +44,3 @@ private:
 	ViewLayout* m_parentLayout;
 	ScreenSearchSender* m_screenSearchSender;
 };
-
-#endif	  // TAB_H

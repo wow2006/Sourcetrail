@@ -11,7 +11,8 @@ using StatusFilter = int;
 
 struct Status {
   explicit Status(std::wstring message_, bool isError_ = false)
-      : message(std::move(message_)), type(isError_ ? StatusType::STATUS_ERROR : StatusType::STATUS_INFO) {}
+      : message(std::move(message_))
+      , type(isError_ ? StatusType::STATUS_ERROR : StatusType::STATUS_INFO) {}
 
   std::wstring message;
   StatusType type;

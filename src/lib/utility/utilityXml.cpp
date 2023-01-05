@@ -2,8 +2,8 @@
 
 #include "tinyxml.h"
 
-#include "logging.h"
 #include "TextAccess.h"
+#include "logging.h"
 
 namespace utility {
 
@@ -45,8 +45,8 @@ std::vector<std::string> getValuesOfAllXmlElementsOnPath(const std::shared_ptr<T
   } else {
     if(doc.Error()) {
       LOG_ERROR(std::string("Error while parsing XML: ") + doc.ErrorDesc() + " (in line " +
-                std::to_string(doc.ErrorRow()) + ": \"" + textAccess->getLine(static_cast<uint32_t>(doc.ErrorRow())) +
-                "\")");
+                std::to_string(doc.ErrorRow()) + ": \"" +
+                textAccess->getLine(static_cast<uint32_t>(doc.ErrorRow())) + "\")");
     } else {
       LOG_ERROR("Unable to load file.");
     }

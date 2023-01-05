@@ -1,17 +1,12 @@
-#ifndef QT_ABOUT_H
-#define QT_ABOUT_H
+#pragma once
 
 #include "QtWindow.h"
 
-class QtAbout: public QtWindow
-{
-	Q_OBJECT
-
+class QtAbout : public QtWindow {
 public:
-	QtAbout(QWidget* parent = 0);
-	QSize sizeHint() const override;
+  QtAbout(QWidget* parent = 0);
 
-	void setupAbout();
+  QSize sizeHint() const override;
+
+  void setupAbout();
 };
-
-#endif	  // QT_ABOUT_H
