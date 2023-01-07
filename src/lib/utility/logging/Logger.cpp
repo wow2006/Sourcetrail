@@ -2,6 +2,8 @@
 
 Logger::Logger(const std::string& type): m_type(type), m_levelMask(LOG_ALL) {}
 
+Logger::~Logger() = default;
+
 std::string Logger::getType() const {
   return m_type;
 }

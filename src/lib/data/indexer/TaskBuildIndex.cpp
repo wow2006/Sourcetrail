@@ -12,6 +12,7 @@
 #include "TimeStamp.h"
 #include "UserPaths.h"
 #include "utility/utilityApp.h"
+#include "utilityString.h"
 
 TaskBuildIndex::TaskBuildIndex(size_t processCount,
                                std::shared_ptr<StorageProvider> storageProvider,

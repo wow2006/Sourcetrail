@@ -15,6 +15,7 @@
 #include "TabId.h"
 #include "TabsController.h"
 #include "utilityQt.h"
+#include "utilityString.h"
 
 QtTabsView::QtTabsView(ViewLayout* viewLayout)
 	: TabsView(viewLayout), m_widget(nullptr), m_insertedTabCount(0)
@@ -129,7 +130,7 @@ void QtTabsView::updateTab(Id tabId, const std::vector<SearchMatch>& matches)
 
 void QtTabsView::addTab()
 {
-	if (Application::getInstance()->isProjectLoaded())
+	if (lib::app::Application::getInstance()->isProjectLoaded())
 	{
 		insertTab(true, SearchMatch());
 	}

@@ -9,7 +9,7 @@ public:
 
   Logger(const std::string& type);
 
-  virtual ~Logger() = default;
+  virtual ~Logger();
 
   std::string getType() const;
 

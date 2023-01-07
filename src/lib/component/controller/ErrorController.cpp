@@ -79,7 +79,7 @@ void ErrorController::handleMessage(MessageErrorCountUpdate* message) {
 
     getView()->addErrors(errors, message->errorCount, true);
 
-    if(!Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->dialogsHidden()) {
+    if(!lib::app::Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->dialogsHidden()) {
       getView()->showDockWidget();
     }
 
@@ -92,9 +92,9 @@ void ErrorController::handleMessage(MessageErrorsAll* /*message*/) {
 }
 
 void ErrorController::handleMessage(MessageErrorsForFile* message) {
-  std::shared_ptr<const Project> project = Application::getInstance()->getCurrentProject();
+  auto project = lib::app::Application::getInstance()->getCurrentProject();
   if(project && project->isIndexing()) {
-    Application::getInstance()->handleDialog(
+    lib::app::Application::getInstance()->handleDialog(
         L"Showing errors for a file is not possible while indexing.");
     return;
   }

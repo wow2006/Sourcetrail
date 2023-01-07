@@ -210,12 +210,12 @@ void GraphController::handleMessage(MessageActivateTrail* message) {
   if(message->originId && message->targetId && !graph->getNodeById(message->targetId)) {
     MessageStatus(L"No trail graph found.", true).dispatch();
 
-    Application::getInstance()->handleDialog(
+    lib::app::Application::getInstance()->handleDialog(
         L"No custom trail was found between the specified symbols with the specified "
         L"parameters.",
         {L"Ok"});
   } else if(graph->getNodeCount() > 1000) {
-    int r = Application::getInstance()->handleDialog(
+    int returnCode = lib::app::Application::getInstance()->handleDialog(
         L"Warning!\n\nThe graph will contain " + std::to_wstring(graph->getNodeCount()) +
             " nodes. "
             L"Layouting and drawing might take a while and the resulting graph could look "
@@ -224,7 +224,7 @@ void GraphController::handleMessage(MessageActivateTrail* message) {
             L"Do you want to proceed?",
         {L"Yes", L"No"});
 
-    if(r == 1) {
+    if(returnCode == 1) {
       MessageStatus(L"Aborted graph display").dispatch();
       return;
     }

@@ -22,9 +22,9 @@ void SqliteBookmarkStorage::migrateIfNecessary() {
       std::make_shared<SqliteStorageMigrationLambda>([](const SqliteStorageMigration* migration,
                                                         SqliteStorage* storage) {
         std::string separator = "::";
-        if(Application::getInstance()) {
+        if(lib::app::Application::getInstance()) {
           std::shared_ptr<const Project> currentProject =
-              Application::getInstance()->getCurrentProject();
+              lib::app::Application::getInstance()->getCurrentProject();
           {
             LanguageType currentLanguage = ProjectSettings::getLanguageOfProject(
                 currentProject->getProjectSettingsFilePath());

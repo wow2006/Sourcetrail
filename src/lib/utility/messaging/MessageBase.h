@@ -1,23 +1,15 @@
 #pragma once
 
 #include "types.h"
-#include "utilityString.h"
 
 class MessageBase {
 public:
-  MessageBase()
-      : m_id(s_nextId++)
-      , m_schedulerId(0)
-      , m_isParallel(false)
-      , m_isReplayed(false)
-      , m_sendAsTask(true)
-      , m_keepContent(false)
-      , m_isLast(true)
-      , m_isLogged(true) {}
+  MessageBase();
 
-  virtual ~MessageBase() = default;
+  virtual ~MessageBase();
 
   virtual std::string getType() const = 0;
+
   virtual void dispatch() = 0;
 
   Id getId() const {
@@ -82,12 +74,7 @@ public:
 
   virtual void print(std::wostream& os) const = 0;
 
-  std::wstring str() const {
-    std::wstringstream ss;
-    ss << utility::decodeFromUtf8(getType()) << L" ";
-    print(ss);
-    return ss.str();
-  }
+  std::wstring str() const;
 
 private:
   static Id s_nextId;

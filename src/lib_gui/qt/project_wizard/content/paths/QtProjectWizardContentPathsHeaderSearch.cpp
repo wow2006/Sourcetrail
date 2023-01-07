@@ -169,7 +169,7 @@ void QtProjectWizardContentPathsHeaderSearch::validateIncludesButtonClicked()
 			std::vector<IncludeDirective> unresolvedIncludes;
 			{
 				QtDialogView* dialogView = dynamic_cast<QtDialogView*>(
-					Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
+					lib::app::Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
 
 				std::set<FilePath> sourceFilePaths;
 				std::vector<FilePath> indexedFilePaths;
@@ -245,7 +245,7 @@ void QtProjectWizardContentPathsHeaderSearch::finishedSelectDetectIncludesRootPa
 			std::set<FilePath> detectedHeaderSearchPaths;
 			{
 				QtDialogView* dialogView = dynamic_cast<QtDialogView*>(
-					Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
+					lib::app::Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
 
 				std::set<FilePath> sourceFilePaths;
 				std::vector<FilePath> headerSearchPaths;

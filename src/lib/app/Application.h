@@ -1,7 +1,4 @@
-#ifndef APPLICATION_H
-#define APPLICATION_H
-
-#include <memory>
+#pragma once
 
 #include "DialogView.h"
 #include "MessageActivateWindow.h"
@@ -23,77 +20,138 @@ class UpdateChecker;
 class Version;
 class ViewFactory;
 
+namespace lib::app {
+
+/**
+ * @brief The application instance
+ */
 class Application
-	: public MessageListener<MessageActivateWindow>
-	, public MessageListener<MessageCloseProject>
-	, public MessageListener<MessageIndexingFinished>
-	, public MessageListener<MessageLoadProject>
-	, public MessageListener<MessageRefresh>
-	, public MessageListener<MessageRefreshUI>
-	, public MessageListener<MessageSwitchColorScheme>
-{
+    : public MessageListener<MessageActivateWindow>
+    , public MessageListener<MessageCloseProject>
+    , public MessageListener<MessageIndexingFinished>
+    , public MessageListener<MessageLoadProject>
+    , public MessageListener<MessageRefresh>
+    , public MessageListener<MessageRefreshUI>
+    , public MessageListener<MessageSwitchColorScheme> {
 public:
-	static void createInstance(
-		const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory);
-	static std::shared_ptr<Application> getInstance();
-	static void destroyInstance();
+  /**
+   * @brief Create Application instance
+   *
+   * @param version Application version
+   * @param viewFactory view factory
+   * @param networkFactory network factory
+   */
+  static void createInstance(const Version& version,
+                             ViewFactory* viewFactory,
+                             NetworkFactory* networkFactory);
 
-	static std::string getUUID();
+  /**
+   * @name Disabled special member functions
+   * @{ */
+  Application(const Application&) = delete;
+  Application& operator=(const Application&) = delete;
+  Application(Application&&) = delete;
+  Application& operator=(Application&&) = delete;
+  /**  @} */
 
-	static void loadSettings();
-	static void loadStyle(const FilePath& colorSchemePath);
+  /**
+   * @brief Sinigletone instance
+   *
+   * @return Shared pointer for the application
+   */
+  static std::shared_ptr<Application> getInstance();
 
-	~Application();
+  /**
+   * @brief Destory the application instance
+   */
+  static void destroyInstance();
 
-	std::shared_ptr<const Project> getCurrentProject() const;
-	FilePath getCurrentProjectPath() const;
-	bool isProjectLoaded() const;
+  static std::string getUUID();
 
-	bool hasGUI();
+  static void loadSettings();
 
-	int handleDialog(const std::wstring& message);
-	int handleDialog(const std::wstring& message, const std::vector<std::wstring>& options);
-	std::shared_ptr<DialogView> getDialogView(DialogView::UseCase useCase);
+  static void loadStyle(const FilePath& colorSchemePath);
 
-	void updateHistoryMenu(std::shared_ptr<MessageBase> message);
-	void updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
+  ~Application() override;
+
+  [[nodiscard]] std::shared_ptr<Project> getCurrentProject() const {
+    return m_project;
+  }
+
+  [[nodiscard]] FilePath getCurrentProjectPath() const {
+    if(m_project) {
+      return m_project->getProjectSettingsFilePath();
+    }
+
+    return {};
+  }
+
+  [[nodiscard]] bool isProjectLoaded() const {
+    return m_project ? m_project->isLoaded() : false;
+  }
+
+  [[nodiscard]] bool hasGUI() const {
+    return m_hasGUI;
+  }
+
+  int handleDialog(const std::wstring& message);
+
+  int handleDialog(const std::wstring& message, const std::vector<std::wstring>& options);
+
+  std::shared_ptr<DialogView> getDialogView(DialogView::UseCase useCase);
+
+  void updateHistoryMenu(std::shared_ptr<MessageBase> message);
+
+  void updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
 private:
-	static std::shared_ptr<Application> s_instance;
-	static std::string s_uuid;
+  static std::shared_ptr<Application> s_instance; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
-	Application(bool withGUI = true);
+  static std::string s_uuid; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
-	void handleMessage(MessageActivateWindow* message) override;
-	void handleMessage(MessageCloseProject* message) override;
-	void handleMessage(MessageIndexingFinished* message) override;
-	void handleMessage(MessageLoadProject* message) override;
-	void handleMessage(MessageRefresh* message) override;
-	void handleMessage(MessageRefreshUI* message) override;
-	void handleMessage(MessageSwitchColorScheme* message) override;
+  explicit Application(bool withGUI = true);
 
-	void startMessagingAndScheduling();
+  /**
+   * @name Message listener group
+   * @{ */
+  void handleMessage(MessageActivateWindow* message) override;
 
-	void loadWindow(bool showStartWindow);
+  void handleMessage(MessageCloseProject* message) override;
 
-	void refreshProject(RefreshMode refreshMode, bool shallowIndexingRequested);
-	void updateRecentProjects(const FilePath& projectSettingsFilePath);
+  void handleMessage(MessageIndexingFinished* message) override;
 
-	void logStorageStats() const;
+  void handleMessage(MessageLoadProject* message) override;
 
-	void updateTitle();
+  void handleMessage(MessageRefresh* message) override;
 
-	bool checkSharedMemory();
+  void handleMessage(MessageRefreshUI* message) override;
 
-	const bool m_hasGUI;
-	bool m_loadedWindow = false;
+  void handleMessage(MessageSwitchColorScheme* message) override;
+  /**  @} */
 
-	std::shared_ptr<Project> m_project;
-	std::shared_ptr<StorageCache> m_storageCache;
+  void startMessagingAndScheduling();
 
-	std::shared_ptr<MainView> m_mainView;
+  void loadWindow(bool showStartWindow);
 
-	std::shared_ptr<IDECommunicationController> m_ideCommunicationController;
+  void refreshProject(RefreshMode refreshMode, bool shallowIndexingRequested);
+
+  void updateRecentProjects(const FilePath& projectSettingsFilePath);
+
+  void logStorageStats() const;
+
+  void updateTitle();
+
+  bool checkSharedMemory();
+
+  const bool m_hasGUI;
+  bool m_loadedWindow = false;
+
+  std::shared_ptr<Project> m_project;
+  std::shared_ptr<StorageCache> m_storageCache;
+
+  std::shared_ptr<MainView> m_mainView;
+
+  std::shared_ptr<IDECommunicationController> m_ideCommunicationController;
 };
 
-#endif	  // APPLICATION_H
+}    // namespace lib::app

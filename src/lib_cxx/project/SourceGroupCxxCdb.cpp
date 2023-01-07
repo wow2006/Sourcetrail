@@ -31,7 +31,7 @@ bool SourceGroupCxxCdb::prepareIndexing()
 			L"anymore: " +
 			cdbPath.wstr();
 		MessageStatus(error, true).dispatch();
-		Application::getInstance()->handleDialog(error, {L"Ok"});
+		lib::app::Application::getInstance()->handleDialog(error, {L"Ok"});
 		return false;
 	}
 	return true;

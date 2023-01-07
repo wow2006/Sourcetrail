@@ -74,7 +74,7 @@ std::vector<FilePath> QtProjectWizardContentPathSourceMaven::getFilePaths() cons
 		}
 
 		QtDialogView* dialogView = dynamic_cast<QtDialogView*>(
-			Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
+			lib::app::Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
 
 		ScopedFunctor scopedFunctor([&dialogView]() { dialogView->hideUnknownProgressDialog(); });
 
@@ -87,7 +87,7 @@ std::vector<FilePath> QtProjectWizardContentPathSourceMaven::getFilePaths() cons
 		if (!errorMessage.empty())
 		{
 			MessageStatus(errorMessage, true, false).dispatch();
-			Application::getInstance()->handleDialog(errorMessage);
+			lib::app::Application::getInstance()->handleDialog(errorMessage);
 			return std::vector<FilePath>();
 		}
 	}

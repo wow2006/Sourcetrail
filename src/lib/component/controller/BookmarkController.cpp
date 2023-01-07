@@ -549,5 +549,5 @@ void BookmarkController::update() {
     bookmarks.resize(maxBookmarkMenuCount);
   }
 
-  Application::getInstance()->updateBookmarks(bookmarks);
+  lib::app::Application::getInstance()->updateBookmarks(bookmarks);
 }

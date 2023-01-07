@@ -105,7 +105,7 @@ void TabsController::destroyTab(Id tabId) {
   // destroy the tab on the qt thread to allow view destruction
   m_tabs.erase(tabId);
 
-  if(m_tabs.empty() && Application::getInstance()->isProjectLoaded() && !m_isCreatingTab) {
+  if(m_tabs.empty() && lib::app::Application::getInstance()->isProjectLoaded() && !m_isCreatingTab) {
     MessageTabOpen().dispatch();
     m_isCreatingTab = true;
   }
@@ -121,13 +121,13 @@ TabsView* TabsController::getView() const {
 }
 
 void TabsController::handleMessage(MessageActivateErrors* /*message*/) {
-  if(m_tabs.empty() && Application::getInstance()->isProjectLoaded()) {
+  if(m_tabs.empty() && lib::app::Application::getInstance()->isProjectLoaded()) {
     MessageTabOpenWith(SearchMatch::createCommand(SearchMatch::COMMAND_ERROR)).dispatch();
   }
 }
 
 void TabsController::handleMessage(MessageIndexingFinished* /*message*/) {
-  if(m_tabs.empty() && Application::getInstance()->isProjectLoaded()) {
+  if(m_tabs.empty() && lib::app::Application::getInstance()->isProjectLoaded()) {
     MessageTabOpenWith(SearchMatch::createCommand(SearchMatch::COMMAND_ALL)).dispatch();
   }
 }
@@ -137,14 +137,14 @@ void TabsController::handleMessage(MessageTabClose* /*message*/) {
 }
 
 void TabsController::handleMessage(MessageTabOpen* /*message*/) {
-  if(Application::getInstance()->isProjectLoaded()) {
+  if(lib::app::Application::getInstance()->isProjectLoaded()) {
     getView()->openTab(true, SearchMatch());
     m_isCreatingTab = true;
   }
 }
 
 void TabsController::handleMessage(MessageTabOpenWith* message) {
-  if(!Application::getInstance()->isProjectLoaded()) {
+  if(!lib::app::Application::getInstance()->isProjectLoaded()) {
     return;
   }
 

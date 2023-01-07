@@ -140,7 +140,7 @@ void QtCodeFileTitleButton::updateTexts()
 		FilePath directoryPath = m_filePath.getParentDirectory();
 		std::wstring directory = directoryPath.wstr();
 
-		FilePath projectPath = Application::getInstance()->getCurrentProjectPath();
+		FilePath projectPath = lib::app::Application::getInstance()->getCurrentProjectPath();
 		std::wstring directoryRelative = directoryPath.getRelativeTo(projectPath).wstr();
 
 		if (directoryRelative.size() < directory.size())
@@ -197,7 +197,7 @@ void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)
 	FilePath path = m_filePath;
 	if (path.empty())
 	{
-		path = Application::getInstance()->getCurrentProjectPath();
+		path = lib::app::Application::getInstance()->getCurrentProjectPath();
 		if (path.empty())
 		{
 			return;

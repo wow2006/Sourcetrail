@@ -135,7 +135,7 @@ bool mavenCopyDependencies(
 	if (!errorMessage.empty())
 	{
 		MessageStatus(errorMessage, true, false).dispatch();
-		Application::getInstance()->handleDialog(errorMessage);
+		lib::app::Application::getInstance()->handleDialog(errorMessage);
 		return false;
 	}
 
@@ -164,7 +164,7 @@ std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
 	if (!errorMessage.empty())
 	{
 		MessageStatus(errorMessage, true, false).dispatch();
-		Application::getInstance()->handleDialog(errorMessage);
+		lib::app::Application::getInstance()->handleDialog(errorMessage);
 		return {};
 	}
 	else if (!outputPath.exists())

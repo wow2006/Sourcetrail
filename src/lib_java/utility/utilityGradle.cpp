@@ -74,9 +74,9 @@ std::vector<FilePath> gradleGetAllSourceDirectories(
 					L"The following error occurred while executing a Gradle command:\n\n" +
 					utility::decodeFromUtf8(utility::replace(output, "\r\n", "\n"));
 				MessageStatus(dialogMessage, true, false).dispatch();
-				if (Application::getInstance())
+				if (lib::app::Application::getInstance())
 				{
-					Application::getInstance()->handleDialog(dialogMessage);
+					lib::app::Application::getInstance()->handleDialog(dialogMessage);
 				}
 				return std::vector<FilePath>();
 			}
@@ -104,7 +104,7 @@ std::vector<FilePath> gradleGetAllSourceDirectories(
 					L"The following error occurred while executing a Gradle command:\n\n" +
 					utility::decodeFromUtf8(utility::replace(output, "\r\n", "\n"));
 				MessageStatus(dialogMessage, true, false).dispatch();
-				Application::getInstance()->handleDialog(dialogMessage);
+				lib::app::Application::getInstance()->handleDialog(dialogMessage);
 
 				return std::vector<FilePath>();
 			}

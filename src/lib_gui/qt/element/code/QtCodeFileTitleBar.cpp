@@ -149,7 +149,7 @@ void QtCodeFileTitleBar::setIsComplete(bool isComplete)
 	m_titleButton->setIsComplete(isComplete);
 	m_showErrorsButton->setVisible(!isComplete);
 
-	std::shared_ptr<const Project> project = Application::getInstance()->getCurrentProject();
+	const auto project = lib::app::Application::getInstance()->getCurrentProject();
 	if (project && project->isIndexing())
 	{
 		m_showErrorsButton->setVisible(false);

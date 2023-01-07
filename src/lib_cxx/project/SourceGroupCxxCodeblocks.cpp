@@ -24,7 +24,7 @@ bool SourceGroupCxxCodeblocks::prepareIndexing()
 			L"Can't refresh project. The referenced Code::Blocks project does not exist anymore: " +
 			codeblocksProjectPath.wstr();
 		MessageStatus(error, true).dispatch();
-		Application::getInstance()->handleDialog(error, {L"Ok"});
+		lib::app::Application::getInstance()->handleDialog(error, {L"Ok"});
 		return false;
 	}
 	return true;

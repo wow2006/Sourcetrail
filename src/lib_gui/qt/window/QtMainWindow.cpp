@@ -538,7 +538,7 @@ void QtMainWindow::openProject() {
 }
 
 void QtMainWindow::editProject() {
-  std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
+  std::shared_ptr<const Project> currentProject = lib::app::Application::getInstance()->getCurrentProject();
   if(currentProject) {
     QtProjectWizard* wizard = createWindow<QtProjectWizard>();
 
@@ -547,7 +547,7 @@ void QtMainWindow::editProject() {
 }
 
 void QtMainWindow::closeProject() {
-  if(Application::getInstance()->getCurrentProject()) {
+  if(lib::app::Application::getInstance()->getCurrentProject()) {
     MessageCloseProject().dispatch();
     showStartScreen();
   }

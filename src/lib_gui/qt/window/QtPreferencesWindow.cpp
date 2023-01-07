@@ -67,7 +67,7 @@ void QtPreferencesWindow::handleNext()
 
 	saveContent();
 
-	Application* app = Application::getInstance().get();
+	auto* app = lib::app::Application::getInstance().get();
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 
 	bool needsRestart = m_appSettings.getScreenAutoScaling() != appSettings->getScreenAutoScaling() ||
@@ -103,7 +103,7 @@ void QtPreferencesWindow::handleNext()
 	if (appSettingsChanged)
 	{
 		std::shared_ptr<const Project> currentProject =
-			Application::getInstance()->getCurrentProject();
+			lib::app::Application::getInstance()->getCurrentProject();
 		if (currentProject)
 		{
 			MessageLoadProject(currentProject->getProjectSettingsFilePath(), true).dispatch();

@@ -91,7 +91,7 @@ void CodeController::handleMessage(MessageActivateOverview* message) {
   saveOrRestoreViewMode(message);
   clearReferences();
 
-  std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
+  auto currentProject = lib::app::Application::getInstance()->getCurrentProject();
   if(!currentProject || message->acceptedNodeTypes != NodeTypeSet::all()) {
     clear();
     return;
@@ -109,46 +109,46 @@ void CodeController::handleMessage(MessageActivateOverview* message) {
 
   std::vector<std::string> description = getProjectDescription(statsSnippet.locationFile.get());
 
-  std::stringstream ss;
+  std::stringstream stringStream;
 
-  if(description.size()) {
-    ss << "\n";
-    for(const std::string& line: description) {
-      ss << line + "\n";
+  if(!description.empty()) {
+    stringStream << "\n";
+    for(const auto& line: description) {
+      stringStream << line + "\n";
     }
   }
 
   StorageStats stats = m_storageAccess->getStorageStats();
   ErrorCountInfo errorCount = m_storageAccess->getErrorCount();
 
-  ss << "\n";
+  stringStream << "\n";
   if(stats.timestamp.isValid()) {
-    ss << "\tlast indexed: " + stats.timestamp.toString() + "\n";
-    ss << "\n";
+    stringStream << "\tlast indexed: " + stats.timestamp.toString() + "\n";
+    stringStream << "\n";
   }
 
-  ss << "\t" + std::to_string(stats.fileCount) + " files";
-  ss << (stats.completedFileCount != stats.fileCount ?
+  stringStream << "\t" + std::to_string(stats.fileCount) + " files";
+  stringStream << (stats.completedFileCount != stats.fileCount ?
              " (" + std::to_string(stats.completedFileCount) + " complete)" :
              "") +
           "\n";
-  ss << "\t" + std::to_string(stats.fileLOCCount) + " lines of code\n";
-  ss << "\n";
-  ss << "\t" + std::to_string(stats.nodeCount) + " symbols\n";
-  ss << "\t" + std::to_string(stats.edgeCount) + " references\n";
-  ss << "\n";
-  ss << "\t" + std::to_string(errorCount.total) + " errors (" + std::to_string(errorCount.fatal) +
+  stringStream << "\t" + std::to_string(stats.fileLOCCount) + " lines of code\n";
+  stringStream << "\n";
+  stringStream << "\t" + std::to_string(stats.nodeCount) + " symbols\n";
+  stringStream << "\t" + std::to_string(stats.edgeCount) + " references\n";
+  stringStream << "\n";
+  stringStream << "\t" + std::to_string(errorCount.total) + " errors (" + std::to_string(errorCount.fatal) +
           " fatal)\n";
-  ss << "\n";
+  stringStream << "\n";
 
   if(errorCount.fatal) {
-    ss << "\tWarning: Your project has fatal errors, which cause\n";
-    ss << "\t  a lot of missing information in affected files.\n";
-    ss << "\t  Try to resolve them!\n";
-    ss << "\n";
+    stringStream << "\tWarning: Your project has fatal errors, which cause\n";
+    stringStream << "\t  a lot of missing information in affected files.\n";
+    stringStream << "\t  Try to resolve them!\n";
+    stringStream << "\n";
   }
 
-  statsSnippet.code = ss.str();
+  statsSnippet.code = stringStream.str();
 
   CodeFileParams file;
   file.isMinimized = false;
@@ -172,7 +172,7 @@ void CodeController::handleMessage(MessageActivateTokens* message) {
   saveOrRestoreViewMode(message);
 
   CodeView* view = getView();
-  if(!message->tokenIds.size()) {
+  if(message->tokenIds.empty()) {
     view->clear();
     return;
   }
@@ -775,18 +775,18 @@ const SourceLocation* CodeController::getSourceLocationOfParentScope(
 }
 
 std::vector<std::string> CodeController::getProjectDescription(SourceLocationFile* locationFile) const {
-  std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
+  auto currentProject = lib::app::Application::getInstance()->getCurrentProject();
   if(!currentProject) {
-    return std::vector<std::string>();
+    return {};
   }
 
-  std::string description = currentProject->getDescription();
-  if(!description.size()) {
-    return std::vector<std::string>();
+  auto description = currentProject->getDescription();
+  if(description.empty()) {
+    return {};
   }
 
   // todo fixme: this split currently prevents the next step from recognizing multi level name hierarchies.
-  std::vector<std::string> lines = utility::splitToVector(description, "\\n");
+  auto lines = utility::splitToVector(description, "\\n");
   size_t startLineNumber = 2;
 
   Id locationId = 0;

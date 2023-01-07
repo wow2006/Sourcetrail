@@ -73,7 +73,7 @@ bool SourceGroupJavaGradle::prepareGradleData()
 		const FilePath projectRootPath =
 			m_settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
-		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(
+		std::shared_ptr<DialogView> dialogView = lib::app::Application::getInstance()->getDialogView(
 			DialogView::UseCase::PROJECT_SETUP);
 
 		ScopedFunctor dialogHider([&dialogView]() { dialogView->hideUnknownProgressDialog(); });
@@ -97,7 +97,7 @@ std::vector<FilePath> SourceGroupJavaGradle::doGetAllSourcePaths() const
 	std::vector<FilePath> sourcePaths;
 	if (m_settings->getGradleProjectFilePathExpandedAndAbsolute().exists())
 	{
-		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(
+		std::shared_ptr<DialogView> dialogView = lib::app::Application::getInstance()->getDialogView(
 			DialogView::UseCase::PROJECT_SETUP);
 		dialogView->showUnknownProgressDialog(
 			L"Preparing Project", L"Gradle\nFetching Source Directories");

@@ -435,9 +435,9 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it) {
       }
     }
   } else if(m->getType() == MessageActivateErrors::getStaticType()) {
-    std::shared_ptr<const Project> currentProject = Application::getInstance()->getCurrentProject();
+    std::shared_ptr<const Project> currentProject = lib::app::Application::getInstance()->getCurrentProject();
     if(currentProject && currentProject->isIndexing()) {
-      Application::getInstance()->handleDialog(L"Errors cannot be activated while indexing.");
+      lib::app::Application::getInstance()->handleDialog(L"Errors cannot be activated while indexing.");
 
       ErrorFilter filter;
       filter.error = false;
@@ -524,7 +524,7 @@ MessageBase* UndoRedoController::lastMessage() const {
 }
 
 void UndoRedoController::updateHistoryMenu(std::shared_ptr<MessageBase> message) {
-  Application::getInstance()->updateHistoryMenu(message);
+  lib::app::Application::getInstance()->updateHistoryMenu(message);
 }
 
 void UndoRedoController::updateHistory() {

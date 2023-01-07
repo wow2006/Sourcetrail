@@ -133,8 +133,8 @@ int main(int argc, char* argv[]) {
 
     setupLogging();
 
-    Application::createInstance(version, nullptr, nullptr);
-    ScopedFunctor f([]() { Application::destroyInstance(); });
+    lib::app::Application::createInstance(version, nullptr, nullptr);
+    ScopedFunctor f([]() { lib::app::Application::destroyInstance(); });
 
     ApplicationSettingsPrefiller::prefillPaths(ApplicationSettings::getInstance().get());
     addLanguagePackages();
@@ -184,8 +184,8 @@ int main(int argc, char* argv[]) {
   QtViewFactory viewFactory;
   QtNetworkFactory networkFactory;
 
-  Application::createInstance(version, &viewFactory, &networkFactory);
-  ScopedFunctor destroyApplicationAtExist([]() { Application::destroyInstance(); });
+  lib::app::Application::createInstance(version, &viewFactory, &networkFactory);
+  ScopedFunctor destroyApplicationAtExist([]() { lib::app::Application::destroyInstance(); });
 
   ApplicationSettingsPrefiller::prefillPaths(ApplicationSettings::getInstance().get());
   addLanguagePackages();
@@ -194,7 +194,7 @@ int main(int argc, char* argv[]) {
   utility::loadFontsFromDirectory(ResourcePaths::getFontsDirectoryPath(), L".ttf");
 
   if(commandLineParser.hasError()) {
-    Application::getInstance()->handleDialog(commandLineParser.getError());
+    lib::app::Application::getInstance()->handleDialog(commandLineParser.getError());
   } else {
     MessageLoadProject(commandLineParser.getProjectFilePath(), false, REFRESH_NONE).dispatch();
   }

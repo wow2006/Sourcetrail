@@ -245,8 +245,8 @@ TEST_CASE("can setup environment factory") {
 TEST_CASE("can create application instance") {
   // required to query in SourceGroup for dialog view... this is not a very elegant solution.
   // should be refactored to pass dialog view to SourceGroup on creation.
-  Application::createInstance(Version(), nullptr, nullptr);
-  REQUIRE(Application::getInstance().use_count() >= 1);
+  lib::app::Application::createInstance(Version(), nullptr, nullptr);
+  REQUIRE(lib::app::Application::getInstance().use_count() >= 1);
 }
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
@@ -532,6 +532,6 @@ TEST_CASE("source group custom command generates expected output") {
 }
 
 TEST_CASE("can destroy application instance") {
-  Application::destroyInstance();
-  REQUIRE(0 == Application::getInstance().use_count());
+  lib::app::Application::destroyInstance();
+  REQUIRE(0 == lib::app::Application::getInstance().use_count());
 }

@@ -93,7 +93,7 @@ bool prepareJavaEnvironmentAndDisplayOccurringErrors()
 
 		MessageStatus(dialogMessage, true, false).dispatch();
 
-		Application::getInstance()->handleDialog(dialogMessage);
+		lib::app::Application::getInstance()->handleDialog(dialogMessage);
 		return false;
 	}
 	return true;
@@ -101,7 +101,7 @@ bool prepareJavaEnvironmentAndDisplayOccurringErrors()
 
 std::set<FilePath> fetchRootDirectories(const std::set<FilePath>& sourceFilePaths)
 {
-	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView(
+	std::shared_ptr<DialogView> dialogView = lib::app::Application::getInstance()->getDialogView(
 		DialogView::UseCase::PROJECT_SETUP);
 	dialogView->showUnknownProgressDialog(L"Preparing Project", L"Gathering Root\nDirectories");
 

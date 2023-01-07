@@ -1,11 +1,9 @@
 #include "Application.h"
 
-#include "AppPath.h"
 #include "ApplicationSettings.h"
 #include "ColorScheme.h"
 #include "DialogView.h"
 #include "FileLogger.h"
-#include "FileSystem.h"
 #include "GraphViewStyle.h"
 #include "IDECommunicationController.h"
 #include "LogManager.h"
@@ -33,8 +31,11 @@
 
 #include "CppSQLite3.h"
 
-std::shared_ptr<Application> Application::s_instance;
-std::string Application::s_uuid;
+namespace lib::app {
+
+std::shared_ptr<Application> Application::s_instance; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+
+std::string Application::s_uuid; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 void Application::createInstance(const Version& version,
                                  ViewFactory* viewFactory,
@@ -49,8 +50,8 @@ void Application::createInstance(const Version& version,
 
   loadSettings();
 
-  SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::createInstance();
-  if(collector) {
+  auto* collector = SharedMemoryGarbageCollector::createInstance();
+  if(collector != nullptr) {
     collector->run(Application::getUUID());
   }
 
@@ -89,7 +90,7 @@ void Application::destroyInstance() {
 }
 
 std::string Application::getUUID() {
-  if(!s_uuid.size()) {
+  if(s_uuid.empty()) {
     s_uuid = utility::getUuidString();
   }
 
@@ -99,13 +100,13 @@ std::string Application::getUUID() {
 void Application::loadSettings() {
   MessageStatus(L"Load settings: " + UserPaths::getAppSettingsFilePath().wstr()).dispatch();
 
-  std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+  auto settings = ApplicationSettings::getInstance();
   settings->load(UserPaths::getAppSettingsFilePath());
 
   LogManager::getInstance()->setLoggingEnabled(settings->getLoggingEnabled());
-  Logger* logger = LogManager::getInstance()->getLoggerByType("FileLogger");
-  if(logger) {
-    const auto fileLogger = dynamic_cast<FileLogger*>(logger);
+  auto* pLogger = LogManager::getInstance()->getLoggerByType("FileLogger");
+  if(pLogger != nullptr) {
+    auto *const fileLogger = dynamic_cast<FileLogger*>(pLogger);
     fileLogger->setLogDirectory(settings->getLogDirectoryPath());
     fileLogger->setFileName(FileLogger::generateDatedFileName(L"log"));
   }
@@ -125,33 +126,10 @@ Application::~Application() {
     m_mainView->saveLayout();
   }
 
-  SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::getInstance();
-  if(collector) {
-    collector->stop();
+  auto* pCollector = SharedMemoryGarbageCollector::getInstance();
+  if(pCollector != nullptr) {
+    pCollector->stop();
   }
-}
-
-std::shared_ptr<const Project> Application::getCurrentProject() const {
-  return m_project;
-}
-
-FilePath Application::getCurrentProjectPath() const {
-  if(m_project) {
-    return m_project->getProjectSettingsFilePath();
-  }
-
-  return FilePath();
-}
-
-bool Application::isProjectLoaded() const {
-  if(m_project) {
-    return m_project->isLoaded();
-  }
-  return false;
-}
-
-bool Application::hasGUI() {
-  return m_hasGUI;
 }
 
 int Application::handleDialog(const std::wstring& message) {
@@ -171,7 +149,7 @@ std::shared_ptr<DialogView> Application::getDialogView(DialogView::UseCase useCa
 }
 
 void Application::updateHistoryMenu(std::shared_ptr<MessageBase> message) {
-  m_mainView->updateHistoryMenu(message);
+  m_mainView->updateHistoryMenu(std::move(message));
 }
 
 void Application::updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks) {
@@ -239,7 +217,7 @@ void Application::handleMessage(MessageLoadProject* message) {
 
       m_storageCache->clear();
       m_storageCache->setSubject(
-          std::weak_ptr<StorageAccess>());    // TODO: check if this is really required.
+          std::weak_ptr<StorageAccess>());    // TODO(Hussein): check if this is really required.
 
       m_project = std::make_shared<Project>(
           std::make_shared<ProjectSettings>(projectSettingsFilePath),
@@ -256,13 +234,14 @@ void Application::handleMessage(MessageLoadProject* message) {
 
       updateTitle();
     } catch(std::exception& e) {
-      const std::wstring erroMessage = L"Failed to load project at \"" + projectSettingsFilePath.wstr() +
-          L"\" with exception: " + utility::decodeFromUtf8(e.what());
+      const std::wstring erroMessage = L"Failed to load project at \"" +
+          projectSettingsFilePath.wstr() + L"\" with exception: " + utility::decodeFromUtf8(e.what());
       LOG_ERROR(erroMessage);
       MessageStatus(erroMessage, true).dispatch();
     } catch(CppSQLite3Exception& e) {
-      const std::wstring erroMessage = L"Failed to load project at \"" + projectSettingsFilePath.wstr() +
-          L"\" with sqlite exception: " + utility::decodeFromUtf8(e.errorMessage());
+      const std::wstring erroMessage = L"Failed to load project at \"" +
+          projectSettingsFilePath.wstr() + L"\" with sqlite exception: " +
+          utility::decodeFromUtf8(e.errorMessage());
       LOG_ERROR(erroMessage);
       MessageStatus(erroMessage, true).dispatch();
     } catch(...) {
@@ -326,7 +305,8 @@ void Application::loadWindow(bool showStartWindow) {
   }
 
   if(!m_loadedWindow) {
-    ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+    // TODO(Hussein): Check the use of the next line.
+    [[maybe_unused]] auto* pAppSettings = ApplicationSettings::getInstance().get();
 
     updateTitle();
 
@@ -352,11 +332,10 @@ void Application::updateRecentProjects(const FilePath& projectSettingsFilePath) 
   if(m_hasGUI) {
     ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
     std::vector<FilePath> recentProjects = appSettings->getRecentProjects();
-    if(recentProjects.size()) {
-      std::vector<FilePath>::iterator it = std::find(
-          recentProjects.begin(), recentProjects.end(), projectSettingsFilePath);
-      if(it != recentProjects.end()) {
-        recentProjects.erase(it);
+    if(!recentProjects.empty()) {
+      auto itr = std::find(recentProjects.begin(), recentProjects.end(), projectSettingsFilePath);
+      if(itr != recentProjects.end()) {
+        recentProjects.erase(itr);
       }
     }
 
@@ -377,25 +356,25 @@ void Application::logStorageStats() const {
     return;
   }
 
-  std::stringstream ss;
+  std::stringstream stringStream;
   StorageStats stats = m_storageCache->getStorageStats();
 
-  ss << "\nGraph:\n";
-  ss << "\t" << stats.nodeCount << " Nodes\n";
-  ss << "\t" << stats.edgeCount << " Edges\n";
+  stringStream << "\nGraph:\n";
+  stringStream << "\t" << stats.nodeCount << " Nodes\n";
+  stringStream << "\t" << stats.edgeCount << " Edges\n";
 
-  ss << "\nCode:\n";
-  ss << "\t" << stats.fileCount << " Files\n";
-  ss << "\t" << stats.fileLOCCount << " Lines of Code\n";
+  stringStream << "\nCode:\n";
+  stringStream << "\t" << stats.fileCount << " Files\n";
+  stringStream << "\t" << stats.fileLOCCount << " Lines of Code\n";
 
 
   ErrorCountInfo errorCount = m_storageCache->getErrorCount();
 
-  ss << "\nErrors:\n";
-  ss << "\t" << errorCount.total << " Errors\n";
-  ss << "\t" << errorCount.fatal << " Fatal Errors\n";
+  stringStream << "\nErrors:\n";
+  stringStream << "\t" << errorCount.total << " Errors\n";
+  stringStream << "\t" << errorCount.fatal << " Fatal Errors\n";
 
-  LOG_INFO(ss.str());
+  LOG_INFO(stringStream.str());
 }
 
 void Application::updateTitle() {
@@ -416,7 +395,7 @@ void Application::updateTitle() {
 
 bool Application::checkSharedMemory() {
   std::wstring error = utility::decodeFromUtf8(SharedMemory::checkSharedMemory(getUUID()));
-  if(error.size()) {
+  if(!error.empty()) {
     MessageStatus(
         L"Error on accessing shared memory. Indexing not possible. "
         "Please restart computer or run as admin: " +
@@ -432,3 +411,5 @@ bool Application::checkSharedMemory() {
 
   return true;
 }
+
+}    // namespace lib::app
