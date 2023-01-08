@@ -1,7 +1,4 @@
-#ifndef IDE_COMMUNICATION_CONTROLLER_H
-#define IDE_COMMUNICATION_CONTROLLER_H
-
-#include <string>
+#pragma once
 
 #include "Controller.h"
 #include "NetworkProtocolHelper.h"
@@ -15,45 +12,43 @@
 class StorageAccess;
 
 class IDECommunicationController
-	: public Controller
-	, public MessageListener<MessageWindowFocus>
-	, public MessageListener<MessageIDECreateCDB>
-	, public MessageListener<MessageMoveIDECursor>
-	, public MessageListener<MessagePluginPortChange>
-{
+    : public Controller
+    , public MessageListener<MessageWindowFocus>
+    , public MessageListener<MessageIDECreateCDB>
+    , public MessageListener<MessageMoveIDECursor>
+    , public MessageListener<MessagePluginPortChange> {
 public:
-	IDECommunicationController(StorageAccess* storageAccess);
-	virtual ~IDECommunicationController();
+  IDECommunicationController(StorageAccess* storageAccess);
 
-	virtual void clear();
+  ~IDECommunicationController() override;
 
-	virtual void startListening() = 0;
-	virtual void stopListening() = 0;
-	virtual bool isListening() const = 0;
+  virtual void clear();
 
-	void handleIncomingMessage(const std::wstring& message);
+  virtual void startListening() = 0;
+  virtual void stopListening() = 0;
+  virtual bool isListening() const = 0;
 
-	bool getEnabled() const;
-	void setEnabled(const bool enabled);
+  void handleIncomingMessage(const std::wstring& message);
+
+  bool getEnabled() const;
+  void setEnabled(const bool enabled);
 
 protected:
-	void sendUpdatePing();
+  void sendUpdatePing();
 
 private:
-	void handleSetActiveTokenMessage(const NetworkProtocolHelper::SetActiveTokenMessage& message);
-	void handleCreateProjectMessage(const NetworkProtocolHelper::CreateProjectMessage& message);
-	void handleCreateCDBProjectMessage(const NetworkProtocolHelper::CreateCDBProjectMessage& message);
-	void handlePing(const NetworkProtocolHelper::PingMessage& message);
+  void handleSetActiveTokenMessage(const NetworkProtocolHelper::SetActiveTokenMessage& message);
+  void handleCreateProjectMessage(const NetworkProtocolHelper::CreateProjectMessage& message);
+  void handleCreateCDBProjectMessage(const NetworkProtocolHelper::CreateCDBProjectMessage& message);
+  void handlePing(const NetworkProtocolHelper::PingMessage& message);
 
-	virtual void handleMessage(MessageWindowFocus* message);
-	virtual void handleMessage(MessageIDECreateCDB* message);
-	virtual void handleMessage(MessageMoveIDECursor* message);
-	virtual void handleMessage(MessagePluginPortChange* message);
-	virtual void sendMessage(const std::wstring& message) const = 0;
+  virtual void handleMessage(MessageWindowFocus* message);
+  virtual void handleMessage(MessageIDECreateCDB* message);
+  virtual void handleMessage(MessageMoveIDECursor* message);
+  virtual void handleMessage(MessagePluginPortChange* message);
+  virtual void sendMessage(const std::wstring& message) const = 0;
 
-	StorageAccess* m_storageAccess;
+  StorageAccess* m_storageAccess;
 
-	bool m_enabled;
+  bool m_enabled;
 };
-
-#endif	  // IDE_COMMUNICATION_CONTROLLER_H

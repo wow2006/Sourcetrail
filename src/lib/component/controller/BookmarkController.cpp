@@ -25,7 +25,7 @@ BookmarkController::BookmarkController(StorageAccess* storageAccess)
     , m_filter(Bookmark::FILTER_ALL)
     , m_order(Bookmark::ORDER_DATE_DESCENDING) {}
 
-BookmarkController::~BookmarkController() {}
+BookmarkController::~BookmarkController() = default;
 
 void BookmarkController::clear() {
   m_activeNodeIds.clear();

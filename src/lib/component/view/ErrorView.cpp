@@ -2,9 +2,8 @@
 
 ErrorView::ErrorView(ViewLayout* viewLayout): View(viewLayout) {}
 
-ErrorView::~ErrorView() {}
+ErrorView::~ErrorView() = default;
 
-std::string ErrorView::getName() const
-{
-	return "Errors";
+std::string ErrorView::getName() const {
+  return "Errors";
 }

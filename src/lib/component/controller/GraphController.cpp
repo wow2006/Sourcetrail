@@ -1,7 +1,5 @@
 #include "GraphController.h"
 
-#include <set>
-
 #include "AccessKind.h"
 #include "Application.h"
 #include "ApplicationSettings.h"
@@ -24,6 +22,8 @@
 
 GraphController::GraphController(StorageAccess* storageAccess)
     : m_storageAccess(storageAccess), m_useBezierEdges(false) {}
+
+GraphController::~GraphController() = default;
 
 Id GraphController::getSchedulerId() const {
   return Controller::getTabId();
@@ -1166,10 +1166,11 @@ std::shared_ptr<DummyNode> GraphController::bundleNodesMatching(
   return bundleNode;
 }
 
-std::shared_ptr<DummyNode> GraphController::bundleByType(std::list<std::shared_ptr<DummyNode>>& nodes,
-                                                         const NodeType& type,
-                                                         const utility::Tree<NodeType::BundleInfo>& bundleInfoTree,
-                                                         const bool considerInvisibleNodes) {
+std::shared_ptr<DummyNode> GraphController::bundleByType(
+    std::list<std::shared_ptr<DummyNode>>& nodes,
+    const NodeType& type,
+    const utility::Tree<NodeType::BundleInfo>& bundleInfoTree,
+    const bool considerInvisibleNodes) {
   std::shared_ptr<DummyNode> bundleNode = bundleNodesMatching(
       nodes,
       [&](const DummyNode* node) {
@@ -1188,7 +1189,7 @@ std::shared_ptr<DummyNode> GraphController::bundleByType(std::list<std::shared_p
       bundleNode->bundledNodes.clear();
 
       // crate a sub-bundle for anonymous namespaces
-      for(const auto& childBundleInfoTree : bundleInfoTree.children) {
+      for(const auto& childBundleInfoTree: bundleInfoTree.children) {
         std::shared_ptr<DummyNode> childBundle = bundleByType(
             bundledNodes, type, childBundleInfoTree, true);
         if(childBundle) {

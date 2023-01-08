@@ -1,5 +1,4 @@
-#ifndef MESSAGE_ACTIVATE_BASE_H
-#define MESSAGE_ACTIVATE_BASE_H
+#pragma once
 
 #include "SearchMatch.h"
 
@@ -10,5 +9,3 @@ public:
 
 	virtual std::vector<SearchMatch> getSearchMatches() const = 0;
 };
-
-#endif	  // MESSAGE_ACTIVATE_BASE_H

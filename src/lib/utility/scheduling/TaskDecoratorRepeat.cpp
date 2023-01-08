@@ -1,8 +1,5 @@
 #include "TaskDecoratorRepeat.h"
 
-#include <chrono>
-#include <thread>
-
 TaskDecoratorRepeat::TaskDecoratorRepeat(ConditionType condition, TaskState exitState, size_t delayMS)
     : m_condition(condition), m_exitState(exitState), m_delayMS(delayMS) {}
 

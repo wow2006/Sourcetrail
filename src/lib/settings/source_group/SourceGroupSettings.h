@@ -1,8 +1,4 @@
-#ifndef SOURCE_GROUP_SETTINGS_H
-#define SOURCE_GROUP_SETTINGS_H
-
-#include <memory>
-#include <vector>
+#pragma once
 
 #include "LanguageType.h"
 #include "SourceGroupSettingsBase.h"
@@ -22,7 +18,8 @@ public:
   SourceGroupSettings(SourceGroupType type,
                       const std::string& id,
                       const ProjectSettings* projectSettings);
-  virtual ~SourceGroupSettings() = default;
+
+  ~SourceGroupSettings() override;
 
   virtual std::shared_ptr<SourceGroupSettings> createCopy() const = 0;
 
@@ -61,5 +58,3 @@ private:
   std::string m_name;
   SourceGroupStatusType m_status;
 };
-
-#endif    // SOURCE_GROUP_SETTINGS_H

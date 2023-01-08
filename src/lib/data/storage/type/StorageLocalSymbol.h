@@ -1,7 +1,4 @@
-#ifndef STORAGE_LOCAL_SYMBOL_H
-#define STORAGE_LOCAL_SYMBOL_H
-
-#include <string>
+#pragma once
 
 #include "types.h"
 
@@ -32,5 +29,3 @@ struct StorageLocalSymbol: public StorageLocalSymbolData
 
 	Id id;
 };
-
-#endif	  // STORAGE_LOCAL_SYMBOL_H

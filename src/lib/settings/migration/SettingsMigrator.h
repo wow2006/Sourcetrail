@@ -1,10 +1,7 @@
-#ifndef SETTINGS_MIGRATOR_H
-#define SETTINGS_MIGRATOR_H
+#pragma once
 
 #include "Migrator.h"
 
 class Settings;
 
-typedef Migrator<Settings> SettingsMigrator;
-
-#endif	  // SETTINGS_MIGRATOR_H
+using SettingsMigrator = Migrator<Settings>;

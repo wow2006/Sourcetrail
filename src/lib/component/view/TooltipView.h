@@ -1,26 +1,19 @@
-#ifndef TOOLTIP_VIEW_H
-#define TOOLTIP_VIEW_H
+#pragma once
 
-#include <vector>
-
-#include "NameHierarchy.h"
 #include "TooltipInfo.h"
 #include "View.h"
-#include "types.h"
 
-class TooltipView: public View
-{
+class TooltipView : public View {
 public:
-	TooltipView(ViewLayout* viewLayout);
-	virtual ~TooltipView();
+  TooltipView(ViewLayout* viewLayout);
 
-	// View implementation
-	virtual std::string getName() const;
+  ~TooltipView() override;
 
-	virtual void showTooltip(const TooltipInfo& info, const View* parent) = 0;
-	virtual void hideTooltip(bool force) = 0;
+  // View implementation
+  virtual std::string getName() const;
 
-	virtual bool tooltipVisible() const = 0;
+  virtual void showTooltip(const TooltipInfo& info, const View* parent) = 0;
+  virtual void hideTooltip(bool force) = 0;
+
+  virtual bool tooltipVisible() const = 0;
 };
-
-#endif	  // TOOLTIP_VIEW_H

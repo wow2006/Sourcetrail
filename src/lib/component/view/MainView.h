@@ -1,9 +1,4 @@
-#ifndef MAIN_VIEW_H
-#define MAIN_VIEW_H
-
-#include <memory>
-#include <string>
-#include <vector>
+#pragma once
 
 #include "ComponentManager.h"
 #include "DialogView.h"
@@ -14,40 +9,38 @@ class MessageBase;
 class StorageAccess;
 class ViewFactory;
 
-class MainView: public ViewLayout
-{
+class MainView : public ViewLayout {
 public:
-	MainView(const ViewFactory* viewFactory, StorageAccess* storageAccess);
-	virtual ~MainView() = default;
+  MainView(const ViewFactory* viewFactory, StorageAccess* storageAccess);
 
-	void setup();
-	void clear();
-	void refreshViews();
+  ~MainView() override;
 
-	std::shared_ptr<DialogView> getDialogView(DialogView::UseCase useCase);
+  void setup();
+  void clear();
+  void refreshViews();
 
-	virtual void loadLayout() = 0;
-	virtual void saveLayout() = 0;
+  std::shared_ptr<DialogView> getDialogView(DialogView::UseCase useCase);
 
-	virtual void refreshView() = 0;
-	virtual void refreshUIState(bool isAfterIndexing) = 0;
+  virtual void loadLayout() = 0;
+  virtual void saveLayout() = 0;
 
-	virtual void loadWindow(bool showStartWindow) = 0;
+  virtual void refreshView() = 0;
+  virtual void refreshUIState(bool isAfterIndexing) = 0;
 
-	virtual void hideStartScreen() = 0;
-	virtual void setTitle(const std::wstring& title) = 0;
-	virtual void activateWindow() = 0;
+  virtual void loadWindow(bool showStartWindow) = 0;
 
-	virtual void updateRecentProjectMenu() = 0;
+  virtual void hideStartScreen() = 0;
+  virtual void setTitle(const std::wstring& title) = 0;
+  virtual void activateWindow() = 0;
 
-	virtual void updateHistoryMenu(std::shared_ptr<MessageBase> message) = 0;
-	virtual void clearHistoryMenu() = 0;
+  virtual void updateRecentProjectMenu() = 0;
 
-	virtual void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks) = 0;
-	virtual void clearBookmarksMenu() = 0;
+  virtual void updateHistoryMenu(std::shared_ptr<MessageBase> message) = 0;
+  virtual void clearHistoryMenu() = 0;
+
+  virtual void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks) = 0;
+  virtual void clearBookmarksMenu() = 0;
 
 protected:
-	ComponentManager m_componentManager;
+  ComponentManager m_componentManager;
 };
-
-#endif	  // MAIN_VIEW_H

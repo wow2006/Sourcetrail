@@ -1,7 +1,4 @@
-#ifndef STORAGE_BOOKMARKED_NODE_H
-#define STORAGE_BOOKMARKED_NODE_H
-
-#include <string>
+#pragma once
 
 #include "types.h"
 
@@ -34,5 +31,3 @@ struct StorageBookmarkedNode: public StorageBookmarkedNodeData
 
 	Id id;
 };
-
-#endif	  // STORAGE_BOOKMARKED_NODE_H

@@ -1,26 +1,21 @@
-#ifndef TOKEN_COMPONENT_ACCESS_H
-#define TOKEN_COMPONENT_ACCESS_H
-
-#include <string>
+#pragma once
 
 #include "AccessKind.h"
 #include "TokenComponent.h"
 
-class TokenComponentAccess: public TokenComponent
-{
+class TokenComponentAccess : public TokenComponent {
 public:
-	static std::wstring getAccessString(AccessKind access);
+  static std::wstring getAccessString(AccessKind access);
 
-	TokenComponentAccess(AccessKind access);
-	virtual ~TokenComponentAccess();
+  TokenComponentAccess(AccessKind access);
 
-	virtual std::shared_ptr<TokenComponent> copy() const;
+  ~TokenComponentAccess() override;
 
-	AccessKind getAccess() const;
-	std::wstring getAccessString() const;
+  virtual std::shared_ptr<TokenComponent> copy() const;
+
+  AccessKind getAccess() const;
+  std::wstring getAccessString() const;
 
 private:
-	const AccessKind m_access;
+  const AccessKind m_access;
 };
-
-#endif	  // TOKEN_COMPONENT_ACCESS_H

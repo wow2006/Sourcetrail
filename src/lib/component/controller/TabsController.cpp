@@ -38,6 +38,8 @@ void TabsController::clear() {
   }
 }
 
+TabsController::~TabsController() = default;
+
 void TabsController::addTab(Id tabId, SearchMatch match) {
   std::lock_guard<std::mutex> lock(m_tabsMutex);
 

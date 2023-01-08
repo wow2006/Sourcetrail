@@ -13,17 +13,17 @@ target_sources(
     ../lib_gui/utility/utilityApp.cpp
     ../lib_gui/qt/utility/QtHelpButtonInfo.cpp
     #
+    app/Application.cpp
+    app/LanguagePackageManager.cpp
     app/paths/AppPath.cpp
     app/paths/ResourcePaths.cpp
     app/paths/UserPaths.cpp
-    app/Application.cpp
-    app/LanguagePackageManager.cpp
-    component/controller/helper/ActivationListener.cpp
-    component/controller/helper/BucketLayouter.cpp
-    component/controller/helper/ListLayouter.cpp
-    component/controller/helper/NetworkProtocolHelper.cpp
-    component/controller/helper/SnippetMerger.cpp
-    component/controller/helper/TrailLayouter.cpp
+    component/Component.cpp
+    component/ComponentFactory.cpp
+    component/ComponentManager.cpp
+    component/NetworkFactory.cpp
+    component/Tab.cpp
+    component/TabId.cpp
     component/controller/ActivationController.cpp
     component/controller/BookmarkController.cpp
     component/controller/CodeController.cpp
@@ -40,7 +40,12 @@ target_sources(
     component/controller/TabsController.cpp
     component/controller/TooltipController.cpp
     component/controller/UndoRedoController.cpp
-    component/view/helper/CodeSnippetParams.cpp
+    component/controller/helper/ActivationListener.cpp
+    component/controller/helper/BucketLayouter.cpp
+    component/controller/helper/ListLayouter.cpp
+    component/controller/helper/NetworkProtocolHelper.cpp
+    component/controller/helper/SnippetMerger.cpp
+    component/controller/helper/TrailLayouter.cpp
     component/view/BookmarkButtonsView.cpp
     component/view/BookmarkView.cpp
     component/view/CodeView.cpp
@@ -63,37 +68,37 @@ target_sources(
     component/view/ViewFactory.cpp
     component/view/ViewLayout.cpp
     component/view/ViewWidgetWrapper.cpp
-    component/Component.cpp
-    component/ComponentFactory.cpp
-    component/ComponentManager.cpp
-    component/NetworkFactory.cpp
-    component/Tab.cpp
-    component/TabId.cpp
+    component/view/helper/CodeSnippetParams.cpp
+    data/DefinitionKind.cpp
+    data/GroupType.cpp
+    data/HierarchyCache.cpp
+    data/NodeKind.cpp
+    data/NodeType.cpp
+    data/NodeTypeSet.cpp
+    data/TaskCleanStorage.cpp
+    data/TaskFinishParsing.cpp
+    data/TaskInjectStorage.cpp
+    data/TaskMergeStorages.cpp
     data/bookmark/Bookmark.cpp
     data/bookmark/BookmarkCategory.cpp
     data/bookmark/EdgeBookmark.cpp
     data/bookmark/NodeBookmark.cpp
     data/fulltextsearch/FullTextSearchIndex.cpp
     data/fulltextsearch/SuffixArray.cpp
+    data/graph/Edge.cpp
+    data/graph/ElementComponentKind.cpp
+    data/graph/Graph.cpp
+    data/graph/Node.cpp
+    data/graph/Token.cpp
     data/graph/token_component/TokenComponent.cpp
     data/graph/token_component/TokenComponentAbstraction.cpp
     data/graph/token_component/TokenComponentAccess.cpp
     data/graph/token_component/TokenComponentBundledEdges.cpp
     data/graph/token_component/TokenComponentConst.cpp
     data/graph/token_component/TokenComponentFilePath.cpp
+    data/graph/token_component/TokenComponentInheritanceChain.cpp
+    data/graph/token_component/TokenComponentIsAmbiguous.cpp
     data/graph/token_component/TokenComponentStatic.cpp
-    data/graph/Edge.cpp
-    data/graph/ElementComponentKind.cpp
-    data/graph/Graph.cpp
-    data/graph/Node.cpp
-    data/graph/Token.cpp
-    data/indexer/interprocess/shared_types/SharedIndexerCommand.cpp
-    data/indexer/interprocess/shared_types/SharedIntermediateStorage.cpp
-    data/indexer/interprocess/BaseInterprocessDataManager.cpp
-    data/indexer/interprocess/InterprocessIndexer.cpp
-    data/indexer/interprocess/InterprocessIndexerCommandManager.cpp
-    data/indexer/interprocess/InterprocessIndexingStatusManager.cpp
-    data/indexer/interprocess/InterprocessIntermediateStorageManager.cpp
     data/indexer/CombinedIndexerCommandProvider.cpp
     data/indexer/IndexerBase.cpp
     data/indexer/IndexerCommand.cpp
@@ -105,6 +110,13 @@ target_sources(
     data/indexer/TaskBuildIndex.cpp
     data/indexer/TaskExecuteCustomCommands.cpp
     data/indexer/TaskFillIndexerCommandQueue.cpp
+    data/indexer/interprocess/BaseInterprocessDataManager.cpp
+    data/indexer/interprocess/InterprocessIndexer.cpp
+    data/indexer/interprocess/InterprocessIndexerCommandManager.cpp
+    data/indexer/interprocess/InterprocessIndexingStatusManager.cpp
+    data/indexer/interprocess/InterprocessIntermediateStorageManager.cpp
+    data/indexer/interprocess/shared_types/SharedIndexerCommand.cpp
+    data/indexer/interprocess/shared_types/SharedIntermediateStorage.cpp
     data/location/LocationType.cpp
     data/location/SourceLocation.cpp
     data/location/SourceLocationCollection.cpp
@@ -122,13 +134,6 @@ target_sources(
     data/parser/TaskParseWrapper.cpp
     data/search/SearchIndex.cpp
     data/search/SearchMatch.cpp
-    data/storage/type/StorageError.cpp
-    data/storage/migration/SqliteStorageMigration.cpp
-    data/storage/migration/SqliteStorageMigrationLambda.cpp
-    data/storage/sqlite/SqliteBookmarkStorage.cpp
-    data/storage/sqlite/SqliteDatabaseIndex.cpp
-    data/storage/sqlite/SqliteIndexStorage.cpp
-    data/storage/sqlite/SqliteStorage.cpp
     data/storage/IntermediateStorage.cpp
     data/storage/PersistentStorage.cpp
     data/storage/Storage.cpp
@@ -136,16 +141,13 @@ target_sources(
     data/storage/StorageAccessProxy.cpp
     data/storage/StorageCache.cpp
     data/storage/StorageProvider.cpp
-    data/DefinitionKind.cpp
-    data/GroupType.cpp
-    data/HierarchyCache.cpp
-    data/NodeKind.cpp
-    data/NodeType.cpp
-    data/NodeTypeSet.cpp
-    data/TaskCleanStorage.cpp
-    data/TaskFinishParsing.cpp
-    data/TaskInjectStorage.cpp
-    data/TaskMergeStorages.cpp
+    data/storage/migration/SqliteStorageMigration.cpp
+    data/storage/migration/SqliteStorageMigrationLambda.cpp
+    data/storage/sqlite/SqliteBookmarkStorage.cpp
+    data/storage/sqlite/SqliteDatabaseIndex.cpp
+    data/storage/sqlite/SqliteIndexStorage.cpp
+    data/storage/sqlite/SqliteStorage.cpp
+    data/storage/type/StorageError.cpp
     project/Project.cpp
     project/RefreshInfoGenerator.cpp
     project/SourceGroup.cpp
@@ -153,26 +155,30 @@ target_sources(
     project/SourceGroupFactory.cpp
     project/SourceGroupFactoryModule.cpp
     project/SourceGroupFactoryModuleCustom.cpp
-    settings/migration/SettingsMigration.cpp
-    settings/migration/SettingsMigrationDeleteKey.cpp
-    settings/migration/SettingsMigrationLambda.cpp
-    settings/migration/SettingsMigrationMoveKey.cpp
-    settings/source_group/component/SourceGroupSettingsWithCustomCommand.cpp
-    settings/source_group/component/SourceGroupSettingsWithExcludeFilters.cpp
-    settings/source_group/component/SourceGroupSettingsWithSourceExtensions.cpp
-    settings/source_group/component/SourceGroupSettingsWithSourcePaths.cpp
-    settings/source_group/type/SourceGroupSettingsUnloadable.cpp
-    settings/source_group/SourceGroupSettings.cpp
-    settings/source_group/SourceGroupStatusType.cpp
-    settings/source_group/SourceGroupType.cpp
     settings/ApplicationSettings.cpp
     settings/ApplicationSettingsPrefiller.cpp
     settings/ColorScheme.cpp
     settings/LanguageType.cpp
     settings/ProjectSettings.cpp
     settings/Settings.cpp
-    utility/commandline/CommandlineHelper.cpp
+    settings/migration/SettingsMigration.cpp
+    settings/migration/SettingsMigrationDeleteKey.cpp
+    settings/migration/SettingsMigrationLambda.cpp
+    settings/migration/SettingsMigrationMoveKey.cpp
+    settings/source_group/SourceGroupSettings.cpp
+    settings/source_group/SourceGroupStatusType.cpp
+    settings/source_group/SourceGroupType.cpp
+    settings/source_group/component/SourceGroupSettingsWithCustomCommand.cpp
+    settings/source_group/component/SourceGroupSettingsWithExcludeFilters.cpp
+    settings/source_group/component/SourceGroupSettingsWithSourceExtensions.cpp
+    settings/source_group/component/SourceGroupSettingsWithSourcePaths.cpp
+    settings/source_group/type/SourceGroupSettingsUnloadable.cpp
+    utility/ConfigManager.cpp
+    utility/ScopedFunctor.cpp
+    utility/TimeStamp.cpp
+    utility/Version.cpp
     utility/commandline/CommandLineParser.cpp
+    utility/commandline/CommandlineHelper.cpp
     utility/commandline/commands/CommandlineCommand.cpp
     utility/commandline/commands/CommandlineCommandConfig.cpp
     utility/commandline/commands/CommandlineCommandIndex.cpp
@@ -188,18 +194,18 @@ target_sources(
     utility/interprocess/SharedMemoryGarbageCollector.cpp
     utility/logging/ConsoleLogger.cpp
     utility/logging/FileLogger.cpp
-    utility/logging/Logger.cpp
     utility/logging/LogManager.cpp
     utility/logging/LogManagerImplementation.cpp
-    utility/messaging/type/MessageStatus.cpp
+    utility/logging/Logger.cpp
     utility/messaging/MessageBase.cpp
     utility/messaging/MessageListenerBase.cpp
     utility/messaging/MessageQueue.cpp
+    utility/messaging/type/MessageStatus.cpp
     utility/scheduling/Blackboard.cpp
     utility/scheduling/Task.cpp
     utility/scheduling/TaskDecorator.cpp
-    utility/scheduling/TaskDecoratorRepeat.cpp
     utility/scheduling/TaskDecoratorDelay.cpp
+    utility/scheduling/TaskDecoratorRepeat.cpp
     utility/scheduling/TaskFindKeyOnBlackboard.cpp
     utility/scheduling/TaskGroup.cpp
     utility/scheduling/TaskGroupParallel.cpp
@@ -210,14 +216,11 @@ target_sources(
     utility/scheduling/TaskRunner.cpp
     utility/scheduling/TaskScheduler.cpp
     utility/text/TextAccess.cpp
-    utility/ConfigManager.cpp
-    utility/ScopedFunctor.cpp
-    utility/TimeStamp.cpp
     utility/tracing.cpp
     utility/utility.cpp
     utility/utilityUuid.cpp
     utility/utilityXml.cpp
-    utility/Version.cpp)
+)
 
 target_include_directories(
   Sourcetrail_lib SYSTEM PUBLIC ${CMAKE_BINARY_DIR}/src/lib/

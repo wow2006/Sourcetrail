@@ -32,6 +32,7 @@ StorageError::StorageError(Id id_, const StorageErrorData& data): StorageErrorDa
 
 StorageError::StorageError(
     Id id_, std::wstring message_, std::wstring translationUnit_, bool fatal_, bool indexed_)
-    : StorageErrorData(std::move(message_), std::move(translationUnit_), fatal_, indexed_), id(id_) {}
+    : StorageErrorData(std::move(message_), std::move(translationUnit_), fatal_, indexed_)
+    , id(id_) {}
 
 }    // namespace utility

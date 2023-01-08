@@ -2,7 +2,8 @@
 
 TabsView::TabsView(ViewLayout* viewLayout): View(viewLayout) {}
 
-std::string TabsView::getName() const
-{
-	return "Tabs";
+TabsView::~TabsView() = default;
+
+std::string TabsView::getName() const {
+  return "Tabs";
 }

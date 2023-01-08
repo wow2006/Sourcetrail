@@ -3,6 +3,8 @@
 DialogView::DialogView(UseCase useCase, StorageAccess* storageAccess)
     : m_useCase(useCase), m_storageAccess(storageAccess) {}
 
+DialogView::~DialogView() = default;
+
 DialogView::UseCase DialogView::getUseCase() const {
   return m_useCase;
 }
@@ -17,7 +19,8 @@ bool DialogView::dialogsHidden() const {
 
 void DialogView::clearDialogs() {}
 
-void DialogView::showUnknownProgressDialog(const std::wstring& /*title*/, const std::wstring& /*message*/) {}
+void DialogView::showUnknownProgressDialog(const std::wstring& /*title*/,
+                                           const std::wstring& /*message*/) {}
 
 void DialogView::hideUnknownProgressDialog() {}
 

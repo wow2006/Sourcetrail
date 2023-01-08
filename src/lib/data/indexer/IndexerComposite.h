@@ -1,26 +1,19 @@
-#ifndef INDEXER_COMPOSITE_H
-#define INDEXER_COMPOSITE_H
-
-#include <map>
-#include <memory>
+#pragma once
 
 #include "IndexerBase.h"
 
-class IndexerComposite: public IndexerBase
-{
+class IndexerComposite : public IndexerBase {
 public:
-	virtual ~IndexerComposite();
+  ~IndexerComposite() override;
 
-	IndexerCommandType getSupportedIndexerCommandType() const override;
+  IndexerCommandType getSupportedIndexerCommandType() const override;
 
-	void addIndexer(std::shared_ptr<IndexerBase> indexer);
+  void addIndexer(std::shared_ptr<IndexerBase> indexer);
 
-	std::shared_ptr<IntermediateStorage> index(std::shared_ptr<IndexerCommand> indexerCommand) override;
+  std::shared_ptr<IntermediateStorage> index(std::shared_ptr<IndexerCommand> indexerCommand) override;
 
-	void interrupt() override;
+  void interrupt() override;
 
 private:
-	std::map<IndexerCommandType, std::shared_ptr<IndexerBase>> m_indexers;
+  std::map<IndexerCommandType, std::shared_ptr<IndexerBase>> m_indexers;
 };
-
-#endif	  // INDEXER_COMPOSITE_H

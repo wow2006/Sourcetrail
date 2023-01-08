@@ -7,6 +7,8 @@
 CustomTrailController::CustomTrailController(StorageAccess* storageAccess)
     : m_storageAccess(storageAccess) {}
 
+CustomTrailController::~CustomTrailController() = default;
+
 void CustomTrailController::clear() {
   getView()->clearView();
   getView()->setAvailableNodeAndEdgeTypes(

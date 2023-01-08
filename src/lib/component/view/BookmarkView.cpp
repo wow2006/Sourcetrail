@@ -4,12 +4,12 @@
 
 BookmarkView::BookmarkView(ViewLayout* viewLayout): View(viewLayout) {}
 
-std::string BookmarkView::getName() const
-{
-	return "BookmarkView";
+BookmarkView::~BookmarkView() = default;
+
+std::string BookmarkView::getName() const {
+  return "BookmarkView";
 }
 
-BookmarkController* BookmarkView::getController()
-{
-	return View::getController<BookmarkController>();
+BookmarkController* BookmarkView::getController() {
+  return View::getController<BookmarkController>();
 }

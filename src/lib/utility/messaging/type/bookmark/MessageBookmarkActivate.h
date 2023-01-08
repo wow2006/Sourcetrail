@@ -1,5 +1,4 @@
-#ifndef MESSAGE_BOOKMARK_ACTIVATE_H
-#define MESSAGE_BOOKMARK_ACTIVATE_H
+#pragma once
 
 #include "Bookmark.h"
 #include "Message.h"
@@ -16,5 +15,3 @@ public:
 
 	const std::shared_ptr<Bookmark> bookmark;
 };
-
-#endif	  // MESSAGE_BOOKMARK_ACTIVATE_H

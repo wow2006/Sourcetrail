@@ -1,15 +1,10 @@
-#ifndef MESSAGE_BOOKMARK_DELETE_H
-#define MESSAGE_BOOKMARK_DELETE_H
+#pragma once
 
 #include "Message.h"
 
-class MessageBookmarkDelete: public Message<MessageBookmarkDelete>
-{
+class MessageBookmarkDelete : public Message<MessageBookmarkDelete> {
 public:
-	static const std::string getStaticType()
-	{
-		return "MessageBookmarkDelete";
-	}
+  static const std::string getStaticType() {
+    return "MessageBookmarkDelete";
+  }
 };
-
-#endif	  // MESSAGE_BOOKMARK_DELETE_H

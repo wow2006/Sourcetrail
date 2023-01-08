@@ -1,5 +1,4 @@
-#ifndef DUMMY_EDGE_H
-#define DUMMY_EDGE_H
+#pragma once
 
 #include "Vector4.h"
 #include "types.h"
@@ -10,95 +9,75 @@
 class Edge;
 
 // temporary data structure for (visual) graph creation process
-struct DummyEdge
-{
-	DummyEdge()
-		: ownerId(0)
-		, targetId(0)
-		, data(nullptr)
-		, visible(false)
-		, hidden(false)
-		, active(false)
-		, layoutHorizontal(true)
-		, weight(0)
-		, direction(TokenComponentBundledEdges::DIRECTION_INVALID)
-	{
-	}
+struct DummyEdge {
+  DummyEdge()
+      : ownerId(0)
+      , targetId(0)
+      , data(nullptr)
+      , visible(false)
+      , hidden(false)
+      , active(false)
+      , layoutHorizontal(true)
+      , weight(0)
+      , direction(TokenComponentBundledEdges::DIRECTION_INVALID) {}
 
-	DummyEdge(const Id ownerId_, const Id targetId_, const Edge* data_)
-		: ownerId(ownerId_)
-		, targetId(targetId_)
-		, data(data_)
-		, visible(false)
-		, hidden(false)
-		, active(false)
-		, layoutHorizontal(true)
-		, weight(0)
-		, direction(TokenComponentBundledEdges::DIRECTION_INVALID)
-	{
-	}
+  DummyEdge(const Id ownerId_, const Id targetId_, const Edge* data_)
+      : ownerId(ownerId_)
+      , targetId(targetId_)
+      , data(data_)
+      , visible(false)
+      , hidden(false)
+      , active(false)
+      , layoutHorizontal(true)
+      , weight(0)
+      , direction(TokenComponentBundledEdges::DIRECTION_INVALID) {}
 
-	int getWeight() const
-	{
-		if (!data)
-		{
-			return weight;
-		}
-		else if (data->isType(Edge::EDGE_BUNDLED_EDGES))
-		{
-			return data->getComponent<TokenComponentBundledEdges>()->getBundledEdgesCount();
-		}
+  int getWeight() const {
+    if(!data) {
+      return weight;
+    } else if(data->isType(Edge::EDGE_BUNDLED_EDGES)) {
+      return data->getComponent<TokenComponentBundledEdges>()->getBundledEdgesCount();
+    }
 
-		return 1;
-	}
+    return 1;
+  }
 
-	void updateDirection(TokenComponentBundledEdges::Direction dir, bool invert)
-	{
-		if (invert)
-		{
-			dir = TokenComponentBundledEdges::opposite(dir);
-		}
+  void updateDirection(TokenComponentBundledEdges::Direction dir, bool invert) {
+    if(invert) {
+      dir = TokenComponentBundledEdges::opposite(dir);
+    }
 
-		if (direction == TokenComponentBundledEdges::DIRECTION_INVALID)
-		{
-			direction = dir;
-		}
-		else if (direction != dir)
-		{
-			direction = TokenComponentBundledEdges::DIRECTION_NONE;
-		}
-	}
+    if(direction == TokenComponentBundledEdges::DIRECTION_INVALID) {
+      direction = dir;
+    } else if(direction != dir) {
+      direction = TokenComponentBundledEdges::DIRECTION_NONE;
+    }
+  }
 
-	TokenComponentBundledEdges::Direction getDirection() const
-	{
-		if (!data)
-		{
-			return direction;
-		}
-		else if (data->isType(Edge::EDGE_BUNDLED_EDGES))
-		{
-			return data->getComponent<TokenComponentBundledEdges>()->getDirection();
-		}
+  TokenComponentBundledEdges::Direction getDirection() const {
+    if(!data) {
+      return direction;
+    } else if(data->isType(Edge::EDGE_BUNDLED_EDGES)) {
+      return data->getComponent<TokenComponentBundledEdges>()->getDirection();
+    }
 
-		return TokenComponentBundledEdges::DIRECTION_FORWARD;
-	}
+    return TokenComponentBundledEdges::DIRECTION_FORWARD;
+  }
 
-	Id ownerId;
-	Id targetId;
+  Id ownerId;
+  Id targetId;
 
-	const Edge* data;
+  const Edge* data;
 
-	bool visible;
-	bool hidden;
-	bool active;
+  bool visible;
+  bool hidden;
+  bool active;
 
-	std::vector<Vec4i> path;
+  std::vector<Vec4i> path;
 
-	bool layoutHorizontal;
+  bool layoutHorizontal;
 
-	// BundleEdge
-	int weight;
-	TokenComponentBundledEdges::Direction direction;
+  // BundleEdge
+  int weight;
+  TokenComponentBundledEdges::Direction direction;
 };
-
-#endif	  // DUMMY_EDGE_H

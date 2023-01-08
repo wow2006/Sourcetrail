@@ -30,6 +30,8 @@ TaskBuildIndex::TaskBuildIndex(size_t processCount,
     , m_indexingFileCount(0)
     , m_runningThreadCount(0) {}
 
+TaskBuildIndex::~TaskBuildIndex() = default;
+
 void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard) {
   m_interprocessIndexingStatusManager.setIndexingInterrupted(false);
 

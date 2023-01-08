@@ -15,7 +15,7 @@ Id TooltipController::TooltipRequest::s_requestId = 1;
 TooltipController::TooltipController(StorageAccess* storageAccess)
     : m_storageAccess(storageAccess), m_hideRequest(false) {}
 
-TooltipController::~TooltipController() {}
+TooltipController::~TooltipController() = default;
 
 void TooltipController::clear() {
   {

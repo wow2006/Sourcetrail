@@ -1,17 +1,12 @@
-#ifndef MESSAGE_INDEXING_STARTED_H
-#define MESSAGE_INDEXING_STARTED_H
+#pragma once
 
 #include "Message.h"
 
-class MessageIndexingStarted: public Message<MessageIndexingStarted>
-{
+class MessageIndexingStarted : public Message<MessageIndexingStarted> {
 public:
-	static const std::string getStaticType()
-	{
-		return "MessageIndexingStarted";
-	}
+  static const std::string getStaticType() {
+    return "MessageIndexingStarted";
+  }
 
-	MessageIndexingStarted() {}
+  MessageIndexingStarted() {}
 };
-
-#endif	  // MESSAGE_INDEXING_STARTED_H

@@ -1,7 +1,5 @@
 #include "Node.h"
 
-#include <sstream>
-
 #include "logging.h"
 #include "utilityString.h"
 

@@ -214,6 +214,8 @@ TaskExecuteCustomCommands::TaskExecuteCustomCommands(
     , m_indexerCommandCount(m_indexerCommandProvider->size())
     , m_hasPythonCommands(false) {}
 
+TaskExecuteCustomCommands::~TaskExecuteCustomCommands() = default;
+
 void TaskExecuteCustomCommands::doEnter(std::shared_ptr<Blackboard> /*blackboard*/) {
   m_dialogView->hideUnknownProgressDialog();
   m_start = TimeStamp::now();

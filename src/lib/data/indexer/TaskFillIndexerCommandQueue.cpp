@@ -14,6 +14,8 @@ TaskFillIndexerCommandsQueue::TaskFillIndexerCommandsQueue(
     , m_indexerCommandManager(appUUID, 0, true)
     , m_maximumQueueSize(maximumQueueSize) {}
 
+TaskFillIndexerCommandsQueue::~TaskFillIndexerCommandsQueue() = default;
+
 void TaskFillIndexerCommandsQueue::doEnter(std::shared_ptr<Blackboard> blackboard) {
   {
     std::lock_guard<std::mutex> lock(m_commandsMutex);

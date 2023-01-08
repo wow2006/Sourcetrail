@@ -1,7 +1,4 @@
 #pragma once
-// STL
-#include <memory>
-#include <vector>
 
 class IndexerComposite;
 class LanguagePackage;

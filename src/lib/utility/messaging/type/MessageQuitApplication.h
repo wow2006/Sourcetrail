@@ -1,17 +1,12 @@
-#ifndef MESSAGE_QUIT_APPLICATION_H
-#define MESSAGE_QUIT_APPLICATION_H
+#pragma once
 
 #include "Message.h"
 
-class MessageQuitApplication: public Message<MessageQuitApplication>
-{
+class MessageQuitApplication : public Message<MessageQuitApplication> {
 public:
-	MessageQuitApplication() {}
+  MessageQuitApplication() {}
 
-	static const std::string getStaticType()
-	{
-		return "MessageQuitApplication";
-	}
+  static const std::string getStaticType() {
+    return "MessageQuitApplication";
+  }
 };
-
-#endif	  // MESSAGE_QUIT_APPLICATION_H

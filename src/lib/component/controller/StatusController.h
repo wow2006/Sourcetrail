@@ -20,7 +20,8 @@ class StatusController
     , public MessageListener<MessageStatusFilterChanged> {
 public:
   StatusController();
-  ~StatusController();
+
+  ~StatusController() override;
 
 private:
   [[nodiscard]] StatusView* getView() const;

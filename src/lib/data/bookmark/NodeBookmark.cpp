@@ -10,7 +10,7 @@ NodeBookmark::NodeBookmark(
 {
 }
 
-NodeBookmark::~NodeBookmark() {}
+NodeBookmark::~NodeBookmark() = default;
 
 void NodeBookmark::addNodeId(const Id nodeId)
 {

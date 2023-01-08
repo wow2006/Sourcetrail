@@ -1,37 +1,28 @@
-#ifndef MESSAGE_STATUS_H
-#define MESSAGE_STATUS_H
-
-#include <string>
-#include <vector>
+#pragma once
 
 #include "Message.h"
 
-class MessageStatus: public Message<MessageStatus>
-{
+class MessageStatus : public Message<MessageStatus> {
 public:
-	MessageStatus(
-		const std::wstring& status_,
-		bool isError_ = false,
-		bool showLoader_ = false,
-		bool showInStatusBar_ = true);
-	MessageStatus(
-		const std::vector<std::wstring>& stati_,
-		bool isError_ = false,
-		bool showLoader_ = false,
-		bool showInStatusBar_ = true);
+  MessageStatus(const std::wstring& status_,
+                bool isError_ = false,
+                bool showLoader_ = false,
+                bool showInStatusBar_ = true);
+  MessageStatus(const std::vector<std::wstring>& stati_,
+                bool isError_ = false,
+                bool showLoader_ = false,
+                bool showInStatusBar_ = true);
 
-	static const std::string getStaticType();
+  static const std::string getStaticType();
 
-	const std::vector<std::wstring>& stati() const;
-	std::wstring status() const;
-	virtual void print(std::wostream& os) const;
+  const std::vector<std::wstring>& stati() const;
+  std::wstring status() const;
+  virtual void print(std::wostream& os) const;
 
-	const bool isError;
-	const bool showLoader;
-	const bool showInStatusBar;
+  const bool isError;
+  const bool showLoader;
+  const bool showInStatusBar;
 
 private:
-	std::vector<std::wstring> m_stati;
+  std::vector<std::wstring> m_stati;
 };
-
-#endif	  // MESSAGE_STATUS_H

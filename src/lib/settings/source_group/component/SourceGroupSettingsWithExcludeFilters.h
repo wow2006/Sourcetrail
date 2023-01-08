@@ -14,7 +14,7 @@ public:
   std::vector<std::wstring> getExcludeFilterStrings() const;
 
   std::vector<FilePathFilter> getExcludeFiltersExpandedAndAbsolute() const;
-  
+
   void setExcludeFilterStrings(const std::vector<std::wstring>& excludeFilters);
 
 protected:

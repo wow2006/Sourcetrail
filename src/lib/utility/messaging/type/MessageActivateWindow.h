@@ -1,5 +1,4 @@
-#ifndef MESSAGE_ACTIVATE_WINDOW_H
-#define MESSAGE_ACTIVATE_WINDOW_H
+#pragma once
 
 #include "Message.h"
 
@@ -13,5 +12,3 @@ public:
 		return "MessageActivateWindow";
 	}
 };
-
-#endif	  // MESSAGE_ACTIVATE_WINDOW_H

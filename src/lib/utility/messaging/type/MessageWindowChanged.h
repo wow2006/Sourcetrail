@@ -1,15 +1,10 @@
-#ifndef MESSAGE_WINDOW_CHANGED_H
-#define MESSAGE_WINDOW_CHANGED_H
+#pragma once
 
 #include "Message.h"
 
-class MessageWindowChanged: public Message<MessageWindowChanged>
-{
+class MessageWindowChanged : public Message<MessageWindowChanged> {
 public:
-	static const std::string getStaticType()
-	{
-		return "MessageWindowChanged";
-	}
+  static const std::string getStaticType() {
+    return "MessageWindowChanged";
+  }
 };
-
-#endif	  // MESSAGE_WINDOW_CHANGED_H

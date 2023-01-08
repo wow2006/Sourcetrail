@@ -1,38 +1,33 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+#pragma once
 
 #include "Component.h"
 
-class Controller
-{
+class Controller {
 public:
-	Controller();
-	virtual ~Controller();
+  Controller();
 
-	void setComponent(Component* component);
+  virtual ~Controller();
 
-	virtual void clear() = 0;
+  void setComponent(Component* component);
 
-	Id getTabId() const;
+  virtual void clear() = 0;
+
+  Id getTabId() const;
 
 protected:
-	template <typename ViewType>
-	ViewType* getView() const;
+  template <typename ViewType>
+  ViewType* getView() const;
 
 private:
-	Component* m_component;
+  Component* m_component;
 };
 
 
 template <typename ViewType>
-ViewType* Controller::getView() const
-{
-	if (m_component)
-	{
-		return m_component->getView<ViewType>();
-	}
+ViewType* Controller::getView() const {
+  if(m_component) {
+    return m_component->getView<ViewType>();
+  }
 
-	return nullptr;
+  return nullptr;
 }
-
-#endif	  // CONTROLLER_H

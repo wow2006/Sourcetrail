@@ -1,11 +1,8 @@
-#ifndef VIEW_WIDGET_WRAPPER_H
-#define VIEW_WIDGET_WRAPPER_H
+#pragma once
 
-class ViewWidgetWrapper
-{
+class ViewWidgetWrapper {
 public:
-	ViewWidgetWrapper();
-	virtual ~ViewWidgetWrapper();
-};
+  ViewWidgetWrapper();
 
-#endif	  // VIEW_WIDGET_WRAPPER_H
+  virtual ~ViewWidgetWrapper();
+};

@@ -1,7 +1,4 @@
-#ifndef BUCKET_LAYOUTER_H
-#define BUCKET_LAYOUTER_H
-
-#include <map>
+#pragma once
 
 #include "Vector2.h"
 #include "types.h"
@@ -10,65 +7,62 @@
 
 struct DummyEdge;
 
-class Bucket
-{
+class Bucket {
 public:
-	Bucket();
-	Bucket(int i, int j);
+  Bucket();
 
-	int getWidth() const;
-	int getHeight() const;
+  Bucket(int i, int j);
 
-	bool hasNode(std::shared_ptr<DummyNode> node) const;
-	void addNode(std::shared_ptr<DummyNode> node);
-	const DummyNode::BundledNodesSet& getNodes() const;
+  int getWidth() const;
+  int getHeight() const;
 
-	void preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVerticalSplit);
-	void layout(int x, int y, int width, int height);
+  bool hasNode(std::shared_ptr<DummyNode> node) const;
+  void addNode(std::shared_ptr<DummyNode> node);
+  const DummyNode::BundledNodesSet& getNodes() const;
 
-	const std::vector<int> getColWidths() const;
-	int getMiddleGapX() const;
+  void preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVerticalSplit);
+  void layout(int x, int y, int width, int height);
 
-	int i;
-	int j;
+  const std::vector<int> getColWidths() const;
+  int getMiddleGapX() const;
+
+  int i;
+  int j;
 
 private:
-	int m_width;
-	int m_height;
+  int m_width;
+  int m_height;
 
-	DummyNode::BundledNodesSet m_nodes;
+  DummyNode::BundledNodesSet m_nodes;
 
-	std::vector<int> m_colWidths;
+  std::vector<int> m_colWidths;
 };
 
 
-class BucketLayouter
-{
+class BucketLayouter {
 public:
-	BucketLayouter(Vec2i viewSize);
-	void createBuckets(
-		std::vector<std::shared_ptr<DummyNode>>& nodes,
-		const std::vector<std::shared_ptr<DummyEdge>>& edges);
-	void layoutBuckets(bool addVerticalSplit);
+  BucketLayouter(Vec2i viewSize);
 
-	std::vector<std::shared_ptr<DummyNode>> getSortedNodes();
+  void createBuckets(std::vector<std::shared_ptr<DummyNode>>& nodes,
+                     const std::vector<std::shared_ptr<DummyEdge>>& edges);
+  void layoutBuckets(bool addVerticalSplit);
+
+  std::vector<std::shared_ptr<DummyNode>> getSortedNodes();
 
 private:
-	std::shared_ptr<DummyNode> findTopMostDummyNodeRecursive(
-		std::vector<std::shared_ptr<DummyNode>>& nodes, Id tokenId, std::shared_ptr<DummyNode> top);
+  std::shared_ptr<DummyNode> findTopMostDummyNodeRecursive(
+      std::vector<std::shared_ptr<DummyNode>>& nodes, Id tokenId, std::shared_ptr<DummyNode> top);
 
-	Bucket* getBucket(int i, int j);
-	Bucket* getBucket(std::shared_ptr<DummyNode> node);
+  Bucket* getBucket(int i, int j);
+  Bucket* getBucket(std::shared_ptr<DummyNode> node);
 
-	Vec2i m_viewSize;
-	std::map<int, std::map<int, Bucket>> m_buckets;
+  Vec2i m_viewSize;
+  std::map<int, std::map<int, Bucket>> m_buckets;
 
-	int m_i1;
-	int m_j1;
-	int m_i2;
-	int m_j2;
+  int m_i1;
+  int m_j1;
+  int m_i2;
+  int m_j2;
 
-	DummyNode* m_activeParentNode = nullptr;
+  DummyNode* m_activeParentNode = nullptr;
 };
-
-#endif	  // BUCKET_LAYOUTER_H

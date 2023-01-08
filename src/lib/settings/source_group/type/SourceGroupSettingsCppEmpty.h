@@ -1,5 +1,4 @@
-#ifndef SOURCE_GROUP_SETTINGS_CPP_EMPTY_H
-#define SOURCE_GROUP_SETTINGS_CPP_EMPTY_H
+#pragma once
 
 #include "language_packages.h"
 
@@ -37,5 +36,3 @@ public:
 };
 
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
-
-#endif	  // SOURCE_GROUP_SETTINGS_CPP_EMPTY_H

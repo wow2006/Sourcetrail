@@ -2,9 +2,8 @@
 
 StatusView::StatusView(ViewLayout* viewLayout): View(viewLayout) {}
 
-StatusView::~StatusView() {}
+StatusView::~StatusView() = default;
 
-std::string StatusView::getName() const
-{
-	return "Status";
+std::string StatusView::getName() const {
+  return "Status";
 }

@@ -1,37 +1,33 @@
-#ifndef SOURCE_GROUP_SETTINGS_WITH_JAVA_MAVEN_H
-#define SOURCE_GROUP_SETTINGS_WITH_JAVA_MAVEN_H
+#pragma once
 
 #include "FilePath.h"
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithJavaMaven: public SourceGroupSettingsComponent
-{
+class SourceGroupSettingsWithJavaMaven : public SourceGroupSettingsComponent {
 public:
-	virtual ~SourceGroupSettingsWithJavaMaven() = default;
+  virtual ~SourceGroupSettingsWithJavaMaven() = default;
 
-	FilePath getMavenDependenciesDirectoryPath() const;
+  FilePath getMavenDependenciesDirectoryPath() const;
 
-	FilePath getMavenProjectFilePath() const;
-	FilePath getMavenProjectFilePathExpandedAndAbsolute() const;
-	void setMavenProjectFilePath(const FilePath& path);
+  FilePath getMavenProjectFilePath() const;
+  FilePath getMavenProjectFilePathExpandedAndAbsolute() const;
+  void setMavenProjectFilePath(const FilePath& path);
 
-	bool getShouldIndexMavenTests() const;
-	void setShouldIndexMavenTests(bool value);
+  bool getShouldIndexMavenTests() const;
+  void setShouldIndexMavenTests(bool value);
 
-	FilePath getMavenSettingsFilePath() const;
-	FilePath getMavenSettingsFilePathExpandedAndAbsolute() const;
-	void setMavenSettingsFilePath(const FilePath& path);
+  FilePath getMavenSettingsFilePath() const;
+  FilePath getMavenSettingsFilePathExpandedAndAbsolute() const;
+  void setMavenSettingsFilePath(const FilePath& path);
 
 protected:
-	bool equals(const SourceGroupSettingsBase* other) const override;
+  bool equals(const SourceGroupSettingsBase* other) const override;
 
-	void load(const utility::ConfigManager* config, const std::string& key) override;
-	void save(utility::ConfigManager* config, const std::string& key) override;
+  void load(const utility::ConfigManager* config, const std::string& key) override;
+  void save(utility::ConfigManager* config, const std::string& key) override;
 
 private:
-	FilePath m_mavenProjectFilePath;
-	bool m_shouldIndexMavenTests = false;
-	FilePath m_mavenSettingsFilePath;
+  FilePath m_mavenProjectFilePath;
+  bool m_shouldIndexMavenTests = false;
+  FilePath m_mavenSettingsFilePath;
 };
-
-#endif	  // SOURCE_GROUP_SETTINGS_WITH_JAVA_MAVEN_H

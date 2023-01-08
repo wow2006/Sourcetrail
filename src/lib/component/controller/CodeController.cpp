@@ -1,7 +1,5 @@
 #include "CodeController.h"
 
-#include <memory>
-
 #include "Application.h"
 #include "ApplicationSettings.h"
 #include "FileInfo.h"
@@ -20,6 +18,8 @@
 #include "utilityString.h"
 
 CodeController::CodeController(StorageAccess* storageAccess): m_storageAccess(storageAccess) {}
+
+CodeController::~CodeController() = default;
 
 Id CodeController::getSchedulerId() const {
   return Controller::getTabId();
@@ -129,16 +129,16 @@ void CodeController::handleMessage(MessageActivateOverview* message) {
 
   stringStream << "\t" + std::to_string(stats.fileCount) + " files";
   stringStream << (stats.completedFileCount != stats.fileCount ?
-             " (" + std::to_string(stats.completedFileCount) + " complete)" :
-             "") +
+                       " (" + std::to_string(stats.completedFileCount) + " complete)" :
+                       "") +
           "\n";
   stringStream << "\t" + std::to_string(stats.fileLOCCount) + " lines of code\n";
   stringStream << "\n";
   stringStream << "\t" + std::to_string(stats.nodeCount) + " symbols\n";
   stringStream << "\t" + std::to_string(stats.edgeCount) + " references\n";
   stringStream << "\n";
-  stringStream << "\t" + std::to_string(errorCount.total) + " errors (" + std::to_string(errorCount.fatal) +
-          " fatal)\n";
+  stringStream << "\t" + std::to_string(errorCount.total) + " errors (" +
+          std::to_string(errorCount.fatal) + " fatal)\n";
   stringStream << "\n";
 
   if(errorCount.fatal) {
@@ -1197,8 +1197,9 @@ bool CodeController::addAllSourceLocations() {
           snippet.locationFile->copySourceLocations(file.locationFile);
         }
       } else {
-        std::shared_ptr<SourceLocationFile> sourceFile = m_storageAccess->getSourceLocationsForLinesInFile(
-            snippet.locationFile->getFilePath(), snippet.startLineNumber, snippet.endLineNumber);
+        std::shared_ptr<SourceLocationFile> sourceFile =
+            m_storageAccess->getSourceLocationsForLinesInFile(
+                snippet.locationFile->getFilePath(), snippet.startLineNumber, snippet.endLineNumber);
         if(sourceFile) {
           sourceFile->copySourceLocations(snippet.locationFile);
           snippet.locationFile = sourceFile;

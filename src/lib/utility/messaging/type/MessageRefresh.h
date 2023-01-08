@@ -1,5 +1,4 @@
-#ifndef MESSAGE_REFRESH_H
-#define MESSAGE_REFRESH_H
+#pragma once
 
 #include "Message.h"
 
@@ -29,5 +28,3 @@ public:
 
 	bool all;
 };
-
-#endif	  // MESSAGE_REFRESH_H

@@ -1,9 +1,9 @@
 #include "TabbedView.h"
 
-#include <algorithm>
-
 TabbedView::TabbedView(ViewLayout* viewLayout, const std::string& name)
     : View(viewLayout), m_name(name) {}
+
+TabbedView::~TabbedView() = default;
 
 const std::vector<View*>& TabbedView::getViews() const {
   return m_views;

@@ -1,20 +1,17 @@
-#ifndef REFRESH_CONTROLLER_H
-#define REFRESH_CONTROLLER_H
+#pragma once
 
 #include "Controller.h"
 
 class RefreshView;
 
-class RefreshController: public Controller
-{
+class RefreshController : public Controller {
 public:
-	RefreshController();
-	virtual ~RefreshController();
+  RefreshController();
 
-	virtual void clear();
+  ~RefreshController() override;
+
+  virtual void clear();
 
 private:
-	RefreshView* getView();
+  RefreshView* getView();
 };
-
-#endif	  // REFRESH_CONTROLLER_H

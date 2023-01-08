@@ -1,8 +1,5 @@
 #include "TaskGroupParallel.h"
 
-#include <chrono>
-#include <thread>
-
 #include "ScopedFunctor.h"
 
 TaskGroupParallel::TaskGroupParallel()

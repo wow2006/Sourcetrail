@@ -34,13 +34,13 @@ Task::TaskState TaskGroupSequence::doUpdate(std::shared_ptr<Blackboard> blackboa
 void TaskGroupSequence::doExit(std::shared_ptr<Blackboard> /*blackboard*/) {}
 
 void TaskGroupSequence::doReset(std::shared_ptr<Blackboard> /*blackboard*/) {
-  for(auto & m_taskRunner : m_taskRunners) {
+  for(auto& m_taskRunner: m_taskRunners) {
     m_taskRunner->reset();
   }
 }
 
 void TaskGroupSequence::doTerminate() {
-  for(auto & m_taskRunner : m_taskRunners) {
+  for(auto& m_taskRunner: m_taskRunners) {
     m_taskRunner->terminate();
   }
 }

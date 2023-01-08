@@ -1,12 +1,8 @@
-#ifndef TOKEN_COMPONENT_STATIC_H
-#define TOKEN_COMPONENT_STATIC_H
+#pragma once
 
 #include "TokenComponent.h"
 
-class TokenComponentStatic: public TokenComponent
-{
+class TokenComponentStatic : public TokenComponent {
 public:
-	virtual std::shared_ptr<TokenComponent> copy() const;
+  std::shared_ptr<TokenComponent> copy() const override;
 };
-
-#endif	  // TOKEN_COMPONENT_STATIC_H

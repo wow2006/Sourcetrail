@@ -6,9 +6,8 @@ TaskFindKeyOnBlackboard::TaskFindKeyOnBlackboard(const std::string& key): m_key(
 
 void TaskFindKeyOnBlackboard::doEnter(std::shared_ptr<Blackboard> /*blackboard*/) {}
 
-Task::TaskState TaskFindKeyOnBlackboard::doUpdate(std::shared_ptr<Blackboard> blackboard)
-{
-	return (blackboard->exists(m_key)) ? STATE_SUCCESS : STATE_FAILURE;
+Task::TaskState TaskFindKeyOnBlackboard::doUpdate(std::shared_ptr<Blackboard> blackboard) {
+  return (blackboard->exists(m_key)) ? STATE_SUCCESS : STATE_FAILURE;
 }
 
 void TaskFindKeyOnBlackboard::doExit(std::shared_ptr<Blackboard> /*blackboard*/) {}

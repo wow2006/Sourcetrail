@@ -1,32 +1,26 @@
-#ifndef SOURCE_GROUP_SETTINGS_WITH_CPP_STANDARD_H
-#define SOURCE_GROUP_SETTINGS_WITH_CPP_STANDARD_H
-
-#include <vector>
+#pragma once
 
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithCppStandard: public SourceGroupSettingsComponent
-{
+class SourceGroupSettingsWithCppStandard : public SourceGroupSettingsComponent {
 public:
-	static std::wstring getDefaultCppStandardStatic();
+  static std::wstring getDefaultCppStandardStatic();
 
-	virtual ~SourceGroupSettingsWithCppStandard() = default;
+  virtual ~SourceGroupSettingsWithCppStandard() = default;
 
-	std::wstring getCppStandard() const;
-	void setCppStandard(const std::wstring& standard);
+  std::wstring getCppStandard() const;
+  void setCppStandard(const std::wstring& standard);
 
-	std::vector<std::wstring> getAvailableCppStandards() const;
+  std::vector<std::wstring> getAvailableCppStandards() const;
 
 protected:
-	bool equals(const SourceGroupSettingsBase* other) const override;
+  bool equals(const SourceGroupSettingsBase* other) const override;
 
-	void load(const utility::ConfigManagerigManager* config, const std::string& key) override;
-	void save(utility::ConfigManagerigManager* config, const std::string& key) override;
+  void load(const utility::ConfigManagerigManager* config, const std::string& key) override;
+  void save(utility::ConfigManagerigManager* config, const std::string& key) override;
 
 private:
-	std::wstring getDefaultCppStandard() const;
+  std::wstring getDefaultCppStandard() const;
 
-	std::wstring m_cppStandard;
+  std::wstring m_cppStandard;
 };
-
-#endif	  // SOURCE_GROUP_SETTINGS_WITH_CPP_STANDARD_H

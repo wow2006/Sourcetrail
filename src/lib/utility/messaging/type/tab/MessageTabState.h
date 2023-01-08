@@ -1,5 +1,4 @@
-#ifndef MESSAGE_TAB_STATE_H
-#define MESSAGE_TAB_STATE_H
+#pragma once
 
 #include "Message.h"
 #include "SearchMatch.h"
@@ -20,5 +19,3 @@ public:
 	const Id tabId;
 	const std::vector<SearchMatch> searchMatches;
 };
-
-#endif	  // MESSAGE_TAB_STATE_H

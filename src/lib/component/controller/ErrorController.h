@@ -30,7 +30,8 @@ class ErrorController
     , public MessageListener<MessageShowError> {
 public:
   ErrorController(StorageAccess* storageAccess);
-  ~ErrorController();
+
+  ~ErrorController() override;
 
   void errorFilterChanged(const ErrorFilter& filter);
   void showError(Id errorId);

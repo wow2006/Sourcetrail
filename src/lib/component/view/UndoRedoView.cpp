@@ -4,14 +4,12 @@
 
 UndoRedoView::UndoRedoView(ViewLayout* viewLayout): View(viewLayout) {}
 
-UndoRedoView::~UndoRedoView() {}
+UndoRedoView::~UndoRedoView() = default;
 
-std::string UndoRedoView::getName() const
-{
-	return "UndoRedoView";
+std::string UndoRedoView::getName() const {
+  return "UndoRedoView";
 }
 
-UndoRedoController* UndoRedoView::getController()
-{
-	return View::getController<UndoRedoController>();
+UndoRedoController* UndoRedoView::getController() {
+  return View::getController<UndoRedoController>();
 }

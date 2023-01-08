@@ -79,7 +79,9 @@ void ErrorController::handleMessage(MessageErrorCountUpdate* message) {
 
     getView()->addErrors(errors, message->errorCount, true);
 
-    if(!lib::app::Application::getInstance()->getDialogView(DialogView::UseCase::INDEXING)->dialogsHidden()) {
+    if(!lib::app::Application::getInstance()
+            ->getDialogView(DialogView::UseCase::INDEXING)
+            ->dialogsHidden()) {
       getView()->showDockWidget();
     }
 

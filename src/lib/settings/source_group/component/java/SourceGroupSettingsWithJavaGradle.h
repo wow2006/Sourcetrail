@@ -1,32 +1,28 @@
-#ifndef SOURCE_GROUP_SETTINGS_WITH_JAVA_GRADLE_H
-#define SOURCE_GROUP_SETTINGS_WITH_JAVA_GRADLE_H
+#pragma once
 
 #include "FilePath.h"
 #include "SourceGroupSettingsComponent.h"
 
-class SourceGroupSettingsWithJavaGradle: public SourceGroupSettingsComponent
-{
+class SourceGroupSettingsWithJavaGradle : public SourceGroupSettingsComponent {
 public:
-	virtual ~SourceGroupSettingsWithJavaGradle() = default;
+  virtual ~SourceGroupSettingsWithJavaGradle() = default;
 
-	FilePath getGradleDependenciesDirectoryPath() const;
+  FilePath getGradleDependenciesDirectoryPath() const;
 
-	FilePath getGradleProjectFilePath() const;
-	FilePath getGradleProjectFilePathExpandedAndAbsolute() const;
-	void setGradleProjectFilePath(const FilePath& path);
+  FilePath getGradleProjectFilePath() const;
+  FilePath getGradleProjectFilePathExpandedAndAbsolute() const;
+  void setGradleProjectFilePath(const FilePath& path);
 
-	bool getShouldIndexGradleTests() const;
-	void setShouldIndexGradleTests(bool value);
+  bool getShouldIndexGradleTests() const;
+  void setShouldIndexGradleTests(bool value);
 
 protected:
-	bool equals(const SourceGroupSettingsBase* other) const override;
+  bool equals(const SourceGroupSettingsBase* other) const override;
 
-	void load(const utility::ConfigManager* config, const std::string& key) override;
-	void save(utility::ConfigManager* config, const std::string& key) override;
+  void load(const utility::ConfigManager* config, const std::string& key) override;
+  void save(utility::ConfigManager* config, const std::string& key) override;
 
 private:
-	FilePath m_gradleProjectFilePath;
-	bool m_shouldIndexGradleTests = false;
+  FilePath m_gradleProjectFilePath;
+  bool m_shouldIndexGradleTests = false;
 };
-
-#endif	  // SOURCE_GROUP_SETTINGS_WITH_JAVA_GRADLE_H

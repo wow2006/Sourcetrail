@@ -1,20 +1,13 @@
-#ifndef SQLITE_STORAGE_MIGRATION_LAMBDA_H
-#define SQLITE_STORAGE_MIGRATION_LAMBDA_H
-
-#include <functional>
+#pragma once
 
 #include "SqliteStorageMigration.h"
 
-class SqliteStorageMigrationLambda: public SqliteStorageMigration
-{
+class SqliteStorageMigrationLambda : public SqliteStorageMigration {
 public:
-	SqliteStorageMigrationLambda(
-		std::function<void(const SqliteStorageMigration*, SqliteStorage*)> lambda);
-	virtual ~SqliteStorageMigrationLambda();
-	virtual void apply(SqliteStorage* migratable) const;
+  SqliteStorageMigrationLambda(std::function<void(const SqliteStorageMigration*, SqliteStorage*)> lambda);
+  virtual ~SqliteStorageMigrationLambda();
+  virtual void apply(SqliteStorage* migratable) const;
 
 private:
-	std::function<void(const SqliteStorageMigration*, SqliteStorage*)> m_lambda;
+  std::function<void(const SqliteStorageMigration*, SqliteStorage*)> m_lambda;
 };
-
-#endif	  // SQLITE_STORAGE_MIGRATION_LAMBDA_H

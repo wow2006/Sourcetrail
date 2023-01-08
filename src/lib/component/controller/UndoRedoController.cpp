@@ -14,6 +14,8 @@ UndoRedoController::UndoRedoController(StorageAccess* storageAccess)
   m_iterator = m_list.end();
 }
 
+UndoRedoController::~UndoRedoController() = default;
+
 Id UndoRedoController::getSchedulerId() const {
   return Controller::getTabId();
 }
@@ -435,9 +437,11 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it) {
       }
     }
   } else if(m->getType() == MessageActivateErrors::getStaticType()) {
-    std::shared_ptr<const Project> currentProject = lib::app::Application::getInstance()->getCurrentProject();
+    std::shared_ptr<const Project> currentProject =
+        lib::app::Application::getInstance()->getCurrentProject();
     if(currentProject && currentProject->isIndexing()) {
-      lib::app::Application::getInstance()->handleDialog(L"Errors cannot be activated while indexing.");
+      lib::app::Application::getInstance()->handleDialog(
+          L"Errors cannot be activated while indexing.");
 
       ErrorFilter filter;
       filter.error = false;

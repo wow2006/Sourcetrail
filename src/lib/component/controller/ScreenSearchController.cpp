@@ -2,6 +2,8 @@
 
 #include "ScreenSearchView.h"
 
+ScreenSearchController::~ScreenSearchController() = default;
+
 void ScreenSearchController::clear() {}
 
 void ScreenSearchController::foundMatches(ScreenSearchResponder* responder, size_t matchCount) {

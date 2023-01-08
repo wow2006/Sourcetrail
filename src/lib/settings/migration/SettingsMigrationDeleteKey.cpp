@@ -2,9 +2,8 @@
 
 SettingsMigrationDeleteKey::SettingsMigrationDeleteKey(const std::string& key): m_key(key) {}
 
-SettingsMigrationDeleteKey::~SettingsMigrationDeleteKey() {}
+SettingsMigrationDeleteKey::~SettingsMigrationDeleteKey() = default;
 
-void SettingsMigrationDeleteKey::apply(Settings* migratable) const
-{
-	removeValuesInSettings(migratable, m_key);
+void SettingsMigrationDeleteKey::apply(Settings* migratable) const {
+  removeValuesInSettings(migratable, m_key);
 }
