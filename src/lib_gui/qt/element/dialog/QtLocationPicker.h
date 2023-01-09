@@ -25,7 +25,7 @@ public:
 
 	void setFileFilter(const QString& fileFilter);
 
-	void setRelativeRootDirectory(const FilePath& dir);
+	void setRelativeRootDirectory(const utility::file::FilePath& dir);
 
 signals:
 	void locationPicked();
@@ -43,7 +43,7 @@ private:
 
 	bool m_pickDirectory;
 	QString m_fileFilter;
-	FilePath m_relativeRootDirectory;
+	utility::file::FilePath m_relativeRootDirectory;
 };
 
 #endif	  // QT_LOCATION_PICKER_H

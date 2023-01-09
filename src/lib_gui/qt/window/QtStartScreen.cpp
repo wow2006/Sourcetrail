@@ -22,7 +22,7 @@ bool QtRecentProjectButton::projectExists() const
 	return m_projectExists;
 }
 
-void QtRecentProjectButton::setProjectPath(const FilePath& projectFilePath)
+void QtRecentProjectButton::setProjectPath(const utility::file::FilePath& projectFilePath)
 {
 	m_projectFilePath = projectFilePath;
 	m_projectExists = projectFilePath.exists();
@@ -60,7 +60,7 @@ void QtRecentProjectButton::handleButtonClick()
 
 		if (ret == 0)	 // QMessageBox::Yes
 		{
-			std::vector<FilePath> recentProjects =
+			std::vector<utility::file::FilePath> recentProjects =
 				ApplicationSettings::getInstance()->getRecentProjects();
 			for (size_t i = 0; i < recentProjects.size(); ++i)
 			{
@@ -101,7 +101,7 @@ QSize QtStartScreen::sizeHint() const
 
 void QtStartScreen::updateButtons()
 {
-	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
+	std::vector<utility::file::FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
 	size_t i = 0;
 	for (QtRecentProjectButton* button: m_recentProjectsButtons)
 	{

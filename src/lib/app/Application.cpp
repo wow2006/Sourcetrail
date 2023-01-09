@@ -114,7 +114,7 @@ void Application::loadSettings() {
   loadStyle(settings->getColorSchemePath());
 }
 
-void Application::loadStyle(const FilePath& colorSchemePath) {
+void Application::loadStyle(const utility::file::FilePath& colorSchemePath) {
   ColorScheme::getInstance()->load(colorSchemePath);
   GraphViewStyle::loadStyleSettings();
 }
@@ -186,7 +186,7 @@ void Application::handleMessage(MessageIndexingFinished* /*message*/) {
 void Application::handleMessage(MessageLoadProject* message) {
   TRACE("app load project");
 
-  FilePath projectSettingsFilePath(message->projectSettingsFilePath);
+  utility::file::FilePath projectSettingsFilePath(message->projectSettingsFilePath);
   loadWindow(projectSettingsFilePath.empty());
 
   if(projectSettingsFilePath.empty()) {
@@ -328,10 +328,10 @@ void Application::refreshProject(RefreshMode refreshMode, bool shallowIndexingRe
   }
 }
 
-void Application::updateRecentProjects(const FilePath& projectSettingsFilePath) {
+void Application::updateRecentProjects(const utility::file::FilePath& projectSettingsFilePath) {
   if(m_hasGUI) {
     ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-    std::vector<FilePath> recentProjects = appSettings->getRecentProjects();
+    std::vector<utility::file::FilePath> recentProjects = appSettings->getRecentProjects();
     if(!recentProjects.empty()) {
       auto itr = std::find(recentProjects.begin(), recentProjects.end(), projectSettingsFilePath);
       if(itr != recentProjects.end()) {
@@ -382,7 +382,7 @@ void Application::updateTitle() {
     std::wstring title = L"Sourcetrail";
 
     if(m_project) {
-      FilePath projectPath = m_project->getProjectSettingsFilePath();
+      utility::file::FilePath projectPath = m_project->getProjectSettingsFilePath();
 
       if(!projectPath.empty()) {
         title += L" - " + projectPath.fileName();

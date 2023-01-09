@@ -1,10 +1,15 @@
 #pragma once
 
+#include "FilePath.h"
 #include "Vector2.h"
 
 #include "AccessKind.h"
 #include "GroupType.h"
 #include "Node.h"
+
+namespace utility::file {
+class FilePath;
+}
 
 class GraphViewStyleImpl;
 
@@ -57,7 +62,7 @@ public:
 
     Vec2i textOffset;
 
-    FilePath iconPath;
+    utility::file::FilePath iconPath;
     Vec2i iconOffset;
     size_t iconSize;
 
@@ -146,7 +151,7 @@ public:
 private:
   static NodeStyle getStyleForNodeType(NodeType::StyleType type,
                                        const std::string& underscoredTypeString,
-                                       const FilePath& iconPath,
+                                       const utility::file::FilePath& iconPath,
                                        bool defined,
                                        bool isActive,
                                        bool isFocused,

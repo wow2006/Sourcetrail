@@ -19,14 +19,14 @@ public:
 	{
 		std::shared_ptr<TestStorage> testStorage = std::make_shared<TestStorage>();
 
-		std::map<Id, FilePath> filePathMap;
+		std::map<Id, utility::file::FilePath> filePathMap;
 		for (const StorageFile& file: storage->getStorageFiles())
 		{
-			filePathMap.emplace(file.id, FilePath(file.filePath));
+			filePathMap.emplace(file.id, utility::file::FilePath(file.filePath));
 			testStorage->files.emplace(file.filePath);
 
 			testStorage->addLine(
-				L"FILE: " + FilePath(file.filePath).fileName() +
+				L"FILE: " + utility::file::FilePath(file.filePath).fileName() +
 				(file.indexed ? L"" : L" non-indexed"));
 		}
 
@@ -226,17 +226,17 @@ public:
 				std::wstring sourceName =
 					NameHierarchy::deserialize(source.serializedName).getQualifiedNameWithSignature();
 				if (fileIdMap.find(edge.sourceNodeId) != fileIdMap.end() &&
-					FilePath(sourceName).exists())
+					utility::file::FilePath(sourceName).exists())
 				{
-					sourceName = FilePath(sourceName).fileName();
+					sourceName = utility::file::FilePath(sourceName).fileName();
 				}
 
 				std::wstring targetName =
 					NameHierarchy::deserialize(target.serializedName).getQualifiedNameWithSignature();
 				if (fileIdMap.find(edge.targetNodeId) != fileIdMap.end() &&
-					FilePath(targetName).exists())
+					utility::file::FilePath(targetName).exists())
 				{
-					targetName = FilePath(targetName).fileName();
+					targetName = utility::file::FilePath(targetName).fileName();
 				}
 
 				std::wstring nameStr = sourceName + L" -> " + targetName;
@@ -510,7 +510,7 @@ private:
 			L'>';
 	}
 
-	static std::wstring addFileName(const std::wstring& locationStr, const FilePath& filePath)
+	static std::wstring addFileName(const std::wstring& locationStr, const utility::file::FilePath& filePath)
 	{
 		return L" [" + filePath.fileName() + locationStr + L']';
 	}

@@ -24,53 +24,53 @@ QtPathListBox::SelectionPolicyType QtPathListBox::getSelectionPolicy() const
 	return m_selectionPolicy;
 }
 
-const FilePath& QtPathListBox::getRelativeRootDirectory() const
+const utility::file::FilePath& QtPathListBox::getRelativeRootDirectory() const
 {
 	return m_relativeRootDirectory;
 }
 
-void QtPathListBox::setRelativeRootDirectory(const FilePath& dir)
+void QtPathListBox::setRelativeRootDirectory(const utility::file::FilePath& dir)
 {
 	m_relativeRootDirectory = dir;
 }
 
-std::vector<FilePath> QtPathListBox::getPathsAsDisplayed() const
+std::vector<utility::file::FilePath> QtPathListBox::getPathsAsDisplayed() const
 {
-	std::vector<FilePath> paths;
+	std::vector<utility::file::FilePath> paths;
 	for (int i = 0; i < m_list->count(); ++i)
 	{
 		QtListBoxItem* widget = dynamic_cast<QtListBoxItem*>(m_list->itemWidget(m_list->item(i)));
-		paths.push_back(FilePath(widget->getText().toStdWString()));
+		paths.push_back(utility::file::FilePath(widget->getText().toStdWString()));
 	}
 	return paths;
 }
 
-std::vector<FilePath> QtPathListBox::getPathsAsAbsolute() const
+std::vector<utility::file::FilePath> QtPathListBox::getPathsAsAbsolute() const
 {
-	std::vector<FilePath> paths = getPathsAsDisplayed();
-	for (FilePath& path: paths)
+	std::vector<utility::file::FilePath> paths = getPathsAsDisplayed();
+	for (utility::file::FilePath& path: paths)
 	{
 		makeAbsolute(path);
 	}
 	return paths;
 }
 
-void QtPathListBox::setPaths(const std::vector<FilePath>& list, bool readOnly)
+void QtPathListBox::setPaths(const std::vector<utility::file::FilePath>& list, bool readOnly)
 {
 	clear();
 	addPaths(list, readOnly);
 }
 
-void QtPathListBox::addPaths(const std::vector<FilePath>& list, bool readOnly)
+void QtPathListBox::addPaths(const std::vector<utility::file::FilePath>& list, bool readOnly)
 {
-	for (const FilePath& path: list)
+	for (const utility::file::FilePath& path: list)
 	{
 		QtListBoxItem* item = addListBoxItemWithText(QString::fromStdWString(path.wstr()));
 		item->setReadOnly(readOnly);
 	}
 }
 
-void QtPathListBox::makeAbsolute(FilePath& path) const
+void QtPathListBox::makeAbsolute(utility::file::FilePath& path) const
 {
 	if (!path.empty() && !path.isAbsolute() && !m_relativeRootDirectory.empty())
 	{
@@ -78,16 +78,16 @@ void QtPathListBox::makeAbsolute(FilePath& path) const
 	}
 }
 
-void QtPathListBox::makeRelativeIfShorter(FilePath& path) const
+void QtPathListBox::makeRelativeIfShorter(utility::file::FilePath& path) const
 {
-	path = utility::getAsRelativeIfShorter(path, m_relativeRootDirectory);
+	path = utility::file::getAsRelativeIfShorter(path, m_relativeRootDirectory);
 }
 
 void QtPathListBox::dropEvent(QDropEvent* event)
 {
 	foreach (QUrl url, event->mimeData()->urls())
 	{
-		FilePath path(url.toLocalFile().toStdWString());
+		utility::file::FilePath path(url.toLocalFile().toStdWString());
 		makeRelativeIfShorter(path);
 		addListBoxItemWithText(QString::fromStdWString(path.wstr()));
 	}

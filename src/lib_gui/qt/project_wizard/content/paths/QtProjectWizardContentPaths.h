@@ -35,7 +35,7 @@ protected:
 
 	void addDetection(QGridLayout* layout, int row);
 
-	virtual void detectedPaths(const std::vector<FilePath>& paths);
+	virtual void detectedPaths(const std::vector<utility::file::FilePath>& paths);
 
 	std::shared_ptr<SourceGroupSettings> m_settings;
 

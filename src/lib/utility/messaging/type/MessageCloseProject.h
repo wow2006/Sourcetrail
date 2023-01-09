@@ -2,7 +2,9 @@
 
 #include "RefreshInfo.h"
 
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 #include "Message.h"
 
 class MessageCloseProject : public Message<MessageCloseProject> {

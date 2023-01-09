@@ -2,6 +2,8 @@
 
 #include "FileSystem.h"
 
+namespace utility::file {
+
 FileTree::FileTree(const FilePath& rootPath): m_rootPath(rootPath.getAbsolute().makeCanonical()) {
   if(m_rootPath.exists()) {
     if(m_rootPath.isDirectory()) {
@@ -66,3 +68,5 @@ std::vector<FilePath> FileTree::doGetAbsoluteRootPathsForRelativeFilePath(
   }
   return rootPaths;
 }
+
+}    // namespace utility::file

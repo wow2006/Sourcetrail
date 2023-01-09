@@ -66,7 +66,7 @@ void TabsController::addTab(Id tabId, SearchMatch match) {
     msg.dispatch();
   }
 
-  m_scrollToLine = std::make_tuple(0, FilePath(), 0);
+  m_scrollToLine = std::make_tuple(0, utility::file::FilePath(), 0);
   m_isCreatingTab = false;
 }
 

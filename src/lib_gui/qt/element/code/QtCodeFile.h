@@ -25,12 +25,12 @@ class QtCodeFile: public QFrame
 	Q_OBJECT
 
 public:
-	QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator, bool isFirst);
+	QtCodeFile(const utility::file::FilePath& filePath, QtCodeNavigator* navigator, bool isFirst);
 	virtual ~QtCodeFile();
 
 	void setModificationTime(const TimeStamp modificationTime);
 
-	const FilePath& getFilePath() const;
+	const utility::file::FilePath& getFilePath() const;
 
 	const QtCodeFileTitleBar* getTitleBar() const;
 
@@ -88,7 +88,7 @@ private:
 	QVBoxLayout* m_snippetLayout;
 	std::vector<QtCodeSnippet*> m_snippets;
 
-	const FilePath m_filePath;
+	const utility::file::FilePath m_filePath;
 	bool m_isWholeFile;
 };
 

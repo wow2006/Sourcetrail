@@ -4,20 +4,20 @@
 #include "ProjectSettings.h"
 #include "utilityFile.h"
 
-FilePath SourceGroupSettingsWithJavaMaven::getMavenDependenciesDirectoryPath() const {
+utility::file::FilePath SourceGroupSettingsWithJavaMaven::getMavenDependenciesDirectoryPath() const {
   return getSourceGroupDependenciesDirectoryPath().concatenate(L"maven");
 }
 
-FilePath SourceGroupSettingsWithJavaMaven::getMavenProjectFilePath() const {
+utility::file::FilePath SourceGroupSettingsWithJavaMaven::getMavenProjectFilePath() const {
   return m_mavenProjectFilePath;
 }
 
-FilePath SourceGroupSettingsWithJavaMaven::getMavenProjectFilePathExpandedAndAbsolute() const {
+utility::file::FilePath SourceGroupSettingsWithJavaMaven::getMavenProjectFilePathExpandedAndAbsolute() const {
   return utility::getExpandedAndAbsolutePath(
       getMavenProjectFilePath(), getProjectSettings()->getProjectDirectoryPath());
 }
 
-void SourceGroupSettingsWithJavaMaven::setMavenProjectFilePath(const FilePath& path) {
+void SourceGroupSettingsWithJavaMaven::setMavenProjectFilePath(const utility::file::FilePath& path) {
   m_mavenProjectFilePath = path;
 }
 
@@ -29,16 +29,16 @@ void SourceGroupSettingsWithJavaMaven::setShouldIndexMavenTests(bool value) {
   m_shouldIndexMavenTests = value;
 }
 
-FilePath SourceGroupSettingsWithJavaMaven::getMavenSettingsFilePath() const {
+utility::file::FilePath SourceGroupSettingsWithJavaMaven::getMavenSettingsFilePath() const {
   return m_mavenSettingsFilePath;
 }
 
-FilePath SourceGroupSettingsWithJavaMaven::getMavenSettingsFilePathExpandedAndAbsolute() const {
+utility::file::FilePath SourceGroupSettingsWithJavaMaven::getMavenSettingsFilePathExpandedAndAbsolute() const {
   return utility::getExpandedAndAbsolutePath(
       getMavenSettingsFilePath(), getProjectSettings()->getProjectDirectoryPath());
 }
 
-void SourceGroupSettingsWithJavaMaven::setMavenSettingsFilePath(const FilePath& path) {
+void SourceGroupSettingsWithJavaMaven::setMavenSettingsFilePath(const utility::file::FilePath& path) {
   m_mavenSettingsFilePath = path;
 }
 
@@ -53,9 +53,9 @@ bool SourceGroupSettingsWithJavaMaven::equals(const SourceGroupSettingsBase* oth
 
 void SourceGroupSettingsWithJavaMaven::load(const utility::ConfigManager* config,
                                             const std::string& key) {
-  setMavenProjectFilePath(config->getValueOrDefault(key + "/maven/project_file_path", FilePath(L"")));
+  setMavenProjectFilePath(config->getValueOrDefault(key + "/maven/project_file_path", utility::file::FilePath(L"")));
   setMavenSettingsFilePath(
-      config->getValueOrDefault(key + "/maven/settings_file_path", FilePath(L"")));
+      config->getValueOrDefault(key + "/maven/settings_file_path", utility::file::FilePath(L"")));
   setShouldIndexMavenTests(config->getValueOrDefault(key + "/maven/should_index_tests", false));
 }
 

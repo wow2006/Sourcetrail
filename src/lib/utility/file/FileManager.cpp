@@ -1,8 +1,8 @@
 #include "FileManager.h"
 // Internal
-#include "FilePath.h"
-#include "FilePathFilter.h"
 #include "FileSystem.h"
+
+namespace utility::file {
 
 void FileManager::update(const std::vector<FilePath>& sourcePaths,
                          const std::vector<FilePathFilter>& excludeFilters,
@@ -13,10 +13,9 @@ void FileManager::update(const std::vector<FilePath>& sourcePaths,
 
   m_allSourceFilePaths.clear();
 
-  for (const FileInfo& fileInfo:
-       FileSystem::getFileInfosFromPaths(m_sourcePaths, m_sourceExtensions)) {
-    const FilePath& filePath = fileInfo.path;
-    if (isExcluded(filePath)) {
+  for(const FileInfo& fileInfo: FileSystem::getFileInfosFromPaths(m_sourcePaths, m_sourceExtensions)) {
+    const utility::file::FilePath& filePath = fileInfo.path;
+    if(isExcluded(filePath)) {
       continue;
     }
 
@@ -39,3 +38,5 @@ std::set<FilePath> FileManager::getAllSourceFilePaths() const {
 bool FileManager::isExcluded(const FilePath& filePath) const {
   return FilePathFilter::areMatching(m_excludeFilters, filePath);
 }
+
+}    // namespace utility::file

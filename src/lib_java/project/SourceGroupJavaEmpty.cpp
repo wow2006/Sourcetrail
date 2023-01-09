@@ -17,12 +17,12 @@ bool SourceGroupJavaEmpty::prepareIndexing()
 	return true;
 }
 
-std::vector<FilePath> SourceGroupJavaEmpty::getAllSourcePaths() const
+std::vector<utility::file::FilePath> SourceGroupJavaEmpty::getAllSourcePaths() const
 {
 	return m_settings->getSourcePathsExpandedAndAbsolute();
 }
 
-std::vector<FilePath> SourceGroupJavaEmpty::doGetClassPath() const
+std::vector<utility::file::FilePath> SourceGroupJavaEmpty::doGetClassPath() const
 {
 	return utility::getClassPath(
 		m_settings->getClasspathExpandedAndAbsolute(),

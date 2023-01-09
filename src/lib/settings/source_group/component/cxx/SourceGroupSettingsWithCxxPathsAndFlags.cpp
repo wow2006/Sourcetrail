@@ -3,31 +3,31 @@
 #include "ProjectSettings.h"
 #include "utility.h"
 
-std::vector<FilePath> SourceGroupSettingsWithCxxPathsAndFlags::getHeaderSearchPaths() const {
+std::vector<utility::file::FilePath> SourceGroupSettingsWithCxxPathsAndFlags::getHeaderSearchPaths() const {
   return m_headerSearchPaths;
 }
 
-std::vector<FilePath> SourceGroupSettingsWithCxxPathsAndFlags::getHeaderSearchPathsExpandedAndAbsolute()
+std::vector<utility::file::FilePath> SourceGroupSettingsWithCxxPathsAndFlags::getHeaderSearchPathsExpandedAndAbsolute()
     const {
   return getProjectSettings()->makePathsExpandedAndAbsolute(getHeaderSearchPaths());
 }
 
 void SourceGroupSettingsWithCxxPathsAndFlags::setHeaderSearchPaths(
-    const std::vector<FilePath>& headerSearchPaths) {
+    const std::vector<utility::file::FilePath>& headerSearchPaths) {
   m_headerSearchPaths = headerSearchPaths;
 }
 
-std::vector<FilePath> SourceGroupSettingsWithCxxPathsAndFlags::getFrameworkSearchPaths() const {
+std::vector<utility::file::FilePath> SourceGroupSettingsWithCxxPathsAndFlags::getFrameworkSearchPaths() const {
   return m_frameworkSearchPaths;
 }
 
-std::vector<FilePath> SourceGroupSettingsWithCxxPathsAndFlags::getFrameworkSearchPathsExpandedAndAbsolute()
+std::vector<utility::file::FilePath> SourceGroupSettingsWithCxxPathsAndFlags::getFrameworkSearchPathsExpandedAndAbsolute()
     const {
   return getProjectSettings()->makePathsExpandedAndAbsolute(getFrameworkSearchPaths());
 }
 
 void SourceGroupSettingsWithCxxPathsAndFlags::setFrameworkSearchPaths(
-    const std::vector<FilePath>& frameworkSearchPaths) {
+    const std::vector<utility::file::FilePath>& frameworkSearchPaths) {
   m_frameworkSearchPaths = frameworkSearchPaths;
 }
 
@@ -52,9 +52,9 @@ bool SourceGroupSettingsWithCxxPathsAndFlags::equals(const SourceGroupSettingsBa
 void SourceGroupSettingsWithCxxPathsAndFlags::load(
     const utility::ConfigManagerigManagerigManager* config, const std::string& key) {
   setHeaderSearchPaths(config->getValuesOrDefaults(
-      key + "/header_search_paths/header_search_path", std::vector<FilePath>()));
+      key + "/header_search_paths/header_search_path", std::vector<utility::file::FilePath>()));
   setFrameworkSearchPaths(config->getValuesOrDefaults(
-      key + "/framework_search_paths/framework_search_path", std::vector<FilePath>()));
+      key + "/framework_search_paths/framework_search_path", std::vector<utility::file::FilePath>()));
   setCompilerFlags(config->getValuesOrDefaults(
       key + "/compiler_flags/compiler_flag", std::vector<std::wstring>()));
 }

@@ -19,7 +19,7 @@ QAction* QtContextMenu::s_redoAction;
 QAction* QtContextMenu::s_copyFullPathAction;
 QAction* QtContextMenu::s_openContainingFolderAction;
 
-FilePath QtContextMenu::s_filePath;
+utility::file::FilePath QtContextMenu::s_filePath;
 
 QtContextMenu::QtContextMenu(QContextMenuEvent* event, QWidget* origin)
 	: m_menu(origin), m_point(event->globalPos())
@@ -48,7 +48,7 @@ void QtContextMenu::addUndoActions()
 	addAction(s_redoAction);
 }
 
-void QtContextMenu::addFileActions(const FilePath& filePath)
+void QtContextMenu::addFileActions(const utility::file::FilePath& filePath)
 {
 	s_filePath = filePath;
 
@@ -125,7 +125,7 @@ void QtContextMenu::copyFullPathActionTriggered()
 
 void QtContextMenu::openContainingFolderActionTriggered()
 {
-	FilePath dir = s_filePath.getParentDirectory();
+	utility::file::FilePath dir = s_filePath.getParentDirectory();
 	if (dir.exists())
 	{
 		QDesktopServices::openUrl(

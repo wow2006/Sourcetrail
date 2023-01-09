@@ -34,7 +34,7 @@ const std::wstring ProjectSettings::TEMP_INDEX_DB_FILE_EXTENSION = L".srctrldb_t
 
 const size_t ProjectSettings::VERSION = 8;
 
-LanguageType ProjectSettings::getLanguageOfProject(const FilePath& filePath) {
+LanguageType ProjectSettings::getLanguageOfProject(const utility::file::FilePath& filePath) {
   LanguageType languageType = LANGUAGE_UNKNOWN;
 
   ProjectSettings projectSettings;
@@ -57,7 +57,7 @@ LanguageType ProjectSettings::getLanguageOfProject(const FilePath& filePath) {
 
 ProjectSettings::ProjectSettings() {}
 
-ProjectSettings::ProjectSettings(const FilePath& projectFilePath) {
+ProjectSettings::ProjectSettings(const utility::file::FilePath& projectFilePath) {
   setFilePath(projectFilePath);
 }
 
@@ -109,28 +109,28 @@ bool ProjectSettings::reload() {
   return Settings::load(getFilePath());
 }
 
-FilePath ProjectSettings::getProjectFilePath() const {
+utility::file::FilePath ProjectSettings::getProjectFilePath() const {
   return getFilePath();
 }
 
 void ProjectSettings::setProjectFilePath(std::wstring projectName,
-                                         const FilePath& projectFileLocation) {
+                                         const utility::file::FilePath& projectFileLocation) {
   setFilePath(projectFileLocation.getConcatenated(L"/" + projectName + PROJECT_FILE_EXTENSION));
 }
 
-FilePath ProjectSettings::getDependenciesDirectoryPath() const {
+utility::file::FilePath ProjectSettings::getDependenciesDirectoryPath() const {
   return getProjectDirectoryPath().concatenate(L"sourcetrail_dependencies");
 }
 
-FilePath ProjectSettings::getDBFilePath() const {
+utility::file::FilePath ProjectSettings::getDBFilePath() const {
   return getFilePath().replaceExtension(INDEX_DB_FILE_EXTENSION);
 }
 
-FilePath ProjectSettings::getTempDBFilePath() const {
+utility::file::FilePath ProjectSettings::getTempDBFilePath() const {
   return getFilePath().replaceExtension(TEMP_INDEX_DB_FILE_EXTENSION);
 }
 
-FilePath ProjectSettings::getBookmarkDBFilePath() const {
+utility::file::FilePath ProjectSettings::getBookmarkDBFilePath() const {
   return getFilePath().replaceExtension(BOOKMARK_DB_FILE_EXTENSION);
 }
 
@@ -138,7 +138,7 @@ std::wstring ProjectSettings::getProjectName() const {
   return getFilePath().withoutExtension().fileName();
 }
 
-FilePath ProjectSettings::getProjectDirectoryPath() const {
+utility::file::FilePath ProjectSettings::getProjectDirectoryPath() const {
   return getFilePath().getParentDirectory();
 }
 
@@ -218,13 +218,13 @@ void ProjectSettings::setAllSourceGroupSettings(
   }
 }
 
-std::vector<FilePath> ProjectSettings::makePathsExpandedAndAbsolute(
-    const std::vector<FilePath>& paths) const {
-  std::vector<FilePath> p = utility::getExpandedPaths(paths);
+std::vector<utility::file::FilePath> ProjectSettings::makePathsExpandedAndAbsolute(
+    const std::vector<utility::file::FilePath>& paths) const {
+  auto p = utility::file::getExpandedPaths(paths);
 
-  std::vector<FilePath> absPaths;
-  const FilePath basePath = getProjectDirectoryPath();
-  for(const FilePath& path: p) {
+  std::vector<utility::file::FilePath> absPaths;
+  const utility::file::FilePath basePath = getProjectDirectoryPath();
+  for(const utility::file::FilePath& path: p) {
     if(path.isAbsolute()) {
       absPaths.push_back(path);
     } else {
@@ -235,8 +235,8 @@ std::vector<FilePath> ProjectSettings::makePathsExpandedAndAbsolute(
   return absPaths;
 }
 
-FilePath ProjectSettings::makePathExpandedAndAbsolute(const FilePath& path) const {
-  return utility::getExpandedAndAbsolutePath(path, getProjectDirectoryPath());
+utility::file::FilePath ProjectSettings::makePathExpandedAndAbsolute(const utility::file::FilePath& path) const {
+  return utility::file::getExpandedAndAbsolutePath(path, getProjectDirectoryPath());
 }
 
 SettingsMigrator ProjectSettings::getMigrations() const {

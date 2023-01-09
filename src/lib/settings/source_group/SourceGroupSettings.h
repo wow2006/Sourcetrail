@@ -8,7 +8,9 @@
 namespace utility {
 class ConfigManager;
 }
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 
 class SourceGroupSettings : virtual public SourceGroupSettingsBase {
 public:
@@ -44,10 +46,10 @@ public:
   void setStatus(SourceGroupStatusType status);
 
   const ProjectSettings* getProjectSettings() const override;
-  FilePath getSourceGroupDependenciesDirectoryPath() const override;
-  FilePath getProjectDirectoryPath() const;
+  utility::file::FilePath getSourceGroupDependenciesDirectoryPath() const override;
+  utility::file::FilePath getProjectDirectoryPath() const;
 
-  std::vector<FilePath> makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const;
+  std::vector<utility::file::FilePath> makePathsExpandedAndAbsolute(const std::vector<utility::file::FilePath>& paths) const;
 
 protected:
   const ProjectSettings* m_projectSettings;

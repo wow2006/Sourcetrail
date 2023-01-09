@@ -9,7 +9,7 @@ public:
 	MavenPathDetectorUnix();
 
 private:
-	std::vector<FilePath> doGetPaths() const override;
+	std::vector<utility::file::FilePath> doGetPaths() const override;
 };
 
 #endif	  // MAVEN_PATH_DETECTOR_UNIX_H

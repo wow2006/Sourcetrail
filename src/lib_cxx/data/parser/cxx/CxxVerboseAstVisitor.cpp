@@ -37,7 +37,7 @@ bool CxxVerboseAstVisitor::TraverseDecl(clang::Decl* d)
 			   << loc.endLineNumber << ":" << loc.endColumnNumber << ">";
 
 		const clang::SourceManager& sm = m_astContext->getSourceManager();
-		FilePath currentFilePath = getCanonicalFilePathCache()->getCanonicalFilePath(
+		utility::file::FilePath currentFilePath = getCanonicalFilePathCache()->getCanonicalFilePath(
 			sm.getFileID(d->getSourceRange().getBegin()), sm);
 		if (m_currentFilePath != currentFilePath)
 		{

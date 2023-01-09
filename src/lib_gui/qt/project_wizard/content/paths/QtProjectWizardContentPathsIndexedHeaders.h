@@ -11,9 +11,9 @@ class QtProjectWizardContentPathsIndexedHeaders: public QtProjectWizardContentPa
 	Q_OBJECT
 
 public:
-	static std::vector<FilePath> getIndexedPathsDerivedFromCodeblocksProject(
+	static std::vector<utility::file::FilePath> getIndexedPathsDerivedFromCodeblocksProject(
 		std::shared_ptr<const SourceGroupSettingsCxxCodeblocks> settings);
-	static std::vector<FilePath> getIndexedPathsDerivedFromCDB(
+	static std::vector<utility::file::FilePath> getIndexedPathsDerivedFromCDB(
 		std::shared_ptr<const SourceGroupSettingsCxxCdb> settings);
 
 	QtProjectWizardContentPathsIndexedHeaders(

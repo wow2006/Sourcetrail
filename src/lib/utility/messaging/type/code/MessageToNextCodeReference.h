@@ -5,7 +5,7 @@
 
 class MessageToNextCodeReference : public Message<MessageToNextCodeReference> {
 public:
-  MessageToNextCodeReference(const FilePath& filePath_,
+  MessageToNextCodeReference(const utility::file::FilePath& filePath_,
                              size_t lineNumber_,
                              size_t columnNumber_,
                              bool next_)
@@ -27,7 +27,7 @@ public:
     }
   }
 
-  const FilePath filePath;
+  const utility::file::FilePath filePath;
   const size_t lineNumber;
   const size_t columnNumber;
   const bool next;

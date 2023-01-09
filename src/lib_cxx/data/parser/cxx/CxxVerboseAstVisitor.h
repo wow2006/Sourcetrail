@@ -46,7 +46,7 @@ case clang::TypeLoc::Class:                                                     
 		}
 	}
 
-	FilePath m_currentFilePath;
+	utility::file::FilePath m_currentFilePath;
 	unsigned int m_indentation;
 };
 

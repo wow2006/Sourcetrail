@@ -34,5 +34,6 @@
 // fmt
 #include <fmt/format.h>
 // range-v3
+#include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/transform.hpp>
 #include <range/v3/iterator/insert_iterators.hpp>

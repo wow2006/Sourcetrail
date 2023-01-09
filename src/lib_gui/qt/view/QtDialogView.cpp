@@ -181,11 +181,11 @@ void QtDialogView::startIndexingDialog(Project* project,
 void QtDialogView::updateIndexingDialog(size_t startedFileCount,
                                         size_t finishedFileCount,
                                         size_t totalFileCount,
-                                        const std::vector<FilePath>& sourcePaths) {
+                                        const std::vector<utility::file::FilePath>& sourcePaths) {
   m_onQtThread([=]() {
     if(!sourcePaths.empty()) {
       std::vector<std::wstring> stati;
-      for(const FilePath& path: sourcePaths) {
+      for(const utility::file::FilePath& path: sourcePaths) {
         stati.push_back(L"[" + std::to_wstring(startedFileCount) + L"/" +
                         std::to_wstring(totalFileCount) + L"] Indexing file: " + path.wstr());
       }
@@ -201,7 +201,7 @@ void QtDialogView::updateIndexingDialog(size_t startedFileCount,
     }
 
     window->updateIndexingProgress(
-        finishedFileCount, totalFileCount, sourcePaths.empty() ? FilePath() : sourcePaths.back());
+        finishedFileCount, totalFileCount, sourcePaths.empty() ? utility::file::FilePath() : sourcePaths.back());
 
     m_mainWindow->setWindowsTaskbarProgress(float(finishedFileCount) / totalFileCount);
 
@@ -212,7 +212,7 @@ void QtDialogView::updateIndexingDialog(size_t startedFileCount,
 void QtDialogView::updateCustomIndexingDialog(size_t startedFileCount,
                                               size_t finishedFileCount,
                                               size_t totalFileCount,
-                                              const std::vector<FilePath>& sourcePaths) {
+                                              const std::vector<utility::file::FilePath>& sourcePaths) {
   updateIndexingDialog(startedFileCount, finishedFileCount, totalFileCount, sourcePaths);
 
   m_onQtThread([=]() {

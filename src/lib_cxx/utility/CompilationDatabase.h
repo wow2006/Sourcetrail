@@ -11,20 +11,20 @@ namespace utility
 class CompilationDatabase
 {
 public:
-	CompilationDatabase(const FilePath& filePath);
+	CompilationDatabase(const utility::file::FilePath& filePath);
 
-	std::vector<FilePath> getAllHeaderPaths() const;
-	std::vector<FilePath> getHeaderPaths() const;
-	std::vector<FilePath> getSystemHeaderPaths() const;
-	std::vector<FilePath> getFrameworkHeaderPaths() const;
+	std::vector<utility::file::FilePath> getAllHeaderPaths() const;
+	std::vector<utility::file::FilePath> getHeaderPaths() const;
+	std::vector<utility::file::FilePath> getSystemHeaderPaths() const;
+	std::vector<utility::file::FilePath> getFrameworkHeaderPaths() const;
 
 private:
 	void init();
 
-	FilePath m_filePath;
-	std::vector<FilePath> m_headers;
-	std::vector<FilePath> m_systemHeaders;
-	std::vector<FilePath> m_frameworkHeaders;
+	utility::file::FilePath m_filePath;
+	std::vector<utility::file::FilePath> m_headers;
+	std::vector<utility::file::FilePath> m_systemHeaders;
+	std::vector<utility::file::FilePath> m_frameworkHeaders;
 };
 
 }	 // namespace utility

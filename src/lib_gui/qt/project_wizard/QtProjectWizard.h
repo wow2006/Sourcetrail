@@ -27,9 +27,9 @@ public:
 public slots:
 	void newProject();
 
-	void newProjectFromCDB(const FilePath& filePath);
+	void newProjectFromCDB(const utility::file::FilePath& filePath);
 
-	void editProject(const FilePath& settingsPath);
+	void editProject(const utility::file::FilePath& settingsPath);
 	void editProject(std::shared_ptr<ProjectSettings> settings);
 
 protected:

@@ -138,7 +138,7 @@ void QtMainView::handleMessage(MessageProjectEdit* /*message*/) {
 }
 
 void QtMainView::handleMessage(MessageProjectNew* message) {
-  FilePath cdbPath = message->cdbPath;
+  utility::file::FilePath cdbPath = message->cdbPath;
 
   m_onQtThread([=]() { m_window->newProjectFromCDB(cdbPath); });
 }

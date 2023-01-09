@@ -18,11 +18,11 @@
 
 namespace
 {
-void deleteAllContents(const FilePath& tempPath)
+void deleteAllContents(const utility::file::FilePath& tempPath)
 {
 	if (tempPath.recheckExists())
 	{
-		for (const FilePath& path: FileSystem::getFilePathsFromDirectory(tempPath))
+		for (const utility::file::FilePath& path: FileSystem::getFilePathsFromDirectory(tempPath))
 		{
 			FileSystem::remove(path);
 		}
@@ -31,7 +31,7 @@ void deleteAllContents(const FilePath& tempPath)
 
 std::shared_ptr<TestStorage> parseCode(std::string code)
 {
-	const FilePath rootPath = FilePath(L"data/PythonIndexerTestSuite/temp/").makeAbsolute();
+	const utility::file::FilePath rootPath = utility::file::FilePath(L"data/PythonIndexerTestSuite/temp/").makeAbsolute();
 
 	if (!rootPath.exists())
 	{
@@ -40,8 +40,8 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 
 	deleteAllContents(rootPath);
 
-	const FilePath sourceFilePath = rootPath.getConcatenated(L"test.py");
-	const FilePath tempDbPath = rootPath.getConcatenated(L"temp.srctrldb");
+	const utility::file::FilePath sourceFilePath = rootPath.getConcatenated(L"test.py");
+	const utility::file::FilePath tempDbPath = rootPath.getConcatenated(L"temp.srctrldb");
 
 	{
 		std::ofstream codeFile;
@@ -51,10 +51,10 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 	}
 
 	{
-		const std::set<FilePath> indexedPaths = {rootPath};
+		const std::set<utility::file::FilePath> indexedPaths = {rootPath};
 		const std::set<FilePathFilter> excludeFilters;
 		const std::set<FilePathFilter> includeFilters;
-		const FilePath workingDirectory(L".");
+		const utility::file::FilePath workingDirectory(L".");
 
 		std::vector<std::wstring> args;
 		args.push_back(L"index");
@@ -66,7 +66,7 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 
 		std::shared_ptr<IndexerCommandCustom> indexerCommand = std::make_shared<IndexerCommandCustom>(
 			INDEXER_COMMAND_PYTHON,
-			FilePath("../app")
+			utility::file::FilePath("../app")
 				.getConcatenated(ResourcePaths::getPythonIndexerFilePath())
 				.makeAbsolute()
 				.makeCanonical()
@@ -93,7 +93,7 @@ std::shared_ptr<TestStorage> parseCode(std::string code)
 	std::shared_ptr<TestStorage> testStorage;
 	{
 		std::shared_ptr<PersistentStorage> persistentStorage = std::make_shared<PersistentStorage>(
-			tempDbPath, FilePath());
+			tempDbPath, utility::file::FilePath());
 		persistentStorage->setup();
 		persistentStorage->buildCaches();
 		TaskExecuteCustomCommands::runPythonPostProcessing(*(persistentStorage.get()));

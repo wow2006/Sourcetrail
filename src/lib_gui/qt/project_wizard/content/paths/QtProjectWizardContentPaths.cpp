@@ -57,18 +57,18 @@ bool QtProjectWizardContentPaths::check()
 	if (m_checkMissingPaths)
 	{
 		QString missingPaths;
-		std::vector<FilePath> existingPaths;
+		std::vector<utility::file::FilePath> existingPaths;
 
-		for (const FilePath& path: m_list->getPathsAsDisplayed())
+		for (const utility::file::FilePath& path: m_list->getPathsAsDisplayed())
 		{
-			std::vector<FilePath> expandedPaths(1, path);
+			std::vector<utility::file::FilePath> expandedPaths(1, path);
 			if (m_settings)
 			{
 				expandedPaths = m_settings->makePathsExpandedAndAbsolute(expandedPaths);
 			}
 
 			size_t existingCount = 0;
-			for (const FilePath& expandedPath: expandedPaths)
+			for (const utility::file::FilePath& expandedPath: expandedPaths)
 			{
 				if (!expandedPath.exists())
 				{
@@ -166,16 +166,16 @@ void QtProjectWizardContentPaths::addDetection(QGridLayout* layout, int row)
 
 void QtProjectWizardContentPaths::detectionClicked()
 {
-	std::vector<FilePath> paths = m_pathDetector->getPathsForDetector(
+	std::vector<utility::file::FilePath> paths = m_pathDetector->getPathsForDetector(
 		m_detectorBox->currentText().toStdString());
-	std::vector<FilePath> oldPaths = m_list->getPathsAsDisplayed();
+	std::vector<utility::file::FilePath> oldPaths = m_list->getPathsAsDisplayed();
 
 	paths = utility::unique(utility::concat(oldPaths, paths));
 
 	detectedPaths(paths);
 }
 
-void QtProjectWizardContentPaths::detectedPaths(const std::vector<FilePath>& paths)
+void QtProjectWizardContentPaths::detectedPaths(const std::vector<utility::file::FilePath>& paths)
 {
 	m_list->setPaths(paths);
 }

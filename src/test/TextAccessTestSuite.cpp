@@ -155,7 +155,7 @@ TEST_CASE("textAccessFile from list of string", "[lib]") {  // NOLINT(readabilit
 }
 
 TEST_CASE("textAccessFile from file", "[lib]") {  // NOLINT(readability-function-cognitive-complexity)
-  const FilePath filePath(L"data/TextAccessTestSuite/text.txt");
+  const utility::file::FilePath filePath(L"data/TextAccessTestSuite/text.txt");
   CHECK(filePath.isValid());
 
   const auto textAccess = TextAccess::createFromFile(filePath);
@@ -187,7 +187,7 @@ TEST_CASE("textAccessFile from file", "[lib]") {  // NOLINT(readability-function
 }
 
 TEST_CASE("textAccessFile from non-exists file", "[lib]") {  // NOLINT(readability-function-cognitive-complexity)
-  const FilePath filePath(L"something/not/exists");
+  const utility::file::FilePath filePath(L"something/not/exists");
   const auto textAccess = TextAccess::createFromFile(filePath);
   REQUIRE_FALSE(textAccess);
 }

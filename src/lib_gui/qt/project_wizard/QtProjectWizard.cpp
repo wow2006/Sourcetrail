@@ -77,22 +77,22 @@ namespace
 
 bool applicationSettingsContainVisualStudioHeaderSearchPaths()
 {
-	std::vector<FilePath> expandedPaths;
+	std::vector<utility::file::FilePath> expandedPaths;
 	const std::shared_ptr<CombinedPathDetector> headerPathDetector =
 		utility::getCxxVsHeaderPathDetector();
 	for (const std::string& detectorName: headerPathDetector->getWorkingDetectorNames())
 	{
-		for (const FilePath& path: headerPathDetector->getPathsForDetector(detectorName))
+		for (const utility::file::FilePath& path: headerPathDetector->getPathsForDetector(detectorName))
 		{
 			utility::append(expandedPaths, path.expandEnvironmentVariables());
 		}
 	}
 
-	std::vector<FilePath> usedExpandedGlobalHeaderSearchPaths =
+	std::vector<utility::file::FilePath> usedExpandedGlobalHeaderSearchPaths =
 		ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
-	for (const FilePath& usedExpandedPath: usedExpandedGlobalHeaderSearchPaths)
+	for (const utility::file::FilePath& usedExpandedPath: usedExpandedGlobalHeaderSearchPaths)
 	{
-		for (const FilePath& expandedPath: expandedPaths)
+		for (const utility::file::FilePath& expandedPath: expandedPaths)
 		{
 			if (expandedPath == usedExpandedPath)
 			{
@@ -362,7 +362,7 @@ void QtProjectWizard::newProject()
 	setup();
 }
 
-void QtProjectWizard::newProjectFromCDB([[maybe_unused]] const FilePath& filePath)
+void QtProjectWizard::newProjectFromCDB([[maybe_unused]] const utility::file::FilePath& filePath)
 {
 #if BUILD_CXX_LANGUAGE_PACKAGE
 	if (!m_projectSettings)
@@ -396,7 +396,7 @@ void QtProjectWizard::newProjectFromCDB([[maybe_unused]] const FilePath& filePat
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 }
 
-void QtProjectWizard::editProject(const FilePath& settingsPath)
+void QtProjectWizard::editProject(const utility::file::FilePath& settingsPath)
 {
 	std::shared_ptr<ProjectSettings> settings = std::make_shared<ProjectSettings>(settingsPath);
 	settings->reload();
@@ -1034,7 +1034,7 @@ void QtProjectWizard::createSourceGroup(std::shared_ptr<SourceGroupSettings> set
 
 void QtProjectWizard::createProject()
 {
-	FilePath path = m_projectSettings->getFilePath();
+	utility::file::FilePath path = m_projectSettings->getFilePath();
 
 	m_projectSettings->setVersion(ProjectSettings::VERSION);
 	m_projectSettings->setAllSourceGroupSettings(m_allSourceGroupSettings);

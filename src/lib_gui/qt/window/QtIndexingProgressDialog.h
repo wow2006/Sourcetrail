@@ -13,7 +13,7 @@ public:
 	QtIndexingProgressDialog(bool hideable, QWidget* parent = 0);
 	QSize sizeHint() const override;
 
-	void updateIndexingProgress(size_t fileCount, size_t totalFileCount, const FilePath& sourcePath);
+	void updateIndexingProgress(size_t fileCount, size_t totalFileCount, const utility::file::FilePath& sourcePath);
 	void updateErrorCount(size_t errorCount, size_t fatalCount);
 
 protected:

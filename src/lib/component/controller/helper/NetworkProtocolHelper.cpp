@@ -50,7 +50,7 @@ NetworkProtocolHelper::SetActiveTokenMessage NetworkProtocolHelper::parseSetActi
         const std::wstring column = subMessages[3];
 
         if(!filePath.empty() && !row.empty() && !column.empty() && isDigits(row) && isDigits(column)) {
-          networkMessage.filePath = FilePath(filePath);
+          networkMessage.filePath = utility::file::FilePath(filePath);
           networkMessage.row = std::stoi(row);
           networkMessage.column = std::stoi(column);
           networkMessage.valid = true;
@@ -100,7 +100,7 @@ NetworkProtocolHelper::CreateCDBProjectMessage NetworkProtocolHelper::parseCreat
 
         const std::wstring cdbPath = subMessages[1];
         if(!cdbPath.empty()) {
-          networkMessage.cdbFileLocation = FilePath(cdbPath);
+          networkMessage.cdbFileLocation = utility::file::FilePath(cdbPath);
         } else {
           LOG_WARNING("CDB file path is not set.");
         }
@@ -160,7 +160,7 @@ NetworkProtocolHelper::PingMessage NetworkProtocolHelper::parsePingMessage(const
   return pingMessage;
 }
 
-std::wstring NetworkProtocolHelper::buildSetIDECursorMessage(const FilePath& fileLocation,
+std::wstring NetworkProtocolHelper::buildSetIDECursorMessage(const utility::file::FilePath& fileLocation,
                                                              const unsigned int row,
                                                              const unsigned int column) {
   std::wstringstream messageStream;

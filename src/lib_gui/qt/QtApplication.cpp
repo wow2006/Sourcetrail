@@ -24,7 +24,7 @@ bool QtApplication::event(QEvent* event) {
   if(event->type() == QEvent::FileOpen) {
     auto* fileEvent = dynamic_cast<QFileOpenEvent*>(event);
 
-    FilePath path(fileEvent->file().toStdWString());
+    utility::file::FilePath path(fileEvent->file().toStdWString());
 
     if(path.exists() && path.extension() == L".srctrlprj") {
       MessageLoadProject(path).dispatch();

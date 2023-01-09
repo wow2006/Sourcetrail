@@ -7,7 +7,7 @@ SourceLocationCollection::SourceLocationCollection() = default;
 
 SourceLocationCollection::~SourceLocationCollection() = default;
 
-const std::map<FilePath, std::shared_ptr<SourceLocationFile>>& SourceLocationCollection::
+const std::map<utility::file::FilePath, std::shared_ptr<SourceLocationFile>>& SourceLocationCollection::
     getSourceLocationFiles() const {
   return m_files;
 }
@@ -25,8 +25,8 @@ size_t SourceLocationCollection::getSourceLocationFileCount() const {
 }
 
 std::shared_ptr<SourceLocationFile> SourceLocationCollection::getSourceLocationFileByPath(
-    const FilePath& filePath) const {
-  std::map<FilePath, std::shared_ptr<SourceLocationFile>>::const_iterator it = m_files.find(filePath);
+    const utility::file::FilePath& filePath) const {
+  std::map<utility::file::FilePath, std::shared_ptr<SourceLocationFile>>::const_iterator it = m_files.find(filePath);
   if(it != m_files.end()) {
     return it->second;
   }
@@ -48,7 +48,7 @@ SourceLocation* SourceLocationCollection::getSourceLocationById(Id locationId) c
 SourceLocation* SourceLocationCollection::addSourceLocation(LocationType type,
                                                             Id locationId,
                                                             std::vector<Id> tokenIds,
-                                                            const FilePath& filePath,
+                                                            const utility::file::FilePath& filePath,
                                                             size_t startLineNumber,
                                                             size_t startColumnNumber,
                                                             size_t endLineNumber,
@@ -114,7 +114,7 @@ void SourceLocationCollection::forEachSourceLocation(std::function<void(SourceLo
   }
 }
 
-SourceLocationFile* SourceLocationCollection::createSourceLocationFile(const FilePath& filePath,
+SourceLocationFile* SourceLocationCollection::createSourceLocationFile(const utility::file::FilePath& filePath,
                                                                        const std::wstring& language,
                                                                        bool isWhole,
                                                                        bool isComplete,

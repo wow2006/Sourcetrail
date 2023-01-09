@@ -44,7 +44,7 @@ void QtProjectWizardContentPathCxxPch::load()
 
 void QtProjectWizardContentPathCxxPch::save()
 {
-	m_settingsCxxPch->setPchInputFilePathFilePath(FilePath(m_picker->getText().toStdWString()));
+	m_settingsCxxPch->setPchInputFilePathFilePath(utility::file::FilePath(m_picker->getText().toStdWString()));
 }
 
 bool QtProjectWizardContentPathCxxPch::check()
@@ -52,7 +52,7 @@ bool QtProjectWizardContentPathCxxPch::check()
 	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings =
 			std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
 	{
-		const FilePath cdbPath = cdbSettings->getCompilationDatabasePathExpandedAndAbsolute();
+		const utility::file::FilePath cdbPath = cdbSettings->getCompilationDatabasePathExpandedAndAbsolute();
 		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = utility::loadCDB(cdbPath);
 		if (!cdb)
 		{

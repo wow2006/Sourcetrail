@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 
 class PathDetector
 {
@@ -13,14 +15,14 @@ public:
 	virtual ~PathDetector() = default;
 
 	std::string getName() const;
-	std::vector<FilePath> getPaths() const;
+	std::vector<utility::file::FilePath> getPaths() const;
 	bool isWorking() const;
 
 protected:
 	const std::string m_name;
 
 private:
-	virtual std::vector<FilePath> doGetPaths() const = 0;
+	virtual std::vector<utility::file::FilePath> doGetPaths() const = 0;
 };
 
 #endif	  // PATH_DETECTOR_BASE_H

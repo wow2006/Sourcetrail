@@ -14,14 +14,14 @@ public:
     }
   };
 
-  SourceLocationFile(const FilePath& filePath,
+  SourceLocationFile(const utility::file::FilePath& filePath,
                      const std::wstring& language,
                      bool isWhole,
                      bool isComplete,
                      bool isIndexed);
   virtual ~SourceLocationFile();
 
-  const FilePath& getFilePath() const;
+  const utility::file::FilePath& getFilePath() const;
 
   void setLanguage(const std::wstring& language);
   const std::wstring& getLanguage() const;
@@ -63,7 +63,7 @@ public:
   std::shared_ptr<SourceLocationFile> getFilteredByTypes(const std::vector<LocationType>& types) const;
 
 private:
-  const FilePath m_filePath;
+  const utility::file::FilePath m_filePath;
   std::wstring m_language;
   bool m_isWhole;
   bool m_isComplete;

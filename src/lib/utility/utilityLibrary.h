@@ -15,7 +15,7 @@
 namespace utility {
 
 template <typename Ret, typename... Args>
-std::function<Ret(Args...)> loadFunctionFromLibrary(const FilePath& libraryPath,
+std::function<Ret(Args...)> loadFunctionFromLibrary(const utility::file::FilePath& libraryPath,
                                                     const std::string& functionName,
                                                     std::string& errorString) {
 #ifdef _WIN32

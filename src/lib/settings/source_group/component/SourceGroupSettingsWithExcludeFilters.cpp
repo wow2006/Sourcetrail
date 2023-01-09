@@ -12,8 +12,8 @@ std::vector<std::wstring> SourceGroupSettingsWithExcludeFilters::getExcludeFilte
   return m_excludeFilters;
 }
 
-std::vector<FilePathFilter> SourceGroupSettingsWithExcludeFilters::getExcludeFiltersExpandedAndAbsolute()
-    const {
+std::vector<utility::file::FilePathFilter> SourceGroupSettingsWithExcludeFilters::
+    getExcludeFiltersExpandedAndAbsolute() const {
   return getFiltersExpandedAndAbsolute(getExcludeFilterStrings());
 }
 
@@ -40,11 +40,11 @@ void SourceGroupSettingsWithExcludeFilters::save(utility::ConfigManager* config,
   config->setValues(key + "/exclude_filters/exclude_filter", getExcludeFilterStrings());
 }
 
-std::vector<FilePathFilter> SourceGroupSettingsWithExcludeFilters::getFiltersExpandedAndAbsolute(
+std::vector<utility::file::FilePathFilter> SourceGroupSettingsWithExcludeFilters::getFiltersExpandedAndAbsolute(
     const std::vector<std::wstring>& filterStrings) const {
-  const FilePath projectDirectoryPath = getProjectSettings()->getProjectDirectoryPath();
+  const utility::file::FilePath projectDirectoryPath = getProjectSettings()->getProjectDirectoryPath();
 
-  std::vector<FilePathFilter> result;
+  std::vector<utility::file::FilePathFilter> result;
 
   for(const std::wstring& filterString: filterStrings) {
     if(!filterString.empty()) {
@@ -53,32 +53,36 @@ std::vector<FilePathFilter> SourceGroupSettingsWithExcludeFilters::getFiltersExp
         std::wsmatch match;
         if(std::regex_search(filterString, match, std::wregex(L"[\\\\/]")) && !match.empty() &&
            match.position(0) < int(wildcardPos)) {
-          const FilePath p = utility::getExpandedAndAbsolutePath(
-              FilePath(match.prefix().str()), projectDirectoryPath);
-          std::set<FilePath> symLinkPaths = FileSystem::getSymLinkedDirectories(p);
+          auto p = utility::file::getExpandedAndAbsolutePath(
+              utility::file::FilePath(match.prefix().str()), projectDirectoryPath);
+          auto symLinkPaths = utility::file::FileSystem::getSymLinkedDirectories(p);
           symLinkPaths.insert(p);
 
-          utility::append(result,
-                          utility::convert<FilePath, FilePathFilter>(
-                              utility::toVector(symLinkPaths), [match](const FilePath& filePath) {
-                                return FilePathFilter(filePath.wstr() + L"/" + match.suffix().str());
-                              }));
+          utility::append(
+              result,
+              utility::convert<utility::file::FilePath, utility::file::FilePathFilter>(
+                  utility::toVector(symLinkPaths), [match](const auto& filePath) {
+                    return utility::file::FilePathFilter(filePath.wstr() + L"/" +
+                                                         match.suffix().str());
+                  }));
         } else {
-          result.push_back(FilePathFilter(filterString));
+          result.push_back(utility::file::FilePathFilter(filterString));
         }
       } else {
-        const FilePath p = utility::getExpandedAndAbsolutePath(
-            FilePath(filterString), projectDirectoryPath);
+        auto p = utility::file::getExpandedAndAbsolutePath(
+            utility::file::FilePath(filterString), projectDirectoryPath);
         const bool isFile = p.exists() && !p.isDirectory();
 
-        std::set<FilePath> symLinkPaths = FileSystem::getSymLinkedDirectories(p);
+        std::set<utility::file::FilePath> symLinkPaths =
+            utility::file::FileSystem::getSymLinkedDirectories(p);
         symLinkPaths.insert(p);
 
-        utility::append(result,
-                        utility::convert<FilePath, FilePathFilter>(
-                            utility::toVector(symLinkPaths), [isFile](const FilePath& filePath) {
-                              return FilePathFilter(filePath.wstr() + (isFile ? L"" : L"**"));
-                            }));
+        utility::append(
+            result,
+            utility::convert<utility::file::FilePath, utility::file::FilePathFilter>(
+                utility::toVector(symLinkPaths), [isFile](const auto& filePath) {
+                  return utility::file::FilePathFilter(filePath.wstr() + (isFile ? L"" : L"**"));
+                }));
       }
     }
   }

@@ -26,7 +26,7 @@
 #include "utility.h"
 #include "utility/utilityApp.h"
 
-PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& bookmarkPath)
+PersistentStorage::PersistentStorage(const utility::file::FilePath& dbPath, const utility::file::FilePath& bookmarkPath)
     : m_sqliteIndexStorage(dbPath), m_sqliteBookmarkStorage(bookmarkPath) {
   m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ALL));
   m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR));
@@ -240,11 +240,11 @@ void PersistentStorage::setMode(const SqliteIndexStorage::StorageModeType mode) 
   m_sqliteIndexStorage.setMode(mode);
 }
 
-FilePath PersistentStorage::getIndexDbFilePath() const {
+utility::file::FilePath PersistentStorage::getIndexDbFilePath() const {
   return m_sqliteIndexStorage.getDbFilePath();
 }
 
-FilePath PersistentStorage::getBookmarkDbFilePath() const {
+utility::file::FilePath PersistentStorage::getBookmarkDbFilePath() const {
   return m_sqliteBookmarkStorage.getDbFilePath();
 }
 
@@ -301,9 +301,9 @@ void PersistentStorage::clearCaches() {
   m_fullTextSearchCodec = "";
 }
 
-std::set<FilePath> PersistentStorage::getReferenced(const std::set<FilePath>& filePaths) const {
+std::set<utility::file::FilePath> PersistentStorage::getReferenced(const std::set<utility::file::FilePath>& filePaths) const {
   TRACE();
-  std::set<FilePath> referenced;
+  std::set<utility::file::FilePath> referenced;
 
   utility::append(referenced, getReferencedByIncludes(filePaths));
   utility::append(referenced, getReferencedByImports(filePaths));
@@ -311,9 +311,9 @@ std::set<FilePath> PersistentStorage::getReferenced(const std::set<FilePath>& fi
   return referenced;
 }
 
-std::set<FilePath> PersistentStorage::getReferencing(const std::set<FilePath>& filePaths) const {
+std::set<utility::file::FilePath> PersistentStorage::getReferencing(const std::set<utility::file::FilePath>& filePaths) const {
   TRACE();
-  std::set<FilePath> referencing;
+  std::set<utility::file::FilePath> referencing;
 
   utility::append(referencing, getReferencingByIncludes(filePaths));
   utility::append(referencing, getReferencingByImports(filePaths));
@@ -327,7 +327,7 @@ void PersistentStorage::clearAllErrors() {
   m_sqliteIndexStorage.removeAllErrors();
 }
 
-void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths,
+void PersistentStorage::clearFileElements(const std::vector<utility::file::FilePath>& filePaths,
                                           std::function<void(int)> updateStatusCallback) {
   TRACE();
 
@@ -345,10 +345,10 @@ void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths
   }
 }
 
-std::vector<FileInfo> PersistentStorage::getFileInfoForAllFiles() const {
+std::vector<utility::file::FileInfo> PersistentStorage::getFileInfoForAllFiles() const {
   TRACE();
 
-  std::vector<FileInfo> fileInfos;
+  std::vector<utility::file::FileInfo> fileInfos;
 
   m_sqliteIndexStorage.forEach<StorageFile>([&](StorageFile&& file) {
     boost::posix_time::ptime modificationTime = boost::posix_time::not_a_date_time;
@@ -356,16 +356,16 @@ std::vector<FileInfo> PersistentStorage::getFileInfoForAllFiles() const {
       modificationTime = boost::posix_time::time_from_string(file.modificationTime);
     }
 
-    fileInfos.emplace_back(FilePath(file.filePath), TimeStamp {modificationTime});
+    fileInfos.emplace_back(utility::file::FilePath(file.filePath), TimeStamp {modificationTime});
   });
 
   return fileInfos;
 }
 
-std::set<FilePath> PersistentStorage::getIncompleteFiles() const {
+std::set<utility::file::FilePath> PersistentStorage::getIncompleteFiles() const {
   TRACE();
 
-  std::set<FilePath> incompleteFiles;
+  std::set<utility::file::FilePath> incompleteFiles;
   for(auto p: m_fileNodeComplete) {
     if(p.second == false) {
       incompleteFiles.insert(getFileNodePath(p.first));
@@ -375,7 +375,7 @@ std::set<FilePath> PersistentStorage::getIncompleteFiles() const {
   return incompleteFiles;
 }
 
-bool PersistentStorage::getFilePathIndexed(const FilePath& path) const {
+bool PersistentStorage::getFilePathIndexed(const utility::file::FilePath& path) const {
   Id fileId = getFileNodeId(path);
   if(fileId) {
     return getFileNodeIndexed(fileId);
@@ -404,7 +404,7 @@ void PersistentStorage::optimizeMemory() {
   m_sqliteBookmarkStorage.optimizeMemory();
 }
 
-Id PersistentStorage::getNodeIdForFileNode(const FilePath& filePath) const {
+Id PersistentStorage::getNodeIdForFileNode(const utility::file::FilePath& filePath) const {
   return getFileNodeId(filePath);
 }
 
@@ -527,7 +527,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
                                                                            &collectionMutex]() {
         const int termLength = static_cast<int>(searchTerm.length());
         for(const FullTextSearchResult& fileResult: fileResults) {
-          const FilePath filePath = getFileNodePath(fileResult.fileId);
+          const utility::file::FilePath filePath = getFileNodePath(fileResult.fileId);
           std::shared_ptr<TextAccess> fileContent = getFileContent(filePath, false);
 
           int charsTotal = 0;
@@ -768,7 +768,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 
     match.name = result.text;
 
-    match.text = FilePath(match.name).fileName();
+    match.text = utility::file::FilePath(match.name).fileName();
     match.subtext = match.name;
 
     match.tokenIds = result.elementIds;
@@ -860,7 +860,7 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(
     match.searchType = SearchMatch::SEARCH_TOKEN;
 
     if(match.nodeType.isFile()) {
-      match.text = FilePath(match.text).fileName();
+      match.text = utility::file::FilePath(match.text).fileName();
     }
 
     matches.push_back(match);
@@ -1333,17 +1333,17 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
     const std::vector<Id>& tokenIds) const {
   TRACE();
 
-  std::map<Id, FilePath> filePaths;
+  std::map<Id, utility::file::FilePath> filePaths;
   std::vector<Id> nonFileIds;
 
   for(const Id tokenId: tokenIds) {
-    FilePath path = getFileNodePath(tokenId);
+    utility::file::FilePath path = getFileNodePath(tokenId);
 
     // check for non-indexed file
     if(path.empty() && m_symbolDefinitionKinds.find(tokenId) == m_symbolDefinitionKinds.end()) {
       const StorageNode fileNode = m_sqliteIndexStorage.getNodeById(tokenId);
       if(NodeType(intToNodeKind(fileNode.type)).isFile()) {
-        path = FilePath(NameHierarchy::deserialize(fileNode.serializedName).getQualifiedName());
+        path = utility::file::FilePath(NameHierarchy::deserialize(fileNode.serializedName).getQualifiedName());
       }
     }
 
@@ -1355,7 +1355,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
   }
 
   std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
-  for(const std::pair<Id, FilePath>& p: filePaths) {
+  for(const std::pair<Id, utility::file::FilePath>& p: filePaths) {
     collection->addSourceLocationFile(std::make_shared<SourceLocationFile>(
         p.second, getFileNodeLanguage(p.first), true, false, false));
   }
@@ -1383,12 +1383,12 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
         continue;
       }
 
-      FilePath path = getFileNodePath(sourceLocation.fileNodeId);
+      utility::file::FilePath path = getFileNodePath(sourceLocation.fileNodeId);
       // FIXME: This shouldn't be necessary since all files are stored, even non-indexed
       if(path.empty()) {
         const StorageNode fileNode = m_sqliteIndexStorage.getNodeById(sourceLocation.fileNodeId);
         if(fileNode.id) {
-          const FilePath path2 = FilePath(
+          const utility::file::FilePath path2 = utility::file::FilePath(
               NameHierarchy::deserialize(fileNode.serializedName).getQualifiedName());
           if(path2.exists()) {
             path = path2;
@@ -1450,7 +1450,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 }
 
 std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForFile(
-    const FilePath& filePath) const {
+    const utility::file::FilePath& filePath) const {
   TRACE();
 
   return m_sqliteIndexStorage.getSourceLocationsForFile(filePath)->getFilteredByTypes(
@@ -1458,7 +1458,7 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForFile
 }
 
 std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForLinesInFile(
-    const FilePath& filePath, size_t startLine, size_t endLine) const {
+    const utility::file::FilePath& filePath, size_t startLine, size_t endLine) const {
   TRACE();
 
   return m_sqliteIndexStorage.getSourceLocationsForLinesInFile(filePath, startLine, endLine)
@@ -1468,13 +1468,13 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForLine
 }
 
 std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsOfTypeInFile(
-    const FilePath& filePath, LocationType type) const {
+    const utility::file::FilePath& filePath, LocationType type) const {
   TRACE();
 
   return m_sqliteIndexStorage.getSourceLocationsOfTypeInFile(filePath, type);
 }
 
-std::shared_ptr<TextAccess> PersistentStorage::getFileContent(const FilePath& filePath,
+std::shared_ptr<TextAccess> PersistentStorage::getFileContent(const utility::file::FilePath& filePath,
                                                               bool /*showsErrors*/) const {
   TRACE();
 
@@ -1482,10 +1482,10 @@ std::shared_ptr<TextAccess> PersistentStorage::getFileContent(const FilePath& fi
   if(fileContent->getLineCount() > 0) {
     return fileContent;
   }
-  return TextAccess::createFromFile(FilePath(filePath));
+  return TextAccess::createFromFile(utility::file::FilePath(filePath));
 }
 
-bool PersistentStorage::hasContentForFile(const FilePath& filePath) const {
+bool PersistentStorage::hasContentForFile(const utility::file::FilePath& filePath) const {
   std::shared_ptr<TextAccess> fileContent = m_sqliteIndexStorage.getFileContentByPath(filePath.wstr());
   if(fileContent->getLineCount() > 0) {
     return true;
@@ -1493,21 +1493,21 @@ bool PersistentStorage::hasContentForFile(const FilePath& filePath) const {
   return false;
 }
 
-FileInfo PersistentStorage::getFileInfoForFileId(Id id) const {
+utility::file::FileInfo PersistentStorage::getFileInfoForFileId(Id id) const {
   StorageFile storageFile = m_sqliteIndexStorage.getFirstById<StorageFile>(id);
-  return FileInfo(FilePath(storageFile.filePath), TimeStamp {storageFile.modificationTime});
+  return utility::file::FileInfo(utility::file::FilePath(storageFile.filePath), TimeStamp {storageFile.modificationTime});
 }
 
-FileInfo PersistentStorage::getFileInfoForFilePath(const FilePath& filePath) const {
+utility::file::FileInfo PersistentStorage::getFileInfoForFilePath(const utility::file::FilePath& filePath) const {
   return getFileInfoForFileId(getFileNodeId(filePath));
 }
 
-std::vector<FileInfo> PersistentStorage::getFileInfosForFilePaths(
-    const std::vector<FilePath>& filePaths) const {
-  std::vector<FileInfo> fileInfos;
+std::vector<utility::file::FileInfo> PersistentStorage::getFileInfosForFilePaths(
+    const std::vector<utility::file::FilePath>& filePaths) const {
+  std::vector<utility::file::FileInfo> fileInfos;
 
   for(const StorageFile& file: m_sqliteIndexStorage.getFilesByPaths(filePaths)) {
-    fileInfos.push_back(FileInfo(FilePath(file.filePath), TimeStamp {file.modificationTime}));
+    fileInfos.push_back(utility::file::FileInfo(utility::file::FilePath(file.filePath), TimeStamp {file.modificationTime}));
   }
 
   return fileInfos;
@@ -1539,7 +1539,7 @@ std::vector<ErrorInfo> PersistentStorage::getErrorsLimited(const ErrorFilter& fi
 }
 
 std::vector<ErrorInfo> PersistentStorage::getErrorsForFileLimited(const ErrorFilter& filter,
-                                                                  const FilePath& filePath) const {
+                                                                  const utility::file::FilePath& filePath) const {
   Id fileId = getFileNodeId(filePath);
   std::set<Id> fileIds = {fileId};
 
@@ -1562,7 +1562,7 @@ std::vector<ErrorInfo> PersistentStorage::getErrorsForFileLimited(const ErrorFil
   std::vector<ErrorInfo> errors = m_sqliteIndexStorage.getAllErrorInfos();
   for(const ErrorInfo& error: errors) {
     if(filter.filter(error) &&
-       fileIds.find(getFileNodeId(FilePath(error.filePath))) != fileIds.end()) {
+       fileIds.find(getFileNodeId(utility::file::FilePath(error.filePath))) != fileIds.end()) {
       res.push_back(error);
     }
   }
@@ -1584,7 +1584,7 @@ std::vector<ErrorInfo> PersistentStorage::getErrorsForFileLimited(const ErrorFil
 
     for(const ErrorInfo& error: errors) {
       if(error.fatal && filter.filter(error) &&
-         fileIds.find(getFileNodeId(FilePath(error.filePath))) != fileIds.end()) {
+         fileIds.find(getFileNodeId(utility::file::FilePath(error.filePath))) != fileIds.end()) {
         res.push_back(error);
       }
     }
@@ -1606,7 +1606,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocat
     collection->addSourceLocation(LOCATION_ERROR,
                                   locationId,
                                   std::vector<Id>(1, error.id),
-                                  FilePath(error.filePath),
+                                  utility::file::FilePath(error.filePath),
                                   error.lineNumber,
                                   error.columnNumber,
                                   error.lineNumber,
@@ -1860,7 +1860,7 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
   TooltipSnippet snippet;
   snippet.code = nameHierarchy.getQualifiedNameWithSignature();
   snippet.locationFile = std::make_shared<SourceLocationFile>(
-      FilePath(L"main.txt"), L"", true, true, true);
+      utility::file::FilePath(L"main.txt"), L"", true, true, true);
 
   // set file language
   std::vector<StorageOccurrence> occurrences = m_sqliteIndexStorage.getOccurrencesForElementIds(
@@ -2087,7 +2087,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
       const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
       snippet.code = nameHierarchy.getQualifiedName();
       snippet.locationFile = std::make_shared<SourceLocationFile>(
-          FilePath(L"main.txt"), fileLanguage, true, true, true);
+          utility::file::FilePath(L"main.txt"), fileLanguage, true, true, true);
 
       snippet.locationFile->addSourceLocation(
           LOCATION_TOKEN, 0, std::vector<Id>(1, node.id), 1, 1, 1, snippet.code.size());
@@ -2105,7 +2105,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 
     snippet.code = L"local symbol";
     snippet.locationFile = std::make_shared<SourceLocationFile>(
-        FilePath(L"main.txt"), L"", true, true, true);
+        utility::file::FilePath(L"main.txt"), L"", true, true, true);
     snippet.locationFile->addSourceLocation(
         LOCATION_LOCAL_SYMBOL, 0, std::vector<Id>(1, id), 1, 1, 1, snippet.code.size());
 
@@ -2117,20 +2117,20 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
   return info;
 }
 
-Id PersistentStorage::getFileNodeId(const FilePath& filePath) const {
+Id PersistentStorage::getFileNodeId(const utility::file::FilePath& filePath) const {
   if(filePath.empty()) {
     LOG_ERROR("No file path set");
     return 0;
   }
 
   {
-    std::map<FilePath, Id>::const_iterator it = m_fileNodeIds.find(filePath);
+    std::map<utility::file::FilePath, Id>::const_iterator it = m_fileNodeIds.find(filePath);
     if(it != m_fileNodeIds.end()) {
       return it->second;
     }
   }
   {
-    std::map<FilePath, Id>::const_iterator it = m_lowerCasefileNodeIds.find(filePath.getLowerCase());
+    std::map<utility::file::FilePath, Id>::const_iterator it = m_lowerCasefileNodeIds.find(filePath.getLowerCase());
     if(it != m_lowerCasefileNodeIds.end()) {
       return it->second;
     }
@@ -2139,35 +2139,35 @@ Id PersistentStorage::getFileNodeId(const FilePath& filePath) const {
   return 0;
 }
 
-std::vector<Id> PersistentStorage::getFileNodeIds(const std::vector<FilePath>& filePaths) const {
+std::vector<Id> PersistentStorage::getFileNodeIds(const std::vector<utility::file::FilePath>& filePaths) const {
   std::vector<Id> ids;
-  for(const FilePath& path: filePaths) {
+  for(const utility::file::FilePath& path: filePaths) {
     ids.push_back(getFileNodeId(path));
   }
   return ids;
 }
 
-std::set<Id> PersistentStorage::getFileNodeIds(const std::set<FilePath>& filePaths) const {
+std::set<Id> PersistentStorage::getFileNodeIds(const std::set<utility::file::FilePath>& filePaths) const {
   std::set<Id> ids;
-  for(const FilePath& path: filePaths) {
+  for(const utility::file::FilePath& path: filePaths) {
     ids.insert(getFileNodeId(path));
   }
   return ids;
 }
 
-FilePath PersistentStorage::getFileNodePath(Id fileId) const {
+utility::file::FilePath PersistentStorage::getFileNodePath(Id fileId) const {
   if(fileId == 0) {
     LOG_ERROR("No file id set");
-    return FilePath();
+    return utility::file::FilePath();
   }
 
-  std::map<Id, FilePath>::const_iterator it = m_fileNodePaths.find(fileId);
+  std::map<Id, utility::file::FilePath>::const_iterator it = m_fileNodePaths.find(fileId);
 
   if(it != m_fileNodePaths.end()) {
     return it->second;
   }
 
-  return FilePath();
+  return utility::file::FilePath();
 }
 
 bool PersistentStorage::getFileNodeComplete(Id fileId) const {
@@ -2298,10 +2298,10 @@ std::set<Id> PersistentStorage::getReferencing(
   return referencingIds;
 }
 
-std::set<FilePath> PersistentStorage::getReferencedByIncludes(const std::set<FilePath>& filePaths) const {
+std::set<utility::file::FilePath> PersistentStorage::getReferencedByIncludes(const std::set<utility::file::FilePath>& filePaths) const {
   const std::set<Id> ids = getReferenced(getFileNodeIds(filePaths), getFileIdToIncludingFileIdMap());
 
-  std::set<FilePath> paths;
+  std::set<utility::file::FilePath> paths;
   for(Id id: ids) {    // TODO: performance optimize: use just one request for all ids!
     paths.insert(getFileNodePath(id));
   }
@@ -2309,10 +2309,10 @@ std::set<FilePath> PersistentStorage::getReferencedByIncludes(const std::set<Fil
   return paths;
 }
 
-std::set<FilePath> PersistentStorage::getReferencedByImports(const std::set<FilePath>& filePaths) const {
+std::set<utility::file::FilePath> PersistentStorage::getReferencedByImports(const std::set<utility::file::FilePath>& filePaths) const {
   const std::set<Id> ids = getReferenced(getFileNodeIds(filePaths), getFileIdToImportingFileIdMap());
 
-  std::set<FilePath> paths;
+  std::set<utility::file::FilePath> paths;
   for(Id id: ids) {
     paths.insert(getFileNodePath(id));
   }
@@ -2320,10 +2320,10 @@ std::set<FilePath> PersistentStorage::getReferencedByImports(const std::set<File
   return paths;
 }
 
-std::set<FilePath> PersistentStorage::getReferencingByIncludes(const std::set<FilePath>& filePaths) const {
+std::set<utility::file::FilePath> PersistentStorage::getReferencingByIncludes(const std::set<utility::file::FilePath>& filePaths) const {
   const std::set<Id> ids = getReferencing(getFileNodeIds(filePaths), getFileIdToIncludingFileIdMap());
 
-  std::set<FilePath> paths;
+  std::set<utility::file::FilePath> paths;
   for(Id id: ids) {
     paths.insert(getFileNodePath(id));
   }
@@ -2331,10 +2331,10 @@ std::set<FilePath> PersistentStorage::getReferencingByIncludes(const std::set<Fi
   return paths;
 }
 
-std::set<FilePath> PersistentStorage::getReferencingByImports(const std::set<FilePath>& filePaths) const {
+std::set<utility::file::FilePath> PersistentStorage::getReferencingByImports(const std::set<utility::file::FilePath>& filePaths) const {
   const std::set<Id> ids = getReferencing(getFileNodeIds(filePaths), getFileIdToImportingFileIdMap());
 
-  std::set<FilePath> paths;
+  std::set<utility::file::FilePath> paths;
   for(Id id: ids) {
     paths.insert(getFileNodePath(id));
   }
@@ -2374,7 +2374,7 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds,
 
 void PersistentStorage::addFileNodeToGraph(const StorageNode& storageNode, Graph* const graph) const {
   NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
-  const FilePath filePath(nameHierarchy.getRawName());
+  const utility::file::FilePath filePath(nameHierarchy.getRawName());
 
   bool complete = getFileNodeComplete(storageNode.id);
   bool indexed = getFileNodeIndexed(storageNode.id);
@@ -2560,7 +2560,7 @@ void PersistentStorage::addBundledEdgesToGraph(Id nodeId,
 }
 
 void PersistentStorage::addFileContentsToGraph(Id fileId, Graph* graph) const {
-  FilePath path = getFileNodePath(fileId);
+  utility::file::FilePath path = getFileNodePath(fileId);
   if(path.empty()) {
     return;
   }
@@ -2707,7 +2707,7 @@ void PersistentStorage::buildFilePathMaps() {
   TRACE();
 
   m_sqliteIndexStorage.forEach<StorageFile>([&](StorageFile&& file) {
-    const FilePath path(file.filePath);
+    const utility::file::FilePath path(file.filePath);
 
     m_fileNodeIds.emplace(path, file.id);
     m_lowerCasefileNodeIds.emplace(path.getLowerCase(), file.id);
@@ -2729,7 +2729,7 @@ void PersistentStorage::buildFilePathMaps() {
 void PersistentStorage::buildSearchIndex() {
   TRACE();
 
-  const FilePath dbPath = getIndexDbFilePath();
+  const utility::file::FilePath dbPath = getIndexDbFilePath();
 
   m_sqliteIndexStorage.forEach<StorageNode>([&](StorageNode&& node) {
     const NodeType type(intToNodeKind(node.type));
@@ -2741,7 +2741,7 @@ void PersistentStorage::buildSearchIndex() {
 
       auto it = m_fileNodePaths.find(node.id);
       if(it != m_fileNodePaths.end()) {
-        FilePath filePath(it->second);
+        utility::file::FilePath filePath(it->second);
 
         if(filePath.exists()) {
           filePath.makeRelativeTo(dbPath);
@@ -2844,12 +2844,12 @@ void PersistentStorage::buildMemberEdgeIdOrderMap() {
       continue;
     }
 
-    const FilePath path(m_fileNodePaths[location.fileNodeId]);
+    const utility::file::FilePath path(m_fileNodePaths[location.fileNodeId]);
     if(path.extension() == L".java") {
       collection.addSourceLocation(intToLocationType(location.type),
                                    location.id,
                                    std::vector<Id>(),
-                                   FilePath(std::to_wstring(location.fileNodeId)),
+                                   utility::file::FilePath(std::to_wstring(location.fileNodeId)),
                                    location.startLine,
                                    location.startCol,
                                    location.endLine,

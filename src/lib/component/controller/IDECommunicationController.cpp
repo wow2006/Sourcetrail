@@ -1,6 +1,9 @@
 #include "IDECommunicationController.h"
 
 #include "FileSystem.h"
+#include "FilePath.h"
+#include "FileInfo.h"
+#include "StorageAccess.h"
 #include "MessageActivateWindow.h"
 #include "MessagePingReceived.h"
 #include "MessageProjectNew.h"
@@ -60,10 +63,10 @@ void IDECommunicationController::handleSetActiveTokenMessage(
     const unsigned int cursorColumn = message.column;
 
     const Id fileId = m_storageAccess->getNodeIdForFileNode(message.filePath.getCanonical());
-    const FileInfo fileInfo = m_storageAccess->getFileInfoForFileId(fileId);
-    const FilePath filePath = fileInfo.path;
+    const auto fileInfo = m_storageAccess->getFileInfoForFileId(fileId);
+    const utility::file::FilePath filePath = fileInfo.path;
 
-    if(FileSystem::getFileInfoForPath(filePath).lastWriteTime == fileInfo.lastWriteTime) {
+    if(utility::file::FileSystem::getFileInfoForPath(filePath).lastWriteTime == fileInfo.lastWriteTime) {
       // file was not modified
       std::shared_ptr<SourceLocationFile> sourceLocationFile =
           m_storageAccess->getSourceLocationsForLinesInFile(filePath, message.row, message.row);

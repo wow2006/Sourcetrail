@@ -8,7 +8,6 @@
 class TiXmlElement;
 
 class ApplicationSettings;
-class FilePath;
 class IndexerCommand;
 class SourceGroupSettings;
 class TextAccess;

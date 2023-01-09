@@ -5,6 +5,7 @@
 
 #include "ResourcePaths.h"
 #include "utilityQt.h"
+#include "FilePath.h"
 
 QtShortcutTable::QtShortcutTable(QWidget* parent): QTableWidget(parent) {}
 

@@ -25,7 +25,7 @@ size_t SqliteIndexStorage::getStorageVersion() {
   return s_storageVersion;
 }
 
-SqliteIndexStorage::SqliteIndexStorage(const FilePath& dbFilePath)
+SqliteIndexStorage::SqliteIndexStorage(const utility::file::FilePath& dbFilePath)
     : SqliteStorage(dbFilePath.getCanonical()) {}
 
 size_t SqliteIndexStorage::getStaticVersion() const {
@@ -135,11 +135,11 @@ bool SqliteIndexStorage::addFile(const StorageFile& data) {
     return false;
   }
 
-  FilePath filePath(data.filePath);
+  utility::file::FilePath filePath(data.filePath);
 
   std::string modificationTime(data.modificationTime);
   if(modificationTime.empty()) {
-    modificationTime = FileSystem::getFileInfoForPath(filePath).lastWriteTime.toString();
+    modificationTime = utility::file::FileSystem::getFileInfoForPath(filePath).lastWriteTime.toString();
   }
 
   std::shared_ptr<TextAccess> content;
@@ -706,7 +706,7 @@ StorageFile SqliteIndexStorage::getFileByPath(const std::wstring& filePath) cons
   return doGetFirst<StorageFile>("WHERE file.path == '" + utility::encodeToUtf8(filePath) + "'");
 }
 
-std::vector<StorageFile> SqliteIndexStorage::getFilesByPaths(const std::vector<FilePath>& filePaths) const {
+std::vector<StorageFile> SqliteIndexStorage::getFilesByPaths(const std::vector<utility::file::FilePath>& filePaths) const {
   return doGetAll<StorageFile>("WHERE file.path IN ('" +
                                utility::join(utility::toStrings(filePaths), "', '") + "')");
 }
@@ -764,7 +764,7 @@ void SqliteIndexStorage::setNodeType(int type, Id nodeId) {
 }
 
 std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFile(
-    const FilePath& filePath, const std::string& query) const {
+    const utility::file::FilePath& filePath, const std::string& query) const {
   std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(
       filePath, L"", true, false, false);
 
@@ -808,14 +808,14 @@ std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFil
 }
 
 std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForLinesInFile(
-    const FilePath& filePath, size_t startLine, size_t endLine) const {
+    const utility::file::FilePath& filePath, size_t startLine, size_t endLine) const {
   return getSourceLocationsForFile(filePath,
                                    "AND start_line <= " + std::to_string(endLine) +
                                        " AND end_line >= " + std::to_string(startLine));
 }
 
 std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsOfTypeInFile(
-    const FilePath& filePath, LocationType type) const {
+    const utility::file::FilePath& filePath, LocationType type) const {
   return getSourceLocationsForFile(
       filePath, "AND type == " + std::to_string(locationTypeToInt(type)));
 }
@@ -853,7 +853,7 @@ std::shared_ptr<SourceLocationCollection> SqliteIndexStorage::getSourceLocations
       ret->addSourceLocation(intToLocationType(type),
                              id,
                              sourceLocationIdToElementIds[id],
-                             FilePath(utility::decodeFromUtf8(filePath)),
+                             utility::file::FilePath(utility::decodeFromUtf8(filePath)),
                              startLineNumber,
                              startColNumber,
                              endLineNumber,

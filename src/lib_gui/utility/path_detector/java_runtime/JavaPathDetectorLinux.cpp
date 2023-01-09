@@ -16,10 +16,10 @@ JavaPathDetectorLinux::JavaPathDetectorLinux(const std::string javaVersion)
 {
 }
 
-std::vector<FilePath> JavaPathDetectorLinux::doGetPaths() const
+std::vector<utility::file::FilePath> JavaPathDetectorLinux::doGetPaths() const
 {
-	std::vector<FilePath> paths;
-	FilePath p = getJavaInPath();
+	std::vector<utility::file::FilePath> paths;
+	utility::file::FilePath p = getJavaInPath();
 	if (!p.empty())
 	{
 		paths.push_back(p);
@@ -31,67 +31,67 @@ std::vector<FilePath> JavaPathDetectorLinux::doGetPaths() const
 	}
 
 	// some default paths for java
-	paths.push_back(FilePath(L"/etc/alternatives/java"));
-	paths.push_back(FilePath(L"/usr/lib/jvm/default/bin/java"));
-	paths.push_back(FilePath(L"/usr/lib/jvm/java-openjdk/bin/java"));
+	paths.push_back(utility::file::FilePath(L"/etc/alternatives/java"));
+	paths.push_back(utility::file::FilePath(L"/usr/lib/jvm/default/bin/java"));
+	paths.push_back(utility::file::FilePath(L"/usr/lib/jvm/java-openjdk/bin/java"));
 
-	for (const FilePath& path: paths)
+	for (const utility::file::FilePath& path: paths)
 	{
 		if (checkVersion(path))
 		{
-			FilePath absoluteJavaPath = readLink(path);
-			FilePath jvmLibrary = getFilePathRelativeToJavaExecutable(absoluteJavaPath);
+			utility::file::FilePath absoluteJavaPath = readLink(path);
+			utility::file::FilePath jvmLibrary = getFilePathRelativeToJavaExecutable(absoluteJavaPath);
 			if (jvmLibrary.exists())
 			{
-				std::vector<FilePath> foundPath = {jvmLibrary};
+				std::vector<utility::file::FilePath> foundPath = {jvmLibrary};
 				return foundPath;
 			}
 		}
 	}
 
-	return std::vector<FilePath>();
+	return std::vector<utility::file::FilePath>();
 }
 
-FilePath JavaPathDetectorLinux::getJavaInPath() const
+utility::file::FilePath JavaPathDetectorLinux::getJavaInPath() const
 {
 	bool ok;
-	FilePath javaPath(utility::searchPath(L"java", ok));
+	utility::file::FilePath javaPath(utility::searchPath(L"java", ok));
 	if (ok && !javaPath.empty() && javaPath.exists())
 	{
 		return javaPath;
 	}
-	return FilePath();
+	return utility::file::FilePath();
 }
 
-FilePath JavaPathDetectorLinux::readLink(const FilePath& path) const
+utility::file::FilePath JavaPathDetectorLinux::readLink(const utility::file::FilePath& path) const
 {
 	const utility::ProcessOutput out = utility::executeProcess(
 		L"readlink", std::vector<std::wstring> {L"-f", path.wstr()});
 
 	if (out.exitCode == 0 && !out.output.empty())
 	{
-		FilePath javaPath(utility::trim(out.output));
+		utility::file::FilePath javaPath(utility::trim(out.output));
 
 		if (!javaPath.empty())
 		{
 			return javaPath;
 		}
 	}
-	return FilePath();
+	return utility::file::FilePath();
 }
 
-FilePath JavaPathDetectorLinux::getFilePathRelativeToJavaExecutable(FilePath& javaExecutablePath) const
+utility::file::FilePath JavaPathDetectorLinux::getFilePathRelativeToJavaExecutable(utility::file::FilePath& javaExecutablePath) const
 {
-	FilePath p = javaExecutablePath.getParentDirectory().concatenate(
+	utility::file::FilePath p = javaExecutablePath.getParentDirectory().concatenate(
 		jvmLibPathRelativeToJavaExecutable);
 	if (p.exists())
 	{
 		return p.makeCanonical();
 	}
-	return FilePath();
+	return utility::file::FilePath();
 }
 
-FilePath JavaPathDetectorLinux::getJavaInJavaHome() const
+utility::file::FilePath JavaPathDetectorLinux::getJavaInJavaHome() const
 {
 	std::string command = "";
 #pragma warning(push)
@@ -100,18 +100,18 @@ FilePath JavaPathDetectorLinux::getJavaInJavaHome() const
 #pragma warning(pop)
 	if (p == nullptr)
 	{
-		return FilePath();
+		return utility::file::FilePath();
 	}
 
-	FilePath javaPath(std::string(p) + "/bin/java");
+	utility::file::FilePath javaPath(std::string(p) + "/bin/java");
 	if (!javaPath.empty() && javaPath.exists())
 	{
 		return javaPath;
 	}
-	return FilePath();
+	return utility::file::FilePath();
 }
 
-bool JavaPathDetectorLinux::checkVersion(const FilePath& path) const
+bool JavaPathDetectorLinux::checkVersion(const utility::file::FilePath& path) const
 {
 	const utility::ProcessOutput out = utility::executeProcess(path.wstr(), {L"-version"});
 

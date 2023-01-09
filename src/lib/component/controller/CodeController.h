@@ -71,7 +71,7 @@ public:
 
 private:
   struct Reference {
-    FilePath filePath;
+    utility::file::FilePath filePath;
     Id tokenId = 0;
     Id locationId = 0;
     Id scopeLocationId = 0;
@@ -140,14 +140,14 @@ private:
   void showCurrentLocalReference(bool updateView);
 
   std::pair<int, int> findClosestReferenceIndex(const std::vector<Reference>& references,
-                                                const FilePath& currentFilePath,
+                                                const utility::file::FilePath& currentFilePath,
                                                 size_t currentLineNumber,
                                                 size_t currentColumnNumber,
                                                 bool next) const;
 
   void expandVisibleFiles(bool useSingleFileCache);
   CodeFileParams* addSourceLocations(std::shared_ptr<SourceLocationFile> locationFile);
-  void setFileState(const FilePath& filePath,
+  void setFileState(const utility::file::FilePath& filePath,
                     MessageChangeFileView::FileState state,
                     bool useSingleFileCache);
   void setFileState(CodeFileParams& file,
@@ -170,7 +170,7 @@ private:
   std::shared_ptr<SourceLocationCollection> m_collection;
 
   std::vector<CodeFileParams> m_files;
-  FilePath m_currentFilePath;
+  utility::file::FilePath m_currentFilePath;
 
   CodeView::CodeParams m_codeParams;
   CodeScrollParams m_scrollParams;

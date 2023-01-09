@@ -1,12 +1,10 @@
 #pragma once
 
-#include <memory>
-#include <string>
-#include <vector>
-
 namespace boost::filesystem {
 class path;
 }    // namespace boost::filesystem
+
+namespace utility::file {
 
 class FilePath final {
 public:
@@ -68,3 +66,5 @@ private:
   mutable bool m_checkedIsDirectory;
   mutable bool m_canonicalized;
 };
+
+}    // namespace utility::file

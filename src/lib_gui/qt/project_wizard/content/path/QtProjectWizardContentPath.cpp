@@ -4,6 +4,7 @@
 
 #include "SourceGroupSettings.h"
 #include "utilityFile.h"
+#include "FilePath.h"
 
 QtProjectWizardContentPath::QtProjectWizardContentPath(QtProjectWizardWindow* window)
 	: QtProjectWizardContent(window)
@@ -47,8 +48,8 @@ bool QtProjectWizardContentPath::check()
 			break;
 		}
 
-		FilePath path = utility::getExpandedAndAbsolutePath(
-			FilePath(m_picker->getText().toStdWString()),
+		utility::file::FilePath path = utility::file::getExpandedAndAbsolutePath(
+			utility::file::FilePath(m_picker->getText().toStdWString()),
 			getSourceGroupSettings()->getProjectDirectoryPath());
 
 		if (m_picker->pickDirectory())

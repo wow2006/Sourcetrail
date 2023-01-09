@@ -16,13 +16,13 @@ public:
   *
   * @return
   */
-  static std::shared_ptr<TextAccess> createFromFile(const FilePath& filePath);
+  static std::shared_ptr<TextAccess> createFromFile(const utility::file::FilePath& filePath);
 
   static std::shared_ptr<TextAccess> createFromString(const std::string& text,
-                                                      const FilePath& filePath = FilePath());
+                                                      const utility::file::FilePath& filePath = utility::file::FilePath());
 
   static std::shared_ptr<TextAccess> createFromLines(const std::vector<std::string>& lines,
-                                                     const FilePath& filePath = FilePath());
+                                                     const utility::file::FilePath& filePath = utility::file::FilePath());
 
   TextAccess(const TextAccess&) = delete;
 
@@ -57,7 +57,7 @@ public:
    *
    * @return File path
    */
-  FilePath getFilePath() const {
+  utility::file::FilePath getFilePath() const {
     return m_filePath;
   }
 
@@ -109,7 +109,7 @@ public:
   }
 
 private:
-  static std::vector<std::string> readFile(const FilePath& filePath);
+  static std::vector<std::string> readFile(const utility::file::FilePath& filePath);
 
   static std::vector<std::string> splitStringByLines(const std::string& text);
 
@@ -119,6 +119,6 @@ private:
 
   bool checkIndexIntervalInRange(uint32_t firstIndex, uint32_t lastIndex) const;
 
-  FilePath m_filePath = {};
+  utility::file::FilePath m_filePath = {};
   std::vector<std::string> m_lines;
 };

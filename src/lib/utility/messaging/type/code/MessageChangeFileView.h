@@ -12,7 +12,7 @@ public:
 
   enum ViewMode { VIEW_LIST, VIEW_SINGLE, VIEW_CURRENT };
 
-  MessageChangeFileView(const FilePath& filePath_,
+  MessageChangeFileView(const utility::file::FilePath& filePath_,
                         FileState state_,
                         ViewMode viewMode_,
                         CodeScrollParams scrollParams_,
@@ -57,7 +57,7 @@ public:
     }
   }
 
-  const FilePath filePath;
+  const utility::file::FilePath filePath;
   const FileState state;
   const ViewMode viewMode;
   const CodeScrollParams scrollParams;

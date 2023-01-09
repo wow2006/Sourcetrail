@@ -3,15 +3,15 @@
 #include "ProjectSettings.h"
 #include "utility.h"
 
-std::vector<FilePath> SourceGroupSettingsWithClasspath::getClasspath() const {
+std::vector<utility::file::FilePath> SourceGroupSettingsWithClasspath::getClasspath() const {
   return m_classpath;
 }
 
-std::vector<FilePath> SourceGroupSettingsWithClasspath::getClasspathExpandedAndAbsolute() const {
+std::vector<utility::file::FilePath> SourceGroupSettingsWithClasspath::getClasspathExpandedAndAbsolute() const {
   return getProjectSettings()->makePathsExpandedAndAbsolute(getClasspath());
 }
 
-void SourceGroupSettingsWithClasspath::setClasspath(const std::vector<FilePath>& classpath) {
+void SourceGroupSettingsWithClasspath::setClasspath(const std::vector<utility::file::FilePath>& classpath) {
   m_classpath = classpath;
 }
 
@@ -33,7 +33,7 @@ bool SourceGroupSettingsWithClasspath::equals(const SourceGroupSettingsBase* oth
 
 void SourceGroupSettingsWithClasspath::load(const utility::ConfigManager* config,
                                             const std::string& key) {
-  setClasspath(config->getValuesOrDefaults(key + "/class_paths/class_path", std::vector<FilePath>()));
+  setClasspath(config->getValuesOrDefaults(key + "/class_paths/class_path", std::vector<utility::file::FilePath>()));
   setUseJreSystemLibrary(config->getValueOrDefault(key + "/use_jre_system_library", true));
 }
 

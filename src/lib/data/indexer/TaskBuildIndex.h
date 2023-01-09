@@ -37,7 +37,7 @@ protected:
   void runIndexerThread(int processId);
   bool fetchIntermediateStorages(std::shared_ptr<Blackboard> blackboard);
   void updateIndexingDialog(std::shared_ptr<Blackboard> blackboard,
-                            const std::vector<FilePath>& sourcePaths);
+                            const std::vector<utility::file::FilePath>& sourcePaths);
 
   static const std::wstring s_processName;
 

@@ -74,7 +74,7 @@ QtListBox::QtListBox(QWidget* parent, const QString& listName)
   barLayout->addLayout(m_innerBarLayout);
 
   QPushButton* editButton = new QtIconButton(
-      ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/edit.png"), FilePath());
+      ResourcePaths::getGuiDirectoryPath().concatenate(L"code_view/images/edit.png"), utility::file::FilePath());
   editButton->setIconSize(QSize(16, 16));
   editButton->setObjectName(QStringLiteral("editButton"));
   editButton->setToolTip(QStringLiteral("edit plain text"));

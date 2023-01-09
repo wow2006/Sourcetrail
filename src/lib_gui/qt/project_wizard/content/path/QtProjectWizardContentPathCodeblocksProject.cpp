@@ -76,10 +76,10 @@ void QtProjectWizardContentPathCodeblocksProject::load()
 
 void QtProjectWizardContentPathCodeblocksProject::save()
 {
-	m_settings->setCodeblocksProjectPath(FilePath(m_picker->getText().toStdWString()));
+	m_settings->setCodeblocksProjectPath(utility::file::FilePath(m_picker->getText().toStdWString()));
 }
 
-std::vector<FilePath> QtProjectWizardContentPathCodeblocksProject::getFilePaths() const
+std::vector<utility::file::FilePath> QtProjectWizardContentPathCodeblocksProject::getFilePaths() const
 {
 	return m_filePaths.getValue();
 }
@@ -98,10 +98,10 @@ void QtProjectWizardContentPathCodeblocksProject::pickedPath()
 {
 	m_window->saveContent();
 
-	const FilePath projectPath = m_settings->getProjectDirectoryPath();
+	const utility::file::FilePath projectPath = m_settings->getProjectDirectoryPath();
 
-	std::set<FilePath> indexedHeaderPaths;
-	for (const FilePath& path:
+	std::set<utility::file::FilePath> indexedHeaderPaths;
+	for (const utility::file::FilePath& path:
 		 QtProjectWizardContentPathsIndexedHeaders::getIndexedPathsDerivedFromCodeblocksProject(
 			 m_settings))
 	{

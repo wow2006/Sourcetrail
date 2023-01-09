@@ -56,7 +56,7 @@ bool safely_wait_for(boost::process::child& process,
 
 utility::ProcessOutput utility::executeProcess(const std::wstring& command,
                                                const std::vector<std::wstring>& arguments,
-                                               const FilePath& workingDirectory,
+                                               const utility::file::FilePath& workingDirectory,
                                                const bool waitUntilNoOutput,
                                                const int timeout,
                                                bool logProcessOutput) {

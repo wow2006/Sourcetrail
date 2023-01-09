@@ -54,23 +54,23 @@ void QtProjectWizardContentPathSourceMaven::load()
 
 void QtProjectWizardContentPathSourceMaven::save()
 {
-	m_settings->setMavenProjectFilePath(FilePath(m_picker->getText().toStdWString()));
+	m_settings->setMavenProjectFilePath(utility::file::FilePath(m_picker->getText().toStdWString()));
 	m_settings->setShouldIndexMavenTests(m_shouldIndexTests->isChecked());
 }
 
-std::vector<FilePath> QtProjectWizardContentPathSourceMaven::getFilePaths() const
+std::vector<utility::file::FilePath> QtProjectWizardContentPathSourceMaven::getFilePaths() const
 {
 	{
-		const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
-		const FilePath mavenSettingsPath = m_settings->getMavenSettingsFilePathExpandedAndAbsolute();
-		const FilePath mavenProjectRoot =
+		const utility::file::FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
+		const utility::file::FilePath mavenSettingsPath = m_settings->getMavenSettingsFilePathExpandedAndAbsolute();
+		const utility::file::FilePath mavenProjectRoot =
 			m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
 		if (!mavenProjectRoot.exists())
 		{
 			LOG_INFO(
 				"Could not find any source file paths because Maven project path does not exist.");
-			return std::vector<FilePath>();
+			return std::vector<utility::file::FilePath>();
 		}
 
 		QtDialogView* dialogView = dynamic_cast<QtDialogView*>(
@@ -88,7 +88,7 @@ std::vector<FilePath> QtProjectWizardContentPathSourceMaven::getFilePaths() cons
 		{
 			MessageStatus(errorMessage, true, false).dispatch();
 			lib::app::Application::getInstance()->handleDialog(errorMessage);
-			return std::vector<FilePath>();
+			return std::vector<utility::file::FilePath>();
 		}
 	}
 

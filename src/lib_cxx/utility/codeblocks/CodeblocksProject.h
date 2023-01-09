@@ -9,7 +9,6 @@
 #include "FilePath.h"
 
 class ApplicationSettings;
-class FilePath;
 class IndexerCommandCxx;
 class SourceGroupSettingsCxxCodeblocks;
 class SourceGroupSettingsWithSourceExtensions;
@@ -23,21 +22,21 @@ class Unit;
 class Project
 {
 public:
-	static std::shared_ptr<Project> load(const FilePath& projectFilePath);
+	static std::shared_ptr<Project> load(const utility::file::FilePath& projectFilePath);
 	static std::shared_ptr<Project> load(std::shared_ptr<TextAccess> xmlAccess);
 
-	std::set<FilePath> getAllSourceFilePathsCanonical(
+	std::set<utility::file::FilePath> getAllSourceFilePathsCanonical(
 		const std::vector<std::wstring>& sourceExtensions) const;
-	std::set<FilePath> getAllCxxHeaderSearchPathsCanonical() const;
+	std::set<utility::file::FilePath> getAllCxxHeaderSearchPathsCanonical() const;
 
 	std::vector<std::shared_ptr<IndexerCommandCxx>> getIndexerCommands(
 		std::shared_ptr<const SourceGroupSettingsCxxCodeblocks> sourceGroupSettings,
 		std::shared_ptr<const ApplicationSettings> appSettings) const;
 
 private:
-	Project(const FilePath& projectFilePath);
+	Project(const utility::file::FilePath& projectFilePath);
 
-	FilePath m_projectFilePath;
+	utility::file::FilePath m_projectFilePath;
 
 	int m_versionMajor = 0;
 	int m_versionMinor = 0;

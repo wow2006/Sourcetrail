@@ -5,7 +5,9 @@
 #include <string>
 #include <vector>
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 class SourceGroupSettingsWithClasspath;
 
 namespace utility
@@ -13,11 +15,11 @@ namespace utility
 std::vector<std::wstring> getRequiredJarNames();
 std::string prepareJavaEnvironment();
 bool prepareJavaEnvironmentAndDisplayOccurringErrors();
-std::set<FilePath> fetchRootDirectories(const std::set<FilePath>& sourceFilePaths);
-std::vector<FilePath> getClassPath(
-	const std::vector<FilePath>& classpathItems,
+std::set<utility::file::FilePath> fetchRootDirectories(const std::set<utility::file::FilePath>& sourceFilePaths);
+std::vector<utility::file::FilePath> getClassPath(
+	const std::vector<utility::file::FilePath>& classpathItems,
 	bool useJreSystemLibrary,
-	const std::set<FilePath>& sourceFilePaths);
+	const std::set<utility::file::FilePath>& sourceFilePaths);
 void setJavaHomeVariableIfNotExists();
 }	 // namespace utility
 

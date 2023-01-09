@@ -20,12 +20,12 @@ void parseConfigFile(po::variables_map& vm, po::options_description& options) {
   }
 }
 
-std::vector<FilePath> extractPaths(const std::vector<std::string>& vector) {
-  std::vector<FilePath> v;
+std::vector<utility::file::FilePath> extractPaths(const std::vector<std::string>& vector) {
+  std::vector<utility::file::FilePath> v;
   for(const std::string& s: vector) {
     std::vector<std::string> temp = utility::splitToVector(s, ',');
     for(const std::string& path: temp) {
-      v.push_back(FilePath(path));
+      v.push_back(utility::file::FilePath(path));
     }
   }
   return v;

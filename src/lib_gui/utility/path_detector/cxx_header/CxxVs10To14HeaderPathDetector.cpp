@@ -54,17 +54,17 @@ std::string CxxVs10To14HeaderPathDetector::visualStudioTypeToString(const Visual
 	return ret;
 }
 
-std::vector<FilePath> CxxVs10To14HeaderPathDetector::doGetPaths() const
+std::vector<utility::file::FilePath> CxxVs10To14HeaderPathDetector::doGetPaths() const
 {
-	const FilePath vsInstallPath = getVsInstallPathUsingRegistry();
+	const utility::file::FilePath vsInstallPath = getVsInstallPathUsingRegistry();
 
 	// vc++ headers
-	std::vector<FilePath> headerSearchPaths;
+	std::vector<utility::file::FilePath> headerSearchPaths;
 	if (vsInstallPath.exists())
 	{
 		for (const std::wstring& subdirectory: {L"vc/include", L"vc/atlmfc/include"})
 		{
-			FilePath headerSearchPath = vsInstallPath.getConcatenated(subdirectory);
+			utility::file::FilePath headerSearchPath = vsInstallPath.getConcatenated(subdirectory);
 			if (headerSearchPath.exists())
 			{
 				headerSearchPaths.push_back(headerSearchPath.makeCanonical());
@@ -80,7 +80,7 @@ std::vector<FilePath> CxxVs10To14HeaderPathDetector::doGetPaths() const
 	return headerSearchPaths;
 }
 
-FilePath CxxVs10To14HeaderPathDetector::getVsInstallPathUsingRegistry() const
+utility::file::FilePath CxxVs10To14HeaderPathDetector::getVsInstallPathUsingRegistry() const
 {
 	QString key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\";
 	if (m_architecture == APPLICATION_ARCHITECTURE_X86_32)
@@ -95,12 +95,12 @@ FilePath CxxVs10To14HeaderPathDetector::getVsInstallPathUsingRegistry() const
 		key, QSettings::NativeFormat);	  // NativeFormat means from Registry on Windows.
 	QString value = expressKey.value("InstallDir").toString() + "../../";
 
-	FilePath path(value.toStdWString());
+	utility::file::FilePath path(value.toStdWString());
 	if (path.exists())
 	{
 		LOG_INFO(L"Found working registry key for VS install path: " + key.toStdWString());
 		return path;
 	}
 
-	return FilePath();
+	return utility::file::FilePath();
 }

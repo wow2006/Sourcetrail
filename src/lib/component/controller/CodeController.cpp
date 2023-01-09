@@ -105,7 +105,7 @@ void CodeController::handleMessage(MessageActivateOverview* message) {
   statsSnippet.startLineNumber = 1;
   statsSnippet.endLineNumber = 1;
 
-  statsSnippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(), L"", true, true, true);
+  statsSnippet.locationFile = std::make_shared<SourceLocationFile>(utility::file::FilePath(), L"", true, true, true);
 
   std::vector<std::string> description = getProjectDescription(statsSnippet.locationFile.get());
 
@@ -301,7 +301,7 @@ void CodeController::handleMessage(MessageCodeShowDefinition* message) {
 
   size_t lineNumber = 1;
   size_t columnNumber = 1;
-  FilePath filePath;
+  utility::file::FilePath filePath;
 
   // use first scope location for nodeId, otherwise first location
   if(collection->getSourceLocationCount()) {
@@ -470,7 +470,7 @@ void CodeController::handleMessage(MessageShowScope* message) {
 }
 
 void CodeController::handleMessage(MessageToNextCodeReference* message) {
-  FilePath currentFilePath = message->filePath;
+  utility::file::FilePath currentFilePath = message->filePath;
   size_t currentLineNumber = message->lineNumber;
   size_t currentColumnNumber = message->columnNumber;
   bool next = message->next;
@@ -558,7 +558,7 @@ void CodeController::clear() {
   getView()->clear();
 
   m_collection = std::make_shared<SourceLocationCollection>();
-  m_currentFilePath = FilePath();
+  m_currentFilePath = utility::file::FilePath();
   clearReferences();
 }
 
@@ -1005,7 +1005,7 @@ void CodeController::showCurrentLocalReference(bool updateView) {
 }
 
 std::pair<int, int> CodeController::findClosestReferenceIndex(const std::vector<Reference>& references,
-                                                              const FilePath& currentFilePath,
+                                                              const utility::file::FilePath& currentFilePath,
                                                               size_t currentLineNumber,
                                                               size_t currentColumnNumber,
                                                               bool next) const {
@@ -1134,7 +1134,7 @@ CodeFileParams* CodeController::addSourceLocations(std::shared_ptr<SourceLocatio
   return file;
 }
 
-void CodeController::setFileState(const FilePath& filePath,
+void CodeController::setFileState(const utility::file::FilePath& filePath,
                                   MessageChangeFileView::FileState state,
                                   bool useSingleFileCache) {
   for(CodeFileParams& file: m_files) {
@@ -1232,14 +1232,14 @@ bool CodeController::addAllSourceLocations() {
 void CodeController::addModificationTimes() {
   TRACE();
 
-  std::vector<FilePath> filePaths;
+  std::vector<utility::file::FilePath> filePaths;
   for(const CodeFileParams& file: m_files) {
     filePaths.push_back(file.locationFile->getFilePath());
   }
-  std::vector<FileInfo> fileInfos = m_storageAccess->getFileInfosForFilePaths(filePaths);
+  auto fileInfos = m_storageAccess->getFileInfosForFilePaths(filePaths);
 
-  std::map<FilePath, FileInfo> fileInfoMap;
-  for(FileInfo& fileInfo: fileInfos) {
+  std::map<utility::file::FilePath, utility::file::FileInfo> fileInfoMap;
+  for(const auto& fileInfo : fileInfos) {
     fileInfoMap.emplace(fileInfo.path, fileInfo);
   }
 
@@ -1309,8 +1309,8 @@ void CodeController::showFirstActiveReference(Id tokenId, bool updateView) {
   int referenceIndex = -1;
   Reference firstReference;
 
-  std::set<FilePath> filePathsToExpand;
-  std::map<FilePath, size_t> filePathOrder;
+  std::set<utility::file::FilePath> filePathsToExpand;
+  std::map<utility::file::FilePath, size_t> filePathOrder;
 
   for(size_t i = 0; i < m_references.size(); i++) {
     const Reference& ref = m_references[i];
@@ -1353,7 +1353,7 @@ void CodeController::showFirstActiveReference(Id tokenId, bool updateView) {
   }
 
   if(getView()->isInListMode()) {
-    for(const FilePath& filePath: filePathsToExpand) {
+    for(const utility::file::FilePath& filePath: filePathsToExpand) {
       setFileState(filePath, MessageChangeFileView::FILE_SNIPPETS, m_codeParams.useSingleFileCache);
     }
   } else if(firstReference.tokenId) {

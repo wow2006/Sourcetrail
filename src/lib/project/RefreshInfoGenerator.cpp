@@ -1,6 +1,7 @@
 #include "RefreshInfoGenerator.h"
 
 #include "FileInfo.h"
+#include "FilePath.h"
 #include "FileSystem.h"
 #include "PersistentStorage.h"
 #include "RefreshInfo.h"
@@ -14,18 +15,18 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
     std::shared_ptr<const PersistentStorage> storage) {
   // 1) Divide filepaths that are already known by the storage to "unchanged and indexed",
   // "unchanged and non-indexed" and "changed"
-  std::set<FilePath> unchangedIndexedFilePaths;
-  std::set<FilePath> unchangedNonindexedFilePaths;
-  std::set<FilePath> changedFilePaths;
+  std::set<utility::file::FilePath> unchangedIndexedFilePaths;
+  std::set<utility::file::FilePath> unchangedNonindexedFilePaths;
+  std::set<utility::file::FilePath> changedFilePaths;
 
   {
-    const std::vector<FileInfo> fileInfosFromStorage = storage->getFileInfoForAllFiles();
+    auto fileInfosFromStorage = storage->getFileInfoForAllFiles();
 
-    std::set<FilePath> alreadyKnownPaths;
+    std::set<utility::file::FilePath> alreadyKnownPaths;
     {
-      const std::set<FilePath> filePathsFromStorage = utility::toSet(
-          utility::convert<FileInfo, FilePath>(
-              fileInfosFromStorage, [](const FileInfo& info) { return info.path; }));
+      auto filePathsFromStorage = utility::toSet(
+          utility::convert<utility::file::FileInfo, utility::file::FilePath>(
+              fileInfosFromStorage, [](const auto& info) { return info.path; }));
 
       for(std::shared_ptr<SourceGroup> sourceGroup: sourceGroups) {
         if(sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED) {
@@ -36,7 +37,7 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
     }
 
     // checking source and header files
-    for(const FileInfo& info: fileInfosFromStorage) {
+    for(const auto& info: fileInfosFromStorage) {
       if(alreadyKnownPaths.find(info.path) != alreadyKnownPaths.end() && info.path.exists()) {
         if(storage->getFilePathIndexed(info.path)) {
           if(didFileChange(info, storage)) {
@@ -56,11 +57,12 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
     }
   }
 
-  const std::set<FilePath> allSourceFilePathsFromSourcegroups = getAllSourceFilePaths(sourceGroups);
+  const std::set<utility::file::FilePath> allSourceFilePathsFromSourcegroups = getAllSourceFilePaths(
+      sourceGroups);
 
   // 2) Figure out which files need to be cleared
   // 2.1) Add all changed files
-  std::set<FilePath> filesToClear = changedFilePaths;
+  std::set<utility::file::FilePath> filesToClear = changedFilePaths;
 
   // 2.2) Add files that are reference the changed files
   utility::append(filesToClear, storage->getReferencing(changedFilePaths));
@@ -77,20 +79,22 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
   //   paths because they are not part of the DB. Source files that are new to the project but are
   //   already in the DB will be removed from this list if they have changed or reference changed
   //   files.
-  std::set<FilePath> staticSourceFiles = allSourceFilePathsFromSourcegroups;
-  for(const FilePath& path: filesToClear) {
+  std::set<utility::file::FilePath> staticSourceFiles = allSourceFilePathsFromSourcegroups;
+  for(const utility::file::FilePath& path: filesToClear) {
     staticSourceFiles.erase(path);
   }
 
   // 2.3.2) Get sets of referenced files
-  const std::set<FilePath> staticReferencedFilePaths = storage->getReferenced(staticSourceFiles);
-  const std::set<FilePath> dynamicReferencedFilePaths = storage->getReferenced(filesToClear);
+  const std::set<utility::file::FilePath> staticReferencedFilePaths = storage->getReferenced(
+      staticSourceFiles);
+  const std::set<utility::file::FilePath> dynamicReferencedFilePaths = storage->getReferenced(
+      filesToClear);
 
   // 2.3.3) Add "dynamicReferencedFilePaths" to "filesToClear" that are not referenced by static
   // paths, because these files may not be
   //        referenced anymore. If they still are, they will be re-added when encountered during
   //        re-indexing.
-  for(const FilePath& path: dynamicReferencedFilePaths) {
+  for(const utility::file::FilePath& path: dynamicReferencedFilePaths) {
     if(staticReferencedFilePaths.find(path) == staticReferencedFilePaths.end() &&
        staticSourceFiles.find(path) == staticSourceFiles.end()) {
       filesToClear.insert(path);
@@ -98,8 +102,8 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
   }
 
   // 3) Figure out which files need to be indexed
-  std::set<FilePath> filesToIndex;
-  for(const FilePath& path: allSourceFilePathsFromSourcegroups) {
+  std::set<utility::file::FilePath> filesToIndex;
+  for(const utility::file::FilePath& path: allSourceFilePathsFromSourcegroups) {
     if(filesToClear.find(path) != filesToClear.end() ||    // file will be cleared
        unchangedIndexedFilePaths.find(path) ==
            unchangedIndexedFilePaths.end())    // file has been changed or added
@@ -112,7 +116,7 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForUpdatedFiles(
   RefreshInfo info;
   info.mode = REFRESH_UPDATED_FILES;
   info.filesToIndex = filesToIndex;
-  for(const FilePath fileToClear: filesToClear) {
+  for(const utility::file::FilePath fileToClear: filesToClear) {
     if(storage->getFilePathIndexed(fileToClear)) {
       info.filesToClear.insert(fileToClear);
     } else {
@@ -129,11 +133,11 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForIncompleteFiles(
   RefreshInfo info = getRefreshInfoForUpdatedFiles(sourceGroups, storage);
   info.mode = REFRESH_UPDATED_AND_INCOMPLETE_FILES;
 
-  std::set<FilePath> incompleteFiles;
+  std::set<utility::file::FilePath> incompleteFiles;
   {
-    const std::set<FilePath> filesToClear = utility::concat(
+    const std::set<utility::file::FilePath> filesToClear = utility::concat(
         info.filesToClear, info.nonIndexedFilesToClear);
-    for(const FilePath& path: storage->getIncompleteFiles()) {
+    for(const utility::file::FilePath& path: storage->getIncompleteFiles()) {
       if(filesToClear.find(path) == filesToClear.end()) {
         incompleteFiles.insert(path);
       }
@@ -143,8 +147,8 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForIncompleteFiles(
   if(!incompleteFiles.empty()) {
     utility::append(incompleteFiles, storage->getReferencing(incompleteFiles));
 
-    std::set<FilePath> staticSourceFilePaths = getAllSourceFilePaths(sourceGroups);
-    for(const FilePath& path: incompleteFiles) {
+    std::set<utility::file::FilePath> staticSourceFilePaths = getAllSourceFilePaths(sourceGroups);
+    for(const utility::file::FilePath& path: incompleteFiles) {
       staticSourceFilePaths.erase(path);
 
       if(storage->getFilePathIndexed(path)) {
@@ -173,13 +177,13 @@ RefreshInfo RefreshInfoGenerator::getRefreshInfoForAllFiles(
   return info;
 }
 
-std::set<FilePath> RefreshInfoGenerator::getAllSourceFilePaths(
+std::set<utility::file::FilePath> RefreshInfoGenerator::getAllSourceFilePaths(
     const std::vector<std::shared_ptr<SourceGroup>>& sourceGroups) {
-  std::set<FilePath> allSourceFilePaths;
+  std::set<utility::file::FilePath> allSourceFilePaths;
 
   for(const std::shared_ptr<const SourceGroup>& sourceGroup: sourceGroups) {
     if(sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED) {
-      for(const FilePath& sourceFilePath: sourceGroup->getAllSourceFilePaths()) {
+      for(const utility::file::FilePath& sourceFilePath: sourceGroup->getAllSourceFilePaths()) {
         if(sourceFilePath.exists()) {
           allSourceFilePaths.insert(sourceFilePath);
         }
@@ -190,9 +194,9 @@ std::set<FilePath> RefreshInfoGenerator::getAllSourceFilePaths(
   return allSourceFilePaths;
 }
 
-bool RefreshInfoGenerator::didFileChange(const FileInfo& info,
+bool RefreshInfoGenerator::didFileChange(const utility::file::FileInfo& info,
                                          std::shared_ptr<const PersistentStorage> storage) {
-  FileInfo diskFileInfo = FileSystem::getFileInfoForPath(info.path);
+  auto diskFileInfo = utility::file::FileSystem::getFileInfoForPath(info.path);
   if(diskFileInfo.lastWriteTime > info.lastWriteTime) {
     if(!storage->hasContentForFile(info.path)) {
       return true;

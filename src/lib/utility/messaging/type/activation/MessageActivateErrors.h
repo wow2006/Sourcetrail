@@ -2,7 +2,7 @@
 
 #include "Message.h"
 #include "MessageActivateBase.h"
-
+#include "FilePath.h"
 #include "ErrorFilter.h"
 #include "TabId.h"
 
@@ -14,7 +14,7 @@ public:
     return "MessageActivateErrors";
   }
 
-  MessageActivateErrors(const ErrorFilter& filter_, const FilePath& file_ = FilePath())
+  MessageActivateErrors(const ErrorFilter& filter_, const utility::file::FilePath& file_ = utility::file::FilePath())
       : filter(filter_), file(file_) {
     setSchedulerId(TabId::currentTab());
   }
@@ -32,5 +32,5 @@ public:
   }
 
   const ErrorFilter filter;
-  const FilePath file;
+  const utility::file::FilePath file;
 };

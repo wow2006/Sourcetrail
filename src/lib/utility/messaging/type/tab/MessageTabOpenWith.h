@@ -12,7 +12,7 @@ public:
 
   MessageTabOpenWith(Id tokenId_, Id locationId_ = 0): tokenId(tokenId_), locationId(locationId_) {}
 
-  MessageTabOpenWith(const FilePath& path_, size_t line_ = 0): filePath(path_), line(line_) {}
+  MessageTabOpenWith(const utility::file::FilePath& path_, size_t line_ = 0): filePath(path_), line(line_) {}
 
   MessageTabOpenWith(const SearchMatch& match_): match(match_) {}
 
@@ -24,7 +24,7 @@ public:
   const Id tokenId = 0;
   const Id locationId = 0;
 
-  const FilePath filePath;
+  const utility::file::FilePath filePath;
   const SearchMatch match;
 
   const size_t line = 0;

@@ -43,7 +43,7 @@ std::string setupJavaEnvironmentFactory()
 				{
 					classPath += separator;
 				}
-				classPath += FilePath(L"../app/data/java/lib/").concatenate(jarNames[i]).str();
+				classPath += utility::file::FilePath(L"../app/data/java/lib/").concatenate(jarNames[i]).str();
 			}
 		}
 
@@ -62,7 +62,7 @@ std::shared_ptr<TestStorage> parseCode(std::string code, bool logErrors = true)
 	std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
 	JavaParser parser(
 		std::make_shared<ParserClientImpl>(storage.get()), std::make_shared<IndexerStateInfo>());
-	parser.buildIndex(FilePath(L"input.java"), TextAccess::createFromString(code));
+	parser.buildIndex(utility::file::FilePath(L"input.java"), TextAccess::createFromString(code));
 
 	return TestStorage::create(storage);
 }
@@ -75,14 +75,14 @@ TEST_CASE("java parser finds all jar dependencies")
 {
 	for (const std::wstring& jarName: utility::getRequiredJarNames())
 	{
-		FilePath jarPath = FilePath(L"../app/data/java/lib/").concatenate(jarName);
+		utility::file::FilePath jarPath = utility::file::FilePath(L"../app/data/java/lib/").concatenate(jarName);
 		REQUIRE_MESSAGE("Jar dependency path does not exist: " + jarPath.str(), jarPath.exists());
 	}
 }
 
 TEST_CASE("java parser can setup environment factory")
 {
-	std::vector<FilePath> javaPaths = utility::getJavaRuntimePathDetector()->getPaths();
+	std::vector<utility::file::FilePath> javaPaths = utility::getJavaRuntimePathDetector()->getPaths();
 	if (!javaPaths.empty())
 	{
 		ApplicationSettings::getInstance()->setJavaPath(javaPaths[0]);

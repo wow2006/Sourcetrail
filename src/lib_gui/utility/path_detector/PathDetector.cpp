@@ -9,10 +9,10 @@ std::string PathDetector::getName() const
 	return m_name;
 }
 
-std::vector<FilePath> PathDetector::getPaths() const
+std::vector<utility::file::FilePath> PathDetector::getPaths() const
 {
-	std::vector<FilePath> paths;
-	for (const FilePath& path: doGetPaths())
+	std::vector<utility::file::FilePath> paths;
+	for (const utility::file::FilePath& path: doGetPaths())
 	{
 		if (path.exists())
 		{

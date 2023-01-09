@@ -77,7 +77,7 @@ void CommandLineParser::preparse(std::vector<std::string>& args) {
     }
 
     if(vm.count("project-file")) {
-      m_projectFile = FilePath(vm["project-file"].as<std::string>());
+      m_projectFile = utility::file::FilePath(vm["project-file"].as<std::string>());
       processProjectfile();
     }
   } catch(boost::program_options::error& e) {
@@ -109,7 +109,7 @@ void CommandLineParser::parse() {
   }
 }
 
-void CommandLineParser::setProjectFile(const FilePath& filepath) {
+void CommandLineParser::setProjectFile(const utility::file::FilePath& filepath) {
   m_projectFile = filepath;
   processProjectfile();
 }
@@ -160,20 +160,20 @@ void CommandLineParser::processProjectfile() {
       m_projectFile.fileName() + L"') ";
   if(!m_projectFile.exists()) {
     m_errorString = errorstring + L" does not exist";
-    m_projectFile = FilePath();
+    m_projectFile = utility::file::FilePath();
     return;
   }
 
   if(m_projectFile.extension() != L".srctrlprj") {
     m_errorString = errorstring + L" has a wrong file ending";
-    m_projectFile = FilePath();
+    m_projectFile = utility::file::FilePath();
     return;
   }
 
   std::shared_ptr<utility::ConfigManager> configManager = utility::ConfigManager::createEmpty();
   if(!configManager->load(TextAccess::createFromFile(m_projectFile))) {
     m_errorString = errorstring + L" could not be loaded (invalid)";
-    m_projectFile = FilePath();
+    m_projectFile = utility::file::FilePath();
     return;
   }
 }
@@ -190,7 +190,7 @@ void CommandLineParser::setShallowIndexingRequested(bool enabled) {
   m_shallowIndexingRequested = enabled;
 }
 
-const FilePath& CommandLineParser::getProjectFilePath() const {
+const utility::file::FilePath& CommandLineParser::getProjectFilePath() const {
   return m_projectFile;
 }
 

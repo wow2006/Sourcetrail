@@ -51,7 +51,7 @@ public:
   bool hasSearchFilter() const;
   utility::Tree<BundleInfo> getOverviewBundleTree() const;
 
-  FilePath getIconPath() const;
+  utility::file::FilePath getIconPath() const;
 
   bool hasIcon() const;
   StyleType getNodeStyle() const;

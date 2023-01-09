@@ -5,9 +5,9 @@
 #include "logging.h"
 #include "utilityString.h"
 
-SqliteStorage::SqliteStorage(const FilePath& dbFilePath): m_dbFilePath(dbFilePath.getCanonical()) {
+SqliteStorage::SqliteStorage(const utility::file::FilePath& dbFilePath): m_dbFilePath(dbFilePath.getCanonical()) {
   if(!m_dbFilePath.getParentDirectory().empty() && !m_dbFilePath.getParentDirectory().exists()) {
-    FileSystem::createDirectory(m_dbFilePath.getParentDirectory());
+    utility::file::FileSystem::createDirectory(m_dbFilePath.getParentDirectory());
   }
 
   try {
@@ -81,7 +81,7 @@ void SqliteStorage::optimizeMemory() const {
   executeStatement("VACUUM;");
 }
 
-FilePath SqliteStorage::getDbFilePath() const {
+utility::file::FilePath SqliteStorage::getDbFilePath() const {
   return m_dbFilePath;
 }
 

@@ -17,10 +17,10 @@
 namespace
 {
 void fetchDirectories(
-	std::vector<FilePath>& pathList,
+	std::vector<utility::file::FilePath>& pathList,
 	std::shared_ptr<TextAccess> xmlAccess,
 	const std::vector<std::string>& tags,
-	const FilePath& toAppend = FilePath())
+	const utility::file::FilePath& toAppend = utility::file::FilePath())
 {
 	{
 		std::string tagString = "";
@@ -41,7 +41,7 @@ void fetchDirectories(
 
 	for (const std::string& fetchedDirectory: fetchedDirectories)
 	{
-		FilePath path(fetchedDirectory);
+		utility::file::FilePath path(fetchedDirectory);
 		if (!toAppend.empty())
 		{
 			path.concatenate(toAppend);
@@ -82,7 +82,7 @@ std::wstring getErrorMessageFromMavenOutput(std::shared_ptr<const TextAccess> ma
 	return errorMessage;
 }
 
-std::vector<std::wstring> getMavenArgs(const FilePath& settingsFilePath)
+std::vector<std::wstring> getMavenArgs(const utility::file::FilePath& settingsFilePath)
 {
 	std::vector<std::wstring> args;
 	if (!settingsFilePath.empty() && settingsFilePath.exists())
@@ -97,7 +97,7 @@ std::vector<std::wstring> getMavenArgs(const FilePath& settingsFilePath)
 namespace utility
 {
 std::wstring mavenGenerateSources(
-	const FilePath& mavenPath, const FilePath& settingsFilePath, const FilePath& projectDirectoryPath)
+	const utility::file::FilePath& mavenPath, const utility::file::FilePath& settingsFilePath, const utility::file::FilePath& projectDirectoryPath)
 {
 	utility::setJavaHomeVariableIfNotExists();
 
@@ -117,10 +117,10 @@ std::wstring mavenGenerateSources(
 }
 
 bool mavenCopyDependencies(
-	const FilePath& mavenPath,
-	const FilePath& settingsFilePath,
-	const FilePath& projectDirectoryPath,
-	const FilePath& outputDirectoryPath)
+	const utility::file::FilePath& mavenPath,
+	const utility::file::FilePath& settingsFilePath,
+	const utility::file::FilePath& projectDirectoryPath,
+	const utility::file::FilePath& outputDirectoryPath)
 {
 	utility::setJavaHomeVariableIfNotExists();
 
@@ -142,16 +142,16 @@ bool mavenCopyDependencies(
 	return !outputAccess->isEmpty();
 }
 
-std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
-	const FilePath& mavenPath,
-	const FilePath& settingsFilePath,
-	const FilePath& projectDirectoryPath,
-	const FilePath& outputDirectoryPath,
+std::vector<utility::file::FilePath> mavenGetAllDirectoriesFromEffectivePom(
+	const utility::file::FilePath& mavenPath,
+	const utility::file::FilePath& settingsFilePath,
+	const utility::file::FilePath& projectDirectoryPath,
+	const utility::file::FilePath& outputDirectoryPath,
 	bool addTestDirectories)
 {
 	utility::setJavaHomeVariableIfNotExists();
 
-	FilePath outputPath = outputDirectoryPath.getConcatenated(FilePath("/effective-pom.xml"));
+	utility::file::FilePath outputPath = outputDirectoryPath.getConcatenated(utility::file::FilePath("/effective-pom.xml"));
 
 	auto args = getMavenArgs(settingsFilePath);
 	args.push_back(L"help:effective-pom");
@@ -175,7 +175,7 @@ std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
 
 	std::shared_ptr<TextAccess> xmlAccess = TextAccess::createFromFile(outputPath);
 
-	std::vector<FilePath> uncheckedDirectories;
+	std::vector<utility::file::FilePath> uncheckedDirectories;
 	fetchDirectories(
 		uncheckedDirectories,
 		xmlAccess,
@@ -189,12 +189,12 @@ std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
 		uncheckedDirectories,
 		xmlAccess,
 		utility::createVectorFromElements<std::string>("project", "build", "directory"),
-		FilePath(L"generated-sources"));
+		utility::file::FilePath(L"generated-sources"));
 	fetchDirectories(
 		uncheckedDirectories,
 		xmlAccess,
 		utility::createVectorFromElements<std::string>("projects", "project", "build", "directory"),
-		FilePath(L"generated-sources"));
+		utility::file::FilePath(L"generated-sources"));
 
 	if (addTestDirectories)
 	{
@@ -212,17 +212,17 @@ std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
 			uncheckedDirectories,
 			xmlAccess,
 			utility::createVectorFromElements<std::string>("project", "build", "directory"),
-			FilePath(L"generated-test-sources"));
+			utility::file::FilePath(L"generated-test-sources"));
 		fetchDirectories(
 			uncheckedDirectories,
 			xmlAccess,
 			utility::createVectorFromElements<std::string>(
 				"projects", "project", "build", "directory"),
-			FilePath(L"generated-test-sources"));
+			utility::file::FilePath(L"generated-test-sources"));
 	}
 
-	std::vector<FilePath> directories;
-	for (const FilePath& uncheckedDirectory: uncheckedDirectories)
+	std::vector<utility::file::FilePath> directories;
+	for (const utility::file::FilePath& uncheckedDirectory: uncheckedDirectories)
 	{
 		if (uncheckedDirectory.exists())
 		{

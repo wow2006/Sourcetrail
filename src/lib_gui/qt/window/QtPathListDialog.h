@@ -4,7 +4,9 @@
 #include "QtPathListBox.h"
 #include "QtWindow.h"
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 
 class QtPathListDialog: public QtWindow
 {
@@ -19,9 +21,9 @@ public:
 
 	QSize sizeHint() const override;
 
-	void setRelativeRootDirectory(const FilePath& dir);
-	void setPaths(const std::vector<FilePath>& paths, bool readOnly = false);
-	std::vector<FilePath> getPaths();
+	void setRelativeRootDirectory(const utility::file::FilePath& dir);
+	void setPaths(const std::vector<utility::file::FilePath>& paths, bool readOnly = false);
+	std::vector<utility::file::FilePath> getPaths();
 
 protected:
 	void populateWindow(QWidget* widget) override;

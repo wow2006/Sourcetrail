@@ -5,7 +5,7 @@
 
 class MessageMoveIDECursor : public Message<MessageMoveIDECursor> {
 public:
-  MessageMoveIDECursor(const FilePath& filePath_, const unsigned int row_, const unsigned int column_)
+  MessageMoveIDECursor(const utility::file::FilePath& filePath_, const unsigned int row_, const unsigned int column_)
       : filePath(filePath_), row(row_), column(column_) {}
 
   static const std::string getStaticType() {
@@ -16,7 +16,7 @@ public:
     os << filePath.wstr() << L":" << row << L":" << column;
   }
 
-  const FilePath filePath;
+  const utility::file::FilePath filePath;
   const unsigned int row;
   const unsigned int column;
 };

@@ -2,20 +2,24 @@
 
 #include "AccessKind.h"
 #include "DefinitionKind.h"
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 #include "NameHierarchy.h"
 #include "ParseLocation.h"
 #include "ReferenceKind.h"
 #include "SymbolKind.h"
 #include "types.h"
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 
 class ParserClient {
 public:
   virtual ~ParserClient();
 
-  virtual Id recordFile(const FilePath& filePath, bool indexed) = 0;
+  virtual Id recordFile(const utility::file::FilePath& filePath, bool indexed) = 0;
   virtual void recordFileLanguage(Id fileId, const std::wstring& languageIdentifier) = 0;
 
   virtual Id recordSymbol(const NameHierarchy& symbolName) = 0;
@@ -35,7 +39,7 @@ public:
   virtual void recordError(const std::wstring& message,
                            bool fatal,
                            bool indexed,
-                           const FilePath& translationUnit,
+                           const utility::file::FilePath& translationUnit,
                            const ParseLocation& location) = 0;
 
   virtual bool hasContent() const = 0;

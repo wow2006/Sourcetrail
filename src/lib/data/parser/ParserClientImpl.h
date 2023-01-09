@@ -10,7 +10,7 @@ class ParserClientImpl : public ParserClient {
 public:
   ParserClientImpl(IntermediateStorage* const storage);
 
-  Id recordFile(const FilePath& filePath, bool indexed) override;
+  Id recordFile(const utility::file::FilePath& filePath, bool indexed) override;
   void recordFileLanguage(Id fileId, const std::wstring& languageIdentifier) override;
 
   Id recordSymbol(const NameHierarchy& symbolName) override;
@@ -30,7 +30,7 @@ public:
   void recordError(const std::wstring& message,
                    bool fatal,
                    bool indexed,
-                   const FilePath& translationUnit,
+                   const utility::file::FilePath& translationUnit,
                    const ParseLocation& location) override;
 
   bool hasContent() const override;
@@ -43,7 +43,7 @@ private:
   void addAccess(Id nodeId, AccessKind access);
 
   Id addNodeHierarchy(const NameHierarchy& nameHierarchy);
-  Id addFileName(const FilePath& filePath);
+  Id addFileName(const utility::file::FilePath& filePath);
   Id addEdge(int type, Id sourceId, Id targetId);
 
   void addSourceLocation(Id elementId, const ParseLocation& location, LocationType type);

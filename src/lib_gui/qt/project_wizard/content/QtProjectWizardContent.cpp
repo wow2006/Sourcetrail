@@ -29,7 +29,7 @@ bool QtProjectWizardContent::check()
 	return true;
 }
 
-std::vector<FilePath> QtProjectWizardContent::getFilePaths() const
+std::vector<utility::file::FilePath> QtProjectWizardContent::getFilePaths() const
 {
 	return {};
 }
@@ -137,12 +137,12 @@ void QtProjectWizardContent::filesButtonClicked()
 	m_window->refreshContent();
 
 	std::thread([&]() {
-		const std::vector<FilePath> filePaths = getFilePaths();
+		const std::vector<utility::file::FilePath> filePaths = getFilePaths();
 		m_showFilesFunctor(filePaths);
 	}).detach();
 }
 
-void QtProjectWizardContent::showFilesDialog(const std::vector<FilePath>& filePaths)
+void QtProjectWizardContent::showFilesDialog(const std::vector<utility::file::FilePath>& filePaths)
 {
 	if (!m_filesDialog)
 	{

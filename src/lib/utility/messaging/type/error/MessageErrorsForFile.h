@@ -8,7 +8,7 @@ public:
     return "MessageErrorsForFile";
   }
 
-  MessageErrorsForFile(const FilePath& file_): file(file) {}
+  MessageErrorsForFile(const utility::file::FilePath& file_): file(file) {}
 
-  const FilePath& file;
+  const utility::file::FilePath& file;
 };

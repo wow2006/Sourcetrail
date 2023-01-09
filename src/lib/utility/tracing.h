@@ -118,7 +118,7 @@ ScopedTrace<TracerType>::ScopedTrace(const std::string& eventName,
                                      const std::string& functionName)
     : m_event(TracerType::getInstance()->startEvent(eventName)) {
   m_event->functionName = functionName;
-  m_event->locationName = utility::encodeToUtf8(FilePath(fileName).fileName()) + ":" +
+  m_event->locationName = utility::encodeToUtf8(utility::file::FilePath(fileName).fileName()) + ":" +
       std::to_string(lineNumber);
 
   m_timeStamp = TimeStamp::now();

@@ -8,7 +8,9 @@
 #include "View.h"
 
 class CodeController;
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 class SourceLocationCollection;
 
 class CodeView
@@ -66,7 +68,7 @@ public:
   virtual bool isInListMode() const = 0;
   virtual void setMode(bool listMode) = 0;
 
-  virtual bool hasSingleFileCached(const FilePath& filePath) const = 0;
+  virtual bool hasSingleFileCached(const utility::file::FilePath& filePath) const = 0;
 
   virtual void setNavigationFocus(bool focus) = 0;
   virtual bool hasNavigationFocus() const = 0;

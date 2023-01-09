@@ -124,7 +124,7 @@ TEST_CASE("find long similar prefix elements") {
 TEST_CASE("wstring") {
   utility::LowMemoryStringMap<std::wstring, Id, 0> map;
 
-  FilePath filePath(L"data/LowMemoryStringMapTestSuite/names.txt");
+  utility::file::FilePath filePath(L"data/LowMemoryStringMapTestSuite/names.txt");
   std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 
   std::vector<std::wstring> names;

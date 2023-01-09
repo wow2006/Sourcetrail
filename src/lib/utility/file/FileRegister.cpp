@@ -1,16 +1,15 @@
 #include "FileRegister.h"
 
-#include "FilePath.h"
-#include "FilePathFilter.h"
+namespace utility::file {
 
-FileRegister::FileRegister(const FilePath& currentPath,
-                           const std::set<FilePath>& indexedPaths,
-                           const std::set<FilePathFilter>& excludeFilters)
+FileRegister::FileRegister(const utility::file::FilePath& currentPath,
+                           std::set<utility::file::FilePath> indexedPaths,
+                           std::set<FilePathFilter> excludeFilters)
     : m_currentPath(currentPath)
-    , m_indexedPaths(indexedPaths)
-    , m_excludeFilters(excludeFilters)
-    , m_hasFilePathCache([&](const std::wstring& f) {
-      const FilePath filePath(f);
+    , m_indexedPaths(std::move(indexedPaths))
+    , m_excludeFilters(std::move(excludeFilters))
+    , m_hasFilePathCache([&](const std::wstring& file) {
+      const utility::file::FilePath filePath(file);
       bool ret = false;
 
       if(filePath == m_currentPath) {
@@ -18,7 +17,7 @@ FileRegister::FileRegister(const FilePath& currentPath,
       }
 
       if(!ret) {
-        for(const FilePath& indexedPath: m_indexedPaths) {
+        for(const utility::file::FilePath& indexedPath: m_indexedPaths) {
           if(indexedPath.isDirectory()) {
             if(indexedPath.contains(filePath)) {
               ret = true;
@@ -41,6 +40,8 @@ FileRegister::FileRegister(const FilePath& currentPath,
 
 FileRegister::~FileRegister() = default;
 
-bool FileRegister::hasFilePath(const FilePath& filePath) const {
+bool FileRegister::hasFilePath(const utility::file::FilePath& filePath) const {
   return m_hasFilePathCache.getValue(filePath.wstr());
 }
+
+}    // namespace utility::file

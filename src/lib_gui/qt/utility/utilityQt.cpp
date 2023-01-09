@@ -36,14 +36,14 @@ void setWidgetRetainsSpaceWhenHidden(QWidget* widget) {
   widget->setSizePolicy(pol);
 }
 
-void loadFontsFromDirectory(const FilePath& path, const std::wstring& extension) {
+void loadFontsFromDirectory(const utility::file::FilePath& path, const std::wstring& extension) {
   std::vector<std::wstring> extensions;
   extensions.push_back(extension);
-  std::vector<FilePath> fontFilePaths = FileSystem::getFilePathsFromDirectory(path, extensions);
+  auto fontFilePaths = utility::file::FileSystem::getFilePathsFromDirectory(path, extensions);
 
   std::set<int> loadedFontIds;
 
-  for(const FilePath& fontFilePath: fontFilePaths) {
+  for(const utility::file::FilePath& fontFilePath: fontFilePaths) {
     QFile file(QString::fromStdWString(fontFilePath.wstr()));
     if(file.open(QIODevice::ReadOnly)) {
       int id = QFontDatabase::addApplicationFontFromData(file.readAll());
@@ -60,7 +60,7 @@ void loadFontsFromDirectory(const FilePath& path, const std::wstring& extension)
   }
 }
 
-std::string getStyleSheet(const FilePath& path) {
+std::string getStyleSheet(const utility::file::FilePath& path) {
   std::string css = TextAccess::createFromFile(path)->getText();
 
   size_t pos = 0;
@@ -184,7 +184,7 @@ QPixmap colorizePixmap(const QPixmap& pixmap, QColor color) {
   return QPixmap::fromImage(image);
 }
 
-QIcon createButtonIcon(const FilePath& iconPath, const std::string& colorId) {
+QIcon createButtonIcon(const utility::file::FilePath& iconPath, const std::string& colorId) {
   ColorScheme* scheme = ColorScheme::getInstance().get();
 
   QPixmap pixmap(QString::fromStdWString(iconPath.wstr()));

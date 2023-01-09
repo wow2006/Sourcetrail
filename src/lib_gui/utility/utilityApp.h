@@ -19,7 +19,7 @@ std::wstring searchPath(const std::wstring& bin);
 
 ProcessOutput executeProcess(const std::wstring& command,
                              const std::vector<std::wstring>& arguments,
-                             const FilePath& workingDirectory = FilePath(),
+                             const utility::file::FilePath& workingDirectory = utility::file::FilePath(),
                              const bool waitUntilNoOutput = false,
                              const int timeout = 30000,
                              bool logProcessOutput = false);

@@ -2,7 +2,9 @@
 
 #include "language_packages.h"
 
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 #include "FilePathFilter.h"
 #include "SharedMemory.h"
 
@@ -16,13 +18,13 @@ public:
   SharedIndexerCommand(SharedMemory::Allocator* allocator);
   ~SharedIndexerCommand();
 
-  FilePath getSourceFilePath() const;
-  void setSourceFilePath(const FilePath& filePath);
+  utility::file::FilePath getSourceFilePath() const;
+  void setSourceFilePath(const utility::file::FilePath& filePath);
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 
-  std::set<FilePath> getIndexedPaths() const;
-  void setIndexedPaths(const std::set<FilePath>& indexedPaths);
+  std::set<utility::file::FilePath> getIndexedPaths() const;
+  void setIndexedPaths(const std::set<utility::file::FilePath>& indexedPaths);
 
   std::set<FilePathFilter> getExcludeFilters() const;
   void setExcludeFilters(const std::set<FilePathFilter>& excludeFilters);
@@ -30,8 +32,8 @@ public:
   std::set<FilePathFilter> getIncludeFilters() const;
   void setIncludeFilters(const std::set<FilePathFilter>& includeFilters);
 
-  FilePath getWorkingDirectory() const;
-  void setWorkingDirectory(const FilePath& workingDirectory);
+  utility::file::FilePath getWorkingDirectory() const;
+  void setWorkingDirectory(const utility::file::FilePath& workingDirectory);
 
   std::vector<std::wstring> getCompilerFlags() const;
   void setCompilerFlags(const std::vector<std::wstring>& compilerFlags);
@@ -42,8 +44,8 @@ public:
   std::wstring getLanguageStandard() const;
   void setLanguageStandard(const std::wstring& languageStandard);
 
-  std::vector<FilePath> getClassPaths() const;
-  void setClassPaths(const std::vector<FilePath>& classPaths);
+  std::vector<utility::file::FilePath> getClassPaths() const;
+  void setClassPaths(const std::vector<utility::file::FilePath>& classPaths);
 
 #endif    // BUILD_JAVA_LANGUAGE_PACKAGE
 

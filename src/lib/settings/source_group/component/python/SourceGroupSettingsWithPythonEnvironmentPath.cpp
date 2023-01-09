@@ -3,16 +3,16 @@
 #include "ProjectSettings.h"
 #include "utilityFile.h"
 
-FilePath SourceGroupSettingsWithPythonEnvironmentPath::getEnvironmentPath() const {
+utility::file::FilePath SourceGroupSettingsWithPythonEnvironmentPath::getEnvironmentPath() const {
   return m_environmentPath;
 }
 
-FilePath SourceGroupSettingsWithPythonEnvironmentPath::getEnvironmentPathExpandedAndAbsolute() const {
+utility::file::FilePath SourceGroupSettingsWithPythonEnvironmentPath::getEnvironmentPathExpandedAndAbsolute() const {
   return utility::getExpandedAndAbsolutePath(
       getEnvironmentPath(), getProjectSettings()->getProjectDirectoryPath());
 }
 
-void SourceGroupSettingsWithPythonEnvironmentPath::setEnvironmentPath(const FilePath& environmentPath) {
+void SourceGroupSettingsWithPythonEnvironmentPath::setEnvironmentPath(const utility::file::FilePath& environmentPath) {
   m_environmentPath = environmentPath;
 }
 
@@ -25,7 +25,7 @@ bool SourceGroupSettingsWithPythonEnvironmentPath::equals(const SourceGroupSetti
 
 void SourceGroupSettingsWithPythonEnvironmentPath::load(const utility::ConfigManager* config,
                                                         const std::string& key) {
-  setEnvironmentPath(config->getValueOrDefault(key + "/python_environment_path", FilePath(L"")));
+  setEnvironmentPath(config->getValueOrDefault(key + "/python_environment_path", utility::file::FilePath(L"")));
 }
 
 void SourceGroupSettingsWithPythonEnvironmentPath::save(utility::ConfigManager* config,

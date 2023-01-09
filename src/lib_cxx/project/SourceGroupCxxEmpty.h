@@ -13,8 +13,8 @@ class SourceGroupCxxEmpty: public SourceGroup
 public:
 	SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettings> settings);
 
-	std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const override;
-	std::set<FilePath> getAllSourceFilePaths() const override;
+	std::set<utility::file::FilePath> filterToContainedFilePaths(const std::set<utility::file::FilePath>& filePaths) const override;
+	std::set<utility::file::FilePath> getAllSourceFilePaths() const override;
 	std::shared_ptr<IndexerCommandProvider> getIndexerCommandProvider(
 		const RefreshInfo& info) const override;
 	std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const RefreshInfo& info) const override;

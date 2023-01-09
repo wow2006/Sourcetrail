@@ -44,7 +44,7 @@ std::istream& safeGetline(std::istream& inputStream, std::string& text) {
 
 }    // namespace
 
-std::shared_ptr<TextAccess> TextAccess::createFromFile(const FilePath& filePath) {
+std::shared_ptr<TextAccess> TextAccess::createFromFile(const utility::file::FilePath& filePath) {
   if(!filePath.exists()) {
     return nullptr;
   }
@@ -58,7 +58,7 @@ std::shared_ptr<TextAccess> TextAccess::createFromFile(const FilePath& filePath)
 }
 
 std::shared_ptr<TextAccess> TextAccess::createFromString(const std::string& text,
-                                                         const FilePath& filePath) {
+                                                         const utility::file::FilePath& filePath) {
   std::shared_ptr<TextAccess> result(new TextAccess());
 
   result->m_lines = splitStringByLines(text);
@@ -68,7 +68,7 @@ std::shared_ptr<TextAccess> TextAccess::createFromString(const std::string& text
 }
 
 std::shared_ptr<TextAccess> TextAccess::createFromLines(const std::vector<std::string>& lines,
-                                                        const FilePath& filePath) {
+                                                        const utility::file::FilePath& filePath) {
   std::shared_ptr<TextAccess> result(new TextAccess());
 
   result->m_lines = lines;
@@ -98,7 +98,7 @@ std::vector<std::string> TextAccess::getLines(uint32_t firstLineNumber,
   return {first, last};
 }
 
-std::vector<std::string> TextAccess::readFile(const FilePath& filePath) {
+std::vector<std::string> TextAccess::readFile(const utility::file::FilePath& filePath) {
   std::vector<std::string> result;
 
   try {

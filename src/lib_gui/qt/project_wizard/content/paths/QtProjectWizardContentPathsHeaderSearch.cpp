@@ -171,9 +171,9 @@ void QtProjectWizardContentPathsHeaderSearch::validateIncludesButtonClicked()
 				QtDialogView* dialogView = dynamic_cast<QtDialogView*>(
 					lib::app::Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
 
-				std::set<FilePath> sourceFilePaths;
-				std::vector<FilePath> indexedFilePaths;
-				std::vector<FilePath> headerSearchPaths;
+				std::set<utility::file::FilePath> sourceFilePaths;
+				std::vector<utility::file::FilePath> indexedFilePaths;
+				std::vector<utility::file::FilePath> headerSearchPaths;
 
 				{
 					dialogView->setParentWindow(m_window);
@@ -227,7 +227,7 @@ void QtProjectWizardContentPathsHeaderSearch::validateIncludesButtonClicked()
 void QtProjectWizardContentPathsHeaderSearch::finishedSelectDetectIncludesRootPathsDialog()
 {
 	// TODO: regard Force Includes here, too!
-	const std::vector<FilePath> searchedPaths = m_settings->makePathsExpandedAndAbsolute(
+	const std::vector<utility::file::FilePath> searchedPaths = m_settings->makePathsExpandedAndAbsolute(
 		m_pathsDialog->getPaths());
 	closedPathsDialog();
 
@@ -242,13 +242,13 @@ void QtProjectWizardContentPathsHeaderSearch::finishedSelectDetectIncludesRootPa
 		if (extensionSettings && pathSettings &&
 			excludeFilterSettings)	  // FIXME: pass msettings as required type
 		{
-			std::set<FilePath> detectedHeaderSearchPaths;
+			std::set<utility::file::FilePath> detectedHeaderSearchPaths;
 			{
 				QtDialogView* dialogView = dynamic_cast<QtDialogView*>(
 					lib::app::Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());
 
-				std::set<FilePath> sourceFilePaths;
-				std::vector<FilePath> headerSearchPaths;
+				std::set<utility::file::FilePath> sourceFilePaths;
+				std::vector<utility::file::FilePath> headerSearchPaths;
 				{
 					dialogView->setParentWindow(m_window);
 					dialogView->showUnknownProgressDialog(L"Processing", L"Gathering Source Files");
@@ -302,14 +302,14 @@ void QtProjectWizardContentPathsHeaderSearch::finishedAcceptDetectedIncludePaths
 		m_filesDialog->getText(), std::wstring{L"\n"});
 	closedFilesDialog();
 
-	std::vector<FilePath> headerSearchPaths = m_list->getPathsAsDisplayed();
+	std::vector<utility::file::FilePath> headerSearchPaths = m_list->getPathsAsDisplayed();
 
 	headerSearchPaths.reserve(headerSearchPaths.size() + detectedPaths.size());
 	for (const std::wstring& detectedPath: detectedPaths)
 	{
 		if (!detectedPath.empty())
 		{
-			headerSearchPaths.push_back(FilePath(detectedPath));
+			headerSearchPaths.push_back(utility::file::FilePath(detectedPath));
 		}
 	}
 
@@ -325,15 +325,15 @@ void QtProjectWizardContentPathsHeaderSearch::closedPathsDialog()
 }
 
 void QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult(
-	const std::set<FilePath>& detectedHeaderSearchPaths)
+	const std::set<utility::file::FilePath>& detectedHeaderSearchPaths)
 {
-	const std::set<FilePath> headerSearchPaths = utility::toSet(
+	const std::set<utility::file::FilePath> headerSearchPaths = utility::toSet(
 		m_settings->makePathsExpandedAndAbsolute(m_list->getPathsAsDisplayed()));
 
-	std::vector<FilePath> additionalHeaderSearchPaths;
+	std::vector<utility::file::FilePath> additionalHeaderSearchPaths;
 	{
-		const FilePath relativeRoot = m_list->getRelativeRootDirectory();
-		for (const FilePath& detectedHeaderSearchPath: detectedHeaderSearchPaths)
+		const utility::file::FilePath relativeRoot = m_list->getRelativeRootDirectory();
+		for (const utility::file::FilePath& detectedHeaderSearchPath: detectedHeaderSearchPaths)
 		{
 			if (headerSearchPaths.find(detectedHeaderSearchPath) == headerSearchPaths.end())
 			{
@@ -354,7 +354,7 @@ void QtProjectWizardContentPathsHeaderSearch::showDetectedIncludesResult(
 	else
 	{
 		std::wstring detailedText = L"";
-		for (const FilePath& path: additionalHeaderSearchPaths)
+		for (const utility::file::FilePath& path: additionalHeaderSearchPaths)
 		{
 			detailedText += path.wstr() + L"\n";
 		}

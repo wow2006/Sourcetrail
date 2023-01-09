@@ -1,15 +1,17 @@
 #pragma once
 
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 #include "SourceGroupSettingsComponent.h"
 
 class SourceGroupSettingsWithCxxCdbPath : public SourceGroupSettingsComponent {
 public:
   virtual ~SourceGroupSettingsWithCxxCdbPath() = default;
 
-  FilePath getCompilationDatabasePath() const;
-  FilePath getCompilationDatabasePathExpandedAndAbsolute() const;
-  void setCompilationDatabasePath(const FilePath& compilationDatabasePath);
+  utility::file::FilePath getCompilationDatabasePath() const;
+  utility::file::FilePath getCompilationDatabasePathExpandedAndAbsolute() const;
+  void setCompilationDatabasePath(const utility::file::FilePath& compilationDatabasePath);
 
 protected:
   bool equals(const SourceGroupSettingsBase* other) const override;
@@ -18,5 +20,5 @@ protected:
   void save(utility::ConfigManager* config, const std::string& key) override;
 
 private:
-  FilePath m_compilationDatabasePath;
+  utility::file::FilePath m_compilationDatabasePath;
 };

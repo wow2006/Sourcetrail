@@ -5,19 +5,20 @@
 class Logger {
 public:
   using LogLevelMask = int;
+
   enum LogLevel : int { LOG_INFOS = 0x1, LOG_WARNINGS = 0x2, LOG_ERRORS = 0x4, LOG_ALL = 0x7 };
 
-  Logger(const std::string& type);
+  explicit Logger(std::string type) noexcept;
 
   virtual ~Logger();
 
-  std::string getType() const;
+  [[nodiscard]] std::string getType() const;
 
-  LogLevelMask getLogLevel() const;
+  [[nodiscard]] LogLevelMask getLogLevel() const;
 
   void setLogLevel(LogLevelMask mask);
 
-  bool isLogLevel(LogLevelMask mask);
+  [[nodiscard]] bool isLogLevel(LogLevelMask mask) const;
 
   void onInfo(const LogMessage& message);
 

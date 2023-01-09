@@ -8,7 +8,9 @@
 
 #include "OrderedCache.h"
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 class IncludeDirective;
 class TextAccess;
 
@@ -16,32 +18,32 @@ class IncludeProcessing
 {
 public:
 	static std::vector<IncludeDirective> getUnresolvedIncludeDirectives(
-		const std::set<FilePath>& sourceFilePaths,
-		const std::set<FilePath>& indexedPaths,
-		const std::set<FilePath>& headerSearchDirectories,
+		const std::set<utility::file::FilePath>& sourceFilePaths,
+		const std::set<utility::file::FilePath>& indexedPaths,
+		const std::set<utility::file::FilePath>& headerSearchDirectories,
 		size_t quantileCount,
 		std::function<void(float)> progress);
 
-	static std::set<FilePath> getHeaderSearchDirectories(
-		const std::set<FilePath>& sourceFilePaths,
-		const std::set<FilePath>& searchedPaths,
-		const std::set<FilePath>& currentHeaderSearchDirectories,
+	static std::set<utility::file::FilePath> getHeaderSearchDirectories(
+		const std::set<utility::file::FilePath>& sourceFilePaths,
+		const std::set<utility::file::FilePath>& searchedPaths,
+		const std::set<utility::file::FilePath>& currentHeaderSearchDirectories,
 		const size_t desiredQuantileCount,
 		std::function<void(float)> progress);
 
-	static std::vector<IncludeDirective> getIncludeDirectives(const FilePath& filePath);
+	static std::vector<IncludeDirective> getIncludeDirectives(const utility::file::FilePath& filePath);
 
 	static std::vector<IncludeDirective> getIncludeDirectives(std::shared_ptr<TextAccess> textAccess);
 
 private:
 	static std::vector<IncludeDirective> doGetUnresolvedIncludeDirectives(
-		std::set<FilePath> filePathsToProcess,
+		std::set<utility::file::FilePath> filePathsToProcess,
 		std::unordered_set<std::wstring>& processedFilePaths,
-		const std::set<FilePath>& indexedPaths,
-		const std::set<FilePath>& headerSearchDirectories);
+		const std::set<utility::file::FilePath>& indexedPaths,
+		const std::set<utility::file::FilePath>& headerSearchDirectories);
 
-	static FilePath resolveIncludeDirective(
-		const IncludeDirective& includeDirective, const std::set<FilePath>& headerSearchDirectories);
+	static utility::file::FilePath resolveIncludeDirective(
+		const IncludeDirective& includeDirective, const std::set<utility::file::FilePath>& headerSearchDirectories);
 
 	IncludeProcessing() = delete;
 };

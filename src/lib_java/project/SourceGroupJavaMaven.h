@@ -16,15 +16,15 @@ public:
 	bool prepareIndexing() override;
 
 private:
-	std::vector<FilePath> getAllSourcePaths() const override;
-	std::vector<FilePath> doGetClassPath() const override;
+	std::vector<utility::file::FilePath> getAllSourcePaths() const override;
+	std::vector<utility::file::FilePath> doGetClassPath() const override;
 	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
 	std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override;
 	bool prepareMavenData();
-	std::vector<FilePath> doGetAllSourcePaths() const;
+	std::vector<utility::file::FilePath> doGetAllSourcePaths() const;
 
 	std::shared_ptr<SourceGroupSettingsJavaMaven> m_settings;
-	mutable SingleValueCache<std::vector<FilePath>> m_allSourcePathsCache;
+	mutable SingleValueCache<std::vector<utility::file::FilePath>> m_allSourcePathsCache;
 };
 
 #endif	  // SOURCE_GROUP_JAVA_MAVEN_H

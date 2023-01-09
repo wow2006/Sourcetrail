@@ -3,43 +3,43 @@
 #include "AppPath.h"
 #include "utility/utilityApp.h"
 
-FilePath ResourcePaths::getColorSchemesDirectoryPath() {
+utility::file::FilePath ResourcePaths::getColorSchemesDirectoryPath() {
   return AppPath::getSharedDataDirectoryPath().concatenate(L"data/color_schemes/");
 }
 
-FilePath ResourcePaths::getSyntaxHighlightingRulesDirectoryPath() {
+utility::file::FilePath ResourcePaths::getSyntaxHighlightingRulesDirectoryPath() {
   return AppPath::getSharedDataDirectoryPath().concatenate(L"data/syntax_highlighting_rules/");
 }
 
-FilePath ResourcePaths::getFallbackDirectoryPath() {
+utility::file::FilePath ResourcePaths::getFallbackDirectoryPath() {
   return AppPath::getSharedDataDirectoryPath().concatenate(L"data/fallback/");
 }
 
-FilePath ResourcePaths::getFontsDirectoryPath() {
+utility::file::FilePath ResourcePaths::getFontsDirectoryPath() {
   return AppPath::getSharedDataDirectoryPath().concatenate(L"data/fonts/");
 }
 
-FilePath ResourcePaths::getGuiDirectoryPath() {
+utility::file::FilePath ResourcePaths::getGuiDirectoryPath() {
   return AppPath::getSharedDataDirectoryPath().concatenate(L"data/gui/");
 }
 
-FilePath ResourcePaths::getLicenseDirectoryPath() {
+utility::file::FilePath ResourcePaths::getLicenseDirectoryPath() {
   return AppPath::getSharedDataDirectoryPath().concatenate(L"data/license/");
 }
 
-FilePath ResourcePaths::getJavaDirectoryPath() {
+utility::file::FilePath ResourcePaths::getJavaDirectoryPath() {
   return AppPath::getSharedDataDirectoryPath().concatenate(L"data/java/");
 }
 
-FilePath ResourcePaths::getPythonDirectoryPath() {
+utility::file::FilePath ResourcePaths::getPythonDirectoryPath() {
   return AppPath::getSharedDataDirectoryPath().concatenate(L"data/python/");
 }
 
-FilePath ResourcePaths::getCxxCompilerHeaderDirectoryPath() {
+utility::file::FilePath ResourcePaths::getCxxCompilerHeaderDirectoryPath() {
   return AppPath::getSharedDataDirectoryPath().concatenate(L"data/cxx/include/").getCanonical();
 }
 
-FilePath ResourcePaths::getPythonIndexerFilePath() {
+utility::file::FilePath ResourcePaths::getPythonIndexerFilePath() {
   if(utility::getOsType() == OS_WINDOWS) {
     return getPythonDirectoryPath().concatenate(L"SourcetrailPythonIndexer.exe");
   }

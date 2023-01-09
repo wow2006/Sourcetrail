@@ -8,7 +8,7 @@
 
 TaskCleanStorage::TaskCleanStorage(std::weak_ptr<PersistentStorage> storage,
                                    std::shared_ptr<DialogView> dialogView,
-                                   const std::vector<FilePath>& filePaths,
+                                   const std::vector<utility::file::FilePath>& filePaths,
                                    bool clearAllErrors)
     : m_storage(std::move(storage))
     , m_dialogView(std::move(dialogView))

@@ -34,7 +34,7 @@ public:
 	void clear();
 	void clearSnippetTitleAndScrollBar();
 
-	QtCodeFile* getFile(const FilePath& filePath);
+	QtCodeFile* getFile(const utility::file::FilePath& filePath);
 
 	void addFile(const CodeFileParams& params);
 
@@ -45,7 +45,7 @@ public:
 	void updateFiles() override;
 
 	void scrollTo(
-		const FilePath& filePath,
+		const utility::file::FilePath& filePath,
 		size_t lineNumber,
 		Id locationId,
 		Id scopeLocationId,

@@ -22,7 +22,11 @@ std::shared_ptr<ApplicationSettings> ApplicationSettings::getInstance() {
   return s_instance;
 }
 
-bool ApplicationSettings::load(const FilePath& filePath, bool readOnly) {
+ApplicationSettings::ApplicationSettings() = default;
+
+ApplicationSettings::~ApplicationSettings() = default;
+
+bool ApplicationSettings::load(const utility::file::FilePath& filePath, bool readOnly) {
   bool loaded = Settings::load(filePath, readOnly);
   if(!loaded) {
     return false;
@@ -51,7 +55,7 @@ bool ApplicationSettings::load(const FilePath& filePath, bool readOnly) {
         std::wstring colorSchemePathString = migration->getValueFromSettings<std::wstring>(
             settings, "application/color_scheme", L"");
         if(!colorSchemePathString.empty()) {
-          FilePath colorSchemePath(colorSchemePathString);
+          utility::file::FilePath colorSchemePath(colorSchemePathString);
           migration->setValueInSettings(
               settings, "application/color_scheme", colorSchemePath.withoutExtension().fileName());
         }
@@ -79,11 +83,11 @@ bool ApplicationSettings::load(const FilePath& filePath, bool readOnly) {
       8,
       std::make_shared<SettingsMigrationLambda>([](const SettingsMigration* migration,
                                                    Settings* settings) {
-        std::vector<FilePath> cxxHeaderSearchPaths = migration->getValuesFromSettings(
-            settings, "indexing/cxx/header_search_paths/header_search_path", std::vector<FilePath>());
+        std::vector<utility::file::FilePath> cxxHeaderSearchPaths = migration->getValuesFromSettings(
+            settings, "indexing/cxx/header_search_paths/header_search_path", std::vector<utility::file::FilePath>());
 
-        std::vector<FilePath> newCxxHeaderSearchPaths;
-        for(const FilePath& path: cxxHeaderSearchPaths) {
+        std::vector<utility::file::FilePath> newCxxHeaderSearchPaths;
+        for(const utility::file::FilePath& path: cxxHeaderSearchPaths) {
           if(path.getCanonical().getConcatenated(L"/stdarg.h").exists() &&
              path.str().find("data/cxx/include") != std::string::npos) {
             continue;
@@ -109,8 +113,8 @@ bool ApplicationSettings::load(const FilePath& filePath, bool readOnly) {
 }
 
 bool ApplicationSettings::operator==(const ApplicationSettings& other) const {
-  return utility::isPermutation<FilePath>(getHeaderSearchPaths(), other.getHeaderSearchPaths()) &&
-      utility::isPermutation<FilePath>(getFrameworkSearchPaths(), other.getFrameworkSearchPaths());
+  return utility::isPermutation<utility::file::FilePath>(getHeaderSearchPaths(), other.getHeaderSearchPaths()) &&
+      utility::isPermutation<utility::file::FilePath>(getFrameworkSearchPaths(), other.getFrameworkSearchPaths());
 }
 
 size_t ApplicationSettings::getMaxRecentProjectsCount() const {
@@ -169,9 +173,9 @@ std::wstring ApplicationSettings::getColorSchemeName() const {
   return getValue<std::wstring>("application/color_scheme", L"bright");
 }
 
-FilePath ApplicationSettings::getColorSchemePath() const {
-  FilePath defaultPath(ResourcePaths::getColorSchemesDirectoryPath().concatenate(L"bright.xml"));
-  FilePath path(
+utility::file::FilePath ApplicationSettings::getColorSchemePath() const {
+  utility::file::FilePath defaultPath(ResourcePaths::getColorSchemesDirectoryPath().concatenate(L"bright.xml"));
+  utility::file::FilePath path(
       ResourcePaths::getColorSchemesDirectoryPath().concatenate(getColorSchemeName() + L".xml"));
 
   if(path != defaultPath && !path.exists()) {
@@ -274,12 +278,12 @@ void ApplicationSettings::setVerboseIndexerLoggingEnabled(bool value) {
   setValue<bool>("application/verbose_indexer_logging_enabled", value);
 }
 
-FilePath ApplicationSettings::getLogDirectoryPath() const {
-  return FilePath(getValue<std::wstring>(
+utility::file::FilePath ApplicationSettings::getLogDirectoryPath() const {
+  return utility::file::FilePath(getValue<std::wstring>(
       "application/log_directory_path", UserPaths::getLogDirectoryPath().getAbsolute().wstr()));
 }
 
-void ApplicationSettings::setLogDirectoryPath(const FilePath& path) {
+void ApplicationSettings::setLogDirectoryPath(const utility::file::FilePath& path) {
   setValue<std::wstring>("application/log_directory_path", path.wstr());
 }
 
@@ -316,11 +320,11 @@ void ApplicationSettings::setMultiProcessIndexingEnabled(bool enabled) {
   setValue<bool>("indexing/multi_process_indexing", enabled);
 }
 
-FilePath ApplicationSettings::getJavaPath() const {
-  return FilePath(getValue<std::wstring>("indexing/java/java_path", L""));
+utility::file::FilePath ApplicationSettings::getJavaPath() const {
+  return utility::file::FilePath(getValue<std::wstring>("indexing/java/java_path", L""));
 }
 
-void ApplicationSettings::setJavaPath(const FilePath& path) {
+void ApplicationSettings::setJavaPath(const utility::file::FilePath& path) {
   setValue<std::wstring>("indexing/java/java_path", path.wstr());
 }
 
@@ -332,15 +336,15 @@ void ApplicationSettings::setHasPrefilledJavaPath(bool v) {
   setValue<bool>("indexing/java/has_prefilled_java_path", v);
 }
 
-std::vector<FilePath> ApplicationSettings::getJreSystemLibraryPaths() const {
+std::vector<utility::file::FilePath> ApplicationSettings::getJreSystemLibraryPaths() const {
   return getPathValues("indexing/java/jre_system_library_paths/jre_system_library_path");
 }
 
-std::vector<FilePath> ApplicationSettings::getJreSystemLibraryPathsExpanded() const {
-  return utility::getExpandedPaths(getJreSystemLibraryPaths());
+std::vector<utility::file::FilePath> ApplicationSettings::getJreSystemLibraryPathsExpanded() const {
+  return utility::file::getExpandedPaths(getJreSystemLibraryPaths());
 }
 
-bool ApplicationSettings::setJreSystemLibraryPaths(const std::vector<FilePath>& jreSystemLibraryPaths) {
+bool ApplicationSettings::setJreSystemLibraryPaths(const std::vector<utility::file::FilePath>& jreSystemLibraryPaths) {
   return setPathValues(
       "indexing/java/jre_system_library_paths/jre_system_library_path", jreSystemLibraryPaths);
 }
@@ -353,11 +357,11 @@ void ApplicationSettings::setHasPrefilledJreSystemLibraryPaths(bool v) {
   setValue<bool>("indexing/java/has_prefilled_jre_system_library_paths", v);
 }
 
-FilePath ApplicationSettings::getMavenPath() const {
-  return FilePath(getValue<std::wstring>("indexing/java/maven_path", L""));
+utility::file::FilePath ApplicationSettings::getMavenPath() const {
+  return utility::file::FilePath(getValue<std::wstring>("indexing/java/maven_path", L""));
 }
 
-void ApplicationSettings::setMavenPath(const FilePath& path) {
+void ApplicationSettings::setMavenPath(const utility::file::FilePath& path) {
   setValue<std::wstring>("indexing/java/maven_path", path.wstr());
 }
 
@@ -377,15 +381,15 @@ void ApplicationSettings::setPythonPostProcessingEnabled(bool enabled) {
   setValue<bool>("indexing/python/post_processing", enabled);
 }
 
-std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const {
+std::vector<utility::file::FilePath> ApplicationSettings::getHeaderSearchPaths() const {
   return getPathValues("indexing/cxx/header_search_paths/header_search_path");
 }
 
-std::vector<FilePath> ApplicationSettings::getHeaderSearchPathsExpanded() const {
-  return utility::getExpandedPaths(getHeaderSearchPaths());
+std::vector<utility::file::FilePath> ApplicationSettings::getHeaderSearchPathsExpanded() const {
+  return utility::file::getExpandedPaths(getHeaderSearchPaths());
 }
 
-bool ApplicationSettings::setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths) {
+bool ApplicationSettings::setHeaderSearchPaths(const std::vector<utility::file::FilePath>& headerSearchPaths) {
   return setPathValues("indexing/cxx/header_search_paths/header_search_path", headerSearchPaths);
 }
 
@@ -397,15 +401,15 @@ void ApplicationSettings::setHasPrefilledHeaderSearchPaths(bool v) {
   setValue<bool>("indexing/cxx/has_prefilled_header_search_paths", v);
 }
 
-std::vector<FilePath> ApplicationSettings::getFrameworkSearchPaths() const {
+std::vector<utility::file::FilePath> ApplicationSettings::getFrameworkSearchPaths() const {
   return getPathValues("indexing/cxx/framework_search_paths/framework_search_path");
 }
 
-std::vector<FilePath> ApplicationSettings::getFrameworkSearchPathsExpanded() const {
-  return utility::getExpandedPaths(getFrameworkSearchPaths());
+std::vector<utility::file::FilePath> ApplicationSettings::getFrameworkSearchPathsExpanded() const {
+  return utility::file::getExpandedPaths(getFrameworkSearchPaths());
 }
 
-bool ApplicationSettings::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths) {
+bool ApplicationSettings::setFrameworkSearchPaths(const std::vector<utility::file::FilePath>& frameworkSearchPaths) {
   return setPathValues(
       "indexing/cxx/framework_search_paths/framework_search_path", frameworkSearchPaths);
 }
@@ -450,11 +454,11 @@ void ApplicationSettings::setCodeViewModeSingle(bool enabled) {
   setValue<bool>("code/view_mode_single", enabled);
 }
 
-std::vector<FilePath> ApplicationSettings::getRecentProjects() const {
-  std::vector<FilePath> recentProjects;
-  std::vector<FilePath> loadedRecentProjects = getPathValues("user/recent_projects/recent_project");
+std::vector<utility::file::FilePath> ApplicationSettings::getRecentProjects() const {
+  std::vector<utility::file::FilePath> recentProjects;
+  std::vector<utility::file::FilePath> loadedRecentProjects = getPathValues("user/recent_projects/recent_project");
 
-  for(const FilePath& project: loadedRecentProjects) {
+  for(const utility::file::FilePath& project: loadedRecentProjects) {
     if(project.isAbsolute()) {
       recentProjects.push_back(project);
     } else {
@@ -464,7 +468,7 @@ std::vector<FilePath> ApplicationSettings::getRecentProjects() const {
   return recentProjects;
 }
 
-bool ApplicationSettings::setRecentProjects(const std::vector<FilePath>& recentProjects) {
+bool ApplicationSettings::setRecentProjects(const std::vector<utility::file::FilePath>& recentProjects) {
   return setPathValues("user/recent_projects/recent_project", recentProjects);
 }
 
@@ -476,11 +480,11 @@ void ApplicationSettings::setSeenErrorHelpMessage(bool seen) {
   setValue<bool>("user/seen_error_help_message", seen);
 }
 
-FilePath ApplicationSettings::getLastFilepickerLocation() const {
-  return FilePath(getValue<std::wstring>("user/last_filepicker_location", L""));
+utility::file::FilePath ApplicationSettings::getLastFilepickerLocation() const {
+  return utility::file::FilePath(getValue<std::wstring>("user/last_filepicker_location", L""));
 }
 
-void ApplicationSettings::setLastFilepickerLocation(const FilePath& path) {
+void ApplicationSettings::setLastFilepickerLocation(const utility::file::FilePath& path) {
   setValue<std::wstring>("user/last_filepicker_location", path.wstr());
 }
 

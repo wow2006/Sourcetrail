@@ -1,6 +1,8 @@
 #pragma once
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 class ProjectSettings;
 
 class SourceGroupSettingsBase {
@@ -9,5 +11,5 @@ public:
 
   virtual const ProjectSettings* getProjectSettings() const = 0;
 
-  virtual FilePath getSourceGroupDependenciesDirectoryPath() const = 0;
+  virtual utility::file::FilePath getSourceGroupDependenciesDirectoryPath() const = 0;
 };

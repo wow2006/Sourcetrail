@@ -3,17 +3,17 @@
 #include "ProjectSettings.h"
 #include "utilityFile.h"
 
-FilePath SourceGroupSettingsWithCxxCodeblocksPath::getCodeblocksProjectPath() const {
+utility::file::FilePath SourceGroupSettingsWithCxxCodeblocksPath::getCodeblocksProjectPath() const {
   return m_codeblocksProjectPath;
 }
 
-FilePath SourceGroupSettingsWithCxxCodeblocksPath::getCodeblocksProjectPathExpandedAndAbsolute() const {
+utility::file::FilePath SourceGroupSettingsWithCxxCodeblocksPath::getCodeblocksProjectPathExpandedAndAbsolute() const {
   return utility::getExpandedAndAbsolutePath(
       getCodeblocksProjectPath(), getProjectSettings()->getProjectDirectoryPath());
 }
 
 void SourceGroupSettingsWithCxxCodeblocksPath::setCodeblocksProjectPath(
-    const FilePath& codeblocksProjectPath) {
+    const utility::file::FilePath& codeblocksProjectPath) {
   m_codeblocksProjectPath = codeblocksProjectPath;
 }
 
@@ -26,7 +26,7 @@ bool SourceGroupSettingsWithCxxCodeblocksPath::equals(const SourceGroupSettingsB
 
 void SourceGroupSettingsWithCxxCodeblocksPath::load(const utility::ConfigManager* config,
                                                     const std::string& key) {
-  setCodeblocksProjectPath(config->getValueOrDefault(key + "/codeblocks_project_path", FilePath(L"")));
+  setCodeblocksProjectPath(config->getValueOrDefault(key + "/codeblocks_project_path", utility::file::FilePath(L"")));
 }
 
 void SourceGroupSettingsWithCxxCodeblocksPath::save(utility::ConfigManager* config,

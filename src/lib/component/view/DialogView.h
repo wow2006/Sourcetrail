@@ -46,11 +46,11 @@ public:
   virtual void updateIndexingDialog(size_t startedFileCount,
                                     size_t finishedFileCount,
                                     size_t totalFileCount,
-                                    const std::vector<FilePath>& sourcePaths);
+                                    const std::vector<utility::file::FilePath>& sourcePaths);
   virtual void updateCustomIndexingDialog(size_t startedFileCount,
                                           size_t finishedFileCount,
                                           size_t totalFileCount,
-                                          const std::vector<FilePath>& sourcePaths);
+                                          const std::vector<utility::file::FilePath>& sourcePaths);
   virtual DatabasePolicy finishedIndexingDialog(size_t indexedFileCount,
                                                 size_t totalIndexedFileCount,
                                                 size_t completedFileCount,

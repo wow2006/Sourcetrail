@@ -11,30 +11,30 @@
 #include "utility.h"
 
 namespace {
-bool isInFiles(const std::set<FilePath>& files, const FilePath& filename) {
+bool isInFiles(const std::set<utility::file::FilePath>& files, const utility::file::FilePath& filename) {
   return std::end(files) != files.find(filename);
 }
 
-bool isInFileInfos(const std::vector<FileInfo>& infos, const std::wstring& filename) {
+bool isInFileInfos(const std::vector<utility::file::FileInfo>& infos, const std::wstring& filename) {
   return ranges::cpp20::any_of(infos, [filename](const auto& info) {
-    return info.path.getAbsolute().wstr() == FilePath(filename).getCanonical().wstr();
+    return info.path.getAbsolute().wstr() == utility::file::FilePath(filename).getCanonical().wstr();
   });
 }
 
-bool isInFileInfos(const std::vector<FileInfo>& infos,
+bool isInFileInfos(const std::vector<utility::file::FileInfo>& infos,
                    const std::wstring& filename,
                    const std::wstring& filename2) {
   return ranges::cpp20::any_of(infos, [filename, filename2](const auto& info) {
-    return info.path.wstr() == FilePath(filename).getCanonical().wstr() ||
-        info.path.wstr() == FilePath(filename2).getCanonical().wstr();
+    return info.path.wstr() == utility::file::FilePath(filename).getCanonical().wstr() ||
+        info.path.wstr() == utility::file::FilePath(filename2).getCanonical().wstr();
   });
 }
 }    // namespace
 
 TEST_CASE("find cpp files", "[lib]") {
-  std::vector<std::wstring> cppFiles = utility::convert<FilePath, std::wstring>(
-      FileSystem::getFilePathsFromDirectory(FilePath(L"data/FileSystemTestSuite"), {L".cpp"}),
-      [](const FilePath& filePath) { return filePath.wstr(); });
+  std::vector<std::wstring> cppFiles = utility::convert<utility::file::FilePath, std::wstring>(
+      utility::file::FileSystem::getFilePathsFromDirectory(utility::file::FilePath(L"data/FileSystemTestSuite"), {L".cpp"}),
+      [](const utility::file::FilePath& filePath) { return filePath.wstr(); });
 
   REQUIRE(cppFiles.size() == 4);
   REQUIRE(utility::containsElement<std::wstring>(cppFiles, L"data/FileSystemTestSuite/main.cpp"));
@@ -47,9 +47,9 @@ TEST_CASE("find cpp files", "[lib]") {
 }
 
 TEST_CASE("find h files", "[lib]") {
-  std::vector<std::wstring> headerFiles = utility::convert<FilePath, std::wstring>(
-      FileSystem::getFilePathsFromDirectory(FilePath(L"data/FileSystemTestSuite"), {L".h"}),
-      [](const FilePath& filePath) { return filePath.wstr(); });
+  std::vector<std::wstring> headerFiles = utility::convert<utility::file::FilePath, std::wstring>(
+      utility::file::FileSystem::getFilePathsFromDirectory(utility::file::FilePath(L"data/FileSystemTestSuite"), {L".h"}),
+      [](const utility::file::FilePath& filePath) { return filePath.wstr(); });
 
   REQUIRE(headerFiles.size() == 3);
   REQUIRE(
@@ -61,20 +61,20 @@ TEST_CASE("find h files", "[lib]") {
 }
 
 TEST_CASE("find all source files", "[lib]") {
-  std::vector<std::wstring> sourceFiles = utility::convert<FilePath, std::wstring>(
-      FileSystem::getFilePathsFromDirectory(
-          FilePath(L"data/FileSystemTestSuite"), {L".h", L".hpp", L".cpp"}),
-      [](const FilePath& filePath) { return filePath.wstr(); });
+  std::vector<std::wstring> sourceFiles = utility::convert<utility::file::FilePath, std::wstring>(
+      utility::file::FileSystem::getFilePathsFromDirectory(
+          utility::file::FilePath(L"data/FileSystemTestSuite"), {L".h", L".hpp", L".cpp"}),
+      [](const utility::file::FilePath& filePath) { return filePath.wstr(); });
 
   REQUIRE(sourceFiles.size() == 8);
 }
 
 TEST_CASE("find file infos", "[lib]") {
 #ifndef _WIN32
-  std::vector<FilePath> directoryPaths;
+  std::vector<utility::file::FilePath> directoryPaths;
   directoryPaths.emplace_back(L"./data/FileSystemTestSuite/src");
 
-  std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(
+  std::vector<utility::file::FileInfo> files = utility::file::FileSystem::getFileInfosFromPaths(
       directoryPaths, {L".h", L".hpp", L".cpp"}, false);
 
   REQUIRE(files.size() == 2);
@@ -86,7 +86,7 @@ TEST_CASE("find file infos", "[lib]") {
 #if 0
 TEST_CASE("find file infos with symlinks", "[lib]") {
 #  ifndef _WIN32
-  std::vector<FilePath> directoryPaths;
+  std::vector<utility::file::FilePath> directoryPaths;
   directoryPaths.emplace_back(L"./data/FileSystemTestSuite/src");
 
   auto files = FileSystem::getFileInfosFromPaths(directoryPaths, {L".h", L".hpp", L".cpp"}, true);
@@ -113,10 +113,10 @@ TEST_CASE("find file infos with symlinks", "[lib]") {
 
 TEST_CASE("find symlinked directories", "[lib]") {
 #ifndef _WIN32
-  std::vector<FilePath> directoryPaths;
+  std::vector<utility::file::FilePath> directoryPaths;
   directoryPaths.emplace_back("./data/FileSystemTestSuite/src");
 
-  std::set<FilePath> dirs = FileSystem::getSymLinkedDirectories(directoryPaths);
+  std::set<utility::file::FilePath> dirs = utility::file::FileSystem::getSymLinkedDirectories(directoryPaths);
 
   REQUIRE(dirs.size() == 2);
 #endif

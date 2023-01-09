@@ -13,7 +13,7 @@ class QtRecentProjectButton: public QPushButton
 public:
 	QtRecentProjectButton(QWidget* parent);
 	bool projectExists() const;
-	void setProjectPath(const FilePath& projectFilePath);
+	void setProjectPath(const utility::file::FilePath& projectFilePath);
 public slots:
 	void handleButtonClick();
 signals:
@@ -21,7 +21,7 @@ signals:
 
 private:
 	bool m_projectExists;
-	FilePath m_projectFilePath;
+	utility::file::FilePath m_projectFilePath;
 };
 
 

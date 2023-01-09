@@ -6,7 +6,9 @@
 #include <QToolButton>
 #include <QWidget>
 
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 #include "QtHelpButton.h"
 #include "QtProjectWizardWindow.h"
 #include "QtThreadedFunctor.h"
@@ -28,7 +30,7 @@ public:
 	virtual void refresh();
 	virtual bool check();
 
-	virtual std::vector<FilePath> getFilePaths() const;
+	virtual std::vector<utility::file::FilePath> getFilePaths() const;
 	virtual QString getFileNamesTitle() const;
 	virtual QString getFileNamesDescription() const;
 
@@ -55,9 +57,9 @@ protected slots:
 	void closedFilesDialog();
 
 private:
-	void showFilesDialog(const std::vector<FilePath>& filePaths);
+	void showFilesDialog(const std::vector<utility::file::FilePath>& filePaths);
 
-	QtThreadedFunctor<const std::vector<FilePath>&> m_showFilesFunctor;
+	QtThreadedFunctor<const std::vector<utility::file::FilePath>&> m_showFilesFunctor;
 
 	bool m_isRequired = false;
 };

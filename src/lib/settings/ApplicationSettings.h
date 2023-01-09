@@ -14,9 +14,11 @@ public:
 
   static const size_t VERSION;
 
-  ApplicationSettings() = default;
+  ApplicationSettings();
 
-  bool load(const FilePath& filePath, bool readOnly = false);
+  ~ApplicationSettings() override;
+
+  bool load(const utility::file::FilePath& filePath, bool readOnly = false);
 
   bool operator==(const ApplicationSettings& other) const;
 
@@ -33,7 +35,7 @@ public:
   void setTextEncoding(const std::string& textEncoding);
 
   std::wstring getColorSchemeName() const;
-  FilePath getColorSchemePath() const;
+  utility::file::FilePath getColorSchemePath() const;
   void setColorSchemeName(const std::wstring& colorSchemeName);
 
   int getFontSizeMax() const;
@@ -80,8 +82,8 @@ public:
   bool getVerboseIndexerLoggingEnabled() const;
   void setVerboseIndexerLoggingEnabled(bool loggingEnabled);
 
-  FilePath getLogDirectoryPath() const;
-  void setLogDirectoryPath(const FilePath& path);
+  utility::file::FilePath getLogDirectoryPath() const;
+  void setLogDirectoryPath(const utility::file::FilePath& path);
 
   int getLogFilter() const;
   void setLogFilter(int mask);
@@ -96,8 +98,8 @@ public:
   bool getMultiProcessIndexingEnabled() const;
   void setMultiProcessIndexingEnabled(bool enabled);
 
-  FilePath getJavaPath() const;
-  void setJavaPath(const FilePath& path);
+  utility::file::FilePath getJavaPath() const;
+  void setJavaPath(const utility::file::FilePath& path);
 
   bool getHasPrefilledJavaPath() const;
   void setHasPrefilledJavaPath(bool v);
@@ -105,15 +107,15 @@ public:
   int getJavaMaximumMemory() const;
   void setJavaMaximumMemory(int size);
 
-  std::vector<FilePath> getJreSystemLibraryPaths() const;
-  std::vector<FilePath> getJreSystemLibraryPathsExpanded() const;
-  bool setJreSystemLibraryPaths(const std::vector<FilePath>& jreSystemLibraryPaths);
+  std::vector<utility::file::FilePath> getJreSystemLibraryPaths() const;
+  std::vector<utility::file::FilePath> getJreSystemLibraryPathsExpanded() const;
+  bool setJreSystemLibraryPaths(const std::vector<utility::file::FilePath>& jreSystemLibraryPaths);
 
   bool getHasPrefilledJreSystemLibraryPaths() const;
   void setHasPrefilledJreSystemLibraryPaths(bool v);
 
-  FilePath getMavenPath() const;
-  void setMavenPath(const FilePath& path);
+  utility::file::FilePath getMavenPath() const;
+  void setMavenPath(const utility::file::FilePath& path);
 
   bool getHasPrefilledMavenPath() const;
   void setHasPrefilledMavenPath(bool v);
@@ -121,16 +123,16 @@ public:
   bool getPythonPostProcessingEnabled() const;
   void setPythonPostProcessingEnabled(bool enabled);
 
-  std::vector<FilePath> getHeaderSearchPaths() const;
-  std::vector<FilePath> getHeaderSearchPathsExpanded() const;
-  bool setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths);
+  std::vector<utility::file::FilePath> getHeaderSearchPaths() const;
+  std::vector<utility::file::FilePath> getHeaderSearchPathsExpanded() const;
+  bool setHeaderSearchPaths(const std::vector<utility::file::FilePath>& headerSearchPaths);
 
   bool getHasPrefilledHeaderSearchPaths() const;
   void setHasPrefilledHeaderSearchPaths(bool v);
 
-  std::vector<FilePath> getFrameworkSearchPaths() const;
-  std::vector<FilePath> getFrameworkSearchPathsExpanded() const;
-  bool setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);
+  std::vector<utility::file::FilePath> getFrameworkSearchPaths() const;
+  std::vector<utility::file::FilePath> getFrameworkSearchPathsExpanded() const;
+  bool setFrameworkSearchPaths(const std::vector<utility::file::FilePath>& frameworkSearchPaths);
 
   bool getHasPrefilledFrameworkSearchPaths() const;
   void setHasPrefilledFrameworkSearchPaths(bool v);
@@ -149,14 +151,14 @@ public:
   void setCodeViewModeSingle(bool enabled);
 
   // user
-  std::vector<FilePath> getRecentProjects() const;
-  bool setRecentProjects(const std::vector<FilePath>& recentProjects);
+  std::vector<utility::file::FilePath> getRecentProjects() const;
+  bool setRecentProjects(const std::vector<utility::file::FilePath>& recentProjects);
 
   bool getSeenErrorHelpMessage() const;
   void setSeenErrorHelpMessage(bool seen);
 
-  FilePath getLastFilepickerLocation() const;
-  void setLastFilepickerLocation(const FilePath& path);
+  utility::file::FilePath getLastFilepickerLocation() const;
+  void setLastFilepickerLocation(const utility::file::FilePath& path);
 
   float getGraphZoomLevel() const;
   void setGraphZoomLevel(float zoomLevel);

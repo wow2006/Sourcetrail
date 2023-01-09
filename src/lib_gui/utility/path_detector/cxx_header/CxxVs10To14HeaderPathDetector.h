@@ -22,9 +22,9 @@ private:
 	static int visualStudioTypeToVersion(const VisualStudioType t);
 	static std::string visualStudioTypeToString(const VisualStudioType t);
 
-	std::vector<FilePath> doGetPaths() const override;
+	std::vector<utility::file::FilePath> doGetPaths() const override;
 
-	FilePath getVsInstallPathUsingRegistry() const;
+	utility::file::FilePath getVsInstallPathUsingRegistry() const;
 
 	const int m_version;
 	const bool m_isExpress;

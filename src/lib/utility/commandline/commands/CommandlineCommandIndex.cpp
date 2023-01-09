@@ -54,7 +54,7 @@ CommandlineCommand::ReturnStatus CommandlineCommandIndex::parse(std::vector<std:
   }
 
   if(vm.count("project-file")) {
-    m_parser->setProjectFile(FilePath(vm["project-file"].as<std::string>()));
+    m_parser->setProjectFile(utility::file::FilePath(vm["project-file"].as<std::string>()));
   }
 
   return ReturnStatus::CMD_OK;

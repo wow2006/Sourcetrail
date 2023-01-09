@@ -10,7 +10,7 @@ class TimeStamp;
 
 class SqliteStorage {
 public:
-  explicit SqliteStorage(const FilePath& dbFilePath);
+  explicit SqliteStorage(const utility::file::FilePath& dbFilePath);
   virtual ~SqliteStorage();
 
   void setup();
@@ -25,7 +25,7 @@ public:
 
   void optimizeMemory() const;
 
-  FilePath getDbFilePath() const;
+  utility::file::FilePath getDbFilePath() const;
 
   bool isEmpty() const;
   bool isIncompatible() const;
@@ -50,7 +50,7 @@ protected:
   void insertOrUpdateMetaValue(const std::string& key, const std::string& value);
 
   mutable CppSQLite3DB m_database;
-  FilePath m_dbFilePath;
+  utility::file::FilePath m_dbFilePath;
 
 private:
   virtual size_t getStaticVersion() const = 0;

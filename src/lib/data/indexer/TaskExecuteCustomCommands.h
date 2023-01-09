@@ -22,7 +22,7 @@ public:
                             std::shared_ptr<PersistentStorage> storage,
                             std::shared_ptr<DialogView> dialogView,
                             size_t indexerThreadCount,
-                            const FilePath& projectDirectory);
+                            const utility::file::FilePath& projectDirectory);
 
   ~TaskExecuteCustomCommands() override;
 
@@ -43,7 +43,7 @@ private:
   std::shared_ptr<PersistentStorage> m_storage;
   std::shared_ptr<DialogView> m_dialogView;
   const size_t m_indexerThreadCount;
-  const FilePath m_projectDirectory;
+  const utility::file::FilePath m_projectDirectory;
 
   TimeStamp m_start;
   bool m_interrupted = false;
@@ -53,8 +53,8 @@ private:
   std::mutex m_parallelCommandsMutex;
   ErrorCountInfo m_errorCount;
   std::mutex m_errorCountMutex;
-  FilePath m_targetDatabaseFilePath;
+  utility::file::FilePath m_targetDatabaseFilePath;
   bool m_hasPythonCommands;
-  std::set<FilePath> m_sourceDatabaseFilePaths;
+  std::set<utility::file::FilePath> m_sourceDatabaseFilePaths;
   std::mutex m_sourceDatabaseFilePathsMutex;
 };

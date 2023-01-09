@@ -26,7 +26,7 @@ QtProjectWizardContentPreferences::QtProjectWizardContentPreferences(QtProjectWi
 	, m_screenAutoScaling(nullptr)
 	, m_screenScaleFactor(nullptr)
 {
-	m_colorSchemePaths = FileSystem::getFilePathsFromDirectory(
+	m_colorSchemePaths = utility::file::FileSystem::getFilePathsFromDirectory(
 		ResourcePaths::getColorSchemesDirectoryPath(), {L".xml"});
 }
 
@@ -480,7 +480,7 @@ void QtProjectWizardContentPreferences::load()
 
 	m_textEncoding->setCurrentText(QString::fromStdString(appSettings->getTextEncoding()));
 
-	FilePath colorSchemePath = appSettings->getColorSchemePath();
+	utility::file::FilePath colorSchemePath = appSettings->getColorSchemePath();
 	for (int i = 0; i < static_cast<int>(m_colorSchemePaths.size()); i++)
 	{
 		if (colorSchemePath == m_colorSchemePaths[i])
@@ -583,7 +583,7 @@ void QtProjectWizardContentPreferences::save()
 	appSettings->setVerboseIndexerLoggingEnabled(m_verboseIndexerLoggingEnabled->isChecked());
 	if (m_logPath && m_logPath->getText().toStdWString() != appSettings->getLogDirectoryPath().wstr())
 	{
-		appSettings->setLogDirectoryPath(FilePath((m_logPath->getText() + '/').toStdWString()));
+		appSettings->setLogDirectoryPath(utility::file::FilePath((m_logPath->getText() + '/').toStdWString()));
 		Logger* logger = LogManager::getInstance()->getLoggerByType("FileLogger");
 		if (logger)
 		{
@@ -606,14 +606,14 @@ void QtProjectWizardContentPreferences::save()
 
 	if (m_javaPath)
 	{
-		appSettings->setJavaPath(FilePath(m_javaPath->getText().toStdWString()));
+		appSettings->setJavaPath(utility::file::FilePath(m_javaPath->getText().toStdWString()));
 	}
 
 	appSettings->setJreSystemLibraryPaths(m_jreSystemLibraryPaths->getPathsAsAbsolute());
 
 	if (m_mavenPath)
 	{
-		appSettings->setMavenPath(FilePath(m_mavenPath->getText().toStdWString()));
+		appSettings->setMavenPath(utility::file::FilePath(m_mavenPath->getText().toStdWString()));
 	}
 
 	appSettings->setPythonPostProcessingEnabled(m_pythonPostProcessing->isChecked());
@@ -634,7 +634,7 @@ void QtProjectWizardContentPreferences::colorSchemeChanged(int index)
 
 void QtProjectWizardContentPreferences::javaPathDetectionClicked()
 {
-	std::vector<FilePath> paths = m_javaPathDetector->getPathsForDetector(
+	std::vector<utility::file::FilePath> paths = m_javaPathDetector->getPathsForDetector(
 		m_javaPathDetectorBox->currentText().toStdString());
 	if (!paths.empty())
 	{
@@ -644,15 +644,15 @@ void QtProjectWizardContentPreferences::javaPathDetectionClicked()
 
 void QtProjectWizardContentPreferences::jreSystemLibraryPathsDetectionClicked()
 {
-	std::vector<FilePath> paths = m_jreSystemLibraryPathsDetector->getPathsForDetector(
+	std::vector<utility::file::FilePath> paths = m_jreSystemLibraryPathsDetector->getPathsForDetector(
 		m_jreSystemLibraryPathsDetectorBox->currentText().toStdString());
-	std::vector<FilePath> oldPaths = m_jreSystemLibraryPaths->getPathsAsAbsolute();
+	std::vector<utility::file::FilePath> oldPaths = m_jreSystemLibraryPaths->getPathsAsAbsolute();
 	m_jreSystemLibraryPaths->setPaths(utility::unique(utility::concat(oldPaths, paths)));
 }
 
 void QtProjectWizardContentPreferences::mavenPathDetectionClicked()
 {
-	std::vector<FilePath> paths = m_mavenPathDetector->getPathsForDetector(
+	std::vector<utility::file::FilePath> paths = m_mavenPathDetector->getPathsForDetector(
 		m_mavenPathDetectorBox->currentText().toStdString());
 	if (!paths.empty())
 	{

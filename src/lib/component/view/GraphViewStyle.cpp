@@ -339,7 +339,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(NodeType type,
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(NodeType::StyleType type,
                                                               const std::string& underscoredTypeString,
-                                                              const FilePath& iconPath,
+                                                              const utility::file::FilePath& iconPath,
                                                               bool defined,
                                                               bool isActive,
                                                               bool isFocused,

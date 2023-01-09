@@ -10,6 +10,7 @@
 #include "MessageRefreshUI.h"
 #include "MessageSwitchColorScheme.h"
 #include "Project.h"
+#include "FilePath.h"
 
 class Bookmark;
 class IDECommunicationController;
@@ -70,7 +71,7 @@ public:
 
   static void loadSettings();
 
-  static void loadStyle(const FilePath& colorSchemePath);
+  static void loadStyle(const utility::file::FilePath& colorSchemePath);
 
   ~Application() override;
 
@@ -78,7 +79,7 @@ public:
     return m_project;
   }
 
-  [[nodiscard]] FilePath getCurrentProjectPath() const {
+  [[nodiscard]] utility::file::FilePath getCurrentProjectPath() const {
     if(m_project) {
       return m_project->getProjectSettingsFilePath();
     }
@@ -135,7 +136,7 @@ private:
 
   void refreshProject(RefreshMode refreshMode, bool shallowIndexingRequested);
 
-  void updateRecentProjects(const FilePath& projectSettingsFilePath);
+  void updateRecentProjects(const utility::file::FilePath& projectSettingsFilePath);
 
   void logStorageStats() const;
 

@@ -36,7 +36,7 @@ void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard) {
   m_interprocessIndexingStatusManager.setIndexingInterrupted(false);
 
   m_indexingFileCount = 0;
-  updateIndexingDialog(blackboard, std::vector<FilePath>());
+  updateIndexingDialog(blackboard, std::vector<utility::file::FilePath>());
 
   std::wstring logFilePath;
   Logger* logger = LogManager::getInstance()->getLoggerByType("FileLogger");
@@ -76,7 +76,7 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 
   blackboard->get<bool>("indexer_command_queue_stopped", m_indexerCommandQueueStopped);
 
-  const std::vector<FilePath> indexingFiles =
+  const std::vector<utility::file::FilePath> indexingFiles =
       m_interprocessIndexingStatusManager.getCurrentlyIndexedSourceFilePaths();
   if(!indexingFiles.empty()) {
     updateIndexingDialog(blackboard, indexingFiles);
@@ -92,7 +92,7 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
   }
 
   if(fetchIntermediateStorages(blackboard)) {
-    updateIndexingDialog(blackboard, std::vector<FilePath>());
+    updateIndexingDialog(blackboard, std::vector<utility::file::FilePath>());
   }
 
   std::this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -112,12 +112,12 @@ void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard) {
       ;
   }
 
-  std::vector<FilePath> crashedFiles = m_interprocessIndexingStatusManager.getCrashedSourceFilePaths();
+  std::vector<utility::file::FilePath> crashedFiles = m_interprocessIndexingStatusManager.getCrashedSourceFilePaths();
   if(!crashedFiles.empty()) {
     std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
     std::shared_ptr<ParserClientImpl> parserClient = std::make_shared<ParserClientImpl>(storage.get());
 
-    for(const FilePath& path: crashedFiles) {
+    for(const utility::file::FilePath& path: crashedFiles) {
       Id fileId = parserClient->recordFile(path.getCanonical(), false);
       parserClient->recordError(
           L"The translation unit threw an exception during indexing. Please check if the "
@@ -155,7 +155,7 @@ void TaskBuildIndex::handleMessage(MessageIndexingInterrupted* /*message*/) {
 }
 
 void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFilePath) {
-  const FilePath indexerProcessPath = AppPath::getCxxIndexerFilePath();
+  const utility::file::FilePath indexerProcessPath = AppPath::getCxxIndexerFilePath();
   if(!indexerProcessPath.exists()) {
     m_interrupted = true;
     LOG_ERROR(L"Cannot start indexer process because executable is missing at \"" +
@@ -176,7 +176,7 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFil
   int result = 1;
   while((!m_indexerCommandQueueStopped || result != 0) && !m_interrupted) {
     result = utility::executeProcess(
-                 indexerProcessPath.wstr(), commandArguments, FilePath(), false, -1)
+                 indexerProcessPath.wstr(), commandArguments, utility::file::FilePath(), false, -1)
                  .exitCode;
 
     LOG_INFO_STREAM(<< "Indexer process " << processId << " returned with " + std::to_string(result));
@@ -248,7 +248,7 @@ bool TaskBuildIndex::fetchIntermediateStorages(std::shared_ptr<Blackboard> black
 }
 
 void TaskBuildIndex::updateIndexingDialog(std::shared_ptr<Blackboard> blackboard,
-                                          const std::vector<FilePath>& sourcePaths) {
+                                          const std::vector<utility::file::FilePath>& sourcePaths) {
   // TODO: factor in unindexed files...
   int sourceFileCount = 0;
   int indexedSourceFileCount = 0;

@@ -2,6 +2,7 @@
 #define QT_PATH_LIST_BOX_H
 
 #include "QtListBox.h"
+#include "FilePath.h"
 
 class QtPathListBox: public QtListBox
 {
@@ -17,17 +18,17 @@ public:
 
 	SelectionPolicyType getSelectionPolicy() const;
 
-	const FilePath& getRelativeRootDirectory() const;
-	void setRelativeRootDirectory(const FilePath& dir);
+	const utility::file::FilePath& getRelativeRootDirectory() const;
+	void setRelativeRootDirectory(const utility::file::FilePath& dir);
 
-	std::vector<FilePath> getPathsAsDisplayed() const;
-	std::vector<FilePath> getPathsAsAbsolute() const;
+	std::vector<utility::file::FilePath> getPathsAsDisplayed() const;
+	std::vector<utility::file::FilePath> getPathsAsAbsolute() const;
 
-	void setPaths(const std::vector<FilePath>& list, bool readOnly = false);
-	void addPaths(const std::vector<FilePath>& list, bool readOnly = false);
+	void setPaths(const std::vector<utility::file::FilePath>& list, bool readOnly = false);
+	void addPaths(const std::vector<utility::file::FilePath>& list, bool readOnly = false);
 
-	void makeAbsolute(FilePath& path) const;
-	void makeRelativeIfShorter(FilePath& path) const;
+	void makeAbsolute(utility::file::FilePath& path) const;
+	void makeRelativeIfShorter(utility::file::FilePath& path) const;
 
 protected:
 	void dropEvent(QDropEvent* event) override;
@@ -37,7 +38,7 @@ private:
 	virtual QtListBoxItem* createListBoxItem(QListWidgetItem* item) override;
 
 	const SelectionPolicyType m_selectionPolicy;
-	FilePath m_relativeRootDirectory;
+	utility::file::FilePath m_relativeRootDirectory;
 };
 
 #endif	  // QT_PATH_LIST_BOX_H

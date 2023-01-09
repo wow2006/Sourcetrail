@@ -6,21 +6,21 @@
 std::wstring FileLogger::generateDatedFileName(const std::wstring& prefix,
                                                const std::wstring& suffix,
                                                int offsetDays) {
-  time_t time;
+  time_t time = {};
   std::time(&time);
 
 #ifdef WINDOWS
-#pragma warning(push)
-#pragma warning(disable : 4996)
+#  pragma warning(push)
+#  pragma warning(disable : 4996)
 #endif
-  tm t = *std::localtime(&time);
+  tm localTime = *std::localtime(&time);
 
   if(offsetDays != 0) {
-    time = mktime(&t) + offsetDays * 24 * 60 * 60;
-    t = *std::localtime(&time);
+    time = mktime(&localTime) + offsetDays * 24 * 60 * 60;
+    localTime = *std::localtime(&time);
   }
 #ifdef WINDOWS
-#pragma warning(pop)
+#  pragma warning(pop)
 #endif
 
   std::wstringstream filename;
@@ -28,12 +28,12 @@ std::wstring FileLogger::generateDatedFileName(const std::wstring& prefix,
     filename << prefix << L"_";
   }
 
-  filename << t.tm_year + 1900 << L"-";
-  filename << (t.tm_mon < 9 ? L"0" : L"") << t.tm_mon + 1 << L"-";
-  filename << (t.tm_mday < 10 ? L"0" : L"") << t.tm_mday << L"_";
-  filename << (t.tm_hour < 10 ? L"0" : L"") << t.tm_hour << L"-";
-  filename << (t.tm_min < 10 ? L"0" : L"") << t.tm_min << L"-";
-  filename << (t.tm_sec < 10 ? L"0" : L"") << t.tm_sec;
+  filename << localTime.tm_year + 1900 << L"-";
+  filename << (localTime.tm_mon  < 9  ? L"0" : L"") << localTime.tm_mon + 1 << L"-";
+  filename << (localTime.tm_mday < 10 ? L"0" : L"") << localTime.tm_mday << L"_";
+  filename << (localTime.tm_hour < 10 ? L"0" : L"") << localTime.tm_hour << L"-";
+  filename << (localTime.tm_min  < 10 ? L"0" : L"") << localTime.tm_min << L"-";
+  filename << (localTime.tm_sec  < 10 ? L"0" : L"") << localTime.tm_sec;
 
   if(!suffix.empty()) {
     filename << L"_" << suffix;
@@ -53,18 +53,18 @@ FileLogger::FileLogger()
   updateLogFileName();
 }
 
-FilePath FileLogger::getLogFilePath() const {
+utility::file::FilePath FileLogger::getLogFilePath() const {
   return m_currentLogFilePath;
 }
 
-void FileLogger::setLogFilePath(const FilePath& filePath) {
+void FileLogger::setLogFilePath(const utility::file::FilePath& filePath) {
   m_currentLogFilePath = filePath;
   m_logFileName = L"";
 }
 
-void FileLogger::setLogDirectory(const FilePath& filePath) {
+void FileLogger::setLogDirectory(const utility::file::FilePath& filePath) {
   m_logDirectory = filePath;
-  FileSystem::createDirectory(m_logDirectory);
+  utility::file::FileSystem::createDirectory(m_logDirectory);
 }
 
 void FileLogger::setFileName(const std::wstring& fileName) {
@@ -88,18 +88,18 @@ void FileLogger::logError(const LogMessage& message) {
   logMessage("ERROR", message);
 }
 
-void FileLogger::setMaxLogLineCount(unsigned int lineCount) {
+void FileLogger::setMaxLogLineCount(uint32_t lineCount) {
   m_maxLogLineCount = lineCount;
 }
 
-void FileLogger::setMaxLogFileCount(unsigned int fileCount) {
+void FileLogger::setMaxLogFileCount(uint32_t fileCount) {
   m_maxLogFileCount = fileCount;
 }
 
 void FileLogger::deleteLogFiles(const std::wstring& cutoffDate) {
-  for(const FilePath& file: FileSystem::getFilePathsFromDirectory(m_logDirectory, {L".txt"})) {
+  for(const auto& file: utility::file::FileSystem::getFilePathsFromDirectory(m_logDirectory, {L".txt"})) {
     if(file.fileName() < cutoffDate) {
-      FileSystem::remove(file);
+      utility::file::FileSystem::remove(file);
     }
   }
 }
@@ -127,10 +127,10 @@ void FileLogger::updateLogFileName() {
   }
   currentLogFilePath += L".txt";
 
-  m_currentLogFilePath = FilePath(currentLogFilePath);
+  m_currentLogFilePath = utility::file::FilePath(currentLogFilePath);
 
   if(fileChanged) {
-    FileSystem::remove(m_currentLogFilePath);
+    utility::file::FileSystem::remove(m_currentLogFilePath);
   }
 }
 
@@ -140,7 +140,7 @@ void FileLogger::logMessage(const std::string& type, const LogMessage& message) 
   fileStream << message.getTimeString("%H:%M:%S") << " | ";
   fileStream << message.threadId << " | ";
 
-  if(message.filePath.size()) {
+  if(!message.filePath.empty()) {
     fileStream << message.getFileName() << ':' << message.line << ' ' << message.functionName
                << "() | ";
   }

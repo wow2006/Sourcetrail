@@ -28,8 +28,8 @@ public:
   void incompleteRefresh();
   void setShallowIndexingRequested(bool enabled = true);
 
-  const FilePath& getProjectFilePath() const;
-  void setProjectFile(const FilePath& filepath);
+  const utility::file::FilePath& getProjectFilePath() const;
+  void setProjectFile(const utility::file::FilePath& filepath);
 
   RefreshMode getRefreshMode() const;
   bool getShallowIndexingRequested() const;
@@ -45,7 +45,7 @@ private:
   std::vector<std::string> m_args;
 
   const std::string m_version;
-  FilePath m_projectFile;
+  utility::file::FilePath m_projectFile;
   RefreshMode m_refreshMode = REFRESH_UPDATED_FILES;
   bool m_shallowIndexingRequested = false;
 

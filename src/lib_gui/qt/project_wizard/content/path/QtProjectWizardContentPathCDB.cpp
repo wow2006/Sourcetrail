@@ -73,7 +73,7 @@ void QtProjectWizardContentPathCDB::load()
 
 void QtProjectWizardContentPathCDB::save()
 {
-	m_settings->setCompilationDatabasePath(FilePath(m_picker->getText().toStdWString()));
+	m_settings->setCompilationDatabasePath(utility::file::FilePath(m_picker->getText().toStdWString()));
 }
 
 void QtProjectWizardContentPathCDB::refresh()
@@ -88,7 +88,7 @@ void QtProjectWizardContentPathCDB::refresh()
 	}
 }
 
-std::vector<FilePath> QtProjectWizardContentPathCDB::getFilePaths() const
+std::vector<utility::file::FilePath> QtProjectWizardContentPathCDB::getFilePaths() const
 {
 	return m_filePaths.getValue();
 }
@@ -107,10 +107,10 @@ void QtProjectWizardContentPathCDB::pickedPath()
 {
 	m_window->saveContent();
 
-	const FilePath projectPath = m_settings->getProjectDirectoryPath();
+	const utility::file::FilePath projectPath = m_settings->getProjectDirectoryPath();
 
-	std::set<FilePath> indexedHeaderPaths;
-	for (const FilePath& path:
+	std::set<utility::file::FilePath> indexedHeaderPaths;
+	for (const utility::file::FilePath& path:
 		 QtProjectWizardContentPathsIndexedHeaders::getIndexedPathsDerivedFromCDB(m_settings))
 	{
 		if (projectPath.contains(path))
@@ -126,8 +126,8 @@ void QtProjectWizardContentPathCDB::pickedPath()
 
 void QtProjectWizardContentPathCDB::onPickerTextChanged(const QString& text)
 {
-	const FilePath cdbPath = utility::getExpandedAndAbsolutePath(
-		FilePath(text.toStdWString()), m_settings->getProjectDirectoryPath());
+	const utility::file::FilePath cdbPath = utility::getExpandedAndAbsolutePath(
+		utility::file::FilePath(text.toStdWString()), m_settings->getProjectDirectoryPath());
 	if (!cdbPath.empty() && cdbPath.exists() &&
 		cdbPath != m_settings->getCompilationDatabasePathExpandedAndAbsolute())
 	{

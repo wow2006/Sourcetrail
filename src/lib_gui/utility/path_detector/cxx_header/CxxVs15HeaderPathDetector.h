@@ -10,7 +10,7 @@ public:
 	CxxVs15HeaderPathDetector();
 
 private:
-	std::vector<FilePath> doGetPaths() const override;
+	std::vector<utility::file::FilePath> doGetPaths() const override;
 };
 
 #endif	  // CXX_VS_15_HEADER_PATH_DETECTOR_H

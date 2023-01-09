@@ -9,7 +9,7 @@ public:
 	CxxHeaderPathDetector(const std::string& compilerName);
 
 private:
-	std::vector<FilePath> doGetPaths() const override;
+	std::vector<utility::file::FilePath> doGetPaths() const override;
 
 	const std::string m_compilerName;
 };

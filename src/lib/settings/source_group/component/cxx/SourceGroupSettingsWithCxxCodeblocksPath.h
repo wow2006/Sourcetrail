@@ -1,15 +1,17 @@
 #pragma once
 
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 #include "SourceGroupSettingsComponent.h"
 
 class SourceGroupSettingsWithCxxCodeblocksPath : public SourceGroupSettingsComponent {
 public:
   virtual ~SourceGroupSettingsWithCxxCodeblocksPath() = default;
 
-  FilePath getCodeblocksProjectPath() const;
-  FilePath getCodeblocksProjectPathExpandedAndAbsolute() const;
-  void setCodeblocksProjectPath(const FilePath& codeblocksProjectPath);
+  utility::file::FilePath getCodeblocksProjectPath() const;
+  utility::file::FilePath getCodeblocksProjectPathExpandedAndAbsolute() const;
+  void setCodeblocksProjectPath(const utility::file::FilePath& codeblocksProjectPath);
 
 protected:
   bool equals(const SourceGroupSettingsBase* other) const override;
@@ -18,5 +20,5 @@ protected:
   void save(utility::ConfigManager* config, const std::string& key) override;
 
 private:
-  FilePath m_codeblocksProjectPath;
+  utility::file::FilePath m_codeblocksProjectPath;
 };

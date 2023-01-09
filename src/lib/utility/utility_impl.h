@@ -172,9 +172,9 @@ std::vector<std::string> utility::toStrings(const std::vector<T>& d) {
 }
 
 template <>
-inline std::vector<std::string> utility::toStrings<FilePath>(const std::vector<FilePath>& d) {
-  return convert<FilePath, std::string>(
-      d, [](const FilePath& fp) { return utility::encodeToUtf8(fp.wstr()); });
+inline std::vector<std::string> utility::toStrings<utility::file::FilePath>(const std::vector<utility::file::FilePath>& d) {
+  return convert<utility::file::FilePath, std::string>(
+      d, [](const utility::file::FilePath& fp) { return utility::encodeToUtf8(fp.wstr()); });
 }
 
 template <typename T>
@@ -183,6 +183,6 @@ std::vector<std::wstring> utility::toWStrings(const std::vector<T>& d) {
 }
 
 template <>
-inline std::vector<std::wstring> utility::toWStrings<FilePath>(const std::vector<FilePath>& d) {
-  return convert<FilePath, std::wstring>(d, [](const FilePath& fp) { return fp.wstr(); });
+inline std::vector<std::wstring> utility::toWStrings<utility::file::FilePath>(const std::vector<utility::file::FilePath>& d) {
+  return convert<utility::file::FilePath, std::wstring>(d, [](const utility::file::FilePath& fp) { return fp.wstr(); });
 }

@@ -5,11 +5,11 @@
 
 TEST_CASE("add bookmarks")
 {
-	FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
+	utility::file::FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
 	size_t bookmarkCount = 4;
 	int result = -1;
 	{
-		FileSystem::remove(databasePath);
+		utility::file::FileSystem::remove(databasePath);
 		SqliteBookmarkStorage storage(databasePath);
 		storage.setup();
 
@@ -24,18 +24,18 @@ TEST_CASE("add bookmarks")
 		result = static_cast<int>(storage.getAllBookmarks().size());
 	}
 
-	FileSystem::remove(databasePath);
+	utility::file::FileSystem::remove(databasePath);
 
 	REQUIRE(result == bookmarkCount);
 }
 
 TEST_CASE("add bookmarked node")
 {
-	FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
+	utility::file::FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
 	size_t bookmarkCount = 4;
 	int result = -1;
 	{
-		FileSystem::remove(databasePath);
+		utility::file::FileSystem::remove(databasePath);
 		SqliteBookmarkStorage storage(databasePath);
 		storage.setup();
 
@@ -55,17 +55,17 @@ TEST_CASE("add bookmarked node")
 		result = static_cast<int>(storage.getAllBookmarkedNodes().size());
 	}
 
-	FileSystem::remove(databasePath);
+	utility::file::FileSystem::remove(databasePath);
 
 	REQUIRE(result == bookmarkCount);
 }
 
 TEST_CASE("remove bookmark also removes bookmarked node")
 {
-	FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
+	utility::file::FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
 	int result = -1;
 	{
-		FileSystem::remove(databasePath);
+		utility::file::FileSystem::remove(databasePath);
 		SqliteBookmarkStorage storage(databasePath);
 		storage.setup();
 
@@ -83,21 +83,21 @@ TEST_CASE("remove bookmark also removes bookmarked node")
 		result = static_cast<int>(storage.getAllBookmarkedNodes().size());
 	}
 
-	FileSystem::remove(databasePath);
+	utility::file::FileSystem::remove(databasePath);
 
 	REQUIRE(result == 0);
 }
 
 TEST_CASE("edit nodeBookmark")
 {
-	FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
+	utility::file::FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
 
 	const std::wstring updatedName = L"updated name";
 	const std::wstring updatedComment = L"updated comment";
 
 	StorageBookmark storageBookmark;
 	{
-		FileSystem::remove(databasePath);
+		utility::file::FileSystem::remove(databasePath);
 		SqliteBookmarkStorage storage(databasePath);
 		storage.setup();
 
@@ -115,7 +115,7 @@ TEST_CASE("edit nodeBookmark")
 		storageBookmark = storage.getAllBookmarks().front();
 	}
 
-	FileSystem::remove(databasePath);
+	utility::file::FileSystem::remove(databasePath);
 
 	REQUIRE(updatedName == storageBookmark.name);
 	REQUIRE(updatedComment == storageBookmark.comment);

@@ -29,7 +29,7 @@ void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& 
 	}
 
 	std::function<jint(JavaVM**, void**, void*)> createInstanceFunction;
-	const FilePath javaPath = ApplicationSettings::getInstance()->getJavaPath();
+	const utility::file::FilePath javaPath = ApplicationSettings::getInstance()->getJavaPath();
 
 	if (javaPath.empty())
 	{

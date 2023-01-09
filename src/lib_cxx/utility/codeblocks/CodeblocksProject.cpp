@@ -16,7 +16,7 @@
 
 namespace Codeblocks
 {
-std::shared_ptr<Project> Project::load(const FilePath& projectFilePath)
+std::shared_ptr<Project> Project::load(const utility::file::FilePath& projectFilePath)
 {
 	return load(TextAccess::createFromFile(projectFilePath));
 }
@@ -130,20 +130,20 @@ std::shared_ptr<Project> Project::load(std::shared_ptr<TextAccess> xmlAccess)
 	return project;
 }
 
-std::set<FilePath> Project::getAllSourceFilePathsCanonical(
+std::set<utility::file::FilePath> Project::getAllSourceFilePathsCanonical(
 	const std::vector<std::wstring>& sourceExtensions) const
 {
 	const std::set<std::wstring> lowerSourceExtensions = utility::toSet(
 		utility::convert<std::wstring, std::wstring>(
 			sourceExtensions, [](const std::wstring& e) { return utility::toLowerCase(e); }));
 
-	std::set<FilePath> filePaths;
-	std::set<FilePath> nonTargetFilePaths;
+	std::set<utility::file::FilePath> filePaths;
+	std::set<utility::file::FilePath> nonTargetFilePaths;
 	for (std::shared_ptr<const Unit> unit: m_units)
 	{
 		if (unit && unit->getCompile())
 		{
-			FilePath filePath(unit->getCanonicalFilePath(m_projectFilePath.getParentDirectory()));
+			utility::file::FilePath filePath(unit->getCanonicalFilePath(m_projectFilePath.getParentDirectory()));
 			if (lowerSourceExtensions.find(filePath.getLowerCase().extension()) !=
 				lowerSourceExtensions.end())
 			{
@@ -167,7 +167,7 @@ std::set<FilePath> Project::getAllSourceFilePathsCanonical(
 	return filePaths;
 }
 
-std::set<FilePath> Project::getAllCxxHeaderSearchPathsCanonical() const
+std::set<utility::file::FilePath> Project::getAllCxxHeaderSearchPathsCanonical() const
 {
 	std::set<std::wstring> usedTargetNames;
 	for (std::shared_ptr<const Unit> unit: m_units)
@@ -178,10 +178,10 @@ std::set<FilePath> Project::getAllCxxHeaderSearchPathsCanonical() const
 		}
 	}
 
-	OrderedCache<FilePath, FilePath> canonicalDirectoryPathCache(
-		[](const FilePath& path) { return path.getCanonical(); });
+	OrderedCache<utility::file::FilePath, utility::file::FilePath> canonicalDirectoryPathCache(
+		[](const utility::file::FilePath& path) { return path.getCanonical(); });
 
-	std::set<FilePath> paths;
+	std::set<utility::file::FilePath> paths;
 	for (std::shared_ptr<const Target> target: m_targets)
 	{
 		if (target && usedTargetNames.find(target->getTitle()) != usedTargetNames.end())
@@ -190,7 +190,7 @@ std::set<FilePath> Project::getAllCxxHeaderSearchPathsCanonical() const
 			{
 				for (const std::wstring& directory: compiler->getDirectories())
 				{
-					FilePath path(directory);
+					utility::file::FilePath path(directory);
 					if (path.isAbsolute())
 					{
 						paths.insert(canonicalDirectoryPathCache.getValue(path));
@@ -211,17 +211,17 @@ std::vector<std::shared_ptr<IndexerCommandCxx>> Project::getIndexerCommands(
 			sourceGroupSettings->getSourceExtensions(),
 			[](const std::wstring& e) { return utility::toLowerCase(e); }));
 
-	const std::set<FilePath> indexedHeaderPaths = utility::toSet(
+	const std::set<utility::file::FilePath> indexedHeaderPaths = utility::toSet(
 		sourceGroupSettings->getIndexedHeaderPathsExpandedAndAbsolute());
 
 	const std::set<FilePathFilter> excludeFilters = utility::toSet(
 		sourceGroupSettings->getExcludeFiltersExpandedAndAbsolute());
 
-	const std::vector<FilePath> systemHeaderSearchPaths = utility::concat(
+	const std::vector<utility::file::FilePath> systemHeaderSearchPaths = utility::concat(
 		sourceGroupSettings->getHeaderSearchPathsExpandedAndAbsolute(),
 		appSettings->getHeaderSearchPathsExpanded());
 
-	const std::vector<FilePath> frameworkSearchPaths = utility::concat(
+	const std::vector<utility::file::FilePath> frameworkSearchPaths = utility::concat(
 		sourceGroupSettings->getFrameworkSearchPathsExpandedAndAbsolute(),
 		appSettings->getFrameworkSearchPathsExpanded());
 
@@ -235,7 +235,7 @@ std::vector<std::shared_ptr<IndexerCommandCxx>> Project::getIndexerCommands(
 				{
 					compilerFlags = utility::concat(
 						IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(
-							utility::convert<std::wstring, FilePath>(compiler->getDirectories())),
+							utility::convert<std::wstring, utility::file::FilePath>(compiler->getDirectories())),
 						compiler->getOptions());
 					break;
 				}
@@ -261,7 +261,7 @@ std::vector<std::shared_ptr<IndexerCommandCxx>> Project::getIndexerCommands(
 			continue;
 		}
 
-		const FilePath filePath = unit->getCanonicalFilePath(m_projectFilePath.getParentDirectory());
+		const utility::file::FilePath filePath = unit->getCanonicalFilePath(m_projectFilePath.getParentDirectory());
 		if (lowerSourceExtensions.find(filePath.getLowerCase().extension()) ==
 			lowerSourceExtensions.end())
 		{
@@ -321,5 +321,5 @@ std::vector<std::shared_ptr<IndexerCommandCxx>> Project::getIndexerCommands(
 	return indexerCommands;
 }
 
-Project::Project(const FilePath& projectFilePath): m_projectFilePath(projectFilePath) {}
+Project::Project(const utility::file::FilePath& projectFilePath): m_projectFilePath(projectFilePath) {}
 }	 // namespace Codeblocks

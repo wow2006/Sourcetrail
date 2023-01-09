@@ -15,12 +15,12 @@ std::shared_ptr<FileRegister> CanonicalFilePathCache::getFileRegister() const
 	return m_fileRegister;
 }
 
-FilePath CanonicalFilePathCache::getCanonicalFilePath(
+utility::file::FilePath CanonicalFilePathCache::getCanonicalFilePath(
 	const clang::FileID& fileId, const clang::SourceManager& sourceManager)
 {
 	if (!fileId.isValid())
 	{
-		return FilePath();
+		return utility::file::FilePath();
 	}
 
 	auto it = m_fileIdMap.find(fileId);
@@ -29,7 +29,7 @@ FilePath CanonicalFilePathCache::getCanonicalFilePath(
 		return it->second;
 	}
 
-	FilePath filePath;
+	utility::file::FilePath filePath;
 
 	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
 	if (fileEntry != nullptr && fileEntry->isValid())
@@ -41,12 +41,12 @@ FilePath CanonicalFilePathCache::getCanonicalFilePath(
 	return filePath;
 }
 
-FilePath CanonicalFilePathCache::getCanonicalFilePath(const clang::FileEntry* entry)
+utility::file::FilePath CanonicalFilePathCache::getCanonicalFilePath(const clang::FileEntry* entry)
 {
 	return getCanonicalFilePath(utility::getFileNameOfFileEntry(entry));
 }
 
-FilePath CanonicalFilePathCache::getCanonicalFilePath(const std::wstring& path)
+utility::file::FilePath CanonicalFilePathCache::getCanonicalFilePath(const std::wstring& path)
 {
 	const std::wstring lowercasePath = utility::toLowerCase(path);
 
@@ -56,7 +56,7 @@ FilePath CanonicalFilePathCache::getCanonicalFilePath(const std::wstring& path)
 		return it->second;
 	}
 
-	const FilePath canonicalPath = FilePath(path).makeCanonical();
+	const utility::file::FilePath canonicalPath = utility::file::FilePath(path).makeCanonical();
 	const std::wstring lowercaseCanonicalPath = utility::toLowerCase(canonicalPath.wstr());
 
 	m_fileStringMap.emplace(std::move(lowercasePath), canonicalPath);
@@ -65,7 +65,7 @@ FilePath CanonicalFilePathCache::getCanonicalFilePath(const std::wstring& path)
 	return canonicalPath;
 }
 
-FilePath CanonicalFilePathCache::getCanonicalFilePath(const Id symbolId)
+utility::file::FilePath CanonicalFilePathCache::getCanonicalFilePath(const Id symbolId)
 {
 	auto it = m_symbolIdFileIdMap.find(symbolId);
 	if (it != m_symbolIdFileIdMap.end())
@@ -77,10 +77,10 @@ FilePath CanonicalFilePathCache::getCanonicalFilePath(const Id symbolId)
 		}
 	}
 
-	return FilePath();
+	return utility::file::FilePath();
 }
 
-void CanonicalFilePathCache::addFileSymbolId(const clang::FileID& fileId, const FilePath& path, Id symbolId)
+void CanonicalFilePathCache::addFileSymbolId(const clang::FileID& fileId, const utility::file::FilePath& path, Id symbolId)
 {
 	m_fileIdSymbolIdMap.emplace(fileId, symbolId);
 	m_symbolIdFileIdMap.emplace(symbolId, fileId);
@@ -121,7 +121,7 @@ Id CanonicalFilePathCache::getFileSymbolId(const std::wstring& path)
 	return 0;
 }
 
-FilePath CanonicalFilePathCache::getDeclarationFilePath(const clang::Decl* declaration)
+utility::file::FilePath CanonicalFilePathCache::getDeclarationFilePath(const clang::Decl* declaration)
 {
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 	const clang::FileID fileId = sourceManager.getFileID(declaration->getBeginLoc());

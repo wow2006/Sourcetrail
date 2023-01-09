@@ -9,7 +9,6 @@
 struct ParseLocation;
 struct ParseLocation;
 class CanonicalFilePathCache;
-class FilePath;
 
 namespace clang
 {

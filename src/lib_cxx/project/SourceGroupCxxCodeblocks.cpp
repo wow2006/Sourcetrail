@@ -17,7 +17,7 @@ SourceGroupCxxCodeblocks::SourceGroupCxxCodeblocks(
 
 bool SourceGroupCxxCodeblocks::prepareIndexing()
 {
-	FilePath codeblocksProjectPath = m_settings->getCodeblocksProjectPathExpandedAndAbsolute();
+	utility::file::FilePath codeblocksProjectPath = m_settings->getCodeblocksProjectPathExpandedAndAbsolute();
 	if (!codeblocksProjectPath.empty() && !codeblocksProjectPath.exists())
 	{
 		std::wstring error =
@@ -30,8 +30,8 @@ bool SourceGroupCxxCodeblocks::prepareIndexing()
 	return true;
 }
 
-std::set<FilePath> SourceGroupCxxCodeblocks::filterToContainedFilePaths(
-	const std::set<FilePath>& filePaths) const
+std::set<utility::file::FilePath> SourceGroupCxxCodeblocks::filterToContainedFilePaths(
+	const std::set<utility::file::FilePath>& filePaths) const
 {
 	return SourceGroup::filterToContainedFilePaths(
 		filePaths,
@@ -40,16 +40,16 @@ std::set<FilePath> SourceGroupCxxCodeblocks::filterToContainedFilePaths(
 		m_settings->getExcludeFiltersExpandedAndAbsolute());
 }
 
-std::set<FilePath> SourceGroupCxxCodeblocks::getAllSourceFilePaths() const
+std::set<utility::file::FilePath> SourceGroupCxxCodeblocks::getAllSourceFilePaths() const
 {
-	std::set<FilePath> sourceFilePaths;
+	std::set<utility::file::FilePath> sourceFilePaths;
 	if (std::shared_ptr<Codeblocks::Project> project = Codeblocks::Project::load(
 			m_settings->getCodeblocksProjectPathExpandedAndAbsolute()))
 	{
 		const std::vector<FilePathFilter> excludeFilters =
 			m_settings->getExcludeFiltersExpandedAndAbsolute();
 
-		for (const FilePath& filePath:
+		for (const utility::file::FilePath& filePath:
 			 project->getAllSourceFilePathsCanonical(m_settings->getSourceExtensions()))
 		{
 			bool isExcluded = FilePathFilter::areMatching(excludeFilters, filePath);

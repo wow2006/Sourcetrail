@@ -31,21 +31,21 @@ bool SourceGroupJavaGradle::prepareIndexing()
 	return true;
 }
 
-std::vector<FilePath> SourceGroupJavaGradle::getAllSourcePaths() const
+std::vector<utility::file::FilePath> SourceGroupJavaGradle::getAllSourcePaths() const
 {
 	return m_allSourcePathsCache.getValue();
 }
 
-std::vector<FilePath> SourceGroupJavaGradle::doGetClassPath() const
+std::vector<utility::file::FilePath> SourceGroupJavaGradle::doGetClassPath() const
 {
-	std::vector<FilePath> classPath = utility::getClassPath({}, true, getAllSourceFilePaths());
+	std::vector<utility::file::FilePath> classPath = utility::getClassPath({}, true, getAllSourceFilePaths());
 
 	if (m_settings->getGradleDependenciesDirectoryPath().exists())
 	{
-		std::vector<FilePath> gradleJarPaths = FileSystem::getFilePathsFromDirectory(
+		std::vector<utility::file::FilePath> gradleJarPaths = FileSystem::getFilePathsFromDirectory(
 			m_settings->getGradleDependenciesDirectoryPath(), {L".jar"});
 
-		for (const FilePath& gradleJarPath: gradleJarPaths)
+		for (const utility::file::FilePath& gradleJarPath: gradleJarPaths)
 		{
 			LOG_INFO(L"Adding jar to classpath: " + gradleJarPath.wstr());
 		}
@@ -70,7 +70,7 @@ bool SourceGroupJavaGradle::prepareGradleData()
 {
 	if (m_settings && m_settings->getGradleProjectFilePathExpandedAndAbsolute().exists())
 	{
-		const FilePath projectRootPath =
+		const utility::file::FilePath projectRootPath =
 			m_settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
 		std::shared_ptr<DialogView> dialogView = lib::app::Application::getInstance()->getDialogView(
@@ -92,9 +92,9 @@ bool SourceGroupJavaGradle::prepareGradleData()
 	return true;
 }
 
-std::vector<FilePath> SourceGroupJavaGradle::doGetAllSourcePaths() const
+std::vector<utility::file::FilePath> SourceGroupJavaGradle::doGetAllSourcePaths() const
 {
-	std::vector<FilePath> sourcePaths;
+	std::vector<utility::file::FilePath> sourcePaths;
 	if (m_settings->getGradleProjectFilePathExpandedAndAbsolute().exists())
 	{
 		std::shared_ptr<DialogView> dialogView = lib::app::Application::getInstance()->getDialogView(
@@ -102,7 +102,7 @@ std::vector<FilePath> SourceGroupJavaGradle::doGetAllSourcePaths() const
 		dialogView->showUnknownProgressDialog(
 			L"Preparing Project", L"Gradle\nFetching Source Directories");
 
-		const FilePath projectRootPath =
+		const utility::file::FilePath projectRootPath =
 			m_settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
 		sourcePaths = utility::gradleGetAllSourceDirectories(
 			projectRootPath, m_settings->getShouldIndexGradleTests());

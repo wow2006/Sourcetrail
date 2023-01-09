@@ -42,10 +42,10 @@ bool SourceGroup::allowsShallowIndexing() const {
   return false;
 }
 
-std::set<FilePath> SourceGroup::filterToContainedSourceFilePath(
-    const std::set<FilePath>& sourceFilePaths) const {
-  std::set<FilePath> filteredSourceFilePaths;
-  for(const FilePath& sourceFilePath: getAllSourceFilePaths()) {
+std::set<utility::file::FilePath> SourceGroup::filterToContainedSourceFilePath(
+    const std::set<utility::file::FilePath>& sourceFilePaths) const {
+  std::set<utility::file::FilePath> filteredSourceFilePaths;
+  for(const utility::file::FilePath& sourceFilePath: getAllSourceFilePaths()) {
     if(sourceFilePaths.find(sourceFilePath) == sourceFilePaths.end()) {
       filteredSourceFilePaths.insert(sourceFilePath);
     }
@@ -53,21 +53,21 @@ std::set<FilePath> SourceGroup::filterToContainedSourceFilePath(
   return filteredSourceFilePaths;
 }
 
-bool SourceGroup::containsSourceFilePath(const FilePath& sourceFilePath) const {
+bool SourceGroup::containsSourceFilePath(const utility::file::FilePath& sourceFilePath) const {
   return !filterToContainedSourceFilePath({sourceFilePath}).empty();
 }
 
-std::set<FilePath> SourceGroup::filterToContainedFilePaths(
-    const std::set<FilePath>& filePaths,
-    const std::set<FilePath>& indexedFilePaths,
-    const std::set<FilePath>& indexedFileOrDirectoryPaths,
-    const std::vector<FilePathFilter>& excludeFilters) const {
-  std::set<FilePath> containedFilePaths;
+std::set<utility::file::FilePath> SourceGroup::filterToContainedFilePaths(
+    const std::set<utility::file::FilePath>& filePaths,
+    const std::set<utility::file::FilePath>& indexedFilePaths,
+    const std::set<utility::file::FilePath>& indexedFileOrDirectoryPaths,
+    const std::vector<utility::file::FilePathFilter>& excludeFilters) const {
+  std::set<utility::file::FilePath> containedFilePaths;
 
-  for(const FilePath& filePath: filePaths) {
+  for(const utility::file::FilePath& filePath: filePaths) {
     bool isInIndexedPaths = false;
 
-    for(const FilePath& indexedFileOrDirectoryPath: indexedFileOrDirectoryPaths) {
+    for(const utility::file::FilePath& indexedFileOrDirectoryPath: indexedFileOrDirectoryPaths) {
       if(indexedFileOrDirectoryPath == filePath || indexedFileOrDirectoryPath.contains(filePath)) {
         isInIndexedPaths = true;
         break;
@@ -79,7 +79,7 @@ std::set<FilePath> SourceGroup::filterToContainedFilePaths(
     }
 
     if(isInIndexedPaths) {
-      isInIndexedPaths = !FilePathFilter::areMatching(excludeFilters, filePath);
+      isInIndexedPaths = !utility::file::FilePathFilter::areMatching(excludeFilters, filePath);
     }
 
     if(isInIndexedPaths) {

@@ -1,15 +1,16 @@
 #pragma once
-
+// Internal
 #include "FilePath.h"
+#include "FilePathFilter.h"
 #include "UnorderedCache.h"
 
-class FilePathFilter;
+namespace utility::file {
 
 class FileRegister {
 public:
   FileRegister(const FilePath& currentPath,
-               const std::set<FilePath>& indexedPaths,
-               const std::set<FilePathFilter>& excludeFilters);
+               std::set<FilePath> indexedPaths,
+               std::set<FilePathFilter> excludeFilters);
 
   virtual ~FileRegister();
 
@@ -21,3 +22,5 @@ private:
   const std::set<FilePathFilter> m_excludeFilters;
   mutable utility::UnorderedCache<std::wstring, bool> m_hasFilePathCache;
 };
+
+}    // namespace utility::file

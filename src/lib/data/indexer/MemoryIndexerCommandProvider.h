@@ -8,11 +8,11 @@ public:
 
 	~MemoryIndexerCommandProvider() override;
 
-  std::vector<FilePath> getAllSourceFilePaths() const override;
+  std::vector<utility::file::FilePath> getAllSourceFilePaths() const override;
 
   std::shared_ptr<IndexerCommand> consumeCommand() override;
 
-  std::shared_ptr<IndexerCommand> consumeCommandForSourceFilePath(const FilePath& filePath) override;
+  std::shared_ptr<IndexerCommand> consumeCommandForSourceFilePath(const utility::file::FilePath& filePath) override;
 
   std::vector<std::shared_ptr<IndexerCommand>> consumeAllCommands() override;
 
@@ -21,5 +21,5 @@ public:
   size_t size() const override;
 
 private:
-  std::map<FilePath, std::shared_ptr<IndexerCommand>> m_commands;
+  std::map<utility::file::FilePath, std::shared_ptr<IndexerCommand>> m_commands;
 };

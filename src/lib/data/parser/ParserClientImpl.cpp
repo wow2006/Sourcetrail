@@ -6,7 +6,7 @@
 
 ParserClientImpl::ParserClientImpl(IntermediateStorage* const storage): m_storage(storage) {}
 
-Id ParserClientImpl::recordFile(const FilePath& filePath, bool indexed) {
+Id ParserClientImpl::recordFile(const utility::file::FilePath& filePath, bool indexed) {
   Id fileId = addFileName(filePath);
   m_storage->addFile(StorageFile(fileId, filePath.wstr(), L"", "", indexed, true));
   return fileId;
@@ -74,7 +74,7 @@ void ParserClientImpl::recordComment(const ParseLocation& location) {
 void ParserClientImpl::recordError(const std::wstring& message,
                                    bool fatal,
                                    bool indexed,
-                                   const FilePath& translationUnit,
+                                   const utility::file::FilePath& translationUnit,
                                    const ParseLocation& location) {
   if(location.fileId != 0) {
     Id errorId = m_storage->addError(
@@ -202,7 +202,7 @@ Id ParserClientImpl::addNodeHierarchy(const NameHierarchy& nameHierarchy) {
   return firstNodeId;
 }
 
-Id ParserClientImpl::addFileName(const FilePath& filePath) {
+Id ParserClientImpl::addFileName(const utility::file::FilePath& filePath) {
   const std::wstring file = filePath.wstr();
 
   auto it = m_fileIdMap.find(file);

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "FilePath.h"
 #include "utilityString.h"
+#include "FilePath.h"
 
 namespace utility {
 
@@ -71,12 +71,12 @@ std::set<TargetType> convert(const std::set<SourceType>& sourceContainer);
 template <typename T>
 std::vector<std::string> toStrings(const std::vector<T>& d);
 template <>
-std::vector<std::string> toStrings(const std::vector<FilePath>& d);
+std::vector<std::string> toStrings(const std::vector<utility::file::FilePath>& d);
 
 template <typename T>
 std::vector<std::wstring> toWStrings(const std::vector<T>& d);
 template <>
-std::vector<std::wstring> toWStrings(const std::vector<FilePath>& d);
+std::vector<std::wstring> toWStrings(const std::vector<utility::file::FilePath>& d);
 
 template <typename T>
 bool isPermutation(const std::vector<T>& a, const std::vector<T>& b) {

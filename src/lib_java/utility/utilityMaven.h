@@ -4,22 +4,24 @@
 #include <string>
 #include <vector>
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 
 namespace utility
 {
 std::wstring mavenGenerateSources(
-	const FilePath& mavenPath, const FilePath& settingsFilePath, const FilePath& projectDirectoryPath);
+	const utility::file::FilePath& mavenPath, const utility::file::FilePath& settingsFilePath, const utility::file::FilePath& projectDirectoryPath);
 bool mavenCopyDependencies(
-	const FilePath& mavenPath,
-	const FilePath& settingsFilePath,
-	const FilePath& projectDirectoryPath,
-	const FilePath& outputDirectoryPath);
-std::vector<FilePath> mavenGetAllDirectoriesFromEffectivePom(
-	const FilePath& mavenPath,
-	const FilePath& settingsFilePath,
-	const FilePath& projectDirectoryPath,
-	const FilePath& outputDirectoryPath,
+	const utility::file::FilePath& mavenPath,
+	const utility::file::FilePath& settingsFilePath,
+	const utility::file::FilePath& projectDirectoryPath,
+	const utility::file::FilePath& outputDirectoryPath);
+std::vector<utility::file::FilePath> mavenGetAllDirectoriesFromEffectivePom(
+	const utility::file::FilePath& mavenPath,
+	const utility::file::FilePath& settingsFilePath,
+	const utility::file::FilePath& projectDirectoryPath,
+	const utility::file::FilePath& outputDirectoryPath,
 	bool addTestDirectories);
 }	 // namespace utility
 

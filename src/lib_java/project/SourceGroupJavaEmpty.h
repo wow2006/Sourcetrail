@@ -15,8 +15,8 @@ public:
 	bool prepareIndexing() override;
 
 private:
-	std::vector<FilePath> getAllSourcePaths() const override;
-	std::vector<FilePath> doGetClassPath() const override;
+	std::vector<utility::file::FilePath> getAllSourcePaths() const override;
+	std::vector<utility::file::FilePath> doGetClassPath() const override;
 	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
 	std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override;
 

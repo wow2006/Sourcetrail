@@ -5,7 +5,9 @@
 
 struct FileInfo;
 class DialogView;
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 class PersistentStorage;
 class ProjectSettings;
 class StorageCache;
@@ -18,7 +20,7 @@ public:
           bool hasGUI);
   virtual ~Project();
 
-  FilePath getProjectSettingsFilePath() const;
+  utility::file::FilePath getProjectSettingsFilePath() const;
   std::string getDescription() const;
 
   bool isLoaded() const;
@@ -53,8 +55,8 @@ private:
   Project(const Project&);
 
   void swapToTempStorage(std::shared_ptr<DialogView> dialogView);
-  bool swapToTempStorageFile(const FilePath& indexDbFilePath,
-                             const FilePath& tempIndexDbFilePath,
+  bool swapToTempStorageFile(const utility::file::FilePath& indexDbFilePath,
+                             const utility::file::FilePath& tempIndexDbFilePath,
                              std::shared_ptr<DialogView> dialogView);
   void discardTempStorage();
 

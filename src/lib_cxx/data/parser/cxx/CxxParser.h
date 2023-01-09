@@ -8,7 +8,7 @@
 
 class CanonicalFilePathCache;
 class CxxDiagnosticConsumer;
-class FilePath;
+#include "FilePath.h"
 class FileRegister;
 class IndexerCommandCxx;
 class TaskParseCxx;
@@ -45,10 +45,10 @@ public:
 
 private:
 	void runTool(
-		clang::tooling::CompilationDatabase* compilationDatabase, const FilePath& sourceFilePath);
+		clang::tooling::CompilationDatabase* compilationDatabase, const utility::file::FilePath& sourceFilePath);
 
 	std::shared_ptr<CxxDiagnosticConsumer> getDiagnostics(
-		const FilePath& sourceFilePath,
+		const utility::file::FilePath& sourceFilePath,
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 		bool logErrors) const;
 

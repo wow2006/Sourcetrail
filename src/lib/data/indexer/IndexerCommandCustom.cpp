@@ -11,10 +11,10 @@ IndexerCommandType IndexerCommandCustom::getStaticIndexerCommandType() {
 
 IndexerCommandCustom::IndexerCommandCustom(const std::wstring& command,
                                            const std::vector<std::wstring>& arguments,
-                                           const FilePath& projectFilePath,
-                                           const FilePath& databaseFilePath,
+                                           const utility::file::FilePath& projectFilePath,
+                                           const utility::file::FilePath& databaseFilePath,
                                            const std::wstring& databaseVersion,
-                                           const FilePath& sourceFilePath,
+                                           const utility::file::FilePath& sourceFilePath,
                                            bool runInParallel)
     : IndexerCommand(sourceFilePath)
     , m_type(getStaticIndexerCommandType())
@@ -28,10 +28,10 @@ IndexerCommandCustom::IndexerCommandCustom(const std::wstring& command,
 IndexerCommandCustom::IndexerCommandCustom(IndexerCommandType type,
                                            const std::wstring& command,
                                            const std::vector<std::wstring>& arguments,
-                                           const FilePath& projectFilePath,
-                                           const FilePath& databaseFilePath,
+                                           const utility::file::FilePath& projectFilePath,
+                                           const utility::file::FilePath& databaseFilePath,
                                            const std::wstring& databaseVersion,
-                                           const FilePath& sourceFilePath,
+                                           const utility::file::FilePath& sourceFilePath,
                                            bool runInParallel)
     : IndexerCommand(sourceFilePath)
     , m_type(type)
@@ -54,11 +54,11 @@ size_t IndexerCommandCustom::getByteSize(size_t stringSize) const {
   return size;
 }
 
-FilePath IndexerCommandCustom::getDatabaseFilePath() const {
+utility::file::FilePath IndexerCommandCustom::getDatabaseFilePath() const {
   return m_databaseFilePath;
 }
 
-void IndexerCommandCustom::setDatabaseFilePath(const FilePath& databaseFilePath) {
+void IndexerCommandCustom::setDatabaseFilePath(const utility::file::FilePath& databaseFilePath) {
   m_databaseFilePath = databaseFilePath;
 }
 

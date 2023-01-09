@@ -30,7 +30,7 @@ public:
 
   enum StorageModeType { STORAGE_MODE_READ = 1, STORAGE_MODE_WRITE = 2, STORAGE_MODE_CLEAR = 4 };
 
-  SqliteIndexStorage(const FilePath& dbFilePath);
+  SqliteIndexStorage(const utility::file::FilePath& dbFilePath);
 
   virtual size_t getStaticVersion() const;
 
@@ -95,7 +95,7 @@ public:
 
   StorageFile getFileByPath(const std::wstring& filePath) const;
 
-  std::vector<StorageFile> getFilesByPaths(const std::vector<FilePath>& filePaths) const;
+  std::vector<StorageFile> getFilesByPaths(const std::vector<utility::file::FilePath>& filePaths) const;
   std::shared_ptr<TextAccess> getFileContentByPath(const std::wstring& filePath) const;
   std::shared_ptr<TextAccess> getFileContentById(Id fileId) const;
 
@@ -103,12 +103,12 @@ public:
   void setFileCompleteIfNoError(Id fileId, const std::wstring& filePath, bool complete);
   void setNodeType(int type, Id nodeId);
 
-  std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath,
+  std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const utility::file::FilePath& filePath,
                                                                 const std::string& query = "") const;
-  std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(const FilePath& filePath,
+  std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(const utility::file::FilePath& filePath,
                                                                        size_t startLine,
                                                                        size_t endLine) const;
-  std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(const FilePath& filePath,
+  std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(const utility::file::FilePath& filePath,
                                                                      LocationType type) const;
 
   std::shared_ptr<SourceLocationCollection> getSourceLocationsForElementIds(

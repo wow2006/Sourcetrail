@@ -1341,7 +1341,7 @@ void GraphController::groupNodesByParents(GroupType groupType) {
 
     std::wstring name = p.first;
     if(groupType == GroupType::FILE_TYPE) {
-      name = FilePath(p.first).fileName();
+      name = utility::file::FilePath(p.first).fileName();
     }
 
     auto groupIterator = groupNodes.find(name);
@@ -2067,7 +2067,7 @@ void GraphController::createLegendGraph() {
     addNode(NODE_FILE, L"File", Vec2i(x, y + dy * ++i));
     addNode(NODE_FILE, L"Non-Indexed File", Vec2i(x, y + dy * ++i), DEFINITION_NONE);
     Node* incompleteFile = addNode(NODE_FILE, L"Incomplete File", Vec2i(x, y + dy * ++i));
-    incompleteFile->addComponent(std::make_shared<TokenComponentFilePath>(FilePath(), false));
+    incompleteFile->addComponent(std::make_shared<TokenComponentFilePath>(utility::file::FilePath(), false));
 
     addNode(NODE_MACRO, L"Macro", Vec2i(x, y + dy * ++i));
     addNode(NODE_ANNOTATION, L"Annotation", Vec2i(x, y + dy * ++i));

@@ -6,7 +6,9 @@
 
 #include "CodeblocksCompilerVarType.h"
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 class TiXmlElement;
 
 namespace Codeblocks
@@ -17,7 +19,7 @@ public:
 	static std::string getXmlElementName();
 	static std::shared_ptr<Unit> create(const TiXmlElement* element);
 
-	FilePath getCanonicalFilePath(const FilePath& projectFileDirectory) const;
+	utility::file::FilePath getCanonicalFilePath(const utility::file::FilePath& projectFileDirectory) const;
 	CompilerVarType getCompilerVar() const;
 	bool getCompile() const;
 	std::set<std::wstring> getTargetNames() const;

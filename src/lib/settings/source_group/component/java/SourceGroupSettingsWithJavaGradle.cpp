@@ -4,20 +4,20 @@
 #include "ProjectSettings.h"
 #include "utilityFile.h"
 
-FilePath SourceGroupSettingsWithJavaGradle::getGradleDependenciesDirectoryPath() const {
+utility::file::FilePath SourceGroupSettingsWithJavaGradle::getGradleDependenciesDirectoryPath() const {
   return getSourceGroupDependenciesDirectoryPath().concatenate(L"gradle");
 }
 
-FilePath SourceGroupSettingsWithJavaGradle::getGradleProjectFilePath() const {
+utility::file::FilePath SourceGroupSettingsWithJavaGradle::getGradleProjectFilePath() const {
   return m_gradleProjectFilePath;
 }
 
-FilePath SourceGroupSettingsWithJavaGradle::getGradleProjectFilePathExpandedAndAbsolute() const {
+utility::file::FilePath SourceGroupSettingsWithJavaGradle::getGradleProjectFilePathExpandedAndAbsolute() const {
   return utility::getExpandedAndAbsolutePath(
       getGradleProjectFilePath(), getProjectSettings()->getProjectDirectoryPath());
 }
 
-void SourceGroupSettingsWithJavaGradle::setGradleProjectFilePath(const FilePath& path) {
+void SourceGroupSettingsWithJavaGradle::setGradleProjectFilePath(const utility::file::FilePath& path) {
   m_gradleProjectFilePath = path;
 }
 
@@ -40,7 +40,7 @@ bool SourceGroupSettingsWithJavaGradle::equals(const SourceGroupSettingsBase* ot
 void SourceGroupSettingsWithJavaGradle::load(const utility::ConfigManager* config,
                                              const std::string& key) {
   setGradleProjectFilePath(
-      config->getValueOrDefault(key + "/gradle/project_file_path", FilePath(L"")));
+      config->getValueOrDefault(key + "/gradle/project_file_path", utility::file::FilePath(L"")));
   setShouldIndexGradleTests(config->getValueOrDefault(key + "/gradle/should_index_tests", false));
 }
 

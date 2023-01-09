@@ -16,17 +16,17 @@ bool SourceGroupCustomCommand::allowsPartialClearing() const {
   return false;
 }
 
-std::set<FilePath> SourceGroupCustomCommand::filterToContainedFilePaths(
-    const std::set<FilePath>& filePaths) const {
+std::set<utility::file::FilePath> SourceGroupCustomCommand::filterToContainedFilePaths(
+    const std::set<utility::file::FilePath>& filePaths) const {
   return SourceGroup::filterToContainedFilePaths(
       filePaths,
-      std::set<FilePath>(),
+      std::set<utility::file::FilePath>(),
       utility::toSet(m_settings->getSourcePathsExpandedAndAbsolute()),
       m_settings->getExcludeFiltersExpandedAndAbsolute());
 }
 
-std::set<FilePath> SourceGroupCustomCommand::getAllSourceFilePaths() const {
-  FileManager fileManager;
+std::set<utility::file::FilePath> SourceGroupCustomCommand::getAllSourceFilePaths() const {
+  utility::file::FileManager fileManager;
   fileManager.update(m_settings->getSourcePathsExpandedAndAbsolute(),
                      m_settings->getExcludeFiltersExpandedAndAbsolute(),
                      m_settings->getSourceExtensions());
@@ -38,7 +38,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCustomCommand::getIndexe
   const bool runInParallel = m_settings->getRunInParallel();
 
   std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
-  for(const FilePath& sourcePath: getAllSourceFilePaths()) {
+  for(const utility::file::FilePath& sourcePath: getAllSourceFilePaths()) {
     if(info.filesToIndex.find(sourcePath) != info.filesToIndex.end()) {
       indexerCommands.push_back(std::make_shared<IndexerCommandCustom>(
           m_settings->getCustomCommand(),

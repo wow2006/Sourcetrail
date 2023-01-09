@@ -1,17 +1,19 @@
 #pragma once
 
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 #include "SourceGroupSettingsComponent.h"
 
 class SourceGroupSettingsWithCxxPchOptions : public SourceGroupSettingsComponent {
 public:
   virtual ~SourceGroupSettingsWithCxxPchOptions() = default;
 
-  FilePath getPchDependenciesDirectoryPath() const;
+  utility::file::FilePath getPchDependenciesDirectoryPath() const;
 
-  FilePath getPchInputFilePath() const;
-  FilePath getPchInputFilePathExpandedAndAbsolute() const;
-  void setPchInputFilePathFilePath(const FilePath& path);
+  utility::file::FilePath getPchInputFilePath() const;
+  utility::file::FilePath getPchInputFilePathExpandedAndAbsolute() const;
+  void setPchInputFilePathFilePath(const utility::file::FilePath& path);
 
   std::vector<std::wstring> getPchFlags() const;
   void setPchFlags(const std::vector<std::wstring>& pchFlags);
@@ -26,7 +28,7 @@ protected:
   void save(utility::ConfigManagerigManager* config, const std::string& key) override;
 
 private:
-  FilePath m_pchInputFilePath;
+  utility::file::FilePath m_pchInputFilePath;
   std::vector<std::wstring> m_pchFlags;
   bool m_useCompilerFlags = true;
 };

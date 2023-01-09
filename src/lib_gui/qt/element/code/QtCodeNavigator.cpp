@@ -370,7 +370,7 @@ bool QtCodeNavigator::hasErrors() const {
   return m_errorInfos.size() > 0;
 }
 
-size_t QtCodeNavigator::getFatalErrorCountForFile(const FilePath& filePath) const {
+size_t QtCodeNavigator::getFatalErrorCountForFile(const utility::file::FilePath& filePath) const {
   size_t fatalErrorCount = 0;
   for(const std::pair<Id, ErrorInfo>& p: m_errorInfos) {
     const ErrorInfo& error = p.second;
@@ -385,7 +385,7 @@ bool QtCodeNavigator::isInListMode() const {
   return m_mode == MODE_LIST;
 }
 
-bool QtCodeNavigator::hasSingleFileCached(const FilePath& filePath) const {
+bool QtCodeNavigator::hasSingleFileCached(const utility::file::FilePath& filePath) const {
   return m_single->hasFileCached(filePath);
 }
 
@@ -614,7 +614,7 @@ void QtCodeNavigator::keyPressEvent(QKeyEvent* event) {
   bool ctrl = event->modifiers() & Qt::ControlModifier;
   const CodeFocusHandler::Focus& currentFocus = getCurrentFocus();
 
-  FilePath currentFilePath;
+  utility::file::FilePath currentFilePath;
   if(currentFocus.file) {
     currentFilePath = currentFocus.file->getFilePath();
   } else if(currentFocus.area) {

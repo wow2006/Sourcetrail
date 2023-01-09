@@ -9,8 +9,8 @@
 
 TEST_CASE("command line")
 {
-	FilePath appSettingsPath = ApplicationSettings::getInstance()->getFilePath();
-	ApplicationSettings::getInstance()->load(FilePath(L"data/CommandlineTestSuite/settings.xml"));
+	utility::file::FilePath appSettingsPath = ApplicationSettings::getInstance()->getFilePath();
+	ApplicationSettings::getInstance()->load(utility::file::FilePath(L"data/CommandlineTestSuite/settings.xml"));
 
 	SECTION("commandline version")
 	{
@@ -39,7 +39,7 @@ TEST_CASE("command line")
 		parser.preparse(args);
 		parser.parse();
 
-		std::vector<FilePath> paths = ApplicationSettings::getInstance()->getHeaderSearchPaths();
+		std::vector<utility::file::FilePath> paths = ApplicationSettings::getInstance()->getHeaderSearchPaths();
 		REQUIRE(paths[0].wstr() == L"/usr");
 		REQUIRE(paths[1].wstr() == L"/usr/share/include");
 		REQUIRE(paths[2].wstr() == L"/opt/test/include");
@@ -58,7 +58,7 @@ TEST_CASE("command line")
 
 		std::cout.rdbuf(oldBuf);
 
-		FilePath path = ApplicationSettings::getInstance()->getMavenPath();
+		utility::file::FilePath path = ApplicationSettings::getInstance()->getMavenPath();
 		REQUIRE(path.wstr() == L"/opt/testpath/mvn");
 	}
 
@@ -71,7 +71,7 @@ TEST_CASE("command line")
 		parser.preparse(args);
 		parser.parse();
 
-		std::vector<FilePath> paths = ApplicationSettings::getInstance()->getHeaderSearchPaths();
+		std::vector<utility::file::FilePath> paths = ApplicationSettings::getInstance()->getHeaderSearchPaths();
 		REQUIRE(paths[0].wstr() == L"/usr");
 		REQUIRE(paths[1].wstr() == L"/usr/include");
 		REQUIRE(paths[2].wstr() == L"/include");

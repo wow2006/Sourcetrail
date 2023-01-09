@@ -13,8 +13,8 @@ public:
 	QtCodeFileTitleButton(QWidget* parent = nullptr);
 	virtual ~QtCodeFileTitleButton() = default;
 
-	const FilePath& getFilePath() const;
-	void setFilePath(const FilePath& filePath);
+	const utility::file::FilePath& getFilePath() const;
+	void setFilePath(const utility::file::FilePath& filePath);
 
 	void setModificationTime(const TimeStamp modificationTime);
 	void setProject(const std::wstring& name);
@@ -42,7 +42,7 @@ private:
 	void updateIcon();
 	void updateHatching();
 
-	FilePath m_filePath;
+	utility::file::FilePath m_filePath;
 	TimeStamp m_modificationTime;
 	bool m_isComplete;
 	bool m_isIndexed;

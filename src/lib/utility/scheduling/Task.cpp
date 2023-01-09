@@ -3,6 +3,8 @@
 #include "TaskManager.h"
 #include "TaskScheduler.h"
 
+Task::~Task() = default;
+
 void Task::dispatch(Id schedulerId, std::shared_ptr<Task> task) {
   TaskManager::getScheduler(schedulerId)->pushTask(task);
 }

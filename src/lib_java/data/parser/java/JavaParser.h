@@ -5,7 +5,9 @@
 #include <mutex>
 #include <string>
 
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 #include "IndexerCommandJava.h"
 #include "IndexerStateInfo.h"
 #include "JavaEnvironment.h"
@@ -28,7 +30,9 @@ typedef int jint;
 class _jstring;
 typedef _jstring* jstring;
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 class TextAccess;
 
 class JavaParser: public Parser
@@ -40,11 +44,11 @@ public:
 	~JavaParser();
 
 	void buildIndex(std::shared_ptr<IndexerCommandJava> indexerCommand);
-	void buildIndex(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess);
+	void buildIndex(const utility::file::FilePath& filePath, std::shared_ptr<TextAccess> textAccess);
 
 private:
 	void buildIndex(
-		const FilePath& sourceFilePath,
+		const utility::file::FilePath& sourceFilePath,
 		const std::wstring& languageStandard,
 		const std::string& classPath,
 		std::shared_ptr<TextAccess> textAccess);
@@ -331,7 +335,7 @@ private:
 	std::shared_ptr<IndexerStateInfo> m_indexerStateInfo;
 	const int m_id;
 
-	FilePath m_currentFilePath;
+	utility::file::FilePath m_currentFilePath;
 	Id m_currentFileId;
 
 	std::map<std::string, Id> m_symbolNameToIdMap;

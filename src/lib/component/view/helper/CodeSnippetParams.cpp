@@ -66,8 +66,8 @@ bool CodeFileParams::sort(const CodeFileParams& a, const CodeFileParams& b) {
     return false;
   }
 
-  const FilePath& aFilePath = a.locationFile->getFilePath();
-  const FilePath& bFilePath = b.locationFile->getFilePath();
+  const utility::file::FilePath& aFilePath = a.locationFile->getFilePath();
+  const utility::file::FilePath& bFilePath = b.locationFile->getFilePath();
 
   // first header
   if(aFilePath.withoutExtension() == bFilePath.withoutExtension()) {

@@ -5,6 +5,9 @@
 #include "ParseLocation.h"
 
 class ParserClient;
+namespace utility::file {
+class FilePath;
+}
 
 // This CxxAstVisitorComponent is responsible for recording all matching braces ["{", "}"]
 // throughout the visited AST.
@@ -22,10 +25,10 @@ public:
 
 private:
 	ParseLocation getParseLocation(const clang::SourceLocation& loc) const;
-	FilePath getFilePath(const clang::SourceLocation& loc);
+	utility::file::FilePath getFilePath(const clang::SourceLocation& loc);
 
 	void recordBraces(
-		const FilePath& filePath, const ParseLocation& lbraceLoc, const ParseLocation& rbraceLoc);
+		const utility::file::FilePath& filePath, const ParseLocation& lbraceLoc, const ParseLocation& rbraceLoc);
 	clang::SourceLocation getFirstLBraceLocation(
 		clang::SourceLocation searchStartLoc, clang::SourceLocation searchEndLoc) const;
 	clang::SourceLocation getLastRBraceLocation(

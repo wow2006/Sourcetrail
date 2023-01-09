@@ -9,14 +9,17 @@ public:
   enum TaskState { STATE_RUNNING, STATE_HOLD, STATE_SUCCESS, STATE_FAILURE };
 
   static void dispatch(Id schedulerId, std::shared_ptr<Task> task);
+
   static void dispatchNext(Id schedulerId, std::shared_ptr<Task> task);
 
-  virtual ~Task() = default;
+  virtual ~Task();
 
   void setIsBackgroundTask(bool background);
 
   TaskState update(std::shared_ptr<Blackboard> blackboard);
+
   void reset(std::shared_ptr<Blackboard> blackboard);
+  
   virtual void terminate();    // caution: this should only be called just before quitting the app.
 
 private:

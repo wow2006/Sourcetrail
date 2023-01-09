@@ -99,7 +99,7 @@ bool prepareJavaEnvironmentAndDisplayOccurringErrors()
 	return true;
 }
 
-std::set<FilePath> fetchRootDirectories(const std::set<FilePath>& sourceFilePaths)
+std::set<utility::file::FilePath> fetchRootDirectories(const std::set<utility::file::FilePath>& sourceFilePaths)
 {
 	std::shared_ptr<DialogView> dialogView = lib::app::Application::getInstance()->getDialogView(
 		DialogView::UseCase::PROJECT_SETUP);
@@ -107,11 +107,11 @@ std::set<FilePath> fetchRootDirectories(const std::set<FilePath>& sourceFilePath
 
 	ScopedFunctor dialogHider([&dialogView]() { dialogView->hideUnknownProgressDialog(); });
 
-	std::set<FilePath> rootDirectories;
+	std::set<utility::file::FilePath> rootDirectories;
 
 	std::shared_ptr<JavaEnvironment> javaEnvironment =
 		JavaEnvironmentFactory::getInstance()->createEnvironment();
-	for (const FilePath& filePath: sourceFilePaths)
+	for (const utility::file::FilePath& filePath: sourceFilePaths)
 	{
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 
@@ -124,7 +124,7 @@ std::set<FilePath> fetchRootDirectories(const std::set<FilePath>& sourceFilePath
 			continue;
 		}
 
-		FilePath rootPath = filePath.getParentDirectory();
+		utility::file::FilePath rootPath = filePath.getParentDirectory();
 		bool success = true;
 
 		const std::vector<std::string> packageNameParts = utility::splitToVector(packageName, ".");
@@ -149,14 +149,14 @@ std::set<FilePath> fetchRootDirectories(const std::set<FilePath>& sourceFilePath
 	return rootDirectories;
 }
 
-std::vector<FilePath> getClassPath(
-	const std::vector<FilePath>& classpathItems,
+std::vector<utility::file::FilePath> getClassPath(
+	const std::vector<utility::file::FilePath>& classpathItems,
 	bool useJreSystemLibrary,
-	const std::set<FilePath>& sourceFilePaths)
+	const std::set<utility::file::FilePath>& sourceFilePaths)
 {
-	std::vector<FilePath> classPath;
+	std::vector<utility::file::FilePath> classPath;
 
-	for (const FilePath& classpath: classpathItems)
+	for (const utility::file::FilePath& classpath: classpathItems)
 	{
 		if (classpath.exists())
 		{
@@ -167,7 +167,7 @@ std::vector<FilePath> getClassPath(
 
 	if (useJreSystemLibrary)
 	{
-		for (const FilePath& systemLibraryPath:
+		for (const utility::file::FilePath& systemLibraryPath:
 			 ApplicationSettings::getInstance()->getJreSystemLibraryPathsExpanded())
 		{
 			LOG_INFO(L"Adding JRE system library path to classpath: " + systemLibraryPath.wstr());
@@ -175,7 +175,7 @@ std::vector<FilePath> getClassPath(
 		}
 	}
 
-	for (const FilePath& rootDirectory: utility::fetchRootDirectories(sourceFilePaths))
+	for (const utility::file::FilePath& rootDirectory: utility::fetchRootDirectories(sourceFilePaths))
 	{
 		if (rootDirectory.exists())
 		{
@@ -194,8 +194,8 @@ void setJavaHomeVariableIfNotExists()
 	if (getenv("JAVA_HOME") == nullptr)
 #pragma warning(pop)
 	{
-		const FilePath javaPath = ApplicationSettings::getInstance()->getJavaPath();
-		const FilePath javaHomePath =
+		const utility::file::FilePath javaPath = ApplicationSettings::getInstance()->getJavaPath();
+		const utility::file::FilePath javaHomePath =
 			javaPath.getParentDirectory().getParentDirectory().getParentDirectory();
 
 		LOG_WARNING(

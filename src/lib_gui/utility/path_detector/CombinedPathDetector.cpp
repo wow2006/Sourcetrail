@@ -22,7 +22,7 @@ std::vector<std::string> CombinedPathDetector::getWorkingDetectorNames()
 	return names;
 }
 
-std::vector<FilePath> CombinedPathDetector::getPathsForDetector(const std::string& detectorName) const
+std::vector<utility::file::FilePath> CombinedPathDetector::getPathsForDetector(const std::string& detectorName) const
 {
 	for (const std::shared_ptr<PathDetector>& detector: m_detectors)
 	{
@@ -31,18 +31,18 @@ std::vector<FilePath> CombinedPathDetector::getPathsForDetector(const std::strin
 			return detector->getPaths();
 		}
 	}
-	return std::vector<FilePath>();
+	return std::vector<utility::file::FilePath>();
 }
 
-std::vector<FilePath> CombinedPathDetector::doGetPaths() const
+std::vector<utility::file::FilePath> CombinedPathDetector::doGetPaths() const
 {
 	for (const std::shared_ptr<PathDetector>& detector: m_detectors)
 	{
-		std::vector<FilePath> detectedPaths = detector->getPaths();
+		std::vector<utility::file::FilePath> detectedPaths = detector->getPaths();
 		if (!detectedPaths.empty())
 		{
 			return detectedPaths;
 		}
 	}
-	return std::vector<FilePath>();
+	return std::vector<utility::file::FilePath>();
 }

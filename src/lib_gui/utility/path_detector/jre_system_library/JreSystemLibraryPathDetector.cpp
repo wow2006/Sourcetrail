@@ -13,14 +13,14 @@ JreSystemLibraryPathDetector::JreSystemLibraryPathDetector(
 {
 }
 
-std::vector<FilePath> JreSystemLibraryPathDetector::doGetPaths() const
+std::vector<utility::file::FilePath> JreSystemLibraryPathDetector::doGetPaths() const
 {
-	std::vector<FilePath> paths;
-	for (const FilePath& jrePath: m_javaPathDetector->getPaths())
+	std::vector<utility::file::FilePath> paths;
+	for (const utility::file::FilePath& jrePath: m_javaPathDetector->getPaths())
 	{
-		const FilePath javaRoot =
+		const utility::file::FilePath javaRoot =
 			jrePath.getParentDirectory().getParentDirectory().getParentDirectory();
-		for (const FilePath& jarPath:
+		for (const utility::file::FilePath& jarPath:
 			 FileSystem::getFilePathsFromDirectory(javaRoot.getConcatenated(L"lib"), {L".jar"}))
 		{
 			paths.push_back(jarPath);

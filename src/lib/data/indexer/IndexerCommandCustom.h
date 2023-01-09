@@ -8,19 +8,19 @@ public:
 
   IndexerCommandCustom(const std::wstring& command,
                        const std::vector<std::wstring>& arguments,
-                       const FilePath& projectFilePath,
-                       const FilePath& databaseFilePath,
+                       const utility::file::FilePath& projectFilePath,
+                       const utility::file::FilePath& databaseFilePath,
                        const std::wstring& databaseVersion,
-                       const FilePath& sourceFilePath,
+                       const utility::file::FilePath& sourceFilePath,
                        bool runInParallel);
 
   IndexerCommandCustom(IndexerCommandType type,
                        const std::wstring& command,
                        const std::vector<std::wstring>& arguments,
-                       const FilePath& projectFilePath,
-                       const FilePath& databaseFilePath,
+                       const utility::file::FilePath& projectFilePath,
+                       const utility::file::FilePath& databaseFilePath,
                        const std::wstring& databaseVersion,
-                       const FilePath& sourceFilePath,
+                       const utility::file::FilePath& sourceFilePath,
                        bool runInParallel);
 
   ~IndexerCommandCustom() override;
@@ -29,9 +29,9 @@ public:
 
   size_t getByteSize(size_t stringSize) const override;
 
-  FilePath getDatabaseFilePath() const;
+  utility::file::FilePath getDatabaseFilePath() const;
 
-  void setDatabaseFilePath(const FilePath& databaseFilePath);
+  void setDatabaseFilePath(const utility::file::FilePath& databaseFilePath);
 
   std::wstring getCommand() const;
 
@@ -48,8 +48,8 @@ private:
   IndexerCommandType m_type;
   std::wstring m_command;
   std::vector<std::wstring> m_arguments;
-  FilePath m_projectFilePath;
-  FilePath m_databaseFilePath;
+  utility::file::FilePath m_projectFilePath;
+  utility::file::FilePath m_databaseFilePath;
   std::wstring m_databaseVersion;
   bool m_runInParallel;
 };

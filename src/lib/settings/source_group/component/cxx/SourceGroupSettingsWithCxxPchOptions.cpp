@@ -4,20 +4,20 @@
 #include "utility.h"
 #include "utilityFile.h"
 
-FilePath SourceGroupSettingsWithCxxPchOptions::getPchDependenciesDirectoryPath() const {
+utility::file::FilePath SourceGroupSettingsWithCxxPchOptions::getPchDependenciesDirectoryPath() const {
   return getSourceGroupDependenciesDirectoryPath().concatenate(L"pch");
 }
 
-FilePath SourceGroupSettingsWithCxxPchOptions::getPchInputFilePath() const {
+utility::file::FilePath SourceGroupSettingsWithCxxPchOptions::getPchInputFilePath() const {
   return m_pchInputFilePath;
 }
 
-FilePath SourceGroupSettingsWithCxxPchOptions::getPchInputFilePathExpandedAndAbsolute() const {
+utility::file::FilePath SourceGroupSettingsWithCxxPchOptions::getPchInputFilePathExpandedAndAbsolute() const {
   return utility::getExpandedAndAbsolutePath(
       getPchInputFilePath(), getProjectSettings()->getProjectDirectoryPath());
 }
 
-void SourceGroupSettingsWithCxxPchOptions::setPchInputFilePathFilePath(const FilePath& path) {
+void SourceGroupSettingsWithCxxPchOptions::setPchInputFilePathFilePath(const utility::file::FilePath& path) {
   m_pchInputFilePath = path;
 }
 
@@ -32,7 +32,7 @@ bool SourceGroupSettingsWithCxxPchOptions::equals(const SourceGroupSettingsBase*
 
 void SourceGroupSettingsWithCxxPchOptions::load(const utility::ConfigManager* config,
                                                 const std::string& key) {
-  setPchInputFilePathFilePath(config->getValueOrDefault(key + "/pch_input_file_path", FilePath(L"")));
+  setPchInputFilePathFilePath(config->getValueOrDefault(key + "/pch_input_file_path", utility::file::FilePath(L"")));
   setPchFlags(config->getValuesOrDefaults(key + "/pch_flags/pch_flag", std::vector<std::wstring>()));
   setUseCompilerFlags(config->getValueOrDefault(key + "/pch_flags/use_compiler_flags", false));
 }

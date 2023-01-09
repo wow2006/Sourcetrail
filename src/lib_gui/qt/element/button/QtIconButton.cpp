@@ -4,7 +4,7 @@
 
 #include "utilityQt.h"
 
-QtIconButton::QtIconButton(const FilePath& iconPath, const FilePath& hoveredIconPath, QWidget* parent)
+QtIconButton::QtIconButton(const utility::file::FilePath& iconPath, const utility::file::FilePath& hoveredIconPath, QWidget* parent)
     : QPushButton(QLatin1String(""), parent)
     , m_iconPath(iconPath)
     , m_hoveredIconPath(hoveredIconPath)
@@ -36,7 +36,7 @@ void QtIconButton::leaveEvent(QEvent* /*event*/) {
   }
 }
 
-void QtIconButton::setIconFromPath(const FilePath& path) {
+void QtIconButton::setIconFromPath(const utility::file::FilePath& path) {
   QPixmap pixmap = QPixmap(QString::fromStdWString(path.wstr()));
 
   if(m_color != Qt::transparent) {

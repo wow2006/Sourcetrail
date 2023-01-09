@@ -61,9 +61,9 @@ std::shared_ptr<Unit> Unit::create(const TiXmlElement* element)
 	return unit;
 }
 
-FilePath Unit::getCanonicalFilePath(const FilePath& projectFileDirectory) const
+utility::file::FilePath Unit::getCanonicalFilePath(const utility::file::FilePath& projectFileDirectory) const
 {
-	FilePath path(m_filename);
+	utility::file::FilePath path(m_filename);
 
 	if (!path.exists() || !path.isAbsolute())
 	{

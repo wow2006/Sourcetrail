@@ -1,6 +1,8 @@
 #pragma once
 
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 
 enum RefreshMode {
   REFRESH_NONE,
@@ -10,9 +12,9 @@ enum RefreshMode {
 };
 
 struct RefreshInfo {
-  std::set<FilePath> filesToIndex;
-  std::set<FilePath> filesToClear;
-  std::set<FilePath> nonIndexedFilesToClear;
+  std::set<utility::file::FilePath> filesToIndex;
+  std::set<utility::file::FilePath> filesToClear;
+  std::set<utility::file::FilePath> nonIndexedFilesToClear;
 
   RefreshMode mode = REFRESH_NONE;
   bool shallow = false;

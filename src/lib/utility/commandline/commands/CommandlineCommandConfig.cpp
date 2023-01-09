@@ -26,13 +26,13 @@ void parseAndSetValue(boolFunc func, const char* opt, ApplicationSettings* setti
   }
 }
 
-typedef void (ApplicationSettings::*filePathFunc)(const FilePath&);
+typedef void (ApplicationSettings::*filePathFunc)(const utility::file::FilePath&);
 void parseAndSetValue(filePathFunc f,
                       const char* opt,
                       ApplicationSettings* settings,
                       po::variables_map& vm) {
   if(vm.count(opt)) {
-    FilePath path(vm[opt].as<std::string>());
+    utility::file::FilePath path(vm[opt].as<std::string>());
     if(!path.exists()) {
       std::cout << "\nWARNING: " << path.str() << " does not exist." << std::endl;
     }
@@ -40,23 +40,23 @@ void parseAndSetValue(filePathFunc f,
   }
 }
 
-typedef bool (ApplicationSettings::*vectorFunc)(const std::vector<FilePath>&);
+typedef bool (ApplicationSettings::*vectorFunc)(const std::vector<utility::file::FilePath>&);
 void parseAndSetValue(vectorFunc f,
                       const char* opt,
                       ApplicationSettings* settings,
                       po::variables_map& vm) {
   if(vm.count(opt)) {
-    std::vector<FilePath> v = extractPaths(vm[opt].as<std::vector<std::string>>());
+    std::vector<utility::file::FilePath> v = extractPaths(vm[opt].as<std::vector<std::string>>());
     (settings->*f)(v);
   }
 }
 
-void printVector(const std::string& title, const std::vector<FilePath>& vec) {
+void printVector(const std::string& title, const std::vector<utility::file::FilePath>& vec) {
   std::cout << "\n  " << title << ":";
   if(vec.empty()) {
     std::cout << "\n    -\n";
   }
-  for(const FilePath& item: vec) {
+  for(const utility::file::FilePath& item: vec) {
     std::cout << "\n    " << item.str();
   }
 }

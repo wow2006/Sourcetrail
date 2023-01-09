@@ -9,11 +9,11 @@
 #include "SourceGroupSettingsWithSourceExtensions.h"
 #include "logging.h"
 
-std::set<FilePath> SourceGroupJava::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
+std::set<utility::file::FilePath> SourceGroupJava::filterToContainedFilePaths(const std::set<utility::file::FilePath>& filePaths) const
 {
-	std::set<FilePath> containedFilePaths;
-	const std::set<FilePath> allSourceFilePaths = getAllSourceFilePaths();
-	for (const FilePath& filePath: filePaths)
+	std::set<utility::file::FilePath> containedFilePaths;
+	const std::set<utility::file::FilePath> allSourceFilePaths = getAllSourceFilePaths();
+	for (const utility::file::FilePath& filePath: filePaths)
 	{
 		if (allSourceFilePaths.find(filePath) != allSourceFilePaths.end())
 		{
@@ -23,7 +23,7 @@ std::set<FilePath> SourceGroupJava::filterToContainedFilePaths(const std::set<Fi
 	return containedFilePaths;
 }
 
-std::set<FilePath> SourceGroupJava::getAllSourceFilePaths() const
+std::set<utility::file::FilePath> SourceGroupJava::getAllSourceFilePaths() const
 {
 	FileManager fileManager;
 	fileManager.update(
@@ -42,10 +42,10 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 											  getSourceGroupSettings().get())
 											  ->getJavaStandard();
 
-	std::vector<FilePath> classPath = getClassPath();
+	std::vector<utility::file::FilePath> classPath = getClassPath();
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
-	for (const FilePath& sourcePath: getAllSourceFilePaths())
+	for (const utility::file::FilePath& sourcePath: getAllSourceFilePaths())
 	{
 		if (info.filesToIndex.find(sourcePath) != info.filesToIndex.end())
 		{
@@ -57,10 +57,10 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 	return indexerCommands;
 }
 
-std::vector<FilePath> SourceGroupJava::getClassPath() const
+std::vector<utility::file::FilePath> SourceGroupJava::getClassPath() const
 {
 	LOG_INFO("Retrieving classpath for indexer commands");
-	std::vector<FilePath> classPath = doGetClassPath();
+	std::vector<utility::file::FilePath> classPath = doGetClassPath();
 	LOG_INFO("Found " + std::to_string(classPath.size()) + " paths for classpath.");
 	return classPath;
 }

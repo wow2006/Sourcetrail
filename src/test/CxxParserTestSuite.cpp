@@ -3944,11 +3944,11 @@ TEST_CASE("cxx parser finds implicit constructor call in initialization")
 
 TEST_CASE("cxx parser parses multiple files")
 {
-	const std::set<FilePath> indexedPaths = {FilePath(L"data/CxxParserTestSuite/")};
+	const std::set<utility::file::FilePath> indexedPaths = {utility::file::FilePath(L"data/CxxParserTestSuite/")};
 	const std::set<FilePathFilter> excludeFilters;
 	const std::set<FilePathFilter> includeFilters;
-	const FilePath workingDirectory(L".");
-	const FilePath sourceFilePath(L"data/CxxParserTestSuite/code.cpp");
+	const utility::file::FilePath workingDirectory(L".");
+	const utility::file::FilePath sourceFilePath(L"data/CxxParserTestSuite/code.cpp");
 
 	std::shared_ptr<IndexerCommandCxx> indexerCommand = std::make_shared<IndexerCommandCxx>(
 		sourceFilePath,

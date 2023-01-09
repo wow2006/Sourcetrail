@@ -35,7 +35,7 @@ private:
 
   const size_t m_maximumQueueSize;
 
-  std::queue<FilePath> m_filePathQueue;
+  std::queue<utility::file::FilePath> m_filePathQueue;
   std::mutex m_commandsMutex;
 
   bool m_interrupted = false;

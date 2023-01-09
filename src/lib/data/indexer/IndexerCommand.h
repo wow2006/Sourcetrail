@@ -11,7 +11,7 @@ public:
   static std::wstring serialize(const std::shared_ptr<IndexerCommand>& indexerCommand,
                                 bool compact = true);
 
-  IndexerCommand(FilePath sourceFilePath);
+  IndexerCommand(utility::file::FilePath sourceFilePath);
 
   virtual ~IndexerCommand();
 
@@ -19,11 +19,11 @@ public:
 
   virtual size_t getByteSize(size_t stringSize) const;
 
-  const FilePath& getSourceFilePath() const;
+  const utility::file::FilePath& getSourceFilePath() const;
 
 protected:
   virtual QJsonObject doSerialize() const;
 
 private:
-  FilePath m_sourceFilePath;
+  utility::file::FilePath m_sourceFilePath;
 };

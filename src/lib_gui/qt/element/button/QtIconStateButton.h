@@ -19,13 +19,13 @@ public:
 
 	struct State
 	{
-		FilePath iconPath;
+		utility::file::FilePath iconPath;
 		QColor color;
 	};
 
 	QtIconStateButton(QWidget* parent = nullptr);
 
-	void addState(ButtonState buttonState, const FilePath& iconPath, QColor color = Qt::transparent);
+	void addState(ButtonState buttonState, const utility::file::FilePath& iconPath, QColor color = Qt::transparent);
 
 	void hoverIn();
 	void hoverOut();

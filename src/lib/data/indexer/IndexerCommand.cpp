@@ -13,7 +13,7 @@ std::wstring IndexerCommand::serialize(const std::shared_ptr<IndexerCommand>& in
       .toStdWString();
 }
 
-IndexerCommand::IndexerCommand(FilePath sourceFilePath): m_sourceFilePath(std::move(sourceFilePath)) {}
+IndexerCommand::IndexerCommand(utility::file::FilePath sourceFilePath): m_sourceFilePath(std::move(sourceFilePath)) {}
 
 IndexerCommand::~IndexerCommand() = default;
 
@@ -21,7 +21,7 @@ size_t IndexerCommand::getByteSize(size_t /*stringSize*/) const {
   return utility::encodeToUtf8(m_sourceFilePath.wstr()).size();
 }
 
-const FilePath& IndexerCommand::getSourceFilePath() const {
+const utility::file::FilePath& IndexerCommand::getSourceFilePath() const {
   return m_sourceFilePath;
 }
 

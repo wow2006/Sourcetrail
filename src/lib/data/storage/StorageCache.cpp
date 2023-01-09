@@ -29,7 +29,7 @@ StorageStats StorageCache::getStorageStats() const {
   return m_storageStats;
 }
 
-std::shared_ptr<TextAccess> StorageCache::getFileContent(const FilePath& filePath,
+std::shared_ptr<TextAccess> StorageCache::getFileContent(const utility::file::FilePath& filePath,
                                                          bool showsErrors) const {
   if(m_useErrorCache && showsErrors) {
     return TextAccess::createFromFile(filePath);
@@ -55,7 +55,7 @@ std::vector<ErrorInfo> StorageCache::getErrorsLimited(const ErrorFilter& filter)
 }
 
 std::vector<ErrorInfo> StorageCache::getErrorsForFileLimited(const ErrorFilter& filter,
-                                                             const FilePath& filePath) const {
+                                                             const utility::file::FilePath& filePath) const {
   if(!m_useErrorCache) {
     return StorageAccessProxy::getErrorsForFileLimited(filter, filePath);
   }

@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
 #pragma warning(disable : 4996)
 #endif
   if(utility::getOsType() == OS_LINUX && std::getenv("SOURCETRAIL_VIA_SCRIPT") == nullptr &&
-     !FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/../share").exists()) {
+     !utility::file::FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/../share").exists()) {
     std::cout << "ERROR: Please run Sourcetrail via the Sourcetrail.sh script!" << std::endl;
   }
 #ifdef WINDOWS

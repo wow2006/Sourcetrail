@@ -132,7 +132,7 @@ void StorageAccessProxy::setSubject(std::weak_ptr<StorageAccess> subject) {
     return _DEFAULT_VALUE_;                                                                        \
   }
 
-DEF_GETTER_1(getNodeIdForFileNode, const FilePath&, Id, 0)
+DEF_GETTER_1(getNodeIdForFileNode, const utility::file::FilePath&, Id, 0)
 DEF_GETTER_1(getNodeIdForNameHierarchy, const NameHierarchy&, Id, 0)
 DEF_GETTER_1(getNodeIdsForNameHierarchies, const std::vector<NameHierarchy>, std::vector<Id>, {})
 DEF_GETTER_1(getNameHierarchyForNodeId, Id, NameHierarchy, NameHierarchy(NAME_DELIMITER_UNKNOWN))
@@ -190,28 +190,28 @@ DEF_GETTER_1(getSourceLocationsForLocationIds,
              std::shared_ptr<SourceLocationCollection>,
              std::make_shared<SourceLocationCollection>())
 DEF_GETTER_1(getSourceLocationsForFile,
-             const FilePath&,
+             const utility::file::FilePath&,
              std::shared_ptr<SourceLocationFile>,
-             std::make_shared<SourceLocationFile>(FilePath(), L"", false, false, false))
+             std::make_shared<SourceLocationFile>(utility::file::FilePath(), L"", false, false, false))
 DEF_GETTER_3(getSourceLocationsForLinesInFile,
-             const FilePath&,
+             const utility::file::FilePath&,
              size_t,
              size_t,
              std::shared_ptr<SourceLocationFile>,
-             std::make_shared<SourceLocationFile>(FilePath(), L"", false, false, false))
+             std::make_shared<SourceLocationFile>(utility::file::FilePath(), L"", false, false, false))
 DEF_GETTER_2(getSourceLocationsOfTypeInFile,
-             const FilePath&,
+             const utility::file::FilePath&,
              LocationType,
              std::shared_ptr<SourceLocationFile>,
-             std::make_shared<SourceLocationFile>(FilePath(), L"", false, false, false))
-DEF_GETTER_2(getFileContent, const FilePath&, bool, std::shared_ptr<TextAccess>, nullptr)
-DEF_GETTER_1(getFileInfoForFileId, Id, FileInfo, FileInfo())
-DEF_GETTER_1(getFileInfoForFilePath, const FilePath&, FileInfo, FileInfo())
-DEF_GETTER_1(getFileInfosForFilePaths, const std::vector<FilePath>&, std::vector<FileInfo>, {})
+             std::make_shared<SourceLocationFile>(utility::file::FilePath(), L"", false, false, false))
+DEF_GETTER_2(getFileContent, const utility::file::FilePath&, bool, std::shared_ptr<TextAccess>, nullptr)
+DEF_GETTER_1(getFileInfoForFileId, Id, utility::file::FileInfo, utility::file::FileInfo())
+DEF_GETTER_1(getFileInfoForFilePath, const utility::file::FilePath&, utility::file::FileInfo, utility::file::FileInfo())
+DEF_GETTER_1(getFileInfosForFilePaths, const std::vector<utility::file::FilePath>&, std::vector<utility::file::FileInfo>, {})
 DEF_GETTER_0(getStorageStats, StorageStats, StorageStats())
 DEF_GETTER_0(getErrorCount, ErrorCountInfo, ErrorCountInfo())
 DEF_GETTER_1(getErrorsLimited, const ErrorFilter&, std::vector<ErrorInfo>, {})
-DEF_GETTER_2(getErrorsForFileLimited, const ErrorFilter&, const FilePath&, std::vector<ErrorInfo>, {})
+DEF_GETTER_2(getErrorsForFileLimited, const ErrorFilter&, const utility::file::FilePath&, std::vector<ErrorInfo>, {})
 DEF_GETTER_1(getErrorSourceLocations,
              const std::vector<ErrorInfo>&,
              std::shared_ptr<SourceLocationCollection>,

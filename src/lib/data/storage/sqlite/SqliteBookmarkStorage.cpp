@@ -7,7 +7,7 @@
 #include "logging.h"
 #include "utilityString.h"
 
-SqliteBookmarkStorage::SqliteBookmarkStorage(const FilePath& dbFilePath)
+SqliteBookmarkStorage::SqliteBookmarkStorage(const utility::file::FilePath& dbFilePath)
     : SqliteStorage(dbFilePath) {}
 
 size_t SqliteBookmarkStorage::getStaticVersion() const {

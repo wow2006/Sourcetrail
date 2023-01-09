@@ -5,18 +5,18 @@
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 #	ifdef WIN32
 
-#		include "FilePath.h"
+#		include "utility::file::FilePath.h"
 #		include "FileSystem.h"
 #		include "utility.h"
 #		include "utilityGradle.h"
 
-FilePath tmpFolder = FilePath(L"data/UtilityGradleTestSuite/tmp");
+utility::file::FilePath tmpFolder = utility::file::FilePath(L"data/UtilityGradleTestSuite/tmp");
 
 void cleanup()
 {
 	if (tmpFolder.recheckExists())
 	{
-		for (const FilePath& path: FileSystem::getFilePathsFromDirectory(tmpFolder))
+		for (const utility::file::FilePath& path: FileSystem::getFilePathsFromDirectory(tmpFolder))
 		{
 			FileSystem::remove(path);
 		}
@@ -26,30 +26,30 @@ void cleanup()
 
 TEST_CASE("gradle wrapper detects source directories of simple projects")
 {
-	std::vector<FilePath> result = utility::gradleGetAllSourceDirectories(
-		FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project"), false);
+	std::vector<utility::file::FilePath> result = utility::gradleGetAllSourceDirectories(
+		utility::file::FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project"), false);
 
-	REQUIRE(utility::containsElement<FilePath>(
+	REQUIRE(utility::containsElement<utility::file::FilePath>(
 		result,
-		FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project/src/main/java").makeAbsolute()));
+		utility::file::FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project/src/main/java").makeAbsolute()));
 
-	REQUIRE(!utility::containsElement<FilePath>(
+	REQUIRE(!utility::containsElement<utility::file::FilePath>(
 		result,
-		FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project/src/test/java").makeAbsolute()));
+		utility::file::FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project/src/test/java").makeAbsolute()));
 }
 
 TEST_CASE("gradle wrapper detects source and test directories of simple projects")
 {
-	std::vector<FilePath> result = utility::gradleGetAllSourceDirectories(
-		FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project"), true);
+	std::vector<utility::file::FilePath> result = utility::gradleGetAllSourceDirectories(
+		utility::file::FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project"), true);
 
-	REQUIRE(utility::containsElement<FilePath>(
+	REQUIRE(utility::containsElement<utility::file::FilePath>(
 		result,
-		FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project/src/main/java").makeAbsolute()));
+		utility::file::FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project/src/main/java").makeAbsolute()));
 
-	REQUIRE(utility::containsElement<FilePath>(
+	REQUIRE(utility::containsElement<utility::file::FilePath>(
 		result,
-		FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project/src/test/java").makeAbsolute()));
+		utility::file::FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project/src/test/java").makeAbsolute()));
 }
 
 TEST_CASE("gradle wrapper detects source dependencies of simple projects")
@@ -58,11 +58,11 @@ TEST_CASE("gradle wrapper detects source dependencies of simple projects")
 
 	cleanup();
 	REQUIRE(utility::gradleCopyDependencies(
-		FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project"),
+		utility::file::FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project"),
 		tmpFolder.makeAbsolute(),
 		false));
 
-	const std::vector<FilePath> copiedDependencies = FileSystem::getFilePathsFromDirectory(tmpFolder);
+	const std::vector<utility::file::FilePath> copiedDependencies = FileSystem::getFilePathsFromDirectory(tmpFolder);
 
 	for (const std::wstring requiredDependency: requiredDependencies)
 	{
@@ -79,11 +79,11 @@ TEST_CASE("gradle wrapper detects source and test dependencies of simple project
 
 	cleanup();
 	REQUIRE(utility::gradleCopyDependencies(
-		FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project"),
+		utility::file::FilePath(L"data/UtilityGradleTestSuite/simple_gradle_project"),
 		tmpFolder.makeAbsolute(),
 		true));
 
-	const std::vector<FilePath> copiedDependencies = FileSystem::getFilePathsFromDirectory(tmpFolder);
+	const std::vector<utility::file::FilePath> copiedDependencies = FileSystem::getFilePathsFromDirectory(tmpFolder);
 
 	for (const std::wstring requiredDependency: requiredDependencies)
 	{

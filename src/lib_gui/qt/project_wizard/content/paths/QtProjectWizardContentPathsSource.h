@@ -16,7 +16,7 @@ public:
 
 	virtual bool check() override;
 
-	virtual std::vector<FilePath> getFilePaths() const override;
+	virtual std::vector<utility::file::FilePath> getFilePaths() const override;
 	virtual QString getFileNamesTitle() const override;
 	virtual QString getFileNamesDescription() const override;
 };

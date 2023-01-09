@@ -83,7 +83,7 @@ void QtLocationPicker::setFileFilter(const QString& fileFilter)
 	m_fileFilter = fileFilter;
 }
 
-void QtLocationPicker::setRelativeRootDirectory(const FilePath& dir)
+void QtLocationPicker::setRelativeRootDirectory(const utility::file::FilePath& dir)
 {
 	m_relativeRootDirectory = dir;
 }
@@ -98,7 +98,7 @@ void QtLocationPicker::changeEvent(QEvent* event)
 
 void QtLocationPicker::onHandleButtonPressed()
 {
-	FilePath path(m_data->text().toStdWString());
+	utility::file::FilePath path(m_data->text().toStdWString());
 	if (!path.empty() && !path.isAbsolute() && !m_relativeRootDirectory.empty())
 	{
 		path = m_relativeRootDirectory.getConcatenated(path);
@@ -117,7 +117,7 @@ void QtLocationPicker::onHandleButtonPressed()
 	if (!fileName.isEmpty())
 	{
 		m_data->setText(QString::fromStdWString(
-			utility::getAsRelativeIfShorter(FilePath(fileName.toStdWString()), m_relativeRootDirectory)
+			utility::file::getAsRelativeIfShorter(utility::file::FilePath(fileName.toStdWString()), m_relativeRootDirectory)
 				.wstr()));
 		emit locationPicked();
 	}

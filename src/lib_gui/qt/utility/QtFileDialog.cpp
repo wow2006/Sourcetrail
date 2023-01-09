@@ -9,7 +9,7 @@
 #include "QtFilesAndDirectoriesDialog.h"
 #include "utilityApp.h"
 
-QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const FilePath& path)
+QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const utility::file::FilePath& path)
 {
 	const QString dir = getDir(
 		QString::fromStdWString((path.isDirectory() ? path : path.getParentDirectory()).wstr()));
@@ -40,32 +40,32 @@ QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const File
 		list = dialog->selectedFiles();
 	}
 
-	saveFilePickerLocation(FilePath(dialog->directory().path().toStdString()));
+	saveFilePickerLocation(utility::file::FilePath(dialog->directory().path().toStdString()));
 	delete dialog;
 
 	return list;
 }
 
-QString QtFileDialog::getExistingDirectory(QWidget* parent, const QString& caption, const FilePath& dir)
+QString QtFileDialog::getExistingDirectory(QWidget* parent, const QString& caption, const utility::file::FilePath& dir)
 {
 	const QString dirPath = QFileDialog::getExistingDirectory(
 		parent, caption, getDir(QString::fromStdWString(dir.wstr())));
-	saveFilePickerLocation(FilePath(dirPath.toStdString()));
+	saveFilePickerLocation(utility::file::FilePath(dirPath.toStdString()));
 	return dirPath;
 }
 
 QString QtFileDialog::getOpenFileName(
-	QWidget* parent, const QString& caption, const FilePath& dir, const QString& filter)
+	QWidget* parent, const QString& caption, const utility::file::FilePath& dir, const QString& filter)
 {
 	const QString filePath = QFileDialog::getOpenFileName(
 		parent, caption, getDir(QString::fromStdWString(dir.wstr())), filter);
-	const FilePath dirPath = FilePath(filePath.toStdString()).getParentDirectory();
+	const utility::file::FilePath dirPath = utility::file::FilePath(filePath.toStdString()).getParentDirectory();
 	saveFilePickerLocation(dirPath);
 	return filePath;
 }
 
 QString QtFileDialog::showSaveFileDialog(
-	QWidget* parent, const QString& title, const FilePath& directory, const QString& filter)
+	QWidget* parent, const QString& title, const utility::file::FilePath& directory, const QString& filter)
 {
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
 
@@ -130,7 +130,7 @@ QString QtFileDialog::getDir(QString dir)
 	return dir;
 }
 
-void QtFileDialog::saveFilePickerLocation(const FilePath& path)
+void QtFileDialog::saveFilePickerLocation(const utility::file::FilePath& path)
 {
 	if (!path.empty())
 	{

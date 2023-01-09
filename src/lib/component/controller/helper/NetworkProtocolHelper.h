@@ -8,7 +8,7 @@ public:
   public:
     SetActiveTokenMessage(): filePath(L""), row(0), column(0), valid(false) {}
 
-    FilePath filePath;
+    utility::file::FilePath filePath;
     unsigned int row;
     unsigned int column;
     bool valid;
@@ -20,7 +20,7 @@ public:
   public:
     CreateCDBProjectMessage(): cdbFileLocation(L""), ideId(L""), valid(false) {}
 
-    FilePath cdbFileLocation;
+    utility::file::FilePath cdbFileLocation;
     std::wstring ideId;
     bool valid;
   };
@@ -42,7 +42,7 @@ public:
   static CreateCDBProjectMessage parseCreateCDBProjectMessage(const std::wstring& message);
   static PingMessage parsePingMessage(const std::wstring& message);
 
-  static std::wstring buildSetIDECursorMessage(const FilePath& fileLocation,
+  static std::wstring buildSetIDECursorMessage(const utility::file::FilePath& fileLocation,
                                                const unsigned int row,
                                                const unsigned int column);
   static std::wstring buildCreateCDBMessage();

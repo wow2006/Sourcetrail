@@ -105,7 +105,7 @@ void QtCodeFileList::clearSnippetTitleAndScrollBar() {
   updateLastSnippetScrollBar(nullptr);
 }
 
-QtCodeFile* QtCodeFileList::getFile(const FilePath& filePath) {
+QtCodeFile* QtCodeFileList::getFile(const utility::file::FilePath& filePath) {
   QtCodeFile* file = nullptr;
 
   for(QtCodeFile* filePtr: m_files) {
@@ -196,7 +196,7 @@ void QtCodeFileList::updateFiles() {
   QTimer::singleShot(100, this, &QtCodeFileList::updateSnippetTitleAndScrollBarSlot);
 }
 
-void QtCodeFileList::scrollTo(const FilePath& filePath,
+void QtCodeFileList::scrollTo(const utility::file::FilePath& filePath,
                               size_t lineNumber,
                               Id locationId,
                               Id scopeLocationId,
@@ -449,7 +449,7 @@ void QtCodeFileList::updateFirstSnippetTitleBar(QtCodeFile* file, int fileTitleB
     } else {
       // Forces the title button icon to get reloaded next time, which fixes a color change
       // issue when changing color scheme
-      m_firstSnippetTitleBar->getTitleButton()->setFilePath(FilePath());
+      m_firstSnippetTitleBar->getTitleButton()->setFilePath(utility::file::FilePath());
       m_firstSnippetTitleBar->hide();
 
       m_firstSnippetFile = nullptr;

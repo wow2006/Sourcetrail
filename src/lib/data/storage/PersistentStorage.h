@@ -12,7 +12,7 @@ class PersistentStorage
     : public Storage
     , public StorageAccess {
 public:
-  PersistentStorage(const FilePath& dbPath, const FilePath& bookmarkPath);
+  PersistentStorage(const utility::file::FilePath& dbPath, const utility::file::FilePath& bookmarkPath);
 
   std::pair<Id, bool> addNode(const StorageNodeData& data) override;
   std::vector<Id> addNodes(const std::vector<StorageNode>& nodes) override;
@@ -61,8 +61,8 @@ public:
 
   void setMode(const SqliteIndexStorage::StorageModeType mode);
 
-  FilePath getIndexDbFilePath() const;
-  FilePath getBookmarkDbFilePath() const;
+  utility::file::FilePath getIndexDbFilePath() const;
+  utility::file::FilePath getBookmarkDbFilePath() const;
 
   bool isEmpty() const;
   bool isIncompatible() const;
@@ -74,23 +74,23 @@ public:
   void clear();
   void clearCaches();
 
-  std::set<FilePath> getReferenced(const std::set<FilePath>& filePaths) const;
-  std::set<FilePath> getReferencing(const std::set<FilePath>& filePaths) const;
+  std::set<utility::file::FilePath> getReferenced(const std::set<utility::file::FilePath>& filePaths) const;
+  std::set<utility::file::FilePath> getReferencing(const std::set<utility::file::FilePath>& filePaths) const;
 
   void clearAllErrors();
-  void clearFileElements(const std::vector<FilePath>& filePaths,
+  void clearFileElements(const std::vector<utility::file::FilePath>& filePaths,
                          std::function<void(int)> updateStatusCallback);
 
-  std::vector<FileInfo> getFileInfoForAllFiles() const;
-  std::set<FilePath> getIncompleteFiles() const;
-  bool getFilePathIndexed(const FilePath& path) const;
+  std::vector<utility::file::FileInfo> getFileInfoForAllFiles() const;
+  std::set<utility::file::FilePath> getIncompleteFiles() const;
+  bool getFilePathIndexed(const utility::file::FilePath& path) const;
 
   void buildCaches();
 
   void optimizeMemory();
 
   // StorageAccess implementation
-  Id getNodeIdForFileNode(const FilePath& filePath) const override;
+  Id getNodeIdForFileNode(const utility::file::FilePath& filePath) const override;
   Id getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const override;
   std::vector<Id> getNodeIdsForNameHierarchies(
       const std::vector<NameHierarchy> nameHierarchies) const override;
@@ -145,28 +145,30 @@ public:
   std::shared_ptr<SourceLocationCollection> getSourceLocationsForLocationIds(
       const std::vector<Id>& locationIds) const override;
 
-  std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const override;
-  std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(const FilePath& filePath,
+  std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const utility::file::FilePath& filePath) const override;
+  std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(const utility::file::FilePath& filePath,
                                                                        size_t startLine,
                                                                        size_t endLine) const override;
-  std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(const FilePath& filePath,
+  std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(const utility::file::FilePath& filePath,
                                                                      LocationType type) const override;
 
-  std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath,
+  std::shared_ptr<TextAccess> getFileContent(const utility::file::FilePath& filePath,
                                              bool showsErrors) const override;
-  bool hasContentForFile(const FilePath& filePath) const;
 
-  FileInfo getFileInfoForFileId(Id id) const override;
+  bool hasContentForFile(const utility::file::FilePath& filePath) const;
 
-  FileInfo getFileInfoForFilePath(const FilePath& filePath) const override;
-  std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const override;
+  utility::file::FileInfo getFileInfoForFileId(Id id) const override;
+
+  utility::file::FileInfo getFileInfoForFilePath(const utility::file::FilePath& filePath) const override;
+
+  std::vector<utility::file::FileInfo> getFileInfosForFilePaths(const std::vector<utility::file::FilePath>& filePaths) const override;
 
   StorageStats getStorageStats() const override;
 
   ErrorCountInfo getErrorCount() const override;
   std::vector<ErrorInfo> getErrorsLimited(const ErrorFilter& filter) const override;
   std::vector<ErrorInfo> getErrorsForFileLimited(const ErrorFilter& filter,
-                                                 const FilePath& filePath) const override;
+                                                 const utility::file::FilePath& filePath) const override;
   std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
       const std::vector<ErrorInfo>& errors) const override;
 
@@ -205,10 +207,10 @@ private:
     std::vector<utility::StorageError> errors;
   } m_storageData;
 
-  Id getFileNodeId(const FilePath& filePath) const;
-  std::vector<Id> getFileNodeIds(const std::vector<FilePath>& filePaths) const;
-  std::set<Id> getFileNodeIds(const std::set<FilePath>& filePaths) const;
-  FilePath getFileNodePath(Id fileId) const;
+  Id getFileNodeId(const utility::file::FilePath& filePath) const;
+  std::vector<Id> getFileNodeIds(const std::vector<utility::file::FilePath>& filePaths) const;
+  std::set<Id> getFileNodeIds(const std::set<utility::file::FilePath>& filePaths) const;
+  utility::file::FilePath getFileNodePath(Id fileId) const;
   bool getFileNodeComplete(Id fileId) const;
   bool getFileNodeIndexed(Id fileId) const;
   std::wstring getFileNodeLanguage(Id fileId) const;
@@ -221,11 +223,11 @@ private:
   std::set<Id> getReferencing(const std::set<Id>& filePaths,
                               std::unordered_map<Id, std::set<Id>> idToReferencingIdMap) const;
 
-  std::set<FilePath> getReferencedByIncludes(const std::set<FilePath>& filePaths) const;
-  std::set<FilePath> getReferencedByImports(const std::set<FilePath>& filePaths) const;
+  std::set<utility::file::FilePath> getReferencedByIncludes(const std::set<utility::file::FilePath>& filePaths) const;
+  std::set<utility::file::FilePath> getReferencedByImports(const std::set<utility::file::FilePath>& filePaths) const;
 
-  std::set<FilePath> getReferencingByIncludes(const std::set<FilePath>& filePaths) const;
-  std::set<FilePath> getReferencingByImports(const std::set<FilePath>& filePaths) const;
+  std::set<utility::file::FilePath> getReferencingByIncludes(const std::set<utility::file::FilePath>& filePaths) const;
+  std::set<utility::file::FilePath> getReferencingByImports(const std::set<utility::file::FilePath>& filePaths) const;
 
   void addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph, bool addChildCount) const;
   void addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const;
@@ -269,9 +271,9 @@ private:
   SqliteIndexStorage m_sqliteIndexStorage;
   SqliteBookmarkStorage m_sqliteBookmarkStorage;
 
-  std::map<FilePath, Id> m_fileNodeIds;
-  std::map<FilePath, Id> m_lowerCasefileNodeIds;
-  std::map<Id, FilePath> m_fileNodePaths;
+  std::map<utility::file::FilePath, Id> m_fileNodeIds;
+  std::map<utility::file::FilePath, Id> m_lowerCasefileNodeIds;
+  std::map<Id, utility::file::FilePath> m_fileNodePaths;
   std::map<Id, bool> m_fileNodeComplete;
   std::unordered_map<Id, bool> m_fileNodeIndexed;
   std::map<Id, std::wstring> m_fileNodeLanguage;

@@ -1,14 +1,16 @@
 #pragma once
 
 #include "BaseInterprocessDataManager.h"
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 
 class InterprocessIndexingStatusManager : public BaseInterprocessDataManager {
 public:
   InterprocessIndexingStatusManager(const std::string& instanceUuid, Id processId, bool isOwner);
   ~InterprocessIndexingStatusManager() override;
 
-  void startIndexingSourceFile(const FilePath& filePath);
+  void startIndexingSourceFile(const utility::file::FilePath& filePath);
   void finishIndexingSourceFile();
 
   void setIndexingInterrupted(bool interrupted);
@@ -16,8 +18,8 @@ public:
 
   Id getNextFinishedProcessId();
 
-  std::vector<FilePath> getCurrentlyIndexedSourceFilePaths();
-  std::vector<FilePath> getCrashedSourceFilePaths();
+  std::vector<utility::file::FilePath> getCurrentlyIndexedSourceFilePaths();
+  std::vector<utility::file::FilePath> getCrashedSourceFilePaths();
 
 private:
   static const char* s_sharedMemoryNamePrefix;

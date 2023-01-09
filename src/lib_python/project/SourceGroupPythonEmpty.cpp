@@ -26,17 +26,17 @@ bool SourceGroupPythonEmpty::allowsShallowIndexing() const
 }
 
 
-std::set<FilePath> SourceGroupPythonEmpty::filterToContainedFilePaths(
-	const std::set<FilePath>& filePaths) const
+std::set<utility::file::FilePath> SourceGroupPythonEmpty::filterToContainedFilePaths(
+	const std::set<utility::file::FilePath>& filePaths) const
 {
 	return SourceGroup::filterToContainedFilePaths(
 		filePaths,
-		std::set<FilePath>(),
+		std::set<utility::file::FilePath>(),
 		utility::toSet(m_settings->getSourcePathsExpandedAndAbsolute()),
 		m_settings->getExcludeFiltersExpandedAndAbsolute());
 }
 
-std::set<FilePath> SourceGroupPythonEmpty::getAllSourceFilePaths() const
+std::set<utility::file::FilePath> SourceGroupPythonEmpty::getAllSourceFilePaths() const
 {
 	FileManager fileManager;
 	fileManager.update(
@@ -74,7 +74,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupPythonEmpty::getIndexerC
 	}
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
-	for (const FilePath& sourceFilePath: getAllSourceFilePaths())
+	for (const utility::file::FilePath& sourceFilePath: getAllSourceFilePaths())
 	{
 		if (info.filesToIndex.find(sourceFilePath) != info.filesToIndex.end())
 		{

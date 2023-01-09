@@ -5,7 +5,7 @@
 
 TEST_CASE("storage adds node successfully")
 {
-	FilePath databasePath(L"data/SQLiteTestSuite/test.sqlite");
+	utility::file::FilePath databasePath(L"data/SQLiteTestSuite/test.sqlite");
 	int nodeCount = -1;
 	{
 		SqliteIndexStorage storage(databasePath);
@@ -15,14 +15,14 @@ TEST_CASE("storage adds node successfully")
 		storage.commitTransaction();
 		nodeCount = storage.getNodeCount();
 	}
-	FileSystem::remove(databasePath);
+	utility::file::FileSystem::remove(databasePath);
 
 	REQUIRE(1 == nodeCount);
 }
 
 TEST_CASE("storage removes node successfully")
 {
-	FilePath databasePath(L"data/SQLiteTestSuite/test.sqlite");
+	utility::file::FilePath databasePath(L"data/SQLiteTestSuite/test.sqlite");
 	int nodeCount = -1;
 	{
 		SqliteIndexStorage storage(databasePath);
@@ -33,14 +33,14 @@ TEST_CASE("storage removes node successfully")
 		storage.commitTransaction();
 		nodeCount = storage.getNodeCount();
 	}
-	FileSystem::remove(databasePath);
+	utility::file::FileSystem::remove(databasePath);
 
 	REQUIRE(0 == nodeCount);
 }
 
 TEST_CASE("storage adds edge successfully")
 {
-	FilePath databasePath(L"data/SQLiteTestSuite/test.sqlite");
+	utility::file::FilePath databasePath(L"data/SQLiteTestSuite/test.sqlite");
 	int edgeCount = -1;
 	{
 		SqliteIndexStorage storage(databasePath);
@@ -52,14 +52,14 @@ TEST_CASE("storage adds edge successfully")
 		storage.commitTransaction();
 		edgeCount = storage.getEdgeCount();
 	}
-	FileSystem::remove(databasePath);
+	utility::file::FileSystem::remove(databasePath);
 
 	REQUIRE(1 == edgeCount);
 }
 
 TEST_CASE("storage removes edge successfully")
 {
-	FilePath databasePath(L"data/SQLiteTestSuite/test.sqlite");
+	utility::file::FilePath databasePath(L"data/SQLiteTestSuite/test.sqlite");
 	int edgeCount = -1;
 	{
 		SqliteIndexStorage storage(databasePath);
@@ -72,7 +72,7 @@ TEST_CASE("storage removes edge successfully")
 		storage.commitTransaction();
 		edgeCount = storage.getEdgeCount();
 	}
-	FileSystem::remove(databasePath);
+	utility::file::FileSystem::remove(databasePath);
 
 	REQUIRE(0 == edgeCount);
 }

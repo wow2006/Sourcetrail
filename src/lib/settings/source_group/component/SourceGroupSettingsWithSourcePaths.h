@@ -7,9 +7,9 @@ class SourceGroupSettingsWithSourcePaths : public SourceGroupSettingsComponent {
 public:
   virtual ~SourceGroupSettingsWithSourcePaths() = default;
 
-  std::vector<FilePath> getSourcePaths() const;
-  std::vector<FilePath> getSourcePathsExpandedAndAbsolute() const;
-  void setSourcePaths(const std::vector<FilePath>& sourcePaths);
+  std::vector<utility::file::FilePath> getSourcePaths() const;
+  std::vector<utility::file::FilePath> getSourcePathsExpandedAndAbsolute() const;
+  void setSourcePaths(const std::vector<utility::file::FilePath>& sourcePaths);
 
 protected:
   bool equals(const SourceGroupSettingsBase* other) const override;
@@ -18,5 +18,5 @@ protected:
   void save(utility::ConfigManager* config, const std::string& key) override;
 
 private:
-  std::vector<FilePath> m_sourcePaths;
+  std::vector<utility::file::FilePath> m_sourcePaths;
 };

@@ -9,6 +9,7 @@
 #include "MessageShowStatus.h"
 #include "ResourcePaths.h"
 #include "utilityQt.h"
+#include "FilePath.h"
 
 QtStatusBar::QtStatusBar(): m_text(this), m_ideStatusText(this) {
   addWidget(new QWidget());    // add some space

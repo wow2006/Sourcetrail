@@ -15,9 +15,9 @@
 namespace utility
 {
 bool gradleCopyDependencies(
-	const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath, bool addTestDependencies)
+	const utility::file::FilePath& projectDirectoryPath, const utility::file::FilePath& outputDirectoryPath, bool addTestDependencies)
 {
-	const FilePath gradleInitScriptPath = ResourcePaths::getJavaDirectoryPath().concatenate(
+	const utility::file::FilePath gradleInitScriptPath = ResourcePaths::getJavaDirectoryPath().concatenate(
 		L"gradle/init.gradle");
 
 	utility::setJavaHomeVariableIfNotExists();
@@ -45,10 +45,10 @@ bool gradleCopyDependencies(
 	return success;
 }
 
-std::vector<FilePath> gradleGetAllSourceDirectories(
-	const FilePath& projectDirectoryPath, bool addTestDirectories)
+std::vector<utility::file::FilePath> gradleGetAllSourceDirectories(
+	const utility::file::FilePath& projectDirectoryPath, bool addTestDirectories)
 {
-	const FilePath gradleInitScriptPath = ResourcePaths::getJavaDirectoryPath().concatenate(
+	const utility::file::FilePath gradleInitScriptPath = ResourcePaths::getJavaDirectoryPath().concatenate(
 		L"gradle/init.gradle");
 
 	utility::setJavaHomeVariableIfNotExists();
@@ -78,7 +78,7 @@ std::vector<FilePath> gradleGetAllSourceDirectories(
 				{
 					lib::app::Application::getInstance()->handleDialog(dialogMessage);
 				}
-				return std::vector<FilePath>();
+				return std::vector<utility::file::FilePath>();
 			}
 
 			for (const std::string mainSrcDir: utility::splitToVector(output, ";"))
@@ -106,7 +106,7 @@ std::vector<FilePath> gradleGetAllSourceDirectories(
 				MessageStatus(dialogMessage, true, false).dispatch();
 				lib::app::Application::getInstance()->handleDialog(dialogMessage);
 
-				return std::vector<FilePath>();
+				return std::vector<utility::file::FilePath>();
 			}
 
 			for (const std::string testSrcDir: utility::splitToVector(output, ";"))
@@ -116,10 +116,10 @@ std::vector<FilePath> gradleGetAllSourceDirectories(
 		}
 	}
 
-	std::vector<FilePath> directories;
+	std::vector<utility::file::FilePath> directories;
 	for (const std::wstring& uncheckedDirectory: uncheckedDirectories)
 	{
-		FilePath uncheckedDirectoryPath(uncheckedDirectory);
+		utility::file::FilePath uncheckedDirectoryPath(uncheckedDirectory);
 		if (uncheckedDirectoryPath.exists())
 		{
 			directories.push_back(uncheckedDirectoryPath);

@@ -15,22 +15,22 @@
 #include "utility.h"
 #include "utilityFile.h"
 
-std::vector<FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPathsDerivedFromCodeblocksProject(
+std::vector<utility::file::FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPathsDerivedFromCodeblocksProject(
 	std::shared_ptr<const SourceGroupSettingsCxxCodeblocks> settings)
 {
-	const FilePath projectPath = settings->getProjectDirectoryPath();
-	std::set<FilePath> indexedHeaderPaths;
+	const utility::file::FilePath projectPath = settings->getProjectDirectoryPath();
+	std::set<utility::file::FilePath> indexedHeaderPaths;
 	{
-		const FilePath codeblocksProjectPath = settings->getCodeblocksProjectPathExpandedAndAbsolute();
+		const utility::file::FilePath codeblocksProjectPath = settings->getCodeblocksProjectPathExpandedAndAbsolute();
 		if (!codeblocksProjectPath.empty() && codeblocksProjectPath.exists())
 		{
 			if (std::shared_ptr<Codeblocks::Project> codeblocksProject = Codeblocks::Project::load(
 					codeblocksProjectPath))
 			{
-				OrderedCache<FilePath, FilePath> canonicalDirectoryPathCache(
-					[](const FilePath& path) { return path.getCanonical(); });
+				OrderedCache<utility::file::FilePath, utility::file::FilePath> canonicalDirectoryPathCache(
+					[](const utility::file::FilePath& path) { return path.getCanonical(); });
 
-				for (const FilePath& path: codeblocksProject->getAllSourceFilePathsCanonical(
+				for (const utility::file::FilePath& path: codeblocksProject->getAllSourceFilePathsCanonical(
 						 settings->getSourceExtensions()))
 				{
 					indexedHeaderPaths.insert(
@@ -48,8 +48,8 @@ std::vector<FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPaths
 		}
 	}
 
-	std::vector<FilePath> topLevelPaths;
-	for (const FilePath& path: utility::getTopLevelPaths(indexedHeaderPaths))
+	std::vector<utility::file::FilePath> topLevelPaths;
+	for (const utility::file::FilePath& path: utility::getTopLevelPaths(indexedHeaderPaths))
 	{
 		if (path.exists())
 		{
@@ -60,19 +60,19 @@ std::vector<FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPaths
 	return topLevelPaths;
 }
 
-std::vector<FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPathsDerivedFromCDB(
+std::vector<utility::file::FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPathsDerivedFromCDB(
 	std::shared_ptr<const SourceGroupSettingsCxxCdb> settings)
 {
-	std::set<FilePath> indexedHeaderPaths;
+	std::set<utility::file::FilePath> indexedHeaderPaths;
 	{
-		const FilePath cdbPath = settings->getCompilationDatabasePathExpandedAndAbsolute();
+		const utility::file::FilePath cdbPath = settings->getCompilationDatabasePathExpandedAndAbsolute();
 		if (!cdbPath.empty() && cdbPath.exists())
 		{
-			for (const FilePath& path: IndexerCommandCxx::getSourceFilesFromCDB(cdbPath))
+			for (const utility::file::FilePath& path: IndexerCommandCxx::getSourceFilesFromCDB(cdbPath))
 			{
 				indexedHeaderPaths.insert(path.getCanonical().getParentDirectory());
 			}
-			for (const FilePath& path: utility::CompilationDatabase(cdbPath).getAllHeaderPaths())
+			for (const utility::file::FilePath& path: utility::CompilationDatabase(cdbPath).getAllHeaderPaths())
 			{
 				if (path.exists())
 				{
@@ -88,8 +88,8 @@ std::vector<FilePath> QtProjectWizardContentPathsIndexedHeaders::getIndexedPaths
 		}
 	}
 
-	std::vector<FilePath> topLevelPaths;
-	for (const FilePath& path: utility::getTopLevelPaths(indexedHeaderPaths))
+	std::vector<utility::file::FilePath> topLevelPaths;
+	for (const utility::file::FilePath& path: utility::getTopLevelPaths(indexedHeaderPaths))
 	{
 		if (path.exists())
 		{
@@ -194,7 +194,7 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 		if (std::shared_ptr<SourceGroupSettingsCxxCodeblocks> codeblocksSettings =
 				std::dynamic_pointer_cast<SourceGroupSettingsCxxCodeblocks>(m_settings))
 		{
-			const FilePath codeblocksProjectPath =
+			const utility::file::FilePath codeblocksProjectPath =
 				codeblocksSettings->getCodeblocksProjectPathExpandedAndAbsolute();
 			if (!codeblocksProjectPath.exists())
 			{
@@ -225,13 +225,13 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 				this,
 				&QtProjectWizardContentPathsIndexedHeaders::closedFilesDialog);
 
-			const FilePath projectPath = codeblocksSettings->getProjectDirectoryPath();
+			const utility::file::FilePath projectPath = codeblocksSettings->getProjectDirectoryPath();
 
 			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog)
 				->setPathsList(
-					utility::convert<FilePath, FilePath>(
+					utility::convert<utility::file::FilePath, utility::file::FilePath>(
 						getIndexedPathsDerivedFromCodeblocksProject(codeblocksSettings),
-						[&](const FilePath& path) {
+						[&](const utility::file::FilePath& path) {
 							return utility::getAsRelativeIfShorter(path, projectPath);
 						}),
 					codeblocksSettings->getIndexedHeaderPaths(),
@@ -241,7 +241,7 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 			std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings =
 				std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
 		{
-			const FilePath cdbPath = cdbSettings->getCompilationDatabasePathExpandedAndAbsolute();
+			const utility::file::FilePath cdbPath = cdbSettings->getCompilationDatabasePathExpandedAndAbsolute();
 			if (!cdbPath.exists())
 			{
 				QMessageBox msgBox(m_window);
@@ -271,13 +271,13 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 				this,
 				&QtProjectWizardContentPathsIndexedHeaders::closedFilesDialog);
 
-			const FilePath projectPath = cdbSettings->getProjectDirectoryPath();
+			const utility::file::FilePath projectPath = cdbSettings->getProjectDirectoryPath();
 
 			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog)
 				->setPathsList(
-					utility::convert<FilePath, FilePath>(
+					utility::convert<utility::file::FilePath, utility::file::FilePath>(
 						getIndexedPathsDerivedFromCDB(cdbSettings),
-						[&](const FilePath& path) {
+						[&](const utility::file::FilePath& path) {
 							return utility::getAsRelativeIfShorter(path, projectPath);
 						}),
 					cdbSettings->getIndexedHeaderPaths(),

@@ -20,7 +20,7 @@ public:
 	void load() override;
 	void save() override;
 
-	std::vector<FilePath> getFilePaths() const override;
+	std::vector<utility::file::FilePath> getFilePaths() const override;
 
 private:
 	std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;

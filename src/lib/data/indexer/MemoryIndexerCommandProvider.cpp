@@ -11,11 +11,11 @@ MemoryIndexerCommandProvider::MemoryIndexerCommandProvider(
 
 MemoryIndexerCommandProvider::~MemoryIndexerCommandProvider() = default;
 
-std::vector<FilePath> MemoryIndexerCommandProvider::getAllSourceFilePaths() const {
-  std::vector<FilePath> paths;
+std::vector<utility::file::FilePath> MemoryIndexerCommandProvider::getAllSourceFilePaths() const {
+  std::vector<utility::file::FilePath> paths;
   paths.reserve(m_commands.size());
 
-  for(std::map<FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.begin();
+  for(std::map<utility::file::FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.begin();
       it != m_commands.end();
       it++) {
     paths.emplace_back(it->first);
@@ -26,7 +26,7 @@ std::vector<FilePath> MemoryIndexerCommandProvider::getAllSourceFilePaths() cons
 
 std::shared_ptr<IndexerCommand> MemoryIndexerCommandProvider::consumeCommand() {
   if(!m_commands.empty()) {
-    std::map<FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.begin();
+    std::map<utility::file::FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.begin();
     std::shared_ptr<IndexerCommand> command = it->second;
     m_commands.erase(it);
     return command;
@@ -35,8 +35,8 @@ std::shared_ptr<IndexerCommand> MemoryIndexerCommandProvider::consumeCommand() {
 }
 
 std::shared_ptr<IndexerCommand> MemoryIndexerCommandProvider::consumeCommandForSourceFilePath(
-    const FilePath& filePath) {
-  std::map<FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.find(filePath);
+    const utility::file::FilePath& filePath) {
+  std::map<utility::file::FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.find(filePath);
   if(it != m_commands.end()) {
     std::shared_ptr<IndexerCommand> command = it->second;
     m_commands.erase(it);
@@ -48,7 +48,7 @@ std::shared_ptr<IndexerCommand> MemoryIndexerCommandProvider::consumeCommandForS
 std::vector<std::shared_ptr<IndexerCommand>> MemoryIndexerCommandProvider::consumeAllCommands() {
   std::vector<std::shared_ptr<IndexerCommand>> commands;
   commands.reserve(m_commands.size());
-  for(std::map<FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.begin();
+  for(std::map<utility::file::FilePath, std::shared_ptr<IndexerCommand>>::const_iterator it = m_commands.begin();
       it != m_commands.end();
       it++) {
     commands.emplace_back(it->second);

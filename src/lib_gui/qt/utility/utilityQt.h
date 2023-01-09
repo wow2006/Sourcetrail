@@ -3,7 +3,9 @@
 
 #include <string>
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 class QColor;
 class QIcon;
 class QPixmap;
@@ -17,12 +19,12 @@ namespace utility
 void setWidgetBackgroundColor(QWidget* widget, const std::string& color);
 void setWidgetRetainsSpaceWhenHidden(QWidget* widget);
 
-void loadFontsFromDirectory(const FilePath& path, const std::wstring& extension = L".otf");
+void loadFontsFromDirectory(const utility::file::FilePath& path, const std::wstring& extension = L".otf");
 
-std::string getStyleSheet(const FilePath& path);
+std::string getStyleSheet(const utility::file::FilePath& path);
 
 QPixmap colorizePixmap(const QPixmap& pixmap, QColor color);
-QIcon createButtonIcon(const FilePath& iconPath, const std::string& colorId);
+QIcon createButtonIcon(const utility::file::FilePath& iconPath, const std::string& colorId);
 
 QtMainWindow* getMainWindowforMainView(ViewLayout* viewLayout);
 

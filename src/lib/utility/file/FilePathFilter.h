@@ -1,21 +1,21 @@
 #pragma once
-
-#include <regex>
-#include <string>
-
+// Internal
 #include "FilePath.h"
+
+namespace utility::file {
 
 class FilePathFilter {
 public:
   template <typename ContainerType>
-  static bool areMatching(const ContainerType& filters, const FilePath& filePath);
+  static bool areMatching(const ContainerType& filters, const utility::file::FilePath& filePath);
 
-  explicit FilePathFilter(const std::wstring& filterString);
+  explicit FilePathFilter(std::wstring filterString);
 
-  std::wstring wstr() const;
+  [[nodiscard]] std::wstring wstr() const;
 
-  bool isMatching(const FilePath& filePath) const;
-  bool isMatching(const std::wstring& fileStr) const;
+  [[nodiscard]] bool isMatching(const utility::file::FilePath& filePath) const;
+
+  [[nodiscard]] bool isMatching(const std::wstring& fileStr) const;
 
   bool operator<(const FilePathFilter& other) const;
 
@@ -28,13 +28,11 @@ private:
 
 template <typename ContainerType>
 bool FilePathFilter::areMatching(const ContainerType& filters, const FilePath& filePath) {
-  const std::wstring fileStr = filePath.wstr();
+  const auto fileStr = filePath.wstr();
 
-  for(const FilePathFilter& filter: filters) {
-    if(filter.isMatching(fileStr)) {
-      return true;
-    }
-  }
-
-  return false;
+  return std::any_of(std::cbegin(filters), std::cend(filters), [&fileStr](const auto& filter) {
+    return filter.isMatching(fileStr);
+  });
 }
+
+}    // namespace utility::file

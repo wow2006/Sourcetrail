@@ -13,6 +13,7 @@
 #include "ScopedSwitcher.h"
 #include "utilityClang.h"
 #include "utilityString.h"
+#include "/home/ahussein/Documents/sourceCode/Sourcetrail/src/src/lib_cxx/data/parser/cxx/name/CxxName.h"
 
 CxxDeclNameResolver::CxxDeclNameResolver(CanonicalFilePathCache* canonicalFilePathCache)
 	: CxxNameResolver(canonicalFilePathCache), m_currentDecl(nullptr)

@@ -57,7 +57,7 @@ void TaskExecuteCustomCommands::runPythonPostProcessing(PersistentStorage& stora
                                                  &dataToInsert,
                                                  &occurrencesToDelete](
                                                     std::shared_ptr<SourceLocationFile> locationFile) {
-    const FilePath filePath = locationFile->getFilePath();
+    const utility::file::FilePath filePath = locationFile->getFilePath();
     if(filePath.empty()) {
       return;
     }
@@ -205,7 +205,7 @@ TaskExecuteCustomCommands::TaskExecuteCustomCommands(
     std::shared_ptr<PersistentStorage> storage,
     std::shared_ptr<DialogView> dialogView,
     size_t indexerThreadCount,
-    const FilePath& projectDirectory)
+    const utility::file::FilePath& projectDirectory)
     : m_indexerCommandProvider(std::move(indexerCommandProvider))
     , m_storage(storage)
     , m_dialogView(dialogView)
@@ -221,8 +221,8 @@ void TaskExecuteCustomCommands::doEnter(std::shared_ptr<Blackboard> /*blackboard
   m_start = TimeStamp::now();
 
   if(m_indexerCommandProvider) {
-    for(const FilePath& sourceFilePath:
-        utility::partitionFilePathsBySize(m_indexerCommandProvider->getAllSourceFilePaths(), 2)) {
+    for(const utility::file::FilePath& sourceFilePath:
+        utility::file::partitionFilePathsBySize(m_indexerCommandProvider->getAllSourceFilePaths(), 2)) {
       if(std::shared_ptr<IndexerCommandCustom> indexerCommand =
              std::dynamic_pointer_cast<IndexerCommandCustom>(
                  m_indexerCommandProvider->consumeCommandForSourceFilePath(sourceFilePath))) {
@@ -281,18 +281,18 @@ Task::TaskState TaskExecuteCustomCommands::doUpdate(std::shared_ptr<Blackboard> 
   MessageErrorCountClear().dispatch();
 
   {
-    PersistentStorage targetStorage(m_targetDatabaseFilePath, FilePath());
+    PersistentStorage targetStorage(m_targetDatabaseFilePath, utility::file::FilePath());
     targetStorage.setup();
     targetStorage.setMode(SqliteIndexStorage::STORAGE_MODE_WRITE);
     targetStorage.buildCaches();
-    for(const FilePath& sourceDatabaseFilePath: m_sourceDatabaseFilePaths) {
+    for(const utility::file::FilePath& sourceDatabaseFilePath: m_sourceDatabaseFilePaths) {
       {
-        PersistentStorage sourceStorage(sourceDatabaseFilePath, FilePath());
+        PersistentStorage sourceStorage(sourceDatabaseFilePath, utility::file::FilePath());
         sourceStorage.setMode(SqliteIndexStorage::STORAGE_MODE_READ);
         sourceStorage.buildCaches();
         targetStorage.inject(&sourceStorage);
       }
-      FileSystem::remove(sourceDatabaseFilePath);
+      utility::file::FileSystem::remove(sourceDatabaseFilePath);
     }
 
     if(m_hasPythonCommands && ApplicationSettings::getInstance()->getPythonPostProcessingEnabled()) {
@@ -343,7 +343,7 @@ void TaskExecuteCustomCommands::executeParallelIndexerCommands(int threadId,
     if(threadId == 0) {
       storage = m_storage;
     } else {
-      FilePath databaseFilePath = indexerCommand->getDatabaseFilePath();
+      utility::file::FilePath databaseFilePath = indexerCommand->getDatabaseFilePath();
       databaseFilePath = databaseFilePath.getParentDirectory().concatenate(
           databaseFilePath.fileName() + L"_thread" + std::to_wstring(threadId));
 
@@ -361,9 +361,9 @@ void TaskExecuteCustomCommands::executeParallelIndexerCommands(int threadId,
           LOG_WARNING(L"Temporary storage \"" + databaseFilePath.wstr() +
                       L"\" already exists on file system. File will be removed to avoid "
                       L"conflicts.");
-          FileSystem::remove(databaseFilePath);
+          utility::file::FileSystem::remove(databaseFilePath);
         }
-        storage = std::make_shared<PersistentStorage>(databaseFilePath, FilePath());
+        storage = std::make_shared<PersistentStorage>(databaseFilePath, utility::file::FilePath());
         storage->setup();
         storage->setMode(SqliteIndexStorage::STORAGE_MODE_WRITE);
         storage->buildCaches();
@@ -383,7 +383,7 @@ void TaskExecuteCustomCommands::runIndexerCommand(std::shared_ptr<IndexerCommand
     int indexedSourceFileCount = 0;
     blackboard->get("indexed_source_file_count", indexedSourceFileCount);
 
-    const FilePath sourcePath = indexerCommand->getSourceFilePath();
+    const utility::file::FilePath sourcePath = indexerCommand->getSourceFilePath();
 
     m_dialogView->updateCustomIndexingDialog(
         indexedSourceFileCount + 1, indexedSourceFileCount, m_indexerCommandCount, {sourcePath});

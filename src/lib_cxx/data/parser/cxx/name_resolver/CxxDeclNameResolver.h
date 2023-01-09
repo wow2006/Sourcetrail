@@ -3,12 +3,13 @@
 
 #include <clang/AST/DeclTemplate.h>
 
-#include "CxxDeclName.h"
 #include "CxxNameResolver.h"
 #include "CxxTypeName.h"
 #include "CxxTypeNameResolver.h"
 
 class CanonicalFilePathCache;
+class CxxName;
+class CxxDeclName;
 
 class CxxDeclNameResolver: public CxxNameResolver
 {

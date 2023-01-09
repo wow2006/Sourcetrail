@@ -88,3 +88,5 @@
       LogManager::getInstance()->logError(__ss__.str(), "", "", 0);                                \
     }                                                                                              \
   } while(0)
+
+// end of file

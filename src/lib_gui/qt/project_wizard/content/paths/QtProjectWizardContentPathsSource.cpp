@@ -90,9 +90,9 @@ bool QtProjectWizardContentPathsSource::check()
 	return QtProjectWizardContentPaths::check();
 }
 
-std::vector<FilePath> QtProjectWizardContentPathsSource::getFilePaths() const
+std::vector<utility::file::FilePath> QtProjectWizardContentPathsSource::getFilePaths() const
 {
-	std::set<FilePath> allSourceFilePaths;
+	std::set<utility::file::FilePath> allSourceFilePaths;
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 	if (std::dynamic_pointer_cast<SourceGroupSettingsWithCxxPathsAndFlags>(m_settings))
@@ -123,7 +123,7 @@ std::vector<FilePath> QtProjectWizardContentPathsSource::getFilePaths() const
 		allSourceFilePaths = SourceGroupCustomCommand(settings).getAllSourceFilePaths();
 	}
 
-	return utility::getAsRelativeIfShorter(
+	return utility::file::getAsRelativeIfShorter(
 		utility::toVector(allSourceFilePaths), m_settings->getProjectDirectoryPath());
 }
 

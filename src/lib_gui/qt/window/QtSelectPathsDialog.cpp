@@ -14,15 +14,15 @@ QtSelectPathsDialog::QtSelectPathsDialog(const QString& title, const QString& de
 {
 }
 
-std::vector<FilePath> QtSelectPathsDialog::getPathsList() const
+std::vector<utility::file::FilePath> QtSelectPathsDialog::getPathsList() const
 {
-	std::vector<FilePath> checkedPaths;
+	std::vector<utility::file::FilePath> checkedPaths;
 
 	for (int i = 0; i < m_list->count(); i++)
 	{
 		if (m_list->item(i)->checkState() == Qt::Checked)
 		{
-			checkedPaths.push_back(FilePath(m_list->item(i)->text().toStdWString()));
+			checkedPaths.push_back(utility::file::FilePath(m_list->item(i)->text().toStdWString()));
 		}
 	}
 
@@ -30,13 +30,13 @@ std::vector<FilePath> QtSelectPathsDialog::getPathsList() const
 }
 
 void QtSelectPathsDialog::setPathsList(
-	const std::vector<FilePath>& paths,
-	const std::vector<FilePath>& checkedPaths,
-	const FilePath& rootPathForRelativePaths)
+	const std::vector<utility::file::FilePath>& paths,
+	const std::vector<utility::file::FilePath>& checkedPaths,
+	const utility::file::FilePath& rootPathForRelativePaths)
 {
-	std::set<FilePath> checked(checkedPaths.begin(), checkedPaths.end());
+	std::set<utility::file::FilePath> checked(checkedPaths.begin(), checkedPaths.end());
 
-	for (FilePath s: utility::unique(utility::concat(paths, checkedPaths)))
+	for (utility::file::FilePath s: utility::unique(utility::concat(paths, checkedPaths)))
 	{
 		QListWidgetItem* item = new QListWidgetItem(QString::fromStdWString(s.wstr()), m_list);
 		item->setFlags(item->flags() | Qt::ItemIsUserCheckable);	// set checkable flag

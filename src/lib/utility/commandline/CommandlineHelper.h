@@ -12,6 +12,6 @@ namespace commandline {
 
 void parseConfigFile(boost::program_options::variables_map& vm, boost::program_options::options_description& options);
 
-std::vector<FilePath> extractPaths(const std::vector<std::string>& vector);
+std::vector<utility::file::FilePath> extractPaths(const std::vector<std::string>& vector);
 
 }    // namespace commandline

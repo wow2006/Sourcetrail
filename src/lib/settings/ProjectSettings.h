@@ -14,10 +14,10 @@ public:
   static const std::wstring TEMP_INDEX_DB_FILE_EXTENSION;
 
   static const size_t VERSION;
-  static LanguageType getLanguageOfProject(const FilePath& filePath);
+  static LanguageType getLanguageOfProject(const utility::file::FilePath& filePath);
 
   ProjectSettings();
-  ProjectSettings(const FilePath& projectFilePath);
+  ProjectSettings(const utility::file::FilePath& projectFilePath);
   virtual ~ProjectSettings();
 
   bool equalsExceptNameAndLocation(const ProjectSettings& other) const;
@@ -27,24 +27,24 @@ public:
 
   bool reload();
 
-  FilePath getProjectFilePath() const;
-  void setProjectFilePath(std::wstring projectName, const FilePath& projectFileLocation);
-  FilePath getDependenciesDirectoryPath() const;
+  utility::file::FilePath getProjectFilePath() const;
+  void setProjectFilePath(std::wstring projectName, const utility::file::FilePath& projectFileLocation);
+  utility::file::FilePath getDependenciesDirectoryPath() const;
 
-  FilePath getDBFilePath() const;
-  FilePath getTempDBFilePath() const;
-  FilePath getBookmarkDBFilePath() const;
+  utility::file::FilePath getDBFilePath() const;
+  utility::file::FilePath getTempDBFilePath() const;
+  utility::file::FilePath getBookmarkDBFilePath() const;
 
   std::wstring getProjectName() const;
-  FilePath getProjectDirectoryPath() const;
+  utility::file::FilePath getProjectDirectoryPath() const;
 
   std::string getDescription() const;
 
   std::vector<std::shared_ptr<SourceGroupSettings>> getAllSourceGroupSettings() const;
   void setAllSourceGroupSettings(const std::vector<std::shared_ptr<SourceGroupSettings>>& allSettings);
 
-  std::vector<FilePath> makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const;
-  FilePath makePathExpandedAndAbsolute(const FilePath& path) const;
+  std::vector<utility::file::FilePath> makePathsExpandedAndAbsolute(const std::vector<utility::file::FilePath>& paths) const;
+  utility::file::FilePath makePathExpandedAndAbsolute(const utility::file::FilePath& path) const;
 
 private:
   SettingsMigrator getMigrations() const;

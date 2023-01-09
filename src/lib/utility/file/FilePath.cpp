@@ -1,16 +1,12 @@
 #include "FilePath.h"
 
-#include <algorithm>
-#include <iterator>
-#include <regex>
-
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 
-#include <range/v3/algorithm/any_of.hpp>
-
 #include "logging.h"
 #include "utilityString.h"
+
+namespace utility::file {
 
 FilePath::FilePath()
     : m_path(std::make_unique<boost::filesystem::path>(""))
@@ -420,3 +416,5 @@ bool FilePath::hasExtension(const std::vector<std::wstring>& extensions) const {
   const std::wstring ext = extension();
   return ranges::cpp20::any_of(extensions, [ext](const auto& value) { return ext == value; });
 }
+
+}    // namespace utility::file

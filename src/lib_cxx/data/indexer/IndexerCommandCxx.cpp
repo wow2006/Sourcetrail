@@ -13,7 +13,7 @@
 #include <clang/Tooling/CompilationDatabase.h>
 #include <clang/Tooling/JSONCompilationDatabase.h>
 
-std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const FilePath& cdbPath)
+std::vector<utility::file::FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const utility::file::FilePath& cdbPath)
 {
 	std::string error;
 	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = utility::loadCDB(cdbPath, &error);
@@ -29,25 +29,25 @@ std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(const FilePath& c
 	return getSourceFilesFromCDB(cdb, cdbPath);
 }
 
-std::vector<FilePath> IndexerCommandCxx::getSourceFilesFromCDB(
-	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb, const FilePath& cdbPath)
+std::vector<utility::file::FilePath> IndexerCommandCxx::getSourceFilesFromCDB(
+	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb, const utility::file::FilePath& cdbPath)
 {
-	std::vector<FilePath> filePaths;
+	std::vector<utility::file::FilePath> filePaths;
 	if (cdb)
 	{
-		OrderedCache<FilePath, FilePath> canonicalDirectoryPathCache(
-			[](const FilePath& path) { return path.getCanonical(); });
+		OrderedCache<utility::file::FilePath, utility::file::FilePath> canonicalDirectoryPathCache(
+			[](const utility::file::FilePath& path) { return path.getCanonical(); });
 
 		for (const std::string& fileString: cdb->getAllFiles())
 		{
-			FilePath path = FilePath(utility::decodeFromUtf8(fileString));
+			utility::file::FilePath path = utility::file::FilePath(utility::decodeFromUtf8(fileString));
 			if (!path.isAbsolute())
 			{
 				std::vector<clang::tooling::CompileCommand> commands = cdb->getCompileCommands(
 					fileString);
 				if (!commands.empty())
 				{
-					path = FilePath(utility::decodeFromUtf8(
+					path = utility::file::FilePath(utility::decodeFromUtf8(
 										commands.front().Directory + '/' + commands.front().Filename))
 							   .makeCanonical();
 				}
@@ -69,12 +69,12 @@ std::wstring IndexerCommandCxx::getCompilerFlagLanguageStandard(const std::wstri
 }
 
 std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForSystemHeaderSearchPaths(
-	const std::vector<FilePath>& systemHeaderSearchPaths)
+	const std::vector<utility::file::FilePath>& systemHeaderSearchPaths)
 {
 	std::vector<std::wstring> compilerFlags;
 	compilerFlags.reserve(systemHeaderSearchPaths.size() * 2);
 
-	for (const FilePath& path: systemHeaderSearchPaths)
+	for (const utility::file::FilePath& path: systemHeaderSearchPaths)
 	{
 		compilerFlags.push_back(L"-isystem");
 		compilerFlags.push_back(path.wstr());
@@ -94,11 +94,11 @@ std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForSystemHeaderSear
 }
 
 std::vector<std::wstring> IndexerCommandCxx::getCompilerFlagsForFrameworkSearchPaths(
-	const std::vector<FilePath>& frameworkSearchPaths)
+	const std::vector<utility::file::FilePath>& frameworkSearchPaths)
 {
 	std::vector<std::wstring> compilerFlags;
 	compilerFlags.reserve(frameworkSearchPaths.size() * 2);
-	for (const FilePath& path: frameworkSearchPaths)
+	for (const utility::file::FilePath& path: frameworkSearchPaths)
 	{
 		compilerFlags.push_back(L"-iframework");
 		compilerFlags.push_back(path.wstr());
@@ -111,11 +111,11 @@ IndexerCommandType IndexerCommandCxx::getStaticIndexerCommandType()
 	return INDEXER_COMMAND_CXX;
 }
 IndexerCommandCxx::IndexerCommandCxx(
-	const FilePath& sourceFilePath,
-	const std::set<FilePath>& indexedPaths,
+	const utility::file::FilePath& sourceFilePath,
+	const std::set<utility::file::FilePath>& indexedPaths,
 	const std::set<FilePathFilter>& excludeFilters,
 	const std::set<FilePathFilter>& includeFilters,
-	const FilePath& workingDirectory,
+	const utility::file::FilePath& workingDirectory,
 	const std::vector<std::wstring>& compilerFlags)
 	: IndexerCommand(sourceFilePath)
 	, m_indexedPaths(indexedPaths)
@@ -135,7 +135,7 @@ size_t IndexerCommandCxx::getByteSize(size_t stringSize) const
 {
 	size_t size = IndexerCommand::getByteSize(stringSize);
 
-	for (const FilePath& path: m_indexedPaths)
+	for (const utility::file::FilePath& path: m_indexedPaths)
 	{
 		size += stringSize + utility::encodeToUtf8(path.wstr()).size();
 	}
@@ -158,7 +158,7 @@ size_t IndexerCommandCxx::getByteSize(size_t stringSize) const
 	return size;
 }
 
-const std::set<FilePath>& IndexerCommandCxx::getIndexedPaths() const
+const std::set<utility::file::FilePath>& IndexerCommandCxx::getIndexedPaths() const
 {
 	return m_indexedPaths;
 }
@@ -178,7 +178,7 @@ const std::vector<std::wstring>& IndexerCommandCxx::getCompilerFlags() const
 	return m_compilerFlags;
 }
 
-const FilePath& IndexerCommandCxx::getWorkingDirectory() const
+const utility::file::FilePath& IndexerCommandCxx::getWorkingDirectory() const
 {
 	return m_workingDirectory;
 }
@@ -189,7 +189,7 @@ QJsonObject IndexerCommandCxx::doSerialize() const
 
 	{
 		QJsonArray indexedPathsArray;
-		for (const FilePath& indexedPath: m_indexedPaths)
+		for (const utility::file::FilePath& indexedPath: m_indexedPaths)
 		{
 			indexedPathsArray.append(QString::fromStdWString(indexedPath.wstr()));
 		}

@@ -49,7 +49,7 @@ void QtProjectWizardContentPathPythonEnvironment::load()
 
 void QtProjectWizardContentPathPythonEnvironment::save()
 {
-	m_settings->setEnvironmentPath(FilePath(m_picker->getText().toStdWString()));
+	m_settings->setEnvironmentPath(utility::file::FilePath(m_picker->getText().toStdWString()));
 }
 
 void QtProjectWizardContentPathPythonEnvironment::onTextChanged(const QString& text)
@@ -67,9 +67,9 @@ void QtProjectWizardContentPathPythonEnvironment::onTextChanged(const QString& t
 				{L"check-environment",
 				 L"--environment-path",
 				 utility::getExpandedAndAbsolutePath(
-					 FilePath(text.toStdWString()), m_settings->getProjectDirectoryPath())
+					 utility::file::FilePath(text.toStdWString()), m_settings->getProjectDirectoryPath())
 					 .wstr()},
-				FilePath(),
+				utility::file::FilePath(),
 				false,
 				5000);
 			m_onQtThread([=]() {

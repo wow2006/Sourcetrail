@@ -1,16 +1,18 @@
 #pragma once
 
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+}
 
 class AppPath {
 public:
-  static FilePath getSharedDataDirectoryPath();
-  static bool setSharedDataDirectoryPath(const FilePath& path);
+  static utility::file::FilePath getSharedDataDirectoryPath();
+  static bool setSharedDataDirectoryPath(const utility::file::FilePath& path);
 
-  static FilePath getCxxIndexerFilePath();
-  static bool setCxxIndexerDirectoryPath(const FilePath& path);
+  static utility::file::FilePath getCxxIndexerFilePath();
+  static bool setCxxIndexerDirectoryPath(const utility::file::FilePath& path);
 
 private:
-  static FilePath s_sharedDataDirectoryPath;
-  static FilePath s_cxxIndexerDirectoryPath;
+  static utility::file::FilePath s_sharedDataDirectoryPath;
+  static utility::file::FilePath s_cxxIndexerDirectoryPath;
 };

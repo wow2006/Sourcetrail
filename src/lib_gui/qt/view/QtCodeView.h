@@ -48,7 +48,7 @@ public:
 	bool isInListMode() const override;
 	void setMode(bool listMode) override;
 
-	bool hasSingleFileCached(const FilePath& filePath) const override;
+	bool hasSingleFileCached(const utility::file::FilePath& filePath) const override;
 
 	void setNavigationFocus(bool focus) override;
 	bool hasNavigationFocus() const override;

@@ -5,14 +5,16 @@
 #include <vector>
 
 #include "ApplicationArchitectureType.h"
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 
 namespace utility
 {
 std::vector<std::wstring> getCxxHeaderPaths(const std::string& compilerName);
 
-std::vector<FilePath> getWindowsSdkHeaderSearchPaths(ApplicationArchitectureType architectureType);
-FilePath getWindowsSdkRootPathUsingRegistry(
+std::vector<utility::file::FilePath> getWindowsSdkHeaderSearchPaths(ApplicationArchitectureType architectureType);
+utility::file::FilePath getWindowsSdkRootPathUsingRegistry(
 	ApplicationArchitectureType architectureType, const std::string& sdkVersion);
 }	 // namespace utility
 

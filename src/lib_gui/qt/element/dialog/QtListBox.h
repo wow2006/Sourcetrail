@@ -4,8 +4,6 @@
 #include <QFrame>
 #include <QListWidget>
 
-#include "FilePath.h"
-
 class QHBoxLayout;
 class QListWidgetItem;
 class QPushButton;

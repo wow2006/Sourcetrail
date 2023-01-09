@@ -1,17 +1,19 @@
 #pragma once
 
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 #include "SourceGroupSettingsComponent.h"
 
 class SourceGroupSettingsWithJavaGradle : public SourceGroupSettingsComponent {
 public:
   virtual ~SourceGroupSettingsWithJavaGradle() = default;
 
-  FilePath getGradleDependenciesDirectoryPath() const;
+  utility::file::FilePath getGradleDependenciesDirectoryPath() const;
 
-  FilePath getGradleProjectFilePath() const;
-  FilePath getGradleProjectFilePathExpandedAndAbsolute() const;
-  void setGradleProjectFilePath(const FilePath& path);
+  utility::file::FilePath getGradleProjectFilePath() const;
+  utility::file::FilePath getGradleProjectFilePathExpandedAndAbsolute() const;
+  void setGradleProjectFilePath(const utility::file::FilePath& path);
 
   bool getShouldIndexGradleTests() const;
   void setShouldIndexGradleTests(bool value);
@@ -23,6 +25,6 @@ protected:
   void save(utility::ConfigManager* config, const std::string& key) override;
 
 private:
-  FilePath m_gradleProjectFilePath;
+  utility::file::FilePath m_gradleProjectFilePath;
   bool m_shouldIndexGradleTests = false;
 };

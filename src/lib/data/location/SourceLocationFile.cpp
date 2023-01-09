@@ -1,6 +1,6 @@
 #include "SourceLocationFile.h"
 
-SourceLocationFile::SourceLocationFile(const FilePath& filePath,
+SourceLocationFile::SourceLocationFile(const utility::file::FilePath& filePath,
                                        const std::wstring& language,
                                        bool isWhole,
                                        bool isComplete,
@@ -13,7 +13,7 @@ SourceLocationFile::SourceLocationFile(const FilePath& filePath,
 
 SourceLocationFile::~SourceLocationFile() = default;
 
-const FilePath& SourceLocationFile::getFilePath() const {
+const utility::file::FilePath& SourceLocationFile::getFilePath() const {
   return m_filePath;
 }
 

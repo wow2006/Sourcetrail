@@ -15,7 +15,7 @@ JavaPathDetectorWindows::JavaPathDetectorWindows(const std::string javaVersion, 
 {
 }
 
-std::vector<FilePath> JavaPathDetectorWindows::doGetPaths() const
+std::vector<utility::file::FilePath> JavaPathDetectorWindows::doGetPaths() const
 {
 	QString key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\";
 
@@ -41,7 +41,7 @@ std::vector<FilePath> JavaPathDetectorWindows::doGetPaths() const
 		QSettings settings(key, QSettings::NativeFormat);
 		const QString value = settings.value("RuntimeLib").toString();
 
-		const FilePath path(value.toStdWString());
+		const utility::file::FilePath path(value.toStdWString());
 		if (path.exists())
 		{
 			return {path};
@@ -64,7 +64,7 @@ std::vector<FilePath> JavaPathDetectorWindows::doGetPaths() const
 			const QSettings settings(key, QSettings::NativeFormat);
 			const QString value = settings.value("JavaHome").toString();
 
-			const FilePath path = FilePath(value.toStdWString()).concatenate(L"bin/server/jvm.dll");
+			const utility::file::FilePath path = utility::file::FilePath(value.toStdWString()).concatenate(L"bin/server/jvm.dll");
 			if (path.exists())
 			{
 				return {path};

@@ -104,7 +104,7 @@ private:
 	QComboBox* m_textEncoding;
 
 	QComboBox* m_colorSchemes;
-	std::vector<FilePath> m_colorSchemePaths;
+	std::vector<utility::file::FilePath> m_colorSchemePaths;
 	int m_oldColorSchemeIndex;
 	int m_newColorSchemeIndex;
 

@@ -119,7 +119,7 @@ public slots:
 	void hideStartScreen();
 
 	void newProject();
-	void newProjectFromCDB(const FilePath& filePath);
+	void newProjectFromCDB(const utility::file::FilePath& filePath);
 	void openProject();
 	void editProject();
 	void closeProject();

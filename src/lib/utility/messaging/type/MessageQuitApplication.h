@@ -4,9 +4,9 @@
 
 class MessageQuitApplication : public Message<MessageQuitApplication> {
 public:
-  MessageQuitApplication() {}
+  MessageQuitApplication();
 
-  static const std::string getStaticType() {
-    return "MessageQuitApplication";
-  }
+  ~MessageQuitApplication() override;
+
+  static std::string getStaticType();
 };

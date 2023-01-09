@@ -15,7 +15,6 @@
 
 class CanonicalFilePathCache;
 class ParserClient;
-class FilePath;
 
 struct IndexerStateInfo;
 struct ParseLocation;

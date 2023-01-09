@@ -3,17 +3,17 @@
 #include "ProjectSettings.h"
 #include "utilityFile.h"
 
-FilePath SourceGroupSettingsWithCxxCdbPath::getCompilationDatabasePath() const {
+utility::file::FilePath SourceGroupSettingsWithCxxCdbPath::getCompilationDatabasePath() const {
   return m_compilationDatabasePath;
 }
 
-FilePath SourceGroupSettingsWithCxxCdbPath::getCompilationDatabasePathExpandedAndAbsolute() const {
+utility::file::FilePath SourceGroupSettingsWithCxxCdbPath::getCompilationDatabasePathExpandedAndAbsolute() const {
   return utility::getExpandedAndAbsolutePath(
       getCompilationDatabasePath(), getProjectSettings()->getProjectDirectoryPath());
 }
 
 void SourceGroupSettingsWithCxxCdbPath::setCompilationDatabasePath(
-    const FilePath& compilationDatabasePath) {
+    const utility::file::FilePath& compilationDatabasePath) {
   m_compilationDatabasePath = compilationDatabasePath;
 }
 
@@ -27,7 +27,7 @@ bool SourceGroupSettingsWithCxxCdbPath::equals(const SourceGroupSettingsBase* ot
 void SourceGroupSettingsWithCxxCdbPath::load(const utility::ConfigManagerigManager* config,
                                              const std::string& key) {
   setCompilationDatabasePath(
-      config->getValueOrDefault(key + "/build_file_path/compilation_db_path", FilePath(L"")));
+      config->getValueOrDefault(key + "/build_file_path/compilation_db_path", utility::file::FilePath(L"")));
 }
 
 void SourceGroupSettingsWithCxxCdbPath::save(utility::ConfigManagerigManager* config,

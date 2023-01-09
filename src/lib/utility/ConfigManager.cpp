@@ -80,10 +80,10 @@ bool ConfigManager::getValue(const std::string& key, bool& value) const {
   return false;
 }
 
-bool ConfigManager::getValue(const std::string& key, FilePath& value) const {
+bool ConfigManager::getValue(const std::string& key, utility::file::FilePath& value) const {
   std::wstring valueString;
   if(getValue(key, valueString)) {
-    value = FilePath(valueString);
+    value = utility::file::FilePath(valueString);
     return true;
   }
   return false;
@@ -152,11 +152,11 @@ bool ConfigManager::getValues(const std::string& key, std::vector<bool>& values)
   return false;
 }
 
-bool ConfigManager::getValues(const std::string& key, std::vector<FilePath>& values) const {
+bool ConfigManager::getValues(const std::string& key, std::vector<utility::file::FilePath>& values) const {
   std::vector<std::wstring> valuesStringVector;
   if(getValues(key, valuesStringVector)) {
     for(const std::wstring& valueString: valuesStringVector) {
-      values.emplace_back(FilePath(valueString));
+      values.emplace_back(utility::file::FilePath(valueString));
     }
     return true;
   }
@@ -191,7 +191,7 @@ void ConfigManager::setValue(const std::string& key, bool value) {
   setValue(key, std::string(value ? "1" : "0"));
 }
 
-void ConfigManager::setValue(const std::string& key, const FilePath& value) {
+void ConfigManager::setValue(const std::string& key, const utility::file::FilePath& value) {
   setValue(key, value.wstr());
 }
 
@@ -238,7 +238,7 @@ void ConfigManager::setValues(const std::string& key, const std::vector<bool>& v
   setValues(key, stringValues);
 }
 
-void ConfigManager::setValues(const std::string& key, const std::vector<FilePath>& values) {
+void ConfigManager::setValues(const std::string& key, const std::vector<utility::file::FilePath>& values) {
   std::vector<std::wstring> stringValues;
   ranges::cpp20::transform(
       values, ranges::back_inserter(stringValues), [](const auto& value) { return value.wstr(); });

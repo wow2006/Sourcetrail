@@ -19,8 +19,7 @@ TaskFillIndexerCommandsQueue::~TaskFillIndexerCommandsQueue() = default;
 void TaskFillIndexerCommandsQueue::doEnter(std::shared_ptr<Blackboard> blackboard) {
   {
     std::lock_guard<std::mutex> lock(m_commandsMutex);
-    for(const FilePath& filePath:
-        utility::partitionFilePathsBySize(m_indexerCommandProvider->getAllSourceFilePaths(), 2)) {
+    for(const auto& filePath: utility::file::partitionFilePathsBySize(m_indexerCommandProvider->getAllSourceFilePaths(), 2)) {
       m_filePathQueue.emplace(filePath);
     }
   }
@@ -68,7 +67,7 @@ void TaskFillIndexerCommandsQueue::handleMessage(MessageIndexingInterrupted* /*m
                           m_indexerCommandManager.indexerCommandCount()) +
            " indexer commands.");
 
-  std::queue<FilePath> empty;
+  std::queue<utility::file::FilePath> empty;
   std::swap(m_filePathQueue, empty);
 
   m_indexerCommandProvider->clear();

@@ -35,7 +35,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 		m_titleDots = m_dots.back();
 		if (m_titleId == 0)	   // title is a file path
 		{
-			m_title->setText(QString::fromStdWString(FilePath(m_titleString).fileName()));
+			m_title->setText(QString::fromStdWString(utility::file::FilePath(m_titleString).fileName()));
 		}
 		else
 		{
@@ -54,7 +54,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 		m_footerDots = m_dots.back();
 		if (m_footerId == 0)	// footer is a file path
 		{
-			m_footer->setText(QString::fromStdWString(FilePath(m_footerString).fileName()));
+			m_footer->setText(QString::fromStdWString(utility::file::FilePath(m_footerString).fileName()));
 		}
 		else
 		{

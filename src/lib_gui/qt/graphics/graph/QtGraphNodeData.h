@@ -3,7 +3,9 @@
 
 #include "QtGraphNode.h"
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 
 class QtGraphNodeData: public QtGraphNode
 {
@@ -19,7 +21,7 @@ public:
 	virtual ~QtGraphNodeData();
 
 	const Node* getData() const;
-	FilePath getFilePath() const;
+	utility::file::FilePath getFilePath() const;
 
 	// QtGraphNode implementation
 	virtual bool isDataNode() const;

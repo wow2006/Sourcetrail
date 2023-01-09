@@ -1,12 +1,9 @@
 #pragma once
-// STL
-#include <cstdint>
-#include <set>
-#include <string>
-#include <vector>
 // Internal
 #include "FileInfo.h"
 #include "TimeStamp.h"
+
+namespace utility::file {
 
 class FileSystem final {
 public:
@@ -20,6 +17,7 @@ public:
                                                      bool followSymLinks = true);
 
   static std::set<FilePath> getSymLinkedDirectories(const FilePath& path);
+
   static std::set<FilePath> getSymLinkedDirectories(const std::vector<FilePath>& paths);
 
   static uint64_t getFileByteSize(const FilePath& filePath);
@@ -27,12 +25,18 @@ public:
   static TimeStamp getLastWriteTime(const FilePath& filePath);
 
   static bool remove(const FilePath& path);
+
   static bool rename(const FilePath& fromPath, const FilePath& toPath);
 
   static bool copyFile(const FilePath& fromPath, const FilePath& toPath);
+
   static bool copy_directory(const FilePath& fromPath, const FilePath& toPath);
 
   static void createDirectory(const FilePath& path);
+
   static std::vector<FilePath> getDirectSubDirectories(const FilePath& path);
+
   static std::vector<FilePath> getRecursiveSubDirectories(const FilePath& path);
 };
+
+}    // namespace utility::file

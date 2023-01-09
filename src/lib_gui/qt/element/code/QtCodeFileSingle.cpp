@@ -111,7 +111,7 @@ bool QtCodeFileSingle::addFile(const CodeFileParams& params, bool useSingleFileC
 
     if(m_filePaths.size() > 100) {
       // TODO: don't delete files that were added multiple times
-      FilePath toDelete = m_filePaths.front();
+      utility::file::FilePath toDelete = m_filePaths.front();
       m_filePaths.pop_front();
 
       auto it = m_fileDatas.find(toDelete);
@@ -145,7 +145,7 @@ void QtCodeFileSingle::updateFiles() {
   }
 }
 
-void QtCodeFileSingle::scrollTo(const FilePath& filePath,
+void QtCodeFileSingle::scrollTo(const utility::file::FilePath& filePath,
                                 size_t lineNumber,
                                 Id locationId,
                                 Id scopeLocationId,
@@ -232,11 +232,11 @@ void QtCodeFileSingle::copySelection() {
   }
 }
 
-const FilePath& QtCodeFileSingle::getCurrentFilePath() const {
+const utility::file::FilePath& QtCodeFileSingle::getCurrentFilePath() const {
   return m_currentFilePath;
 }
 
-bool QtCodeFileSingle::hasFileCached(const FilePath& filePath) const {
+bool QtCodeFileSingle::hasFileCached(const utility::file::FilePath& filePath) const {
   return getFileData(filePath).area != nullptr;
 }
 
@@ -264,8 +264,8 @@ void QtCodeFileSingle::clickedSnippetButton() {
       .dispatch();
 }
 
-QtCodeFileSingle::FileData QtCodeFileSingle::getFileData(const FilePath& filePath) const {
-  std::map<FilePath, FileData>::const_iterator it = m_fileDatas.find(filePath);
+QtCodeFileSingle::FileData QtCodeFileSingle::getFileData(const utility::file::FilePath& filePath) const {
+  std::map<utility::file::FilePath, FileData>::const_iterator it = m_fileDatas.find(filePath);
   if(it != m_fileDatas.end()) {
     return it->second;
   }
@@ -281,7 +281,7 @@ void QtCodeFileSingle::setFileData(const FileData& file) {
   if(m_area) {
     m_area->hide();
     m_area = nullptr;
-    m_currentFilePath = FilePath();
+    m_currentFilePath = utility::file::FilePath();
   }
 
   m_areaWrapper->layout()->takeAt(0);

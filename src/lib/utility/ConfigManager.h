@@ -2,7 +2,9 @@
 
 class TextAccess;
 class TiXmlNode;
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 
 namespace utility {
 
@@ -24,7 +26,7 @@ public:
   bool getValue(const std::string& key, int& value) const;
   bool getValue(const std::string& key, float& value) const;
   bool getValue(const std::string& key, bool& value) const;
-  bool getValue(const std::string& key, FilePath& value) const;
+  bool getValue(const std::string& key, utility::file::FilePath& value) const;
 
   template <typename T>
   T getValueOrDefault(const std::string& key, T defaultValue) const;
@@ -34,7 +36,7 @@ public:
   bool getValues(const std::string& key, std::vector<int>& values) const;
   bool getValues(const std::string& key, std::vector<float>& values) const;
   bool getValues(const std::string& key, std::vector<bool>& values) const;
-  bool getValues(const std::string& key, std::vector<FilePath>& values) const;
+  bool getValues(const std::string& key, std::vector<utility::file::FilePath>& values) const;
 
   template <typename T>
   std::vector<T> getValuesOrDefaults(const std::string& key, std::vector<T> defaultValues) const;
@@ -44,14 +46,14 @@ public:
   void setValue(const std::string& key, int value);
   void setValue(const std::string& key, float value);
   void setValue(const std::string& key, bool value);
-  void setValue(const std::string& key, const FilePath& value);
+  void setValue(const std::string& key, const utility::file::FilePath& value);
 
   void setValues(const std::string& key, const std::vector<std::string>& values);
   void setValues(const std::string& key, const std::vector<std::wstring>& values);
   void setValues(const std::string& key, const std::vector<int>& values);
   void setValues(const std::string& key, const std::vector<float>& values);
   void setValues(const std::string& key, const std::vector<bool>& values);
-  void setValues(const std::string& key, const std::vector<FilePath>& values);
+  void setValues(const std::string& key, const std::vector<utility::file::FilePath>& values);
 
   void removeValues(const std::string& key);
 

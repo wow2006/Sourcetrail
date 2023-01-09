@@ -32,7 +32,7 @@ void QtProjectWizardContentPathSettingsMaven::load()
 
 void QtProjectWizardContentPathSettingsMaven::save()
 {
-	m_settings->setMavenSettingsFilePath(FilePath(m_picker->getText().toStdWString()));
+	m_settings->setMavenSettingsFilePath(utility::file::FilePath(m_picker->getText().toStdWString()));
 }
 
 std::shared_ptr<SourceGroupSettings> QtProjectWizardContentPathSettingsMaven::getSourceGroupSettings()

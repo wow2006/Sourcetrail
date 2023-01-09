@@ -15,20 +15,22 @@
 #include "TooltipInfo.h"
 #include "TooltipOrigin.h"
 
+namespace utility::file {
 class FilePath;
+struct FileInfo;
+} // namespace class utility::file
 class Graph;
 class NodeTypeSet;
 class SourceLocationCollection;
 class SourceLocationFile;
 class TextAccess;
 
-struct FileInfo;
 
 class StorageAccess {
 public:
   virtual ~StorageAccess();
 
-  virtual Id getNodeIdForFileNode(const FilePath& filePath) const = 0;
+  virtual Id getNodeIdForFileNode(const utility::file::FilePath& filePath) const = 0;
   virtual Id getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const = 0;
   virtual std::vector<Id> getNodeIdsForNameHierarchies(
       const std::vector<NameHierarchy> nameHierarchies) const = 0;
@@ -76,27 +78,27 @@ public:
       const std::vector<Id>& locationIds) const = 0;
 
   virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(
-      const FilePath& filePath) const = 0;
+      const utility::file::FilePath& filePath) const = 0;
   virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(
-      const FilePath& filePath, size_t startLine, size_t endLine) const = 0;
+      const utility::file::FilePath& filePath, size_t startLine, size_t endLine) const = 0;
   virtual std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
-      const FilePath& filePath, LocationType type) const = 0;
+      const utility::file::FilePath& filePath, LocationType type) const = 0;
 
-  virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath,
+  virtual std::shared_ptr<TextAccess> getFileContent(const utility::file::FilePath& filePath,
                                                      bool showsErrors) const = 0;
 
-  virtual FileInfo getFileInfoForFileId(Id id) const = 0;
+  virtual utility::file::FileInfo getFileInfoForFileId(Id id) const = 0;
 
-  virtual FileInfo getFileInfoForFilePath(const FilePath& filePath) const = 0;
-  virtual std::vector<FileInfo> getFileInfosForFilePaths(
-      const std::vector<FilePath>& filePaths) const = 0;
+  virtual utility::file::FileInfo getFileInfoForFilePath(const utility::file::FilePath& filePath) const = 0;
+  virtual std::vector<utility::file::FileInfo> getFileInfosForFilePaths(
+      const std::vector<utility::file::FilePath>& filePaths) const = 0;
 
   virtual StorageStats getStorageStats() const = 0;
 
   virtual ErrorCountInfo getErrorCount() const = 0;
   virtual std::vector<ErrorInfo> getErrorsLimited(const ErrorFilter& filter) const = 0;
   virtual std::vector<ErrorInfo> getErrorsForFileLimited(const ErrorFilter& filter,
-                                                         const FilePath& filePath) const = 0;
+                                                         const utility::file::FilePath& filePath) const = 0;
   virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
       const std::vector<ErrorInfo>& errors) const = 0;
 

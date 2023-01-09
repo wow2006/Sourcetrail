@@ -1,5 +1,6 @@
 #include "InterprocessIndexingStatusManager.h"
 
+#include "FilePath.h"
 #include "logging.h"
 #include "utilityString.h"
 
@@ -23,7 +24,7 @@ InterprocessIndexingStatusManager::InterprocessIndexingStatusManager(const std::
 
 InterprocessIndexingStatusManager::~InterprocessIndexingStatusManager() = default;
 
-void InterprocessIndexingStatusManager::startIndexingSourceFile(const FilePath& filePath) {
+void InterprocessIndexingStatusManager::startIndexingSourceFile(const utility::file::FilePath& filePath) {
   SharedMemory::ScopedAccess access(&m_sharedMemory);
 
   SharedMemory::Queue<SharedMemory::String>* indexingFilesPtr =
@@ -130,17 +131,17 @@ Id InterprocessIndexingStatusManager::getNextFinishedProcessId() {
   return 0;
 }
 
-std::vector<FilePath> InterprocessIndexingStatusManager::getCurrentlyIndexedSourceFilePaths() {
+std::vector<utility::file::FilePath> InterprocessIndexingStatusManager::getCurrentlyIndexedSourceFilePaths() {
   SharedMemory::ScopedAccess access(&m_sharedMemory);
 
-  std::vector<FilePath> indexingFiles;
+  std::vector<utility::file::FilePath> indexingFiles;
 
   SharedMemory::Queue<SharedMemory::String>* indexingFilesPtr =
       access.accessValueWithAllocator<SharedMemory::Queue<SharedMemory::String>>(
           s_indexingFilesKeyName);
   if(indexingFilesPtr) {
     while(indexingFilesPtr->size()) {
-      indexingFiles.push_back(FilePath(utility::decodeFromUtf8(indexingFilesPtr->front().c_str())));
+      indexingFiles.push_back(utility::file::FilePath(utility::decodeFromUtf8(indexingFilesPtr->front().c_str())));
       indexingFilesPtr->pop_front();
     }
   }
@@ -148,8 +149,8 @@ std::vector<FilePath> InterprocessIndexingStatusManager::getCurrentlyIndexedSour
   return indexingFiles;
 }
 
-std::vector<FilePath> InterprocessIndexingStatusManager::getCrashedSourceFilePaths() {
-  std::vector<FilePath> crashedFiles;
+std::vector<utility::file::FilePath> InterprocessIndexingStatusManager::getCrashedSourceFilePaths() {
+  std::vector<utility::file::FilePath> crashedFiles;
 
   SharedMemory::ScopedAccess access(&m_sharedMemory);
 
@@ -159,7 +160,7 @@ std::vector<FilePath> InterprocessIndexingStatusManager::getCrashedSourceFilePat
 
   if(crashedFilesPtr) {
     for(size_t i = 0; i < crashedFilesPtr->size(); i++) {
-      crashedFiles.push_back(FilePath(utility::decodeFromUtf8(crashedFilesPtr->at(i).c_str())));
+      crashedFiles.push_back(utility::file::FilePath(utility::decodeFromUtf8(crashedFilesPtr->at(i).c_str())));
     }
   }
 
@@ -170,7 +171,7 @@ std::vector<FilePath> InterprocessIndexingStatusManager::getCrashedSourceFilePat
     for(SharedMemory::Map<Id, SharedMemory::String>::iterator it = currentFilesPtr->begin();
         it != currentFilesPtr->end();
         it++) {
-      crashedFiles.push_back(FilePath(utility::decodeFromUtf8(it->second.c_str())));
+      crashedFiles.push_back(utility::file::FilePath(utility::decodeFromUtf8(it->second.c_str())));
     }
   }
 

@@ -154,7 +154,7 @@ void CxxParser::buildIndex(
 		std::make_shared<CanonicalFilePathCache>(m_fileRegister);
 
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(
-		FilePath(), canonicalFilePathCache, false);
+		utility::file::FilePath(), canonicalFilePathCache, false);
 	std::unique_ptr<clang::ASTFrontendAction> action = std::make_unique<ASTAction>(
 		m_client, canonicalFilePathCache, m_indexerStateInfo);
 
@@ -165,7 +165,7 @@ void CxxParser::buildIndex(
 }
 
 void CxxParser::runTool(
-	clang::tooling::CompilationDatabase* compilationDatabase, const FilePath& sourceFilePath)
+	clang::tooling::CompilationDatabase* compilationDatabase, const utility::file::FilePath& sourceFilePath)
 {
 	initializeLLVM();
 
@@ -223,7 +223,7 @@ void CxxParser::runTool(
 }
 
 std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(
-	const FilePath& sourceFilePath,
+	const utility::file::FilePath& sourceFilePath,
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 	bool logErrors) const
 {

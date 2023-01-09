@@ -77,16 +77,16 @@ const ProjectSettings* SourceGroupSettings::getProjectSettings() const {
   return m_projectSettings;
 }
 
-FilePath SourceGroupSettings::getSourceGroupDependenciesDirectoryPath() const {
+utility::file::FilePath SourceGroupSettings::getSourceGroupDependenciesDirectoryPath() const {
   return getProjectSettings()->getDependenciesDirectoryPath().concatenate(
       utility::decodeFromUtf8(getId()));
 }
 
-FilePath SourceGroupSettings::getProjectDirectoryPath() const {
+utility::file::FilePath SourceGroupSettings::getProjectDirectoryPath() const {
   return m_projectSettings->getProjectDirectoryPath();
 }
 
-std::vector<FilePath> SourceGroupSettings::makePathsExpandedAndAbsolute(
-    const std::vector<FilePath>& paths) const {
+std::vector<utility::file::FilePath> SourceGroupSettings::makePathsExpandedAndAbsolute(
+    const std::vector<utility::file::FilePath>& paths) const {
   return m_projectSettings->makePathsExpandedAndAbsolute(paths);
 }

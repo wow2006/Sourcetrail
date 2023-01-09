@@ -158,7 +158,7 @@ utility::Tree<NodeType::BundleInfo> NodeType::getOverviewBundleTree() const {
   return utility::Tree<BundleInfo>();
 }
 
-FilePath NodeType::getIconPath() const {
+utility::file::FilePath NodeType::getIconPath() const {
   if(isPackage()) {
     // this icon cannot be changed
     return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/namespace.png");
@@ -176,7 +176,7 @@ FilePath NodeType::getIconPath() const {
   case NODE_FILE:
     return ResourcePaths::getGuiDirectoryPath().concatenate(L"graph_view/images/file.png");
   default:
-    return FilePath();
+    return utility::file::FilePath();
   }
 }
 

@@ -17,7 +17,7 @@ public:
 
 	void addAction(QAction* action);
 	void addUndoActions();
-	void addFileActions(const FilePath& filePath);
+	void addFileActions(const utility::file::FilePath& filePath);
 
 	static QtContextMenu* getInstance();
 
@@ -46,7 +46,7 @@ private:
 	static QAction* s_copyFullPathAction;
 	static QAction* s_openContainingFolderAction;
 
-	static FilePath s_filePath;
+	static utility::file::FilePath s_filePath;
 
 	QMenu m_menu;
 	QPoint m_point;

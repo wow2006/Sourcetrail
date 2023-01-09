@@ -3,16 +3,18 @@
 
 #include <vector>
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 
 namespace utility
 {
 bool gradleCopyDependencies(
-	const FilePath& projectDirectoryPath,
-	const FilePath& outputDirectoryPath,
+	const utility::file::FilePath& projectDirectoryPath,
+	const utility::file::FilePath& outputDirectoryPath,
 	bool addTestDependencies);
-std::vector<FilePath> gradleGetAllSourceDirectories(
-	const FilePath& projectDirectoryPath, bool addTestDirectories);
+std::vector<utility::file::FilePath> gradleGetAllSourceDirectories(
+	const utility::file::FilePath& projectDirectoryPath, bool addTestDirectories);
 }	 // namespace utility
 
 #endif	  // UTILITY_GRADLE_H

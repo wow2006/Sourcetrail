@@ -9,7 +9,6 @@
 #include <clang/Lex/PPCallbacks.h>
 #include <clang/Lex/Token.h>
 
-#include "FilePath.h"
 #include "types.h"
 
 class CanonicalFilePathCache;

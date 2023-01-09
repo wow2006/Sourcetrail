@@ -145,8 +145,8 @@ std::shared_ptr<SourceLocationFile> QtCodeField::getSourceLocationFile() const {
   return m_locationFile;
 }
 
-FilePath QtCodeField::getFilePath() const {
-  return m_locationFile ? m_locationFile->getFilePath() : FilePath();
+utility::file::FilePath QtCodeField::getFilePath() const {
+  return m_locationFile ? m_locationFile->getFilePath() : utility::file::FilePath();
 }
 
 void QtCodeField::annotateText() {

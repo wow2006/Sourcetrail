@@ -7,7 +7,9 @@
 
 #include "SourceGroup.h"
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 namespace clang
 {
 namespace tooling
@@ -24,9 +26,9 @@ public:
 	SourceGroupCxxCdb(std::shared_ptr<SourceGroupSettingsCxxCdb> settings);
 
 	bool prepareIndexing() override;
-	std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const override;
-	std::set<FilePath> getAllSourceFilePaths() const override;
-	std::set<FilePath> getAllSourceFilePaths(
+	std::set<utility::file::FilePath> filterToContainedFilePaths(const std::set<utility::file::FilePath>& filePaths) const override;
+	std::set<utility::file::FilePath> getAllSourceFilePaths() const override;
+	std::set<utility::file::FilePath> getAllSourceFilePaths(
 		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb) const;
 	std::shared_ptr<IndexerCommandProvider> getIndexerCommandProvider(
 		const RefreshInfo& info) const override;

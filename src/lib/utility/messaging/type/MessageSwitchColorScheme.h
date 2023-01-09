@@ -4,7 +4,7 @@
 
 class MessageSwitchColorScheme : public Message<MessageSwitchColorScheme> {
 public:
-  MessageSwitchColorScheme(const FilePath& filePath): colorSchemePath(filePath) {}
+  MessageSwitchColorScheme(const utility::file::FilePath& filePath): colorSchemePath(filePath) {}
 
   static const std::string getStaticType() {
     return "MessageSwitchColorScheme";
@@ -14,5 +14,5 @@ public:
     os << colorSchemePath.wstr();
   }
 
-  const FilePath colorSchemePath;
+  const utility::file::FilePath colorSchemePath;
 };

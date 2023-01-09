@@ -15,7 +15,7 @@ QtIconStateButton::QtIconStateButton(QWidget* parent): QPushButton(QLatin1String
 	leaveEvent(nullptr);
 }
 
-void QtIconStateButton::addState(ButtonState buttonState, const FilePath& iconPath, QColor color)
+void QtIconStateButton::addState(ButtonState buttonState, const utility::file::FilePath& iconPath, QColor color)
 {
 	State state;
 	state.iconPath = iconPath;

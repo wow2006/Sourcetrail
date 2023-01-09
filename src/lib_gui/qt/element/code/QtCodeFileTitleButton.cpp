@@ -17,7 +17,7 @@
 #include "QtContextMenu.h"
 
 QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
-	: QtSelfRefreshIconButton(QLatin1String(""), FilePath(), "code/file/title", parent)
+	: QtSelfRefreshIconButton(QLatin1String(""), utility::file::FilePath(), "code/file/title", parent)
 	, m_isComplete(true)
 	, m_isIndexed(true)
 {
@@ -38,12 +38,12 @@ QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	connect(m_openInTabAction, &QAction::triggered, this, &QtCodeFileTitleButton::openInTab);
 }
 
-const FilePath& QtCodeFileTitleButton::getFilePath() const
+const utility::file::FilePath& QtCodeFileTitleButton::getFilePath() const
 {
 	return m_filePath;
 }
 
-void QtCodeFileTitleButton::setFilePath(const FilePath& filePath)
+void QtCodeFileTitleButton::setFilePath(const utility::file::FilePath& filePath)
 {
 	setEnabled(true);
 
@@ -62,7 +62,7 @@ void QtCodeFileTitleButton::setModificationTime(const TimeStamp modificationTime
 
 void QtCodeFileTitleButton::setProject(const std::wstring& name)
 {
-	m_filePath = FilePath();
+	m_filePath = utility::file::FilePath();
 
 	setText(QString::fromStdWString(name));
 	setToolTip(QStringLiteral("edit project"));
@@ -127,7 +127,7 @@ void QtCodeFileTitleButton::updateTexts()
 	}
 
 	if ((!m_filePath.recheckExists()) ||
-		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
+		(utility::file::FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
 	{
 		title += L"*";
 		toolTip = L"out-of-date " + toolTip;
@@ -137,10 +137,10 @@ void QtCodeFileTitleButton::updateTexts()
 	{
 		setAutoElide(true);
 
-		FilePath directoryPath = m_filePath.getParentDirectory();
+		utility::file::FilePath directoryPath = m_filePath.getParentDirectory();
 		std::wstring directory = directoryPath.wstr();
 
-		FilePath projectPath = lib::app::Application::getInstance()->getCurrentProjectPath();
+		utility::file::FilePath projectPath = lib::app::Application::getInstance()->getCurrentProjectPath();
 		std::wstring directoryRelative = directoryPath.getRelativeTo(projectPath).wstr();
 
 		if (directoryRelative.size() < directory.size())
@@ -194,7 +194,7 @@ void QtCodeFileTitleButton::mouseReleaseEvent(QMouseEvent* event)
 
 void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)
 {
-	FilePath path = m_filePath;
+	utility::file::FilePath path = m_filePath;
 	if (path.empty())
 	{
 		path = lib::app::Application::getInstance()->getCurrentProjectPath();
@@ -262,7 +262,7 @@ void QtCodeFileTitleButton::updateHatching()
 {
 	if (!m_isIndexed)
 	{
-		FilePath hatchingFilePath = ResourcePaths::getGuiDirectoryPath().concatenate(
+		utility::file::FilePath hatchingFilePath = ResourcePaths::getGuiDirectoryPath().concatenate(
 			L"code_view/images/pattern_" +
 			utility::decodeFromUtf8(
 				ColorScheme::getInstance()->getColor("code/file/title/hatching")) +

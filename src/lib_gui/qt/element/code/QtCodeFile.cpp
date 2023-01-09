@@ -10,7 +10,7 @@
 #include "QtCodeSnippet.h"
 #include "SourceLocationFile.h"
 
-QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator, bool isFirst)
+QtCodeFile::QtCodeFile(const utility::file::FilePath& filePath, QtCodeNavigator* navigator, bool isFirst)
 	: QFrame(), m_navigator(navigator), m_filePath(filePath), m_isWholeFile(false)
 {
 	setObjectName(QStringLiteral("code_file"));
@@ -54,7 +54,7 @@ void QtCodeFile::setModificationTime(const TimeStamp modificationTime)
 	m_titleBar->getTitleButton()->setModificationTime(modificationTime);
 }
 
-const FilePath& QtCodeFile::getFilePath() const
+const utility::file::FilePath& QtCodeFile::getFilePath() const
 {
 	return m_filePath;
 }

@@ -20,7 +20,7 @@ public:
 	void load() override;
 	void save() override;
 
-	std::vector<FilePath> getFilePaths() const override;
+	std::vector<utility::file::FilePath> getFilePaths() const override;
 	QString getFileNamesTitle() const override;
 	QString getFileNamesDescription() const override;
 
@@ -32,7 +32,7 @@ private:
 
 	std::shared_ptr<SourceGroupSettingsCxxCodeblocks> m_settings;
 	QLabel* m_fileCountLabel;
-	mutable SingleValueCache<std::vector<FilePath>> m_filePaths;
+	mutable SingleValueCache<std::vector<utility::file::FilePath>> m_filePaths;
 };
 
 #endif	  // QT_PROJECT_WIZARD_CONTENT_PATH_CODE_BLOCKS_PROJECT_H

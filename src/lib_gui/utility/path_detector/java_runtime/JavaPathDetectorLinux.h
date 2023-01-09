@@ -9,13 +9,13 @@ public:
 	JavaPathDetectorLinux(const std::string javaVersion);
 
 private:
-	std::vector<FilePath> doGetPaths() const override;
-	FilePath getJavaInPath() const;
-	FilePath readLink(const FilePath& path) const;
-	FilePath getJavaInJavaHome() const;
-	bool checkVersion(const FilePath& path) const;
+	std::vector<utility::file::FilePath> doGetPaths() const override;
+	utility::file::FilePath getJavaInPath() const;
+	utility::file::FilePath readLink(const utility::file::FilePath& path) const;
+	utility::file::FilePath getJavaInJavaHome() const;
+	bool checkVersion(const utility::file::FilePath& path) const;
 
-	FilePath getFilePathRelativeToJavaExecutable(FilePath& javaExecutablePath) const;
+	utility::file::FilePath getFilePathRelativeToJavaExecutable(utility::file::FilePath& javaExecutablePath) const;
 };
 
 #endif	  // JAVA_PATH_DETECTOR_LINUX_H

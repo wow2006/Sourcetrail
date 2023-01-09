@@ -1,12 +1,12 @@
 #include "FileSystem.h"
 
-#include <set>
-
 #include <boost/date_time.hpp>
 #include <boost/date_time/c_local_time_adjustor.hpp>
 #include <boost/filesystem.hpp>
 
 #include "utilityString.h"
+
+namespace utility::file {
 
 std::vector<FilePath> FileSystem::getFilePathsFromDirectory(
     const FilePath& path, const std::vector<std::wstring>& extensions) {
@@ -122,7 +122,7 @@ std::set<FilePath> FileSystem::getSymLinkedDirectories(const FilePath& path) {
 std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePath>& paths) {
   std::set<boost::filesystem::path> symlinkDirs;
 
-  for(const auto& path : paths) {
+  for(const auto& path: paths) {
     if(path.isDirectory()) {
       boost::filesystem::recursive_directory_iterator iterator(
           path.getPath(), boost::filesystem::symlink_option::recurse);
@@ -132,14 +132,14 @@ std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePat
         if(boost::filesystem::is_symlink(*iterator)) {
           // check for self-referencing symlinks
           auto selfPath = boost::filesystem::read_symlink(*iterator);
-          if(selfPath.filename() == selfPath.string() && selfPath.filename() == iterator->path().filename()) {
+          if(selfPath.filename() == selfPath.string() &&
+             selfPath.filename() == iterator->path().filename()) {
             continue;
           }
 
           // check for duplicates when following directory symlinks
           if(boost::filesystem::is_directory(*iterator)) {
-            auto absDir = boost::filesystem::canonical(
-                selfPath, iterator->path().parent_path());
+            auto absDir = boost::filesystem::canonical(selfPath, iterator->path().parent_path());
 
             if(symlinkDirs.find(absDir) != symlinkDirs.end()) {
               iterator.no_push();
@@ -154,7 +154,7 @@ std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePat
   }
 
   std::set<FilePath> files;
-  for(const auto& dir : symlinkDirs) {
+  for(const auto& dir: symlinkDirs) {
     files.insert(FilePath(dir.wstring()));
   }
   return files;
@@ -172,7 +172,7 @@ TimeStamp FileSystem::getLastWriteTime(const FilePath& filePath) {
     lastWriteTime = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local(
         lastWriteTime);
   }
-  return TimeStamp{lastWriteTime};
+  return TimeStamp {lastWriteTime};
 }
 
 bool FileSystem::remove(const FilePath& path) {
@@ -244,3 +244,5 @@ std::vector<FilePath> FileSystem::getRecursiveSubDirectories(const FilePath& pat
 
   return subDirectories;
 }
+
+}    // namespace utility::file

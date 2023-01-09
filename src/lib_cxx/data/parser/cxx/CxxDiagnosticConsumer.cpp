@@ -14,7 +14,7 @@ CxxDiagnosticConsumer::CxxDiagnosticConsumer(
 	clang::DiagnosticOptions* diags,
 	std::shared_ptr<ParserClient> client,
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
-	const FilePath& sourceFilePath,
+	const utility::file::FilePath& sourceFilePath,
 	bool useLogging)
 	: clang::TextDiagnosticPrinter(os, diags)
 	, m_client(client)
@@ -67,7 +67,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(
 		}
 
 		Id fileId = 0;
-		FilePath filePath;
+		utility::file::FilePath filePath;
 		size_t lineNumber = 0;
 		size_t columnNumber = 0;
 		if (info.getLocation().isValid() && info.hasSourceManager())

@@ -65,7 +65,7 @@ void QtProjectWizardContentProjectData::save()
 {
 	m_projectSettings->setProjectFilePath(
 		m_projectName->text().toStdWString(),
-		FilePath(m_projectFileLocation->getText().toStdWString()));
+		utility::file::FilePath(m_projectFileLocation->getText().toStdWString()));
 }
 
 bool QtProjectWizardContentProjectData::check()
@@ -97,8 +97,8 @@ bool QtProjectWizardContentProjectData::check()
 		return false;
 	}
 
-	std::vector<FilePath> paths =
-		FilePath(m_projectFileLocation->getText().toStdWString()).expandEnvironmentVariables();
+	std::vector<utility::file::FilePath> paths =
+		utility::file::FilePath(m_projectFileLocation->getText().toStdWString()).expandEnvironmentVariables();
 	if (paths.size() != 1)
 	{
 		QMessageBox msgBox(m_window);
@@ -139,7 +139,7 @@ bool QtProjectWizardContentProjectData::check()
 		int ret = msgBox.exec();
 		if (ret == 1)	 // QMessageBox::Yes
 		{
-			FileSystem::createDirectory(paths[0]);
+			utility::file::FileSystem::createDirectory(paths[0]);
 		}
 		else
 		{

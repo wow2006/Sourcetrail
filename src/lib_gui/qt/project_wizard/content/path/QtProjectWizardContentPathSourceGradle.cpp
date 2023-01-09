@@ -49,11 +49,11 @@ void QtProjectWizardContentPathSourceGradle::load()
 
 void QtProjectWizardContentPathSourceGradle::save()
 {
-	m_settings->setGradleProjectFilePath(FilePath(m_picker->getText().toStdWString()));
+	m_settings->setGradleProjectFilePath(utility::file::FilePath(m_picker->getText().toStdWString()));
 	m_settings->setShouldIndexGradleTests(m_shouldIndexTests->isChecked());
 }
 
-std::vector<FilePath> QtProjectWizardContentPathSourceGradle::getFilePaths() const
+std::vector<utility::file::FilePath> QtProjectWizardContentPathSourceGradle::getFilePaths() const
 {
 	QtDialogView* dialogView = dynamic_cast<QtDialogView*>(
 		lib::app::Application::getInstance()->getDialogView(DialogView::UseCase::PROJECT_SETUP).get());

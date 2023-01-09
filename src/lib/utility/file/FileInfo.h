@@ -1,15 +1,20 @@
 #pragma once
-
-#include <boost/date_time.hpp>
-
-#include "FilePath.h"
+// Internal
 #include "TimeStamp.h"
+#include "FilePath.h"
+
+namespace utility::file {
 
 struct FileInfo {
   FileInfo();
-  FileInfo(const FilePath& path);
-  FileInfo(const FilePath& path, const TimeStamp& lastWriteTime);
 
-  FilePath path;
+  FileInfo(const utility::file::FilePath& path);
+
+  FileInfo(const utility::file::FilePath& path, const TimeStamp& lastWriteTime);
+
+  utility::file::FilePath path;
+
   TimeStamp lastWriteTime;
 };
+
+}    // namespace utility::file

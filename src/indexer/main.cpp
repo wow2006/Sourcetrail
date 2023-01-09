@@ -18,7 +18,7 @@
 #  include "LanguagePackageJava.h"
 #endif    // BUILD_JAVA_LANGUAGE_PACKAGE
 
-void setupLogging(const FilePath& logFilePath) {
+void setupLogging(const utility::file::FilePath& logFilePath) {
   auto* pLogManager = LogManager::getInstance().get();
 
   auto pFileLogger = std::make_shared<FileLogger>();
@@ -60,11 +60,11 @@ int main(int argc, char* argv[]) {
     logFilePath = argv[5];
   }
 
-  AppPath::setSharedDataDirectoryPath(FilePath(appPath));
-  UserPaths::setUserDataDirectoryPath(FilePath(userDataPath));
+  AppPath::setSharedDataDirectoryPath(utility::file::FilePath(appPath));
+  UserPaths::setUserDataDirectoryPath(utility::file::FilePath(userDataPath));
 
   if(!logFilePath.empty()) {
-    setupLogging(FilePath(logFilePath));
+    setupLogging(utility::file::FilePath(logFilePath));
   }
 
   suppressCrashMessage();

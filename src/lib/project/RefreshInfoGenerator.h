@@ -1,7 +1,9 @@
 #pragma once
 
-struct FileInfo;
+namespace utility::file {
 class FilePath;
+struct FileInfo;
+} // namespace class utility::file
 class PersistentStorage;
 struct RefreshInfo;
 class SourceGroup;
@@ -20,8 +22,8 @@ public:
       const std::vector<std::shared_ptr<SourceGroup>>& sourceGroups);
 
 private:
-  static std::set<FilePath> getAllSourceFilePaths(
+  static std::set<utility::file::FilePath> getAllSourceFilePaths(
       const std::vector<std::shared_ptr<SourceGroup>>& sourceGroups);
 
-  static bool didFileChange(const FileInfo& info, std::shared_ptr<const PersistentStorage> storage);
+  static bool didFileChange(const utility::file::FileInfo& info, std::shared_ptr<const PersistentStorage> storage);
 };

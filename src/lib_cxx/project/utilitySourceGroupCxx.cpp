@@ -27,8 +27,8 @@ std::shared_ptr<Task> createBuildPchTask(
 	std::shared_ptr<StorageProvider> storageProvider,
 	std::shared_ptr<DialogView> dialogView)
 {
-	FilePath pchInputFilePath = settings->getPchInputFilePathExpandedAndAbsolute();
-	FilePath pchDependenciesDirectoryPath = settings->getPchDependenciesDirectoryPath();
+	utility::file::FilePath pchInputFilePath = settings->getPchInputFilePathExpandedAndAbsolute();
+	utility::file::FilePath pchDependenciesDirectoryPath = settings->getPchDependenciesDirectoryPath();
 
 	if (pchInputFilePath.empty() || pchDependenciesDirectoryPath.empty())
 	{
@@ -42,7 +42,7 @@ std::shared_ptr<Task> createBuildPchTask(
 		return std::make_shared<TaskLambda>([]() {});
 	}
 
-	const FilePath pchOutputFilePath = pchDependenciesDirectoryPath
+	const utility::file::FilePath pchOutputFilePath = pchDependenciesDirectoryPath
 										   .getConcatenated(pchInputFilePath.fileName())
 										   .replaceExtension(L"pch");
 
@@ -72,7 +72,7 @@ std::shared_ptr<Task> createBuildPchTask(
 				storage.get());
 
 			std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(
-				pchInputFilePath, std::set<FilePath> {pchInputFilePath}, std::set<FilePathFilter> {});
+				pchInputFilePath, std::set<utility::file::FilePath> {pchInputFilePath}, std::set<FilePathFilter> {});
 
 			std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache =
 				std::make_shared<CanonicalFilePathCache>(fileRegister);
@@ -103,7 +103,7 @@ std::shared_ptr<Task> createBuildPchTask(
 }
 
 std::shared_ptr<clang::tooling::JSONCompilationDatabase> loadCDB(
-	const FilePath& cdbPath, std::string* error)
+	const utility::file::FilePath& cdbPath, std::string* error)
 {
 	if (cdbPath.empty() || !cdbPath.exists())
 	{
@@ -181,12 +181,12 @@ void removeIncludePchFlag(std::vector<std::wstring>& args)
 
 std::vector<std::wstring> getIncludePchFlags(const SourceGroupSettingsWithCxxPchOptions* settings)
 {
-	const FilePath pchInputFilePath = settings->getPchInputFilePathExpandedAndAbsolute();
-	const FilePath pchDependenciesDirectoryPath = settings->getPchDependenciesDirectoryPath();
+	const utility::file::FilePath pchInputFilePath = settings->getPchInputFilePathExpandedAndAbsolute();
+	const utility::file::FilePath pchDependenciesDirectoryPath = settings->getPchDependenciesDirectoryPath();
 
 	if (!pchInputFilePath.empty() && !pchDependenciesDirectoryPath.empty())
 	{
-		const FilePath pchOutputFilePath = pchDependenciesDirectoryPath
+		const utility::file::FilePath pchOutputFilePath = pchDependenciesDirectoryPath
 											   .getConcatenated(pchInputFilePath.fileName())
 											   .replaceExtension(L"pch");
 

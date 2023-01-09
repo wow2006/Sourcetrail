@@ -29,7 +29,7 @@ Settings& Settings::operator=(Settings&& other) noexcept = default;
 
 Settings::~Settings() = default;
 
-bool Settings::load(const FilePath& filePath, bool readOnly) {
+bool Settings::load(const utility::file::FilePath& filePath, bool readOnly) {
   m_readOnly = readOnly;
 
   if(filePath.exists()) {
@@ -47,7 +47,7 @@ bool Settings::loadFromString(const std::string& text, bool readOnly) {
   m_readOnly = readOnly;
 
   m_config = utility::ConfigManager::createAndLoad(TextAccess::createFromString(text));
-  m_filePath = FilePath();
+  m_filePath = utility::file::FilePath();
   return true;
 }
 
@@ -68,7 +68,7 @@ bool Settings::save() {
   return success;
 }
 
-bool Settings::save(const FilePath& filePath) {
+bool Settings::save(const utility::file::FilePath& filePath) {
   setFilePath(filePath);
 
   return save();
@@ -76,10 +76,10 @@ bool Settings::save(const FilePath& filePath) {
 
 void Settings::clear() {
   m_config = utility::ConfigManager::createEmpty();
-  m_filePath = FilePath();
+  m_filePath = utility::file::FilePath();
 }
 
-const FilePath& Settings::getFilePath() const {
+const utility::file::FilePath& Settings::getFilePath() const {
   return m_filePath;
 }
 
@@ -91,19 +91,19 @@ void Settings::setVersion(size_t version) {
   setValue<int>("version", static_cast<int>(version));
 }
 
-void Settings::setFilePath(const FilePath& filePath) {
+void Settings::setFilePath(const utility::file::FilePath& filePath) {
   m_filePath = filePath;
 }
 
-std::vector<FilePath> Settings::getPathValues(const std::string& key) const {
-  std::vector<FilePath> paths;
+std::vector<utility::file::FilePath> Settings::getPathValues(const std::string& key) const {
+  std::vector<utility::file::FilePath> paths;
   ranges::cpp20::transform(getValues<std::wstring>(key, {}),
                            ranges::back_inserter(paths),
-                           [](const auto& path) -> FilePath { return FilePath {path}; });
+                           [](const auto& path) -> utility::file::FilePath { return utility::file::FilePath {path}; });
   return paths;
 }
 
-bool Settings::setPathValues(const std::string& key, const std::vector<FilePath>& paths) {
+bool Settings::setPathValues(const std::string& key, const std::vector<utility::file::FilePath>& paths) {
   std::vector<std::wstring> values;
   ranges::cpp20::transform(
       paths, ranges::back_inserter(values), [](const auto& path) { return path.wstr(); });

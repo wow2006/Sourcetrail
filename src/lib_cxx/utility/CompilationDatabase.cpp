@@ -10,29 +10,29 @@
 #include "utility.h"
 #include "utilityString.h"
 
-utility::CompilationDatabase::CompilationDatabase(const FilePath& filePath): m_filePath(filePath)
+utility::CompilationDatabase::CompilationDatabase(const utility::file::FilePath& filePath): m_filePath(filePath)
 {
 	init();
 }
 
-std::vector<FilePath> utility::CompilationDatabase::getAllHeaderPaths() const
+std::vector<utility::file::FilePath> utility::CompilationDatabase::getAllHeaderPaths() const
 {
-	std::vector<FilePath> paths = utility::concat(m_headers, m_systemHeaders);
+	std::vector<utility::file::FilePath> paths = utility::concat(m_headers, m_systemHeaders);
 	paths = utility::unique(paths);
 	return paths;
 }
 
-std::vector<FilePath> utility::CompilationDatabase::getHeaderPaths() const
+std::vector<utility::file::FilePath> utility::CompilationDatabase::getHeaderPaths() const
 {
 	return m_headers;
 }
 
-std::vector<FilePath> utility::CompilationDatabase::getSystemHeaderPaths() const
+std::vector<utility::file::FilePath> utility::CompilationDatabase::getSystemHeaderPaths() const
 {
 	return m_systemHeaders;
 }
 
-std::vector<FilePath> utility::CompilationDatabase::getFrameworkHeaderPaths() const
+std::vector<utility::file::FilePath> utility::CompilationDatabase::getFrameworkHeaderPaths() const
 {
 	return m_frameworkHeaders;
 }
@@ -55,9 +55,9 @@ void utility::CompilationDatabase::init()
 	}
 
 	std::vector<clang::tooling::CompileCommand> commands = cdb->getAllCompileCommands();
-	std::set<FilePath> frameworkHeaders;
-	std::set<FilePath> systemHeaders;
-	std::set<FilePath> headers;
+	std::set<utility::file::FilePath> frameworkHeaders;
+	std::set<utility::file::FilePath> systemHeaders;
+	std::set<utility::file::FilePath> headers;
 
 	{
 		const std::wstring frameworkIncludeFlag = L"-iframework";
@@ -79,14 +79,14 @@ void utility::CompilationDatabase::init()
 				if (utility::isPrefix(frameworkIncludeFlag, argument))
 				{
 					frameworkHeaders.insert(
-						FilePath(
+						utility::file::FilePath(
 							utility::trim(argument.substr(frameworkIncludeFlag.size())),
 							commandDirectory)
 							.makeCanonical());
 				}
 				else if (utility::isPrefix(systemIncludeFlag, argument))
 				{
-					systemHeaders.insert(FilePath(
+					systemHeaders.insert(utility::file::FilePath(
 											 utility::trim(argument.substr(systemIncludeFlag.size())),
 											 commandDirectory)
 											 .makeCanonical());
@@ -94,13 +94,13 @@ void utility::CompilationDatabase::init()
 				else if (utility::isPrefix(quoteFlag, argument))
 				{
 					headers.insert(
-						FilePath(utility::trim(argument.substr(quoteFlag.size())), commandDirectory)
+						utility::file::FilePath(utility::trim(argument.substr(quoteFlag.size())), commandDirectory)
 							.makeCanonical());
 				}
 				else if (utility::isPrefix(includeFlag, argument))
 				{
 					headers.insert(
-						FilePath(utility::trim(argument.substr(includeFlag.size())), commandDirectory)
+						utility::file::FilePath(utility::trim(argument.substr(includeFlag.size())), commandDirectory)
 							.makeCanonical());
 				}
 			}

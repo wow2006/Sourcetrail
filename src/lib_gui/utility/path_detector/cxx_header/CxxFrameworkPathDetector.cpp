@@ -9,16 +9,16 @@ CxxFrameworkPathDetector::CxxFrameworkPathDetector(const std::string& compilerNa
 {
 }
 
-std::vector<FilePath> CxxFrameworkPathDetector::doGetPaths() const
+std::vector<utility::file::FilePath> CxxFrameworkPathDetector::doGetPaths() const
 {
 	std::vector<std::wstring> paths = utility::getCxxHeaderPaths(m_compilerName);
-	std::vector<FilePath> frameworkPaths;
+	std::vector<utility::file::FilePath> frameworkPaths;
 	for (const std::wstring& path: paths)
 	{
 		if (utility::isPostfix<std::wstring>(L" (framework directory)", path))
 		{
-			FilePath p =
-				FilePath(utility::replace(path, L" (framework directory)", L"")).makeCanonical();
+			utility::file::FilePath p =
+				utility::file::FilePath(utility::replace(path, L" (framework directory)", L"")).makeCanonical();
 			if (p.exists())
 			{
 				frameworkPaths.push_back(p);

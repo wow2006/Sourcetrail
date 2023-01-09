@@ -3,7 +3,9 @@
 #include "LocationType.h"
 #include "types.h"
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 class SourceLocationFile;
 
 class SourceLocation {
@@ -33,7 +35,7 @@ public:
 
   size_t getColumnNumber() const;
   size_t getLineNumber() const;
-  const FilePath& getFilePath() const;
+  const utility::file::FilePath& getFilePath() const;
 
   const SourceLocation* getOtherLocation() const;
   void setOtherLocation(SourceLocation* other);

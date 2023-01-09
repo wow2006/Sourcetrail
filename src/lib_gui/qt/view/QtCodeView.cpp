@@ -199,7 +199,7 @@ void QtCodeView::setMode(bool listMode)
 	m_widget->setMode(listMode ? QtCodeNavigator::MODE_LIST : QtCodeNavigator::MODE_SINGLE);
 }
 
-bool QtCodeView::hasSingleFileCached(const FilePath& filePath) const
+bool QtCodeView::hasSingleFileCached(const utility::file::FilePath& filePath) const
 {
 	return m_widget->hasSingleFileCached(filePath);
 }

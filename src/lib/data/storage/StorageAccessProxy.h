@@ -1,5 +1,7 @@
 #pragma once
 
+#include "FileInfo.h"
+#include "FilePath.h"
 #include "StorageAccess.h"
 
 class StorageAccessProxy : public StorageAccess {
@@ -9,7 +11,7 @@ public:
   void setSubject(std::weak_ptr<StorageAccess> subject);
 
   // StorageAccess implementation
-  Id getNodeIdForFileNode(const FilePath& filePath) const override;
+  Id getNodeIdForFileNode(const utility::file::FilePath& filePath) const override;
   Id getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const override;
   std::vector<Id> getNodeIdsForNameHierarchies(
       const std::vector<NameHierarchy> nameHierarchies) const override;
@@ -55,27 +57,27 @@ public:
   std::shared_ptr<SourceLocationCollection> getSourceLocationsForLocationIds(
       const std::vector<Id>& locationIds) const override;
 
-  std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const override;
-  std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(const FilePath& filePath,
+  std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const utility::file::FilePath& filePath) const override;
+  std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(const utility::file::FilePath& filePath,
                                                                        size_t startLine,
                                                                        size_t endLine) const override;
-  std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(const FilePath& filePath,
+  std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(const utility::file::FilePath& filePath,
                                                                      LocationType type) const override;
 
-  std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath,
+  std::shared_ptr<TextAccess> getFileContent(const utility::file::FilePath& filePath,
                                              bool showsErrors) const override;
 
-  FileInfo getFileInfoForFileId(Id id) const override;
+  utility::file::FileInfo getFileInfoForFileId(Id id) const override;
 
-  FileInfo getFileInfoForFilePath(const FilePath& filePath) const override;
-  std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const override;
+  utility::file::FileInfo getFileInfoForFilePath(const utility::file::FilePath& filePath) const override;
+  std::vector<utility::file::FileInfo> getFileInfosForFilePaths(const std::vector<utility::file::FilePath>& filePaths) const override;
 
   StorageStats getStorageStats() const override;
 
   ErrorCountInfo getErrorCount() const override;
   std::vector<ErrorInfo> getErrorsLimited(const ErrorFilter& filter) const override;
   std::vector<ErrorInfo> getErrorsForFileLimited(const ErrorFilter& filter,
-                                                 const FilePath& filePath) const override;
+                                                 const utility::file::FilePath& filePath) const override;
   std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
       const std::vector<ErrorInfo>& errors) const override;
 

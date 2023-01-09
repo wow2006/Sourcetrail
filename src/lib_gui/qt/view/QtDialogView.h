@@ -49,12 +49,12 @@ public:
 		size_t startedFileCount,
 		size_t finishedFileCount,
 		size_t totalFileCount,
-		const std::vector<FilePath>& sourcePaths) override;
+		const std::vector<utility::file::FilePath>& sourcePaths) override;
 	void updateCustomIndexingDialog(
 		size_t startedFileCount,
 		size_t finishedFileCount,
 		size_t totalFileCount,
-		const std::vector<FilePath>& sourcePaths) override;
+		const std::vector<utility::file::FilePath>& sourcePaths) override;
 	DatabasePolicy finishedIndexingDialog(
 		size_t indexedFileCount,
 		size_t totalIndexedFileCount,

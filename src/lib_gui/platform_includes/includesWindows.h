@@ -29,17 +29,17 @@ void setupApp(int argc, char* argv[]) {
     if(pos != std::wstring::npos) {
       appPath = appPath.substr(0, pos + 1);
     }
-    AppPath::setSharedDataDirectoryPath(FilePath(appPath));
+    AppPath::setSharedDataDirectoryPath(utility::file::FilePath(appPath));
   }
 
   {
-    FilePath userDataPath = AppPath::getSharedDataDirectoryPath().concatenate(L"user/");
+    utility::file::FilePath userDataPath = AppPath::getSharedDataDirectoryPath().concatenate(L"user/");
     if(!userDataPath.exists()) {
 #pragma warning(push)
 #pragma warning(disable : 4996)
-      FilePath userLocalPath = FilePath(std::string(std::getenv("LOCALAPPDATA")));
+      utility::file::FilePath userLocalPath = utility::file::FilePath(std::string(std::getenv("LOCALAPPDATA")));
       if(!userLocalPath.exists()) {
-        userLocalPath = FilePath(std::string(std::getenv("APPDATA")) + "/../local");
+        userLocalPath = utility::file::FilePath(std::string(std::getenv("APPDATA")) + "/../local");
       }
 #pragma warning(pop)
 

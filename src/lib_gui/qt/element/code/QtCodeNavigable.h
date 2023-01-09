@@ -8,7 +8,9 @@
 #include "CodeSnippetParams.h"
 #include "types.h"
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 class QRectF;
 class QAbstractScrollArea;
 class QRect;
@@ -26,7 +28,7 @@ public:
 	virtual void updateFiles() = 0;
 
 	virtual void scrollTo(
-		const FilePath& filePath,
+		const utility::file::FilePath& filePath,
 		size_t lineNumber,
 		Id locationId,
 		Id scopeLocationId,

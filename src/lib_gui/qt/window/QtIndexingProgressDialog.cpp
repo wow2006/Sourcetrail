@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QPushButton>
 
+#include "FilePath.h"
 #include "MessageIndexingInterrupted.h"
 
 QtIndexingProgressDialog::QtIndexingProgressDialog(bool /*hideable*/, QWidget* parent)
@@ -50,7 +51,7 @@ QSize QtIndexingProgressDialog::sizeHint() const {
 
 void QtIndexingProgressDialog::updateIndexingProgress(size_t fileCount,
                                                       size_t totalFileCount,
-                                                      const FilePath& sourcePath) {
+                                                      const utility::file::FilePath& sourcePath) {
   updateMessage(QString::number(fileCount) + "/" + QString::number(totalFileCount) + " File" +
                 (totalFileCount > 1 ? "s" : ""));
 

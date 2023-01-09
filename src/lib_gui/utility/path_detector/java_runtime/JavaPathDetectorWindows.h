@@ -9,7 +9,7 @@ public:
 	JavaPathDetectorWindows(const std::string javaVersion, bool isJre);
 
 private:
-	virtual std::vector<FilePath> doGetPaths() const override;
+	virtual std::vector<utility::file::FilePath> doGetPaths() const override;
 	bool m_isJre;
 };
 

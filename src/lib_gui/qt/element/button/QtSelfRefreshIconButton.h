@@ -16,13 +16,13 @@ class QtSelfRefreshIconButton
 public:
 	QtSelfRefreshIconButton(
 		const QString& text,
-		const FilePath& iconPath,
+		const utility::file::FilePath& iconPath,
 		const std::string& buttonKey,
 		QWidget* parent = nullptr);
 	~QtSelfRefreshIconButton() = default;
 
 	void setText(const QString& text);
-	void setIconPath(const FilePath& iconPath);
+	void setIconPath(const utility::file::FilePath& iconPath);
 
 	void setAutoElide(bool autoElide);
 
@@ -39,7 +39,7 @@ private:
 	QtThreadedLambdaFunctor m_onQtThread;
 
 	QString m_text;
-	FilePath m_iconPath;
+	utility::file::FilePath m_iconPath;
 	const std::string m_buttonKey;
 
 	bool m_autoElide = false;

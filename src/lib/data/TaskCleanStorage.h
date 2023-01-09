@@ -4,14 +4,14 @@
 #include "TimeStamp.h"
 
 class DialogView;
-class FilePath;
+#include "FilePath.h"
 class PersistentStorage;
 
 class TaskCleanStorage : public Task {
 public:
   TaskCleanStorage(std::weak_ptr<PersistentStorage> storage,
                    std::shared_ptr<DialogView> dialogView,
-                   const std::vector<FilePath>& filePaths,
+                   const std::vector<utility::file::FilePath>& filePaths,
                    bool clearAllErrors);
 
 private:
@@ -22,7 +22,7 @@ private:
 
   std::weak_ptr<PersistentStorage> m_storage;
   std::shared_ptr<DialogView> m_dialogView;
-  std::vector<FilePath> m_filePaths;
+  std::vector<utility::file::FilePath> m_filePaths;
   bool m_clearAllErrors;
 
   TimeStamp m_start;

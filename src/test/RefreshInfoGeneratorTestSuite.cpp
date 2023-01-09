@@ -13,9 +13,9 @@
 
 namespace {
 
-const auto m_indexDbPath = FilePath(L"data/RefreshInfoGeneratorTestSuite/project.srctrldb");
-const auto m_bookmarkDbPath = FilePath(L"data/RefreshInfoGeneratorTestSuite/project.srctrlbm");
-const auto m_sourceFolder = FilePath(L"data/RefreshInfoGeneratorTestSuite/src");
+const auto m_indexDbPath = utility::file::FilePath(L"data/RefreshInfoGeneratorTestSuite/project.srctrldb");
+const auto m_bookmarkDbPath = utility::file::FilePath(L"data/RefreshInfoGeneratorTestSuite/project.srctrlbm");
+const auto m_sourceFolder = utility::file::FilePath(L"data/RefreshInfoGeneratorTestSuite/src");
 
 class SourceGroupSettingsTest : public SourceGroupSettings {
 public:
@@ -37,20 +37,20 @@ public:
 
 class SourceGroupTest : public SourceGroup {
 public:
-  SourceGroupTest(std::set<FilePath> sourceFilePaths)
+  SourceGroupTest(std::set<utility::file::FilePath> sourceFilePaths)
       : m_sourceFilePaths(sourceFilePaths), m_allFilePaths(sourceFilePaths) {
     m_sourceGroupSettings = std::make_shared<SourceGroupSettingsTest>(&m_projectSettings);
   }
 
-  SourceGroupTest(std::set<FilePath> sourceFilePaths, std::set<FilePath> allFilePaths)
+  SourceGroupTest(std::set<utility::file::FilePath> sourceFilePaths, std::set<utility::file::FilePath> allFilePaths)
       : m_sourceFilePaths(sourceFilePaths), m_allFilePaths(allFilePaths) {
     m_sourceGroupSettings = std::make_shared<SourceGroupSettingsTest>(&m_projectSettings);
   }
 
-  std::set<FilePath> filterToContainedFilePaths(const std::set<FilePath>& filePaths) const override {
-    std::set<FilePath> containedFilePaths;
+  std::set<utility::file::FilePath> filterToContainedFilePaths(const std::set<utility::file::FilePath>& filePaths) const override {
+    std::set<utility::file::FilePath> containedFilePaths;
 
-    for(const FilePath& filePath: filePaths) {
+    for(const utility::file::FilePath& filePath: filePaths) {
       if(m_allFilePaths.find(filePath) != m_allFilePaths.end()) {
         containedFilePaths.insert(filePath);
       }
@@ -59,7 +59,7 @@ public:
     return containedFilePaths;
   }
 
-  std::set<FilePath> getAllSourceFilePaths() const override {
+  std::set<utility::file::FilePath> getAllSourceFilePaths() const override {
     return m_sourceFilePaths;
   }
 
@@ -83,31 +83,31 @@ private:
 
   ProjectSettings m_projectSettings;
   std::shared_ptr<SourceGroupSettingsTest> m_sourceGroupSettings;
-  const std::set<FilePath> m_sourceFilePaths;
-  const std::set<FilePath> m_allFilePaths;
+  const std::set<utility::file::FilePath> m_sourceFilePaths;
+  const std::set<utility::file::FilePath> m_allFilePaths;
 };
 
 void cleanup() {
-  FileSystem::remove(m_indexDbPath);
-  FileSystem::remove(m_bookmarkDbPath);
+  utility::file::FileSystem::remove(m_indexDbPath);
+  utility::file::FileSystem::remove(m_bookmarkDbPath);
 
   if(m_sourceFolder.recheckExists()) {
-    for(const FilePath& path: FileSystem::getFilePathsFromDirectory(m_sourceFolder)) {
-      FileSystem::remove(path);
+    for(const auto& path: utility::file::FileSystem::getFilePathsFromDirectory(m_sourceFolder)) {
+      utility::file::FileSystem::remove(path);
     }
-    FileSystem::remove(m_sourceFolder);
+    utility::file::FileSystem::remove(m_sourceFolder);
   }
 }
 
-void addFileToFileSystem(const FilePath& filePath) {
-  FileSystem::createDirectory(filePath.getParentDirectory());
+void addFileToFileSystem(const utility::file::FilePath& filePath) {
+  utility::file::FileSystem::createDirectory(filePath.getParentDirectory());
   std::ofstream file;
   file.open(filePath.str());
   file << "This is some file content.\n";
   file.close();
 }
 
-Id addFileToStorage(const FilePath& filePath,
+Id addFileToStorage(const utility::file::FilePath& filePath,
                     const std::string& modificationTime,
                     bool indexed,
                     bool complete,
@@ -122,7 +122,7 @@ Id addFileToStorage(const FilePath& filePath,
   return id;
 }
 
-Id addVeryOldFileToStorage(const FilePath& filePath,
+Id addVeryOldFileToStorage(const utility::file::FilePath& filePath,
                            bool indexed,
                            bool complete,
                            std::shared_ptr<PersistentStorage> storage) {
@@ -134,7 +134,7 @@ Id addVeryOldFileToStorage(const FilePath& filePath,
       storage);
 }
 
-Id addVeryNewFileToStorage(const FilePath& filePath,
+Id addVeryNewFileToStorage(const utility::file::FilePath& filePath,
                            bool indexed,
                            bool complete,
                            std::shared_ptr<PersistentStorage> storage) {
@@ -162,7 +162,7 @@ TEST_CASE("refresh info for all files is empty for empty project") {
 TEST_CASE("refresh info for all files clears nothing and indexes previously unknown source file") {
   cleanup();
   {
-    const FilePath sourceFilePath = m_sourceFolder.getConcatenated(L"main.cpp");
+    const utility::file::FilePath sourceFilePath = m_sourceFolder.getConcatenated(L"main.cpp");
 
     std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
     sourceGroups.push_back(std::shared_ptr<SourceGroupTest>(new SourceGroupTest({sourceFilePath})));
@@ -176,7 +176,7 @@ TEST_CASE("refresh info for all files clears nothing and indexes previously unkn
     REQUIRE(0 == refreshInfo.filesToClear.size());
     REQUIRE(1 == refreshInfo.filesToIndex.size());
 
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToIndex), sourceFilePath));
   }
   cleanup();
@@ -185,7 +185,7 @@ TEST_CASE("refresh info for all files clears nothing and indexes previously unkn
 TEST_CASE("refresh info for all files is empty for disabled source group") {
   cleanup();
   {
-    const FilePath sourceFilePath = m_sourceFolder.getConcatenated(L"main.cpp");
+    const utility::file::FilePath sourceFilePath = m_sourceFolder.getConcatenated(L"main.cpp");
 
     std::shared_ptr<SourceGroupTest> sourceGroup(new SourceGroupTest({sourceFilePath}));
     sourceGroup->setStatus(SOURCE_GROUP_STATUS_DISABLED);
@@ -208,7 +208,7 @@ TEST_CASE("refresh info for all files is empty for disabled source group") {
 TEST_CASE("refresh info for all files is clears indexed files of disabled source group") {
   cleanup();
   {
-    const FilePath sourceFilePath = m_sourceFolder.getConcatenated(L"main.cpp");
+    const utility::file::FilePath sourceFilePath = m_sourceFolder.getConcatenated(L"main.cpp");
 
     std::shared_ptr<SourceGroupTest> sourceGroup(new SourceGroupTest({sourceFilePath}));
     sourceGroup->setStatus(SOURCE_GROUP_STATUS_DISABLED);
@@ -232,7 +232,7 @@ TEST_CASE("refresh info for all files is clears indexed files of disabled source
     REQUIRE(1 == refreshInfo.filesToClear.size());
     REQUIRE(0 == refreshInfo.filesToIndex.size());
 
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), sourceFilePath));
   }
   cleanup();
@@ -241,8 +241,8 @@ TEST_CASE("refresh info for all files is clears indexed files of disabled source
 TEST_CASE("refresh info for all files is clears nonindexed files of disabled source group") {
   cleanup();
   {
-    const FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
-    const FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
+    const utility::file::FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
+    const utility::file::FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
 
     std::shared_ptr<SourceGroupTest> sourceGroup(new SourceGroupTest(
         {upToDateSourceFilePath}, {upToDateSourceFilePath, upToDateHeaderFilePath}));
@@ -274,10 +274,10 @@ TEST_CASE("refresh info for all files is clears nonindexed files of disabled sou
     REQUIRE(1 == refreshInfo.filesToClear.size());
     REQUIRE(0 == refreshInfo.filesToIndex.size());
 
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), upToDateSourceFilePath));
 
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.nonIndexedFilesToClear), upToDateHeaderFilePath));
   }
   cleanup();
@@ -328,11 +328,11 @@ RefreshInfo getRefreshInfo(KnownState knownState,
   RefreshInfo refreshInfo;
   cleanup();
   {
-    const FilePath filePath = m_sourceFolder.getConcatenated(L"file.extension");
+    const utility::file::FilePath filePath = m_sourceFolder.getConcatenated(L"file.extension");
 
-    const std::set<FilePath> sourceFilePaths =
-        ((fileState == SOURCE_FILE) ? std::set<FilePath>({filePath}) : std::set<FilePath>({}));
-    const std::set<FilePath> allFilePaths = {filePath};
+    const std::set<utility::file::FilePath> sourceFilePaths =
+        ((fileState == SOURCE_FILE) ? std::set<utility::file::FilePath>({filePath}) : std::set<utility::file::FilePath>({}));
+    const std::set<utility::file::FilePath> allFilePaths = {filePath};
 
     std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
     if(indexingState == NOT_TO_INDEX) {
@@ -587,8 +587,8 @@ TEST_CASE(
     "source file") {
   cleanup();
   {
-    const FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
-    const FilePath outdatedSourceFilePath = m_sourceFolder.getConcatenated(L"outdated_file.cpp");
+    const utility::file::FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
+    const utility::file::FilePath outdatedSourceFilePath = m_sourceFolder.getConcatenated(L"outdated_file.cpp");
 
     std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
     sourceGroups.push_back(std::shared_ptr<SourceGroupTest>(
@@ -617,13 +617,13 @@ TEST_CASE(
     REQUIRE(2 == refreshInfo.filesToClear.size());
     REQUIRE(2 == refreshInfo.filesToIndex.size());
 
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), upToDateSourceFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), outdatedSourceFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToIndex), upToDateSourceFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToIndex), outdatedSourceFilePath));
   }
   cleanup();
@@ -634,8 +634,8 @@ TEST_CASE(
     "source file") {
   cleanup();
   {
-    const FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
-    const FilePath outdatedHeaderFilePath = m_sourceFolder.getConcatenated(L"outdated_file.h");
+    const utility::file::FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
+    const utility::file::FilePath outdatedHeaderFilePath = m_sourceFolder.getConcatenated(L"outdated_file.h");
 
     std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
     sourceGroups.push_back(std::shared_ptr<SourceGroupTest>(new SourceGroupTest(
@@ -664,11 +664,11 @@ TEST_CASE(
     REQUIRE(2 == refreshInfo.filesToClear.size());
     REQUIRE(1 == refreshInfo.filesToIndex.size());
 
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), upToDateSourceFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), outdatedHeaderFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToIndex), upToDateSourceFilePath));
   }
   cleanup();
@@ -679,8 +679,8 @@ TEST_CASE(
     "source") {
   cleanup();
   {
-    const FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
-    const FilePath outdatedHeaderFilePath = m_sourceFolder.getConcatenated(L"outdated_file.h");
+    const utility::file::FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
+    const utility::file::FilePath outdatedHeaderFilePath = m_sourceFolder.getConcatenated(L"outdated_file.h");
 
     std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
     sourceGroups.push_back(
@@ -709,11 +709,11 @@ TEST_CASE(
     REQUIRE(1 == refreshInfo.filesToClear.size());
     REQUIRE(1 == refreshInfo.filesToIndex.size());
 
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), upToDateSourceFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.nonIndexedFilesToClear), outdatedHeaderFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToIndex), upToDateSourceFilePath));
   }
   cleanup();
@@ -722,8 +722,8 @@ TEST_CASE(
 TEST_CASE("refresh info for updated files does not clear unknown uptodate header file") {
   cleanup();
   {
-    const FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
-    const FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
+    const utility::file::FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
+    const utility::file::FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
 
     std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
     sourceGroups.push_back(
@@ -760,8 +760,8 @@ TEST_CASE(
     "file") {
   cleanup();
   {
-    const FilePath outdatedSourceFilePath = m_sourceFolder.getConcatenated(L"outdated_file.cpp");
-    const FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
+    const utility::file::FilePath outdatedSourceFilePath = m_sourceFolder.getConcatenated(L"outdated_file.cpp");
+    const utility::file::FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
 
     std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
     sourceGroups.push_back(std::shared_ptr<SourceGroupTest>(new SourceGroupTest(
@@ -790,11 +790,11 @@ TEST_CASE(
     REQUIRE(2 == refreshInfo.filesToClear.size());
     REQUIRE(1 == refreshInfo.filesToIndex.size());
 
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), outdatedSourceFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), upToDateHeaderFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToIndex), outdatedSourceFilePath));
   }
   cleanup();
@@ -804,9 +804,9 @@ TEST_CASE(
     "refresh info for updated files does not clear uptodate header referenced by uptodate source") {
   cleanup();
   {
-    const FilePath outdatedSourceFilePath = m_sourceFolder.getConcatenated(L"outdated_file.cpp");
-    const FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
-    const FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
+    const utility::file::FilePath outdatedSourceFilePath = m_sourceFolder.getConcatenated(L"outdated_file.cpp");
+    const utility::file::FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
+    const utility::file::FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
 
     std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
     sourceGroups.push_back(std::shared_ptr<SourceGroupTest>(new SourceGroupTest(
@@ -840,9 +840,9 @@ TEST_CASE(
     REQUIRE(1 == refreshInfo.filesToClear.size());
     REQUIRE(1 == refreshInfo.filesToIndex.size());
 
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), outdatedSourceFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToIndex), outdatedSourceFilePath));
   }
   cleanup();
@@ -852,9 +852,9 @@ TEST_CASE(
     "clears unchanged files referenced by unchanged file that referenced changed indexed file") {
   cleanup();
   {
-    const FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
-    const FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
-    const FilePath outOfDateHeaderFilePath = m_sourceFolder.getConcatenated(L"out_of_date_file.h");
+    const utility::file::FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
+    const utility::file::FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
+    const utility::file::FilePath outOfDateHeaderFilePath = m_sourceFolder.getConcatenated(L"out_of_date_file.h");
 
     std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
     sourceGroups.push_back(
@@ -891,13 +891,13 @@ TEST_CASE(
     REQUIRE(2 == refreshInfo.filesToClear.size());
     REQUIRE(1 == refreshInfo.filesToIndex.size());
 
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.nonIndexedFilesToClear), upToDateHeaderFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), upToDateSourceFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), outOfDateHeaderFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToIndex), upToDateSourceFilePath));
   }
   cleanup();
@@ -907,9 +907,9 @@ TEST_CASE(
     "clears unchanged files referenced by unchanged file that referenced changed nonindexed file") {
   cleanup();
   {
-    const FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
-    const FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
-    const FilePath outOfDateHeaderFilePath = m_sourceFolder.getConcatenated(L"out_of_date_file.h");
+    const utility::file::FilePath upToDateSourceFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.cpp");
+    const utility::file::FilePath upToDateHeaderFilePath = m_sourceFolder.getConcatenated(L"up_to_date_file.h");
+    const utility::file::FilePath outOfDateHeaderFilePath = m_sourceFolder.getConcatenated(L"out_of_date_file.h");
 
     std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
     sourceGroups.push_back(
@@ -946,13 +946,13 @@ TEST_CASE(
     REQUIRE(2 == refreshInfo.filesToClear.size());
     REQUIRE(1 == refreshInfo.filesToIndex.size());
 
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.nonIndexedFilesToClear), outOfDateHeaderFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), upToDateSourceFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToClear), upToDateHeaderFilePath));
-    REQUIRE(utility::containsElement<FilePath>(
+    REQUIRE(utility::containsElement<utility::file::FilePath>(
         utility::toVector(refreshInfo.filesToIndex), upToDateSourceFilePath));
   }
   cleanup();

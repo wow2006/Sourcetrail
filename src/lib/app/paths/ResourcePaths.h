@@ -1,17 +1,19 @@
 #pragma once
 
-#include "FilePath.h"
+namespace utility::file {
+class FilePath;
+} // namespace class utility::file
 
 class ResourcePaths {
 public:
-  static FilePath getColorSchemesDirectoryPath();
-  static FilePath getSyntaxHighlightingRulesDirectoryPath();
-  static FilePath getFallbackDirectoryPath();
-  static FilePath getFontsDirectoryPath();
-  static FilePath getGuiDirectoryPath();
-  static FilePath getLicenseDirectoryPath();
-  static FilePath getJavaDirectoryPath();
-  static FilePath getPythonDirectoryPath();
-  static FilePath getCxxCompilerHeaderDirectoryPath();
-  static FilePath getPythonIndexerFilePath();
+  static utility::file::FilePath getColorSchemesDirectoryPath();
+  static utility::file::FilePath getSyntaxHighlightingRulesDirectoryPath();
+  static utility::file::FilePath getFallbackDirectoryPath();
+  static utility::file::FilePath getFontsDirectoryPath();
+  static utility::file::FilePath getGuiDirectoryPath();
+  static utility::file::FilePath getLicenseDirectoryPath();
+  static utility::file::FilePath getJavaDirectoryPath();
+  static utility::file::FilePath getPythonDirectoryPath();
+  static utility::file::FilePath getCxxCompilerHeaderDirectoryPath();
+  static utility::file::FilePath getPythonIndexerFilePath();
 };

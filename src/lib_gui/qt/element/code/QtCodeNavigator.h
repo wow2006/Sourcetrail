@@ -78,10 +78,10 @@ public:
 	void setErrorInfos(const std::vector<ErrorInfo>& errorInfos);
 
 	bool hasErrors() const;
-	size_t getFatalErrorCountForFile(const FilePath& filePath) const;
+	size_t getFatalErrorCountForFile(const utility::file::FilePath& filePath) const;
 
 	bool isInListMode() const;
-	bool hasSingleFileCached(const FilePath& filePath) const;
+	bool hasSingleFileCached(const utility::file::FilePath& filePath) const;
 
 	void coFocusTokenIds(const std::vector<Id>& coFocusedTokenIds);
 	void deCoFocusTokenIds();

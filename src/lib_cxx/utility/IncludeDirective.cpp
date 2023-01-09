@@ -1,8 +1,8 @@
 #include "IncludeDirective.h"
 
 IncludeDirective::IncludeDirective(
-	const FilePath& includedFilePath,
-	const FilePath& includingFilePath,
+	const utility::file::FilePath& includedFilePath,
+	const utility::file::FilePath& includingFilePath,
 	unsigned int lineNumber,
 	bool usesBrackets)
 	: m_includedFilePath(includedFilePath)
@@ -12,12 +12,12 @@ IncludeDirective::IncludeDirective(
 {
 }
 
-FilePath IncludeDirective::getIncludedFile() const
+utility::file::FilePath IncludeDirective::getIncludedFile() const
 {
 	return m_includedFilePath;
 }
 
-FilePath IncludeDirective::getIncludingFile() const
+utility::file::FilePath IncludeDirective::getIncludingFile() const
 {
 	return m_includingFilePath;
 }

@@ -33,13 +33,13 @@ const Node* QtGraphNodeData::getData() const {
   return m_data;
 }
 
-FilePath QtGraphNodeData::getFilePath() const {
+utility::file::FilePath QtGraphNodeData::getFilePath() const {
   TokenComponentFilePath* component = m_data->getComponent<TokenComponentFilePath>();
   if(component) {
     return component->getFilePath();
   }
 
-  return FilePath();
+  return utility::file::FilePath();
 }
 
 bool QtGraphNodeData::isDataNode() const {

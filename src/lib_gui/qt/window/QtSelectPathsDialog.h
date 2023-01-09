@@ -3,7 +3,9 @@
 
 #include "QtTextEditDialog.h"
 
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 class QListWidget;
 
 class QtSelectPathsDialog: public QtTextEditDialog
@@ -12,11 +14,11 @@ class QtSelectPathsDialog: public QtTextEditDialog
 public:
 	QtSelectPathsDialog(const QString& title, const QString& description, QWidget* parent = 0);
 
-	std::vector<FilePath> getPathsList() const;
+	std::vector<utility::file::FilePath> getPathsList() const;
 	void setPathsList(
-		const std::vector<FilePath>& paths,
-		const std::vector<FilePath>& checkedPaths,
-		const FilePath& rootPathForRelativePaths);
+		const std::vector<utility::file::FilePath>& paths,
+		const std::vector<utility::file::FilePath>& checkedPaths,
+		const utility::file::FilePath& rootPathForRelativePaths);
 
 	virtual void populateWindow(QWidget* widget) override;
 	virtual void windowReady() override;

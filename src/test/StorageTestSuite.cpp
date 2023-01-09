@@ -10,7 +10,7 @@ namespace {
 class TestStorage : public PersistentStorage {
 public:
   TestStorage()
-      : PersistentStorage(FilePath(L"data/test.sqlite"), FilePath(L"data/testBookmarks.sqlite")) {
+      : PersistentStorage(utility::file::FilePath(L"data/test.sqlite"), utility::file::FilePath(L"data/testBookmarks.sqlite")) {
     clear();
   }
 
@@ -136,7 +136,7 @@ TEST_CASE("storage saves method static") {
 
 TEST_CASE("storage clears single file data of single file storage") {
   /*
-  m_filePath = FilePath(L"file.cpp");
+  m_filePath = utility::file::FilePath(L"file.cpp");
   TestStorage storage;
   storage.onFunctionParsed(
     validLocation(), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"),
@@ -147,8 +147,8 @@ TEST_CASE("storage clears single file data of single file storage") {
   REQUIRE(storage.getEdgeCount() == 2);
   REQUIRE(storage.tokenLocationCollection().getTokenLocations().size() == 4);
 
-  std::set<FilePath> files;
-  files.insert(FilePath(m_filePath));
+  std::set<utility::file::FilePath> files;
+  files.insert(utility::file::FilePath(m_filePath));
   storage.clearFileData(files);
 
   REQUIRE(storage.getNodeCount() == 0);
@@ -175,8 +175,8 @@ TEST_CASE("storage clears unreferenced single file data of multi file storage") 
   // TS_ASSERT_EQUALS(storage.getEdgeCount(), 5);
   // TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
 
-  // std::set<FilePath> files;
-  // files.insert(FilePath("file.cpp"));
+  // std::set<utility::file::FilePath> files;
+  // files.insert(utility::file::FilePath("file.cpp"));
   // storage.clearFileData(files);
 
   // TS_ASSERT_EQUALS(storage.getNodeCount(), 3);
@@ -203,8 +203,8 @@ TEST_CASE("storage clears referenced single file data of multi file storage") {
   // TS_ASSERT_EQUALS(storage.getEdgeCount(), 5);
   // TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
 
-  // std::set<FilePath> files;
-  // files.insert(FilePath("file.h"));
+  // std::set<utility::file::FilePath> files;
+  // files.insert(utility::file::FilePath("file.h"));
   // storage.clearFileData(files);
 
   // TS_ASSERT_EQUALS(storage.getNodeCount(), 4);
@@ -231,9 +231,9 @@ TEST_CASE("storage clears multi file data of multi file storage") {
   // TS_ASSERT_EQUALS(storage.getEdgeCount(), 5);
   // TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
 
-  // std::set<FilePath> filePaths;
-  // filePaths.insert(FilePath("file.cpp"));
-  // filePaths.insert(FilePath("file.h"));
+  // std::set<utility::file::FilePath> filePaths;
+  // filePaths.insert(utility::file::FilePath("file.cpp"));
+  // filePaths.insert(utility::file::FilePath("file.h"));
   // storage.clearFileData(filePaths);
 
   // TS_ASSERT_EQUALS(storage.getNodeCount(), 0);
@@ -253,9 +253,9 @@ TEST_CASE("storage finds and removes depending file nodes") {
   // std::string name1 = storage.getNodeWithId(id2)->getQualifiedNameWithSignature();
   // std::string name2 = storage.getNodeWithId(id3)->getQualifiedNameWithSignature();
 
-  // std::set<FilePath> filePaths;
-  // filePaths.insert(FilePath(name1));
-  // std::set<FilePath> dependingFilePaths = storage.getDependingFilePathsAndRemoveFileNodes(filePaths);
+  // std::set<utility::file::FilePath> filePaths;
+  // filePaths.insert(utility::file::FilePath(name1));
+  // std::set<utility::file::FilePath> dependingFilePaths = storage.getDependingFilePathsAndRemoveFileNodes(filePaths);
 
   // TS_ASSERT_EQUALS(dependingFilePaths.size(), 1);
   // TS_ASSERT_EQUALS(dependingFilePaths.begin()->str(), name2);

@@ -5,11 +5,11 @@
 
 class MessageProjectNew : public Message<MessageProjectNew> {
 public:
-  MessageProjectNew(const FilePath& cdbPath_): cdbPath(cdbPath_) {}
+  MessageProjectNew(const utility::file::FilePath& cdbPath_): cdbPath(cdbPath_) {}
 
   static const std::string getStaticType() {
     return "MessageProjectNew";
   }
 
-  const FilePath cdbPath;
+  const utility::file::FilePath cdbPath;
 };

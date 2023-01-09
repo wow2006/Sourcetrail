@@ -32,9 +32,9 @@ std::vector<std::wstring> getCxxHeaderPaths(const std::string& compilerName)
 	return paths;
 }
 
-std::vector<FilePath> getWindowsSdkHeaderSearchPaths(ApplicationArchitectureType architectureType)
+std::vector<utility::file::FilePath> getWindowsSdkHeaderSearchPaths(ApplicationArchitectureType architectureType)
 {
-	std::vector<FilePath> headerSearchPaths;
+	std::vector<utility::file::FilePath> headerSearchPaths;
 
 	std::vector<std::string> windowsSdkVersions;
 	windowsSdkVersions.push_back("v8.1A");
@@ -45,17 +45,17 @@ std::vector<FilePath> getWindowsSdkHeaderSearchPaths(ApplicationArchitectureType
 
 	for (size_t i = 0; i < windowsSdkVersions.size(); i++)
 	{
-		const FilePath sdkPath = getWindowsSdkRootPathUsingRegistry(
+		const utility::file::FilePath sdkPath = getWindowsSdkRootPathUsingRegistry(
 			architectureType, windowsSdkVersions[i]);
 		if (sdkPath.exists())
 		{
-			const FilePath sdkIncludePath = sdkPath.getConcatenated(L"include/");
+			const utility::file::FilePath sdkIncludePath = sdkPath.getConcatenated(L"include/");
 			if (sdkIncludePath.exists())
 			{
 				bool usingSubdirectories = false;
 				for (const std::wstring& subDirectory: {L"shared", L"um", L"winrt"})
 				{
-					const FilePath sdkSubdirectory = sdkIncludePath.getConcatenated(subDirectory);
+					const utility::file::FilePath sdkSubdirectory = sdkIncludePath.getConcatenated(subDirectory);
 					if (sdkSubdirectory.exists())
 					{
 						headerSearchPaths.push_back(sdkSubdirectory);
@@ -72,13 +72,13 @@ std::vector<FilePath> getWindowsSdkHeaderSearchPaths(ApplicationArchitectureType
 		}
 	}
 	{
-		const FilePath sdkPath = getWindowsSdkRootPathUsingRegistry(architectureType, "v10.0");
+		const utility::file::FilePath sdkPath = getWindowsSdkRootPathUsingRegistry(architectureType, "v10.0");
 		if (sdkPath.exists())
 		{
-			for (const FilePath& versionPath:
+			for (const utility::file::FilePath& versionPath:
 				 FileSystem::getDirectSubDirectories(sdkPath.getConcatenated(L"include/")))
 			{
-				const FilePath ucrtPath = versionPath.getConcatenated(L"ucrt");
+				const utility::file::FilePath ucrtPath = versionPath.getConcatenated(L"ucrt");
 				if (ucrtPath.exists())
 				{
 					headerSearchPaths.push_back(ucrtPath);
@@ -91,7 +91,7 @@ std::vector<FilePath> getWindowsSdkHeaderSearchPaths(ApplicationArchitectureType
 	return headerSearchPaths;
 }
 
-FilePath getWindowsSdkRootPathUsingRegistry(
+utility::file::FilePath getWindowsSdkRootPathUsingRegistry(
 	ApplicationArchitectureType architectureType, const std::string& sdkVersion)
 {
 	QString key = QStringLiteral("HKEY_LOCAL_MACHINE\\SOFTWARE\\");
@@ -105,12 +105,12 @@ FilePath getWindowsSdkRootPathUsingRegistry(
 		key, QSettings::NativeFormat);	  // NativeFormat means from Registry on Windows.
 	QString value = expressKey.value(QStringLiteral("InstallationFolder")).toString();
 
-	FilePath path(value.toStdWString());
+	utility::file::FilePath path(value.toStdWString());
 	if (path.exists())
 	{
 		return path;
 	}
 
-	return FilePath();
+	return utility::file::FilePath();
 }
 }	 // namespace utility

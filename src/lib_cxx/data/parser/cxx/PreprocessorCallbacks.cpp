@@ -23,7 +23,7 @@ void PreprocessorCallbacks::FileChanged(clang::SourceLocation location,
                                         clang::SrcMgr::CharacteristicKind,
                                         clang::FileID /*prevID*/) {
   const clang::FileID fileId = m_sourceManager.getFileID(location);
-  const FilePath currentPath = m_canonicalFilePathCache->getCanonicalFilePath(
+  const utility::file::FilePath currentPath = m_canonicalFilePathCache->getCanonicalFilePath(
       fileId, m_sourceManager);
   m_currentPathIsProjectFile = false;
 
@@ -54,7 +54,7 @@ void PreprocessorCallbacks::InclusionDirective(clang::SourceLocation /*hashLocat
                                                const clang::Module* /*imported*/,
                                                clang::SrcMgr::CharacteristicKind /*fileType*/) {
   if(m_currentFileSymbolId && fileEntry) {
-    const FilePath includedFilePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
+    const utility::file::FilePath includedFilePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
     const NameHierarchy includedFileNameHierarchy(includedFilePath.wstr(), NAME_DELIMITER_FILE);
 
     Id includedFileSymbolId = m_client->recordSymbol(includedFileNameHierarchy);

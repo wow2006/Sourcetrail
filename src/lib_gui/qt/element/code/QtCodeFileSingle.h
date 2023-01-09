@@ -39,7 +39,7 @@ public:
 	void updateFiles() override;
 
 	void scrollTo(
-		const FilePath& filePath,
+		const utility::file::FilePath& filePath,
 		size_t lineNumber,
 		Id locationId,
 		Id scopeLocationId,
@@ -58,8 +58,8 @@ public:
 
 	void copySelection() override;
 
-	const FilePath& getCurrentFilePath() const;
-	bool hasFileCached(const FilePath& filePath) const;
+	const utility::file::FilePath& getCurrentFilePath() const;
+	bool hasFileCached(const utility::file::FilePath& filePath) const;
 
 	Id getLocationIdOfFirstActiveLocationOfTokenId(Id tokenId) const;
 
@@ -69,7 +69,7 @@ public slots:
 private:
 	struct FileData
 	{
-		FilePath filePath;
+		utility::file::FilePath filePath;
 		TimeStamp modificationTime;
 		bool isComplete = false;
 		bool isIndexed = false;
@@ -78,7 +78,7 @@ private:
 		QtCodeArea* area = nullptr;
 	};
 
-	FileData getFileData(const FilePath& filePath) const;
+	FileData getFileData(const utility::file::FilePath& filePath) const;
 	void setFileData(const FileData& file);
 
 	void updateRefCount(int refCount);
@@ -86,13 +86,13 @@ private:
 	QtCodeNavigator* m_navigator;
 
 	QWidget* m_areaWrapper;
-	FilePath m_currentFilePath;
+	utility::file::FilePath m_currentFilePath;
 
 	QtCodeFileTitleBar* m_titleBar;
 
 	QtCodeArea* m_area;
-	std::map<FilePath, FileData> m_fileDatas;
-	std::deque<FilePath> m_filePaths;
+	std::map<utility::file::FilePath, FileData> m_fileDatas;
+	std::deque<utility::file::FilePath> m_filePaths;
 
 	std::shared_ptr<SourceLocationFile> m_lastLocationFile;
 };

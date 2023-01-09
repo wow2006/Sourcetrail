@@ -27,7 +27,7 @@ bool ApplicationSettingsPrefiller::prefillJavaRuntimePath(ApplicationSettings* s
   LOG_INFO("Prefilling Java path");
 
   std::shared_ptr<CombinedPathDetector> javaPathDetector = utility::getJavaRuntimePathDetector();
-  std::vector<FilePath> paths = javaPathDetector->getPaths();
+  std::vector<utility::file::FilePath> paths = javaPathDetector->getPaths();
   if(!paths.empty()) {
     MessageStatus(L"Ran Java runtime path detection, found: " + paths.front().wstr()).dispatch();
 
@@ -49,7 +49,7 @@ bool ApplicationSettingsPrefiller::prefillJreSystemLibraryPaths(ApplicationSetti
   LOG_INFO("Prefilling JRE system library path");
   std::shared_ptr<CombinedPathDetector> jreSystemLibraryPathsDetector =
       utility::getJreSystemLibraryPathsDetector();
-  std::vector<FilePath> paths = jreSystemLibraryPathsDetector->getPaths();
+  std::vector<utility::file::FilePath> paths = jreSystemLibraryPathsDetector->getPaths();
   if(!paths.empty()) {
     MessageStatus(L"Ran JRE system library path detection, found: " + paths.front().wstr()).dispatch();
 
@@ -69,7 +69,7 @@ bool ApplicationSettingsPrefiller::prefillMavenExecutablePath(ApplicationSetting
 
   LOG_INFO("Prefilling Maven path");
   std::shared_ptr<CombinedPathDetector> mavenPathDetector = utility::getMavenExecutablePathDetector();
-  std::vector<FilePath> paths = mavenPathDetector->getPaths();
+  std::vector<utility::file::FilePath> paths = mavenPathDetector->getPaths();
   if(!paths.empty()) {
     MessageStatus(L"Ran Maven executable path detection, found: " + paths.front().wstr()).dispatch();
 
@@ -90,7 +90,7 @@ bool ApplicationSettingsPrefiller::prefillCxxHeaderPaths(ApplicationSettings* se
 
   LOG_INFO("Prefilling header search paths");
   std::shared_ptr<CombinedPathDetector> cxxHeaderDetector = utility::getCxxHeaderPathDetector();
-  std::vector<FilePath> paths = cxxHeaderDetector->getPaths();
+  std::vector<utility::file::FilePath> paths = cxxHeaderDetector->getPaths();
   if(!paths.empty()) {
     MessageStatus(L"Ran C/C++ header path detection, found " + std::to_wstring(paths.size()) +
                   L" path" + (paths.size() == 1 ? L"" : L"s"))
@@ -111,7 +111,7 @@ bool ApplicationSettingsPrefiller::prefillCxxFrameworkPaths(ApplicationSettings*
 
   LOG_INFO("Prefilling framework search paths");
   std::shared_ptr<CombinedPathDetector> cxxFrameworkDetector = utility::getCxxFrameworkPathDetector();
-  std::vector<FilePath> paths = cxxFrameworkDetector->getPaths();
+  std::vector<utility::file::FilePath> paths = cxxFrameworkDetector->getPaths();
   if(!paths.empty()) {
     MessageStatus(L"Ran C/C++ framework path detection, found " + std::to_wstring(paths.size()) +
                   L" path" + (paths.size() == 1 ? L"" : L"s"))

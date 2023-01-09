@@ -127,7 +127,7 @@ TEST_CASE("config manager returns correct list for key", "[lib]") {
 }
 
 TEST_CASE("config manager save and load configuration and compare", "[lib]") {
-  const FilePath path(L"data/ConfigManagerTestSuite/temp.xml");
+  const utility::file::FilePath path(L"data/ConfigManagerTestSuite/temp.xml");
 
   auto config = utility::ConfigManager::createAndLoad(getConfigTextAccess());
   config->save(path.str());
@@ -138,7 +138,7 @@ TEST_CASE("config manager save and load configuration and compare", "[lib]") {
 
 TEST_CASE("config manager loads special character", "[lib]") {
   auto config = utility::ConfigManager::createAndLoad(
-      TextAccess::createFromFile(FilePath(L"data/ConfigManagerTestSuite/test_data.xml")));
+      TextAccess::createFromFile(utility::file::FilePath(L"data/ConfigManagerTestSuite/test_data.xml")));
   std::wstring loadedSpecialCharacter;
   config->getValue("path/to/special_character", loadedSpecialCharacter);
 
@@ -150,7 +150,7 @@ TEST_CASE("config manager loads special character", "[lib]") {
 
 TEST_CASE("config manager save and load special character and compare", "[lib]") {
   constexpr auto SpecialCharacter = static_cast<wchar_t>(252);
-  const FilePath path(L"data/ConfigManagerTestSuite/temp.xml");
+  const utility::file::FilePath path(L"data/ConfigManagerTestSuite/temp.xml");
   std::wstring specialCharacter;
   specialCharacter.push_back(SpecialCharacter);
 

@@ -1,13 +1,16 @@
 #include "FilePathFilter.h"
 
-FilePathFilter::FilePathFilter(const std::wstring& filterString)
-    : m_filterString(filterString), m_filterRegex(convertFilterStringToRegex(filterString)) {}
+namespace utility::file {
+
+FilePathFilter::FilePathFilter(std::wstring filterString)
+    : m_filterString(std::move(filterString))
+    , m_filterRegex(convertFilterStringToRegex(filterString)) {}
 
 std::wstring FilePathFilter::wstr() const {
   return m_filterString;
 }
 
-bool FilePathFilter::isMatching(const FilePath& filePath) const {
+bool FilePathFilter::isMatching(const utility::file::FilePath& filePath) const {
   return isMatching(filePath.wstr());
 }
 
@@ -94,3 +97,5 @@ std::wregex FilePathFilter::convertFilterStringToRegex(const std::wstring& filte
 
   return std::wregex(regexFilterString, std::regex::optimize);
 }
+
+}    // namespace utility::file

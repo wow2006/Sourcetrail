@@ -10,28 +10,28 @@
 
 CxxVs15HeaderPathDetector::CxxVs15HeaderPathDetector(): PathDetector("Visual Studio 2017") {}
 
-std::vector<FilePath> CxxVs15HeaderPathDetector::doGetPaths() const
+std::vector<utility::file::FilePath> CxxVs15HeaderPathDetector::doGetPaths() const
 {
-	std::vector<FilePath> headerSearchPaths;
+	std::vector<utility::file::FilePath> headerSearchPaths;
 
 	{
-		const std::vector<FilePath> expandedPaths =
-			FilePath(L"%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/vswhere.exe")
+		const std::vector<utility::file::FilePath> expandedPaths =
+			utility::file::FilePath(L"%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/vswhere.exe")
 				.expandEnvironmentVariables();
 		if (!expandedPaths.empty())
 		{
 			const utility::ProcessOutput out = utility::executeProcess(
 				expandedPaths.front().wstr(),
 				{L"-latest", L"-property", L"installationPath"},
-				FilePath(),
+				utility::file::FilePath(),
 				false,
 				10000);
 			if (out.exitCode == 0)
 			{
-				const FilePath vsInstallPath(out.output);
+				const utility::file::FilePath vsInstallPath(out.output);
 				if (vsInstallPath.exists())
 				{
-					for (const FilePath& versionPath: FileSystem::getDirectSubDirectories(
+					for (const utility::file::FilePath& versionPath: FileSystem::getDirectSubDirectories(
 							 vsInstallPath.getConcatenated(L"VC/Tools/MSVC")))
 					{
 						if (versionPath.exists())
@@ -52,7 +52,7 @@ std::vector<FilePath> CxxVs15HeaderPathDetector::doGetPaths() const
 
 	if (!headerSearchPaths.empty())
 	{
-		std::vector<FilePath> windowsSdkHeaderSearchPaths = utility::getWindowsSdkHeaderSearchPaths(
+		std::vector<utility::file::FilePath> windowsSdkHeaderSearchPaths = utility::getWindowsSdkHeaderSearchPaths(
 			APPLICATION_ARCHITECTURE_X86_32);
 		if (windowsSdkHeaderSearchPaths.empty())
 		{

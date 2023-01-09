@@ -30,6 +30,7 @@ set(test_files
     JavaIndexSampleProjectsTestSuite
     JavaParserTestSuite
     LogManagerTestSuite
+    LoggerTestSuite
     LowMemoryStringMapTestSuite
     MatrixBaseTestSuite
     MatrixDynamicBaseTestSuite

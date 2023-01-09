@@ -123,7 +123,7 @@ size_t SourceLocation::getLineNumber() const {
   return m_lineNumber;
 }
 
-const FilePath& SourceLocation::getFilePath() const {
+const utility::file::FilePath& SourceLocation::getFilePath() const {
   return m_file->getFilePath();
 }
 

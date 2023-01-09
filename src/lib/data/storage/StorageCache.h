@@ -10,13 +10,13 @@ public:
 
   StorageStats getStorageStats() const override;
 
-  std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath,
+  std::shared_ptr<TextAccess> getFileContent(const utility::file::FilePath& filePath,
                                              bool showsErrors) const override;
 
   ErrorCountInfo getErrorCount() const override;
   std::vector<ErrorInfo> getErrorsLimited(const ErrorFilter& filter) const override;
   std::vector<ErrorInfo> getErrorsForFileLimited(const ErrorFilter& filter,
-                                                 const FilePath& filePath) const override;
+                                                 const utility::file::FilePath& filePath) const override;
   std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
       const std::vector<ErrorInfo>& errors) const override;
 

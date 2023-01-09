@@ -14,7 +14,9 @@ class JSONCompilationDatabase;
 }	 // namespace clang
 
 class DialogView;
+namespace utility::file {
 class FilePath;
+} // namespace class utility::file
 class SourceGroupSettingsWithCxxPchOptions;
 class StorageProvider;
 class Task;
@@ -28,7 +30,7 @@ std::shared_ptr<Task> createBuildPchTask(
 	std::shared_ptr<DialogView> dialogView);
 
 std::shared_ptr<clang::tooling::JSONCompilationDatabase> loadCDB(
-	const FilePath& cdbPath, std::string* error = nullptr);
+	const utility::file::FilePath& cdbPath, std::string* error = nullptr);
 bool containsIncludePchFlags(std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb);
 bool containsIncludePchFlag(const std::vector<std::string>& args);
 std::vector<std::wstring> getWithRemoveIncludePchFlag(const std::vector<std::wstring>& args);

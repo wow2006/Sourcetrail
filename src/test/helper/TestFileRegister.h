@@ -3,12 +3,12 @@
 
 #include "FileRegister.h"
 
-class TestFileRegister: public FileRegister
+class TestFileRegister: public utility::file::FileRegister
 {
 public:
 	TestFileRegister();
 	virtual ~TestFileRegister();
-	virtual bool hasFilePath(const FilePath& filePath) const;
+	virtual bool hasFilePath(const utility::file::FilePath& filePath) const;
 };
 
 #endif	  // TEST_FILE_MANAGER_H

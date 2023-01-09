@@ -101,14 +101,14 @@ ParseLocation CxxAstVisitorComponentBraceRecorder::getParseLocation(const clang:
 	return getAstVisitor()->getParseLocation(loc);
 }
 
-FilePath CxxAstVisitorComponentBraceRecorder::getFilePath(const clang::SourceLocation& loc)
+utility::file::FilePath CxxAstVisitorComponentBraceRecorder::getFilePath(const clang::SourceLocation& loc)
 {
 	const clang::SourceManager& sm = m_astContext->getSourceManager();
 	return getAstVisitor()->getCanonicalFilePathCache()->getCanonicalFilePath(sm.getFileID(loc), sm);
 }
 
 void CxxAstVisitorComponentBraceRecorder::recordBraces(
-	const FilePath& filePath, const ParseLocation& lbraceLoc, const ParseLocation& rbraceLoc)
+	const utility::file::FilePath& filePath, const ParseLocation& lbraceLoc, const ParseLocation& rbraceLoc)
 {
 	if (lbraceLoc.startColumnNumber != rbraceLoc.startColumnNumber ||
 		lbraceLoc.endColumnNumber != rbraceLoc.endColumnNumber ||

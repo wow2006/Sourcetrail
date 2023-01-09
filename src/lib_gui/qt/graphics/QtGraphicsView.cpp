@@ -444,7 +444,7 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event) {
   m_hideNodeId = 0;
   m_hideEdgeId = 0;
   m_bookmarkNodeId = 0;
-  FilePath clipboardFilePath;
+  utility::file::FilePath clipboardFilePath;
 
   QtGraphNode* node = getNodeAtCursorPosition();
   if(node) {
@@ -626,11 +626,11 @@ void QtGraphicsView::exportGraph() {
   const QString exportNotice = QStringLiteral("Exported from Sourcetrail");
   const int margin = 10;
 
-  FilePath filePath(
+  utility::file::FilePath filePath(
       QtFileDialog::showSaveFileDialog(
           nullptr,
           QStringLiteral("Save image"),
-          FilePath(),
+          utility::file::FilePath(),
           QStringLiteral("PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp);;SVG (*.svg)"))
           .toStdWString());
 

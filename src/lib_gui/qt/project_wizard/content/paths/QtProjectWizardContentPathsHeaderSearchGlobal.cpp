@@ -38,8 +38,8 @@ void QtProjectWizardContentPathsHeaderSearchGlobal::load()
 
 void QtProjectWizardContentPathsHeaderSearchGlobal::save()
 {
-	std::vector<FilePath> paths;
-	for (const FilePath& headerPath: m_list->getPathsAsDisplayed())
+	std::vector<utility::file::FilePath> paths;
+	for (const utility::file::FilePath& headerPath: m_list->getPathsAsDisplayed())
 	{
 		if (headerPath != ResourcePaths::getCxxCompilerHeaderDirectoryPath())
 		{
@@ -58,9 +58,9 @@ bool QtProjectWizardContentPathsHeaderSearchGlobal::check()
 		return QtProjectWizardContentPaths::check();
 	}
 
-	std::vector<FilePath> paths;
+	std::vector<utility::file::FilePath> paths;
 	QString compilerHeaderPaths;
-	for (const FilePath& headerPath: m_list->getPathsAsDisplayed())
+	for (const utility::file::FilePath& headerPath: m_list->getPathsAsDisplayed())
 	{
 		if (headerPath != ResourcePaths::getCxxCompilerHeaderDirectoryPath() &&
 			headerPath.getCanonical().getConcatenated(L"/stdarg.h").exists())
@@ -101,10 +101,10 @@ bool QtProjectWizardContentPathsHeaderSearchGlobal::check()
 	return QtProjectWizardContentPaths::check();
 }
 
-void QtProjectWizardContentPathsHeaderSearchGlobal::detectedPaths(const std::vector<FilePath>& paths)
+void QtProjectWizardContentPathsHeaderSearchGlobal::detectedPaths(const std::vector<utility::file::FilePath>& paths)
 {
-	std::vector<FilePath> headerPaths;
-	for (const FilePath& headerPath: paths)
+	std::vector<utility::file::FilePath> headerPaths;
+	for (const utility::file::FilePath& headerPath: paths)
 	{
 		if (headerPath != ResourcePaths::getCxxCompilerHeaderDirectoryPath())
 		{
@@ -114,11 +114,11 @@ void QtProjectWizardContentPathsHeaderSearchGlobal::detectedPaths(const std::vec
 	setPaths(headerPaths);
 }
 
-void QtProjectWizardContentPathsHeaderSearchGlobal::setPaths(const std::vector<FilePath>& paths)
+void QtProjectWizardContentPathsHeaderSearchGlobal::setPaths(const std::vector<utility::file::FilePath>& paths)
 {
 	// check data change to avoid UI update that messes with the scroll position
 	{
-		std::vector<FilePath> currentPaths = m_list->getPathsAsDisplayed();
+		std::vector<utility::file::FilePath> currentPaths = m_list->getPathsAsDisplayed();
 		if (currentPaths.size())
 		{
 			currentPaths.erase(currentPaths.begin());

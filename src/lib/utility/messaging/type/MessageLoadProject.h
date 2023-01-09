@@ -7,7 +7,7 @@
 
 class MessageLoadProject : public Message<MessageLoadProject> {
 public:
-  MessageLoadProject(const FilePath& filePath_,
+  MessageLoadProject(const utility::file::FilePath& filePath_,
                      bool settingsChanged_ = false,
                      RefreshMode refreshMode_ = REFRESH_NONE,
                      bool shallowIndexingRequested_ = false)
@@ -26,7 +26,7 @@ public:
     os << L", refreshMode: " << refreshMode;
   }
 
-  const FilePath projectSettingsFilePath;
+  const utility::file::FilePath projectSettingsFilePath;
   const bool settingsChanged;
   const RefreshMode refreshMode;
   const bool shallowIndexingRequested;

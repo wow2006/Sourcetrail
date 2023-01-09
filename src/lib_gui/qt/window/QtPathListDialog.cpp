@@ -19,17 +19,17 @@ QSize QtPathListDialog::sizeHint() const
 	return QSize(550, 350);
 }
 
-void QtPathListDialog::setRelativeRootDirectory(const FilePath& dir)
+void QtPathListDialog::setRelativeRootDirectory(const utility::file::FilePath& dir)
 {
 	m_pathList->setRelativeRootDirectory(dir);
 }
 
-void QtPathListDialog::setPaths(const std::vector<FilePath>& paths, bool readOnly)
+void QtPathListDialog::setPaths(const std::vector<utility::file::FilePath>& paths, bool readOnly)
 {
 	m_pathList->setPaths(paths, readOnly);
 }
 
-std::vector<FilePath> QtPathListDialog::getPaths()
+std::vector<utility::file::FilePath> QtPathListDialog::getPaths()
 {
 	return m_pathList->getPathsAsDisplayed();
 }

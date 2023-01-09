@@ -161,7 +161,7 @@ bool CxxAstVisitor::TraverseDecl(clang::Decl* decl)
 			const clang::FileID fileId = sourceManager.getFileID(loc);
 			if (fileId.isValid() && m_canonicalFilePathCache->getFileSymbolId(fileId) == 0)
 			{
-				const FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(
+				const utility::file::FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(
 					fileId, sourceManager);
 				const bool pathIsProjectFile = m_canonicalFilePathCache->isProjectFile(
 					fileId, sourceManager);

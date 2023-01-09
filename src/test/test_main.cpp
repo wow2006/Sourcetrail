@@ -17,7 +17,7 @@ struct EventListener : Catch::TestEventListenerBase {
 
     if(!homedir.empty()) {
       if(!ApplicationSettings::getInstance()->load(
-             FilePath(homedir + "/.config/sourcetrail/ApplicationSettings.xml"))) {
+             utility::file::FilePath(homedir + "/.config/sourcetrail/ApplicationSettings.xml"))) {
         std::cout << "no settings" << std::endl;
         return;
       }
@@ -26,13 +26,13 @@ struct EventListener : Catch::TestEventListenerBase {
       return;
     }
 #else
-    ApplicationSettings::getInstance()->load(FilePath(L"data/TestSettings.xml"));
+    ApplicationSettings::getInstance()->load(utility::file::FilePath(L"data/TestSettings.xml"));
 #endif
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
     if(ApplicationSettings::getInstance()->getJavaPath().empty()) {
       std::shared_ptr<PathDetector> pathDetector = utility::getJavaRuntimePathDetector();
-      const std::vector<FilePath> paths = pathDetector->getPaths();
+      const std::vector<utility::file::FilePath> paths = pathDetector->getPaths();
       if(!paths.empty()) {
         ApplicationSettings::getInstance()->setJavaPath(paths.front());
         std::cout << "Java path written to settings: "

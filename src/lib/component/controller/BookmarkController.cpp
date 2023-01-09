@@ -415,7 +415,7 @@ std::wstring BookmarkController::getNodeDisplayName(const Id nodeId) const {
   NameHierarchy nameHierarchy = m_storageAccess->getNameHierarchyForNodeId(nodeId);
 
   if(type.isFile()) {
-    return FilePath(nameHierarchy.getQualifiedName()).fileName();
+    return utility::file::FilePath(nameHierarchy.getQualifiedName()).fileName();
   }
 
   return nameHierarchy.getQualifiedName();

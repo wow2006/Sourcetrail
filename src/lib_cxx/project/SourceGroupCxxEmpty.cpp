@@ -20,9 +20,9 @@ SourceGroupCxxEmpty::SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettings> se
 {
 }
 
-std::set<FilePath> SourceGroupCxxEmpty::filterToContainedFilePaths(const std::set<FilePath>& filePaths) const
+std::set<utility::file::FilePath> SourceGroupCxxEmpty::filterToContainedFilePaths(const std::set<utility::file::FilePath>& filePaths) const
 {
-	std::vector<FilePath> indexedPaths;
+	std::vector<utility::file::FilePath> indexedPaths;
 	std::vector<FilePathFilter> excludeFilters;
 	if (std::shared_ptr<SourceGroupSettingsCEmpty> settings =
 			std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(m_settings))
@@ -39,10 +39,10 @@ std::set<FilePath> SourceGroupCxxEmpty::filterToContainedFilePaths(const std::se
 	}
 
 	return SourceGroup::filterToContainedFilePaths(
-		filePaths, std::set<FilePath>(), utility::toSet(indexedPaths), excludeFilters);
+		filePaths, std::set<utility::file::FilePath>(), utility::toSet(indexedPaths), excludeFilters);
 }
 
-std::set<FilePath> SourceGroupCxxEmpty::getAllSourceFilePaths() const
+std::set<utility::file::FilePath> SourceGroupCxxEmpty::getAllSourceFilePaths() const
 {
 	FileManager fileManager;
 	if (std::shared_ptr<SourceGroupSettingsCEmpty> settings =
@@ -69,7 +69,7 @@ std::set<FilePath> SourceGroupCxxEmpty::getAllSourceFilePaths() const
 std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandProvider(
 	const RefreshInfo& info) const
 {
-	std::set<FilePath> indexedPaths;
+	std::set<utility::file::FilePath> indexedPaths;
 	std::set<FilePathFilter> excludeFilters;
 	if (std::shared_ptr<SourceGroupSettingsCEmpty> settings =
 			std::dynamic_pointer_cast<SourceGroupSettingsCEmpty>(m_settings))
@@ -97,7 +97,7 @@ std::shared_ptr<IndexerCommandProvider> SourceGroupCxxEmpty::getIndexerCommandPr
 
 	std::shared_ptr<CxxIndexerCommandProvider> provider =
 		std::make_shared<CxxIndexerCommandProvider>();
-	for (const FilePath& sourcePath: getAllSourceFilePaths())
+	for (const utility::file::FilePath& sourcePath: getAllSourceFilePaths())
 	{
 		if (info.filesToIndex.find(sourcePath) != info.filesToIndex.end())
 		{
@@ -168,7 +168,7 @@ std::vector<std::wstring> SourceGroupCxxEmpty::getBaseCompilerFlags() const
 	std::vector<std::wstring> compilerFlags;
 
 	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
-	std::set<FilePath> indexedPaths;
+	std::set<utility::file::FilePath> indexedPaths;
 	std::wstring targetFlag;
 	std::wstring languageStandard = SourceGroupSettingsWithCppStandard::getDefaultCppStandardStatic();
 
@@ -224,8 +224,8 @@ std::vector<std::wstring> SourceGroupCxxEmpty::getBaseCompilerFlags() const
 	{
 		// Add the source paths as HeaderSearchPaths as well, so clang will also look here when
 		// searching include files.
-		std::vector<FilePath> indexedDirectoryPaths;
-		for (const FilePath& sourcePath: indexedPaths)
+		std::vector<utility::file::FilePath> indexedDirectoryPaths;
+		for (const utility::file::FilePath& sourcePath: indexedPaths)
 		{
 			if (sourcePath.isDirectory())
 			{

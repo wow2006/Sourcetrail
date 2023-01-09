@@ -65,5 +65,5 @@ private:
   std::mutex m_tabsMutex;
 
   bool m_isCreatingTab;
-  std::tuple<Id, FilePath, size_t> m_scrollToLine;
+  std::tuple<Id, utility::file::FilePath, size_t> m_scrollToLine;
 };

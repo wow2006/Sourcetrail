@@ -5,8 +5,6 @@
 
 class QPushButton;
 class QListWidgetItem;
-
-class FilePath;
 class QtPathListBox;
 
 class QtPathListBoxItem: public QtListBoxItem

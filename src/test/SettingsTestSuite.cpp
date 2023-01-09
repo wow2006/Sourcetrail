@@ -60,17 +60,17 @@ public:
 
 TEST_CASE("settings get loaded from file") {
   TestSettings settings;
-  REQUIRE(settings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
+  REQUIRE(settings.load(utility::file::FilePath(L"data/SettingsTestSuite/settings.xml")));
 }
 
 TEST_CASE("settings get not loaded from file") {
   TestSettings settings;
-  REQUIRE(!settings.load(FilePath(L"data/SettingsTestSuite/wrong_settings.xml")));
+  REQUIRE(!settings.load(utility::file::FilePath(L"data/SettingsTestSuite/wrong_settings.xml")));
 }
 
 TEST_CASE("settings get loaded value") {
   TestSettings settings;
-  REQUIRE(settings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
+  REQUIRE(settings.load(utility::file::FilePath(L"data/SettingsTestSuite/settings.xml")));
 
   REQUIRE(settings.getBool() == true);
   REQUIRE(settings.getInt() == 42);
@@ -90,7 +90,7 @@ TEST_CASE("settings get default value when not loaded") {
 
 TEST_CASE("settings get default value when wrongly loaded") {
   TestSettings settings;
-  REQUIRE(!settings.load(FilePath(L"data/SettingsTestSuite/wrong_settings.xml")));
+  REQUIRE(!settings.load(utility::file::FilePath(L"data/SettingsTestSuite/wrong_settings.xml")));
 
   REQUIRE(settings.getBool() == false);
   REQUIRE(settings.getInt() == -1);
@@ -101,7 +101,7 @@ TEST_CASE("settings get default value when wrongly loaded") {
 
 TEST_CASE("settings get default value after clearing") {
   TestSettings settings;
-  REQUIRE(settings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
+  REQUIRE(settings.load(utility::file::FilePath(L"data/SettingsTestSuite/settings.xml")));
 
   settings.clear();
   REQUIRE(settings.getBool() == false);
@@ -132,7 +132,7 @@ TEST_CASE("settings can be set when not loaded") {
 
 TEST_CASE("settings can be replaced when loaded") {
   TestSettings settings;
-  REQUIRE(settings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
+  REQUIRE(settings.load(utility::file::FilePath(L"data/SettingsTestSuite/settings.xml")));
 
   REQUIRE(settings.setBool(false));
   REQUIRE(settings.getBool() == false);
@@ -152,7 +152,7 @@ TEST_CASE("settings can be replaced when loaded") {
 
 TEST_CASE("settings can be added when loaded") {
   TestSettings settings;
-  REQUIRE(settings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
+  REQUIRE(settings.load(utility::file::FilePath(L"data/SettingsTestSuite/settings.xml")));
 
   REQUIRE(settings.getNewBool() == false);
   REQUIRE(settings.setNewBool(true));
@@ -161,16 +161,16 @@ TEST_CASE("settings can be added when loaded") {
 
 TEST_CASE("load project settings from file") {
   ProjectSettings settings;
-  REQUIRE(settings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
+  REQUIRE(settings.load(utility::file::FilePath(L"data/SettingsTestSuite/settings.xml")));
 }
 
 TEST_CASE("load source path from file") {
   ProjectSettings projectSettings;
-  projectSettings.load(FilePath(L"data/SettingsTestSuite/settings.xml"));
+  projectSettings.load(utility::file::FilePath(L"data/SettingsTestSuite/settings.xml"));
   std::shared_ptr<SourceGroupSettingsWithSourcePaths> sourceGroupSettings =
       std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(
           projectSettings.getAllSourceGroupSettings().front());
-  std::vector<FilePath> paths = sourceGroupSettings->getSourcePaths();
+  std::vector<utility::file::FilePath> paths = sourceGroupSettings->getSourcePaths();
 
   REQUIRE(paths.size() == 2);
   REQUIRE(paths[0].wstr() == L"src");

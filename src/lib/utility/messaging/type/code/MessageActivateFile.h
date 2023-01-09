@@ -6,7 +6,7 @@
 
 class MessageActivateFile : public Message<MessageActivateFile> {
 public:
-  MessageActivateFile(const FilePath& filePath_, unsigned int line_ = 0)
+  MessageActivateFile(const utility::file::FilePath& filePath_, unsigned int line_ = 0)
       : filePath(filePath_), line(line_) {
     setSchedulerId(TabId::currentTab());
   }
@@ -19,6 +19,6 @@ public:
     os << filePath.wstr();
   }
 
-  const FilePath filePath;
+  const utility::file::FilePath filePath;
   unsigned int line;
 };

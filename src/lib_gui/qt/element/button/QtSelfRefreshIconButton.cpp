@@ -5,7 +5,7 @@
 #include "utilityQt.h"
 
 QtSelfRefreshIconButton::QtSelfRefreshIconButton(const QString& text,
-                                                 const FilePath& iconPath,
+                                                 const utility::file::FilePath& iconPath,
                                                  const std::string& buttonKey,
                                                  QWidget* parent)
     : QPushButton(text, parent), m_text(text), m_iconPath(iconPath), m_buttonKey(buttonKey) {
@@ -27,7 +27,7 @@ void QtSelfRefreshIconButton::setText(const QString& text) {
   }
 }
 
-void QtSelfRefreshIconButton::setIconPath(const FilePath& iconPath) {
+void QtSelfRefreshIconButton::setIconPath(const utility::file::FilePath& iconPath) {
   if(iconPath != m_iconPath) {
     m_iconPath = iconPath;
     refresh();

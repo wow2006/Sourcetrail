@@ -17,14 +17,14 @@ public:
   Settings& operator=(Settings&& other) noexcept;
   virtual ~Settings();
 
-  bool load(const FilePath& filePath, bool readOnly = false);
+  bool load(const utility::file::FilePath& filePath, bool readOnly = false);
   bool loadFromString(const std::string& text, bool readOnly = false);
   bool save();
-  bool save(const FilePath& filePath);
+  bool save(const utility::file::FilePath& filePath);
 
   void clear();
 
-  virtual const FilePath& getFilePath() const;
+  virtual const utility::file::FilePath& getFilePath() const;
 
   size_t getVersion() const;
   void setVersion(size_t version);
@@ -32,7 +32,7 @@ public:
 protected:
   Settings();
 
-  void setFilePath(const FilePath& filePath);
+  void setFilePath(const utility::file::FilePath& filePath);
 
   template <typename T>
   T getValue(const std::string& key, T defaultValue) const;
@@ -40,7 +40,7 @@ protected:
   template <typename T>
   std::vector<T> getValues(const std::string& key, std::vector<T> defaultValues) const;
 
-  std::vector<FilePath> getPathValues(const std::string& key) const;
+  std::vector<utility::file::FilePath> getPathValues(const std::string& key) const;
 
   template <typename T>
   bool setValue(const std::string& key, T value);
@@ -48,7 +48,7 @@ protected:
   template <typename T>
   bool setValues(const std::string& key, std::vector<T> values);
 
-  bool setPathValues(const std::string& key, const std::vector<FilePath>& paths);
+  bool setPathValues(const std::string& key, const std::vector<utility::file::FilePath>& paths);
 
   bool isValueDefined(const std::string& key) const;
 
@@ -60,7 +60,7 @@ protected:
   std::shared_ptr<utility::ConfigManager> m_config;
 
 private:
-  FilePath m_filePath;
+  utility::file::FilePath m_filePath;
   bool m_readOnly = false;
 
   friend SettingsMigration;

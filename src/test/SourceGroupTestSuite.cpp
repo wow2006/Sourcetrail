@@ -50,12 +50,12 @@
 namespace {
 const bool updateExpectedOutput = false;
 
-static FilePath getInputDirectoryPath(const std::wstring& projectName) {
-  return FilePath(L"data/SourceGroupTestSuite/" + projectName + L"/input").makeAbsolute().makeCanonical();
+static utility::file::FilePath getInputDirectoryPath(const std::wstring& projectName) {
+  return utility::file::FilePath(L"data/SourceGroupTestSuite/" + projectName + L"/input").makeAbsolute().makeCanonical();
 }
 
-static FilePath getOutputDirectoryPath(const std::wstring& projectName) {
-  return FilePath(L"data/SourceGroupTestSuite/" + projectName + L"/expected_output")
+static utility::file::FilePath getOutputDirectoryPath(const std::wstring& projectName) {
+  return utility::file::FilePath(L"data/SourceGroupTestSuite/" + projectName + L"/expected_output")
       .makeAbsolute()
       .makeCanonical();
 }
@@ -76,7 +76,7 @@ std::string setupJavaEnvironmentFactory() {
         if(i != 0) {
           classPath += separator;
         }
-        classPath += FilePath(L"../app/data/java/lib/").concatenate(jarNames[i]).str();
+        classPath += utility::file::FilePath(L"../app/data/java/lib/").concatenate(jarNames[i]).str();
       }
     }
 
@@ -91,15 +91,15 @@ std::string setupJavaEnvironmentFactory() {
 
 #if BUILD_CXX_LANGUAGE_PACKAGE
 std::wstring indexerCommandCxxToString(std::shared_ptr<const IndexerCommandCxx> indexerCommand,
-                                       const FilePath& baseDirectory) {
+                                       const utility::file::FilePath& baseDirectory) {
   std::wstring result;
   result += L"SourceFilePath: \"" +
       indexerCommand->getSourceFilePath().getRelativeTo(baseDirectory).wstr() + L"\"\n";
-  for(const FilePath& indexedPath: indexerCommand->getIndexedPaths()) {
+  for(const utility::file::FilePath& indexedPath: indexerCommand->getIndexedPaths()) {
     result += L"\tIndexedPath: \"" + indexedPath.getRelativeTo(baseDirectory).wstr() + L"\"\n";
   }
   for(std::wstring compilerFlag: indexerCommand->getCompilerFlags()) {
-    FilePath flagAsPath(compilerFlag);
+    utility::file::FilePath flagAsPath(compilerFlag);
     if(flagAsPath.exists()) {
       compilerFlag = flagAsPath.getRelativeTo(baseDirectory).wstr();
     }
@@ -114,12 +114,12 @@ std::wstring indexerCommandCxxToString(std::shared_ptr<const IndexerCommandCxx> 
 
 #if BUILD_JAVA_LANGUAGE_PACKAGE
 std::wstring indexerCommandJavaToString(std::shared_ptr<const IndexerCommandJava> indexerCommand,
-                                        const FilePath& baseDirectory) {
+                                        const utility::file::FilePath& baseDirectory) {
   std::wstring result;
   result += L"SourceFilePath: \"" +
       indexerCommand->getSourceFilePath().getRelativeTo(baseDirectory).wstr() + L"\"\n";
   result += L"\tLanguageStandard: \"" + indexerCommand->getLanguageStandard() + L"\"\n";
-  for(const FilePath& classPathItem: indexerCommand->getClassPath()) {
+  for(const utility::file::FilePath& classPathItem: indexerCommand->getClassPath()) {
     result += L"\tClassPathItem: \"" + classPathItem.getRelativeTo(baseDirectory).wstr() + L"\"\n";
   }
   return result;
@@ -127,7 +127,7 @@ std::wstring indexerCommandJavaToString(std::shared_ptr<const IndexerCommandJava
 #endif    // BUILD_JAVA_LANGUAGE_PACKAGE
 
 std::wstring indexerCommandCustomToString(std::shared_ptr<const IndexerCommandCustom> indexerCommand,
-                                          const FilePath& baseDirectory) {
+                                          const utility::file::FilePath& baseDirectory) {
   std::wstring result;
   result += L"IndexerCommandCustom\n";
   result += L"\tSourceFilePath: \"" +
@@ -141,7 +141,7 @@ std::wstring indexerCommandCustomToString(std::shared_ptr<const IndexerCommandCu
 }
 
 std::wstring indexerCommandToString(std::shared_ptr<IndexerCommand> indexerCommand,
-                                    const FilePath& baseDirectory) {
+                                    const utility::file::FilePath& baseDirectory) {
   if(indexerCommand) {
 #if BUILD_CXX_LANGUAGE_PACKAGE
     if(std::shared_ptr<const IndexerCommandCxx> indexerCommandCxx =
@@ -167,7 +167,7 @@ std::wstring indexerCommandToString(std::shared_ptr<IndexerCommand> indexerComma
 
 std::shared_ptr<TextAccess> generateExpectedOutput(std::wstring projectName,
                                                    std::shared_ptr<const SourceGroup> sourceGroup) {
-  const FilePath projectDataRoot = getInputDirectoryPath(projectName).makeAbsolute();
+  const utility::file::FilePath projectDataRoot = getInputDirectoryPath(projectName).makeAbsolute();
 
   RefreshInfo info;
   info.filesToIndex = sourceGroup->getAllSourceFilePaths();
@@ -195,7 +195,7 @@ void generateAndCompareExpectedOutput(std::wstring projectName,
 #else
   const std::wstring expectedOutputFileName = L"output_unix.txt";
 #endif
-  const FilePath expectedOutputFilePath =
+  const utility::file::FilePath expectedOutputFilePath =
       getOutputDirectoryPath(projectName).concatenate(expectedOutputFileName);
   if(updateExpectedOutput || !expectedOutputFilePath.exists()) {
     std::ofstream expectedOutputFile;
@@ -222,13 +222,13 @@ void generateAndCompareExpectedOutput(std::wstring projectName,
 
 TEST_CASE("finds all jar dependencies") {
   for(const std::wstring& jarName: utility::getRequiredJarNames()) {
-    FilePath jarPath = FilePath(L"../app/data/java/lib/").concatenate(jarName);
+    utility::file::FilePath jarPath = utility::file::FilePath(L"../app/data/java/lib/").concatenate(jarName);
     REQUIRE_MESSAGE("Jar dependency path does not exist: " + jarPath.str(), jarPath.exists());
   }
 }
 
 TEST_CASE("can setup environment factory") {
-  std::vector<FilePath> javaPaths = utility::getJavaRuntimePathDetector()->getPaths();
+  std::vector<utility::file::FilePath> javaPaths = utility::getJavaRuntimePathDetector()->getPaths();
   if(!javaPaths.empty()) {
     ApplicationSettings::getInstance()->setJavaPath(javaPaths[0]);
   }
@@ -275,11 +275,11 @@ TEST_CASE("source group cxx c empty generates expected output") {
 
   std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
 
-  std::vector<FilePath> storedHeaderSearchPaths = applicationSettings->getHeaderSearchPaths();
-  std::vector<FilePath> storedFrameworkSearchPaths = applicationSettings->getFrameworkSearchPaths();
+  std::vector<utility::file::FilePath> storedHeaderSearchPaths = applicationSettings->getHeaderSearchPaths();
+  std::vector<utility::file::FilePath> storedFrameworkSearchPaths = applicationSettings->getFrameworkSearchPaths();
 
-  applicationSettings->setHeaderSearchPaths({FilePath(L"test/header/search/path")});
-  applicationSettings->setFrameworkSearchPaths({FilePath(L"test/framework/search/path")});
+  applicationSettings->setHeaderSearchPaths({utility::file::FilePath(L"test/header/search/path")});
+  applicationSettings->setFrameworkSearchPaths({utility::file::FilePath(L"test/framework/search/path")});
 
   generateAndCompareExpectedOutput(
       projectName, std::make_shared<SourceGroupCxxEmpty>(sourceGroupSettings));
@@ -313,11 +313,11 @@ TEST_CASE("source group cxx cpp empty generates expected output") {
 
   std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
 
-  std::vector<FilePath> storedHeaderSearchPaths = applicationSettings->getHeaderSearchPaths();
-  std::vector<FilePath> storedFrameworkSearchPaths = applicationSettings->getFrameworkSearchPaths();
+  std::vector<utility::file::FilePath> storedHeaderSearchPaths = applicationSettings->getHeaderSearchPaths();
+  std::vector<utility::file::FilePath> storedFrameworkSearchPaths = applicationSettings->getFrameworkSearchPaths();
 
-  applicationSettings->setHeaderSearchPaths({FilePath(L"test/header/search/path")});
-  applicationSettings->setFrameworkSearchPaths({FilePath(L"test/framework/search/path")});
+  applicationSettings->setHeaderSearchPaths({utility::file::FilePath(L"test/header/search/path")});
+  applicationSettings->setFrameworkSearchPaths({utility::file::FilePath(L"test/framework/search/path")});
 
   generateAndCompareExpectedOutput(
       projectName, std::make_shared<SourceGroupCxxEmpty>(sourceGroupSettings));
@@ -328,8 +328,8 @@ TEST_CASE("source group cxx cpp empty generates expected output") {
 
 TEST_CASE("source group cxx codeblocks generates expected output") {
   const std::wstring projectName = L"cxx_codeblocks";
-  const FilePath cbpPath = getInputDirectoryPath(projectName).concatenate(L"project.cbp");
-  const FilePath sourceCbpPath = getInputDirectoryPath(projectName).concatenate(L"project.cbp.in");
+  const utility::file::FilePath cbpPath = getInputDirectoryPath(projectName).concatenate(L"project.cbp");
+  const utility::file::FilePath sourceCbpPath = getInputDirectoryPath(projectName).concatenate(L"project.cbp.in");
 
   FileSystem::remove(cbpPath);
 
@@ -352,7 +352,7 @@ TEST_CASE("source group cxx codeblocks generates expected output") {
   sourceGroupSettings->setCppStandard(L"c++11");
   sourceGroupSettings->setCStandard(L"c11");
   sourceGroupSettings->setExcludeFilterStrings({L"**/excluded/**"});
-  sourceGroupSettings->setIndexedHeaderPaths({FilePath(L"test/indexed/header/path")});
+  sourceGroupSettings->setIndexedHeaderPaths({utility::file::FilePath(L"test/indexed/header/path")});
   sourceGroupSettings->setSourceExtensions({L".cpp", L".c"});
   sourceGroupSettings->setHeaderSearchPaths(
       {getInputDirectoryPath(projectName).concatenate(L"header_search/local")});
@@ -362,11 +362,11 @@ TEST_CASE("source group cxx codeblocks generates expected output") {
 
   std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
 
-  std::vector<FilePath> storedHeaderSearchPaths = applicationSettings->getHeaderSearchPaths();
-  std::vector<FilePath> storedFrameworkSearchPaths = applicationSettings->getFrameworkSearchPaths();
+  std::vector<utility::file::FilePath> storedHeaderSearchPaths = applicationSettings->getHeaderSearchPaths();
+  std::vector<utility::file::FilePath> storedFrameworkSearchPaths = applicationSettings->getFrameworkSearchPaths();
 
-  applicationSettings->setHeaderSearchPaths({FilePath(L"test/header/search/path")});
-  applicationSettings->setFrameworkSearchPaths({FilePath(L"test/framework/search/path")});
+  applicationSettings->setHeaderSearchPaths({utility::file::FilePath(L"test/header/search/path")});
+  applicationSettings->setFrameworkSearchPaths({utility::file::FilePath(L"test/framework/search/path")});
 
   generateAndCompareExpectedOutput(
       projectName, std::make_shared<SourceGroupCxxCodeblocks>(sourceGroupSettings));
@@ -385,7 +385,7 @@ TEST_CASE("source group cxx cdb generates expected output") {
 
   std::shared_ptr<SourceGroupSettingsCxxCdb> sourceGroupSettings =
       std::make_shared<SourceGroupSettingsCxxCdb>("fake_id", &projectSettings);
-  sourceGroupSettings->setIndexedHeaderPaths({FilePath(L"test/indexed/header/path")});
+  sourceGroupSettings->setIndexedHeaderPaths({utility::file::FilePath(L"test/indexed/header/path")});
   sourceGroupSettings->setCompilationDatabasePath(
       getInputDirectoryPath(projectName).concatenate(L"compile_commands.json"));
   sourceGroupSettings->setExcludeFilterStrings({L"**/excluded/**"});
@@ -397,11 +397,11 @@ TEST_CASE("source group cxx cdb generates expected output") {
 
   std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
 
-  std::vector<FilePath> storedHeaderSearchPaths = applicationSettings->getHeaderSearchPaths();
-  std::vector<FilePath> storedFrameworkSearchPaths = applicationSettings->getFrameworkSearchPaths();
+  std::vector<utility::file::FilePath> storedHeaderSearchPaths = applicationSettings->getHeaderSearchPaths();
+  std::vector<utility::file::FilePath> storedFrameworkSearchPaths = applicationSettings->getFrameworkSearchPaths();
 
-  applicationSettings->setHeaderSearchPaths({FilePath(L"test/header/search/path")});
-  applicationSettings->setFrameworkSearchPaths({FilePath(L"test/framework/search/path")});
+  applicationSettings->setHeaderSearchPaths({utility::file::FilePath(L"test/header/search/path")});
+  applicationSettings->setFrameworkSearchPaths({utility::file::FilePath(L"test/framework/search/path")});
 
   generateAndCompareExpectedOutput(
       projectName, std::make_shared<SourceGroupCxxCdb>(sourceGroupSettings));
@@ -433,9 +433,9 @@ TEST_CASE("sourcegroup java empty generates expected output") {
 
   std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
 
-  std::vector<FilePath> storedJreSystemLibraryPaths = applicationSettings->getJreSystemLibraryPaths();
+  std::vector<utility::file::FilePath> storedJreSystemLibraryPaths = applicationSettings->getJreSystemLibraryPaths();
 
-  applicationSettings->setJreSystemLibraryPaths({FilePath(L"test/jre/system/library/path.jar")});
+  applicationSettings->setJreSystemLibraryPaths({utility::file::FilePath(L"test/jre/system/library/path.jar")});
 
   generateAndCompareExpectedOutput(
       projectName, std::make_shared<SourceGroupJavaEmpty>(sourceGroupSettings));
@@ -461,11 +461,11 @@ TEST_CASE("sourcegroup java gradle generates expected output") {
 
   std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
 
-  const FilePath storedAppPath = AppPath::getSharedDataDirectoryPath();
+  const utility::file::FilePath storedAppPath = AppPath::getSharedDataDirectoryPath();
   AppPath::setSharedDataDirectoryPath(storedAppPath.getConcatenated(L"../app").makeAbsolute());
 
-  std::vector<FilePath> storedJreSystemLibraryPaths = applicationSettings->getJreSystemLibraryPaths();
-  applicationSettings->setJreSystemLibraryPaths({FilePath(L"test/jre/system/library/path.jar")});
+  std::vector<utility::file::FilePath> storedJreSystemLibraryPaths = applicationSettings->getJreSystemLibraryPaths();
+  applicationSettings->setJreSystemLibraryPaths({utility::file::FilePath(L"test/jre/system/library/path.jar")});
 
   generateAndCompareExpectedOutput(
       projectName, std::make_shared<SourceGroupJavaGradle>(sourceGroupSettings));
@@ -476,7 +476,7 @@ TEST_CASE("sourcegroup java gradle generates expected output") {
 }
 
 TEST_CASE("sourcegroup java maven generates expected output") {
-  std::vector<FilePath> mavenPaths = utility::getMavenExecutablePathDetector()->getPaths();
+  std::vector<utility::file::FilePath> mavenPaths = utility::getMavenExecutablePathDetector()->getPaths();
 
   REQUIRE(!mavenPaths.empty());
 
@@ -500,9 +500,9 @@ TEST_CASE("sourcegroup java maven generates expected output") {
 
   std::shared_ptr<ApplicationSettings> applicationSettings = ApplicationSettings::getInstance();
 
-  std::vector<FilePath> storedJreSystemLibraryPaths = applicationSettings->getJreSystemLibraryPaths();
+  std::vector<utility::file::FilePath> storedJreSystemLibraryPaths = applicationSettings->getJreSystemLibraryPaths();
 
-  applicationSettings->setJreSystemLibraryPaths({FilePath(L"test/jre/system/library/path.jar")});
+  applicationSettings->setJreSystemLibraryPaths({utility::file::FilePath(L"test/jre/system/library/path.jar")});
 
   generateAndCompareExpectedOutput(
       projectName, std::make_shared<SourceGroupJavaMaven>(sourceGroupSettings));

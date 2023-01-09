@@ -518,7 +518,7 @@ void QtMainWindow::newProject() {
   wizard->newProject();
 }
 
-void QtMainWindow::newProjectFromCDB(const FilePath& filePath) {
+void QtMainWindow::newProjectFromCDB(const utility::file::FilePath& filePath) {
   QtProjectWizard* wizard = dynamic_cast<QtProjectWizard*>(m_windowStack.getTopWindow());
   if(!wizard) {
     wizard = createWindow<QtProjectWizard>();
@@ -529,10 +529,10 @@ void QtMainWindow::newProjectFromCDB(const FilePath& filePath) {
 
 void QtMainWindow::openProject() {
   QString fileName = QtFileDialog::getOpenFileName(
-      this, tr("Open File"), FilePath(), QStringLiteral("Sourcetrail Project Files (*.srctrlprj)"));
+      this, tr("Open File"), utility::file::FilePath(), QStringLiteral("Sourcetrail Project Files (*.srctrlprj)"));
 
   if(!fileName.isEmpty()) {
-    MessageLoadProject(FilePath(fileName.toStdWString())).dispatch();
+    MessageLoadProject(utility::file::FilePath(fileName.toStdWString())).dispatch();
     m_windowStack.clearWindows();
   }
 }
@@ -610,7 +610,7 @@ void QtMainWindow::forceRefresh() {
 
 void QtMainWindow::saveAsImage() {
   QString filePath = QtFileDialog::showSaveFileDialog(
-      this, tr("Save as Image"), FilePath(), "PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp)");
+      this, tr("Save as Image"), utility::file::FilePath(), "PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp)");
   if(filePath.isNull()) {
     return;
   }
@@ -640,8 +640,8 @@ void QtMainWindow::resetZoom() {
 }
 
 void QtMainWindow::resetWindowLayout() {
-  FileSystem::remove(UserPaths::getWindowSettingsFilePath());
-  FileSystem::copyFile(
+  utility::file::FileSystem::remove(UserPaths::getWindowSettingsFilePath());
+  utility::file::FileSystem::copyFile(
       ResourcePaths::getFallbackDirectoryPath().concatenate(L"window_settings.ini"),
       UserPaths::getWindowSettingsFilePath());
   loadDockWidgetLayout();
@@ -650,7 +650,7 @@ void QtMainWindow::resetWindowLayout() {
 void QtMainWindow::openRecentProject() {
   QAction* action = qobject_cast<QAction*>(sender());
   if(action) {
-    MessageLoadProject(FilePath(action->data().toString().toStdWString())).dispatch();
+    MessageLoadProject(utility::file::FilePath(action->data().toString().toStdWString())).dispatch();
     m_windowStack.clearWindows();
   }
 }
@@ -658,11 +658,11 @@ void QtMainWindow::openRecentProject() {
 void QtMainWindow::updateRecentProjectsMenu() {
   m_recentProjectsMenu->clear();
 
-  const std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
+  const std::vector<utility::file::FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
   const size_t recentProjectsCount = ApplicationSettings::getInstance()->getMaxRecentProjectsCount();
 
   for(size_t i = 0; i < recentProjects.size() && i < recentProjectsCount; ++i) {
-    const FilePath& project = recentProjects[i];
+    const utility::file::FilePath& project = recentProjects[i];
     if(project.exists()) {
       QAction* recentProject = new QAction(this);
       recentProject->setText(QString::fromStdWString(project.fileName()));
