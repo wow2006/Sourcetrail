@@ -39,6 +39,9 @@ set(BUILD_FUNC
 set(BUILD_BENCHMARK
     OFF
     CACHE BOOL "Build benchmarks")
+set(BUILD_DOC
+    OFF
+    CACHE BOOL "Build documentation")
 
 include(cmake/compiler_warnings.cmake)
 include(cmake/add_files.cmake)
@@ -74,6 +77,10 @@ if(NOT DEFINED CMAKE_CXX_COMPILER_LAUNCHER)
         "${CCACHE_PROGRAM}"
         CACHE STRING "Compiler launcher for CXX")
   endif()
+endif()
+
+if(BUILD_DOC)
+  include(cmake/doxygen.cmake)
 endif()
 
 # Variables --------------------------------------------------------------------
