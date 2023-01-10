@@ -57,6 +57,7 @@ set(test_files
     UtilityStringTestSuite
     UtilityTestSuite
     UtilityXmlTestSuite
+    UtilityFileTestSuite
     Vector2TestSuite
     VersionTestSuite)
 
@@ -66,6 +67,7 @@ foreach(test_file IN LISTS test_files)
   target_link_libraries(
     ${test_file}
     PRIVATE test_utilities
+            Sourcetrail::lib
             Sourcetrail::lib_gui
             $<$<BOOL:${BUILD_CXX_LANGUAGE_PACKAGE}>:${LIB_CXX_PROJECT_NAME}>
             $<$<BOOL:${ENABLE_ADDRESS_ASAN}>:Sanaitizer::Address>

@@ -3,42 +3,37 @@
 #include "FileSystem.h"
 #include "logging.h"
 #include "utility.h"
+#include <cstdint>
 
 namespace utility::file {
 
 std::vector<FilePath> partitionFilePathsBySize(const std::vector<FilePath>& filePaths,
-                                               int partitionCount) {
+                                               uint32_t partitionCount) {
   using PairType = std::pair<uint64_t, FilePath>;
   std::vector<PairType> sourceFileSizesToCommands;
-  for(const FilePath& path: filePaths) {
-    if(path.exists()) {
-      sourceFileSizesToCommands.emplace_back(FileSystem::getFileByteSize(path), path);
-    } else {
-      sourceFileSizesToCommands.emplace_back(1, path);
-    }
-  }
+  ranges::cpp20::transform(filePaths, ranges::back_inserter(sourceFileSizesToCommands), [](const auto& path) {
+    return path.exists() ? PairType {FileSystem::getFileByteSize(path), path} : PairType {1, path};
+  });
 
   std::sort(sourceFileSizesToCommands.begin(),
             sourceFileSizesToCommands.end(),
-            [](const PairType& aType, const PairType& bType) { return aType.first > bType.first; });
+            [](const auto& aType, const auto& bType) { return aType.first > bType.first; });
 
-  if(0 < partitionCount && partitionCount < static_cast<int>(sourceFileSizesToCommands.size())) {
-    for(int i = 0; i < partitionCount; i++) {
-      std::sort(
-          sourceFileSizesToCommands.begin() + sourceFileSizesToCommands.size() * i / partitionCount,
-          sourceFileSizesToCommands.begin() +
-              sourceFileSizesToCommands.size() * (i + 1) / partitionCount,
-          [](const PairType& aType, const PairType& bType) {
-            return aType.second.wstr() < bType.second.wstr();
-          });
+  const auto filesSize = static_cast<uint32_t>(sourceFileSizesToCommands.size());
+  if(0 < partitionCount && partitionCount < filesSize) {
+    for(uint32_t i = 0; i < partitionCount; i++) {
+      std::sort(sourceFileSizesToCommands.begin() + filesSize * i / partitionCount,
+                sourceFileSizesToCommands.begin() + filesSize * (i + 1) / partitionCount,
+                [](const auto& aType, const auto& bType) {
+                  return aType.second.wstr() < bType.second.wstr();
+                });
     }
   }
 
   std::vector<FilePath> sortedFilePaths;
-  sortedFilePaths.reserve(sourceFileSizesToCommands.size());
-  for(const PairType& pair: sourceFileSizesToCommands) {
-    sortedFilePaths.push_back(pair.second);
-  }
+  ranges::cpp20::transform(sourceFileSizesToCommands,
+                           ranges::back_inserter(sortedFilePaths),
+                           [](const auto& item) { return item.second; });
   return sortedFilePaths;
 }
 

@@ -4,8 +4,16 @@
 
 namespace utility::file {
 
+/**
+ * @brief Sort the files by file size
+ *
+ * @param filePaths list of files to sort
+ * @param partitionCount partitioncount
+ *
+ * @return sorted list
+ */
 std::vector<FilePath> partitionFilePathsBySize(const std::vector<FilePath>& filePaths,
-                                               int partitionCount = 0);
+                                               uint32_t partitionCount = 0);
 
 std::vector<FilePath> getTopLevelPaths(const std::vector<FilePath>& paths);
 
