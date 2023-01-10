@@ -13,6 +13,8 @@ target_sources(Sourcetrail_lib_logger PRIVATE lib/utility/logging/Logger.cpp)
 
 target_include_directories(Sourcetrail_lib_logger PUBLIC ${CMAKE_CURRENT_LIST_DIR}/lib/utility/logging/)
 
+target_link_libraries(Sourcetrail_lib_logger PUBLIC fmt::fmt)
+
 target_precompile_headers(Sourcetrail_lib_logger PUBLIC lib/precompiled.hpp)
 
 set_project_warnings(Sourcetrail_lib_logger)
@@ -34,7 +36,7 @@ target_sources(
           lib/utility/file/FileTree.cpp
           lib/utility/file/utilityFile.cpp)
 
-target_link_libraries(Sourcetrail_lib_utility_file PRIVATE Sourcetrail::lib_utility Sourcetrail::lib::logger)
+target_link_libraries(Sourcetrail_lib_utility_file PRIVATE fmt::fmt Sourcetrail::lib_utility Sourcetrail::lib::logger)
 
 target_include_directories(
   Sourcetrail_lib_utility_file

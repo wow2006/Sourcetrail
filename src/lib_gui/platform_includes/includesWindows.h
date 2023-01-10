@@ -55,7 +55,7 @@ void setupApp(int argc, char* argv[]) {
         userDataPath = AppPath::getSharedDataDirectoryPath().concatenate(L"user_fallback/");
         LOG_ERROR(L"The \"%LOCALAPPDATA%\" path could not be found. Falling back to \"" +
                   userDataPath.wstr() + L"\" to store settings data.");
-        FileSystem::createDirectory(userDataPath);
+        utility::file::FileSystem::createDirectory(userDataPath);
       }
     }
 
@@ -63,10 +63,10 @@ void setupApp(int argc, char* argv[]) {
   }
 
   // This "copyFile" method does nothing if the copy destination already exist
-  FileSystem::copyFile(
+  utility::file::FileSystem::copyFile(
       ResourcePaths::getFallbackDirectoryPath().concatenate(L"ApplicationSettings.xml"),
       UserPaths::getAppSettingsFilePath());
-  FileSystem::copyFile(
+  utility::file::FileSystem::copyFile(
       ResourcePaths::getFallbackDirectoryPath().concatenate(L"window_settings.ini"),
       UserPaths::getWindowSettingsFilePath());
 }
