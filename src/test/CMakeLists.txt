@@ -25,6 +25,7 @@ set(test_files
     FilePathFilterTestSuite
     FilePathTestSuite
     FileSystemTestSuite
+    FileTreeTestSuite
     GraphTestSuite
     HierarchyCacheTestSuite
     JavaIndexSampleProjectsTestSuite
