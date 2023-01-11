@@ -1,31 +1,15 @@
 // Catch2
-#include "ScopedFunctor.h"
 #include "catch.hpp"
 // Internal
 #include "FilePath.h"
 #include "utilityFile.h"
-#include <algorithm>
-#include <cstdint>
-#include <filesystem>
-#include <iterator>
-#include <system_error>
+#include "ScopedFunctor.h"
+#include "helper/TestFileUtilities.h"
+
 
 namespace fs = std::filesystem;
 using namespace utility::file;    // NOLINT(google-build-using-namespace)
 using FilePaths = std::vector<FilePath>;
-
-FilePath operator""_f(const char* pFilePath, std::size_t size) {
-  return FilePath {std::string {pFilePath, size}};
-}
-
-FilePath createFileWithSize(const std::filesystem::path& filePath, size_t fileSize) {
-  std::vector<uint8_t> buffer(fileSize);
-  std::ofstream output(filePath, std::ios::binary);
-  output.write(
-      reinterpret_cast<char*>(buffer.data()),    // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
-      static_cast<std::streamsize>(fileSize));
-  return FilePath {filePath};
-}
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
 TEST_CASE("partitionFilePathsBySize", "[utility,file]") {
