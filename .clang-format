@@ -64,7 +64,7 @@ SpaceBeforeCpp11BracedList: true
 SpaceBeforeCtorInitializerColon: false
 SpaceBeforeInheritanceColon: true
 SpaceBeforeParens: Never
-SpaceBeforeRangeBasedForLoopColon: false
+SpaceBeforeRangeBasedForLoopColon: true
 SpaceInEmptyBlock: false
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 4
