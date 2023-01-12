@@ -1,15 +1,17 @@
 // catch
+#include "ScopedFunctor.h"
 #include "catch.hpp"
 // internal
 #include "FilePath.h"
 #include "FileSystem.h"
-#include "utility.h"
 #include "helper/TestFileUtilities.h"
+#include "utility.h"
+#include <filesystem>
 
 namespace {
 
-bool isInFiles(const std::set<utility::file::FilePath>& files,
-               const utility::file::FilePath& filename) {
+[[maybe_unused]] bool isInFiles(const std::set<utility::file::FilePath>& files,
+                                const utility::file::FilePath& filename) {
   return std::end(files) != files.find(filename);
 }
 
@@ -19,9 +21,9 @@ bool isInFileInfos(const std::vector<utility::file::FileInfo>& infos, const std:
   });
 }
 
-bool isInFileInfos(const std::vector<utility::file::FileInfo>& infos,
-                   const std::wstring& filename,
-                   const std::wstring& filename2) {
+[[maybe_unused]] bool isInFileInfos(const std::vector<utility::file::FileInfo>& infos,
+                                    const std::wstring& filename,
+                                    const std::wstring& filename2) {
   return ranges::cpp20::any_of(infos, [filename, filename2](const auto& info) {
     return info.path.wstr() == utility::file::FilePath(filename).getCanonical().wstr() ||
         info.path.wstr() == utility::file::FilePath(filename2).getCanonical().wstr();
@@ -125,36 +127,107 @@ TEST_CASE("find symlinked directories", "[utility,file]") {
 }
 
 namespace fs = std::filesystem;
-using namespace utility::file;
+using namespace utility::file;    // NOLINT(google-build-using-namespace)
 using FilePaths = std::vector<FilePath>;
 
-class RecursiveSubDirectoriesFixture {
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+TEST_CASE("create Directory", "[utility,file]") {
+  SECTION("empty") {
+    REQUIRE_FALSE(FileSystem::createDirectory({}));
+  }
+
+  SECTION("invalid") {
+    REQUIRE_FALSE(FileSystem::createDirectory("/not/exists/"_f));
+  }
+
+  SECTION("exists") {
+    fs::path directory = "test_dir";
+    std::error_code errorCode;
+    fs::create_directory(directory, errorCode);
+
+    ScopedFunctor cleanDirectoryAtExit([&]() {
+      std::error_code errorCode;
+      fs::remove_all(directory, errorCode);
+    });
+
+    REQUIRE_FALSE(FileSystem::createDirectory(FilePath {directory}));
+  }
+
+  SECTION("goocase") {
+    fs::path directory = "test_dir";
+    ScopedFunctor cleanDirectoryAtExit([&]() {
+      std::error_code errorCode;
+      fs::remove_all(directory, errorCode);
+    });
+    FileSystem::createDirectory(FilePath {directory});
+    REQUIRE(fs::exists(directory));
+    REQUIRE(fs::is_directory(directory));
+  }
+}
+
+// NOLINTNEXTLINE(hicpp-special-member-functions,cppcoreguidelines-special-member-functions)
+class SubDirectoriesFixture {
 public:
-  RecursiveSubDirectoriesFixture() {
+  SubDirectoriesFixture() {
     std::error_code errorCode;
     for(const auto& dir : mTreePaths) {
       fs::create_directories(dir.str(), errorCode);
     }
+    createFileWithSize("root/a.cpp", 1);
   }
 
-  ~RecursiveSubDirectoriesFixture() {
+  ~SubDirectoriesFixture() {
     std::error_code errorCode;
     fs::remove_all(mRootPath.str(), errorCode);
   }
 
-  FilePath mRootPath = "root"_f;
+  FilePath mRootPath = "root"_f;    // NOLINT(misc-non-private-member-variables-in-classes)
+  // NOLINTNEXTLINE(misc-non-private-member-variables-in-classes)
   FilePaths mTreePaths {
-    "root/dir_0"_f,
-    "root/dir_1/temp_0/a/"_f,
-    "root/dir_2/temp_1/"_f,
-    "root/dir_3"_f,
+      "root/dir_0"_f,
+      "root/dir_1/temp_0/a/"_f,
+      "root/dir_2/temp_1/"_f,
+      "root/dir_3"_f,
   };
 };
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
-TEST_CASE_METHOD(RecursiveSubDirectoriesFixture, "get Recursive SubDirectories", "[utility,file]") {
+TEST_CASE_METHOD(SubDirectoriesFixture, "get DirectSub Directories", "[utility,file]") {
+  SECTION("empty") {
+    const auto output = FileSystem::getDirectSubDirectories({});
+    REQUIRE(output.empty());
+  }
+
+  SECTION("pass file") {
+    const auto output = FileSystem::getDirectSubDirectories("root/a.cpp"_f);
+    REQUIRE(output.empty());
+  }
+
+  SECTION("not exists") {
+    const auto output = FileSystem::getDirectSubDirectories("not-exists"_f);
+    REQUIRE(output.empty());
+  }
+
+  SECTION("one directory") {
+    const auto output = FileSystem::getDirectSubDirectories("root/dir_1/temp_0/"_f);
+    REQUIRE(output.size() == 1);
+  }
+
+  SECTION("goodcase") {
+    const auto output = FileSystem::getDirectSubDirectories("root"_f);
+    REQUIRE(output.size() == 4);
+  }
+}
+
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+TEST_CASE_METHOD(SubDirectoriesFixture, "get Recursive SubDirectories", "[utility,file]") {
   SECTION("empty") {
     const auto output = FileSystem::getRecursiveSubDirectories({});
+    REQUIRE(output.empty());
+  }
+
+  SECTION("pass file") {
+    const auto output = FileSystem::getRecursiveSubDirectories("root/a.cpp"_f);
     REQUIRE(output.empty());
   }
 

@@ -6,6 +6,8 @@
 
 #include "utilityString.h"
 
+namespace fs = std::filesystem;
+
 namespace utility::file {
 
 std::vector<FilePath> FileSystem::getFilePathsFromDirectory(
@@ -212,16 +214,16 @@ bool FileSystem::copy_directory(const FilePath& fromPath, const FilePath& toPath
   return true;
 }
 
-void FileSystem::createDirectory(const FilePath& path) {
-  boost::filesystem::create_directories(path.str());
-  path.recheckExists();
+bool FileSystem::createDirectory(const FilePath& directory) {
+  std::error_code errorCode;
+  return std::filesystem::create_directories(directory.str(), errorCode);
 }
 
-std::vector<FilePath> FileSystem::getDirectSubDirectories(const FilePath& path) {
+std::vector<FilePath> FileSystem::getDirectSubDirectories(const FilePath& directory) {
   std::vector<FilePath> subDirectories;
 
-  if(path.exists() && path.isDirectory()) {
-    for(boost::filesystem::directory_iterator end, dir(path.str()); dir != end; dir++) {
+  if(directory.exists() && directory.isDirectory()) {
+    for(boost::filesystem::directory_iterator end, dir(directory.str()); dir != end; dir++) {
       if(boost::filesystem::is_directory(dir->path())) {
         subDirectories.emplace_back(dir->path().wstring());
       }
@@ -231,11 +233,11 @@ std::vector<FilePath> FileSystem::getDirectSubDirectories(const FilePath& path) 
   return subDirectories;
 }
 
-std::vector<FilePath> FileSystem::getRecursiveSubDirectories(const FilePath& path) {
+std::vector<FilePath> FileSystem::getRecursiveSubDirectories(const FilePath& directory) {
   std::vector<FilePath> subDirectories;
 
-  if(path.exists() && path.isDirectory()) {
-    for(boost::filesystem::recursive_directory_iterator end, dir(path.str()); dir != end; ++dir) {
+  if(directory.exists() && directory.isDirectory()) {
+    for(boost::filesystem::recursive_directory_iterator end, dir(directory.str()); dir != end; ++dir) {
       if(boost::filesystem::is_directory(dir->path())) {
         subDirectories.emplace_back(dir->path().wstring());
       }

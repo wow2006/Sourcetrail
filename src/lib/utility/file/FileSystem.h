@@ -32,20 +32,36 @@ public:
 
   static bool copy_directory(const FilePath& fromPath, const FilePath& toPath);
 
-  static void createDirectory(const FilePath& path);
-
-  static std::vector<FilePath> getDirectSubDirectories(const FilePath& path);
+  /**
+   * @brief Create a directory.
+   *
+   * @param directory a directory path to create.
+   *
+   * @note if the directory exists it will return false.
+   *
+   * @return true if the directory is created successfully. false otherwise
+   */
+  static bool createDirectory(const FilePath& directory);
 
   /**
-   * @brief Get all recursive subDirectories
+   * @brief Get all subDirectories in the given directory.
    *
-   * @param path Root path
+   * @param directory Root directory.
+   *
+   * @return A list of directories.
+   */
+  static std::vector<FilePath> getDirectSubDirectories(const FilePath& directory);
+
+  /**
+   * @brief Get all recursive subDirectories.
+   *
+   * @param directory Root directory.
    *
    * @note empty input and not exists will return empty list
    *
-   * @return A list of subDirectories
+   * @return A list of subDirectories.
    */
-  static std::vector<FilePath> getRecursiveSubDirectories(const FilePath& path);
+  static std::vector<FilePath> getRecursiveSubDirectories(const FilePath& directory);
 };
 
 }    // namespace utility::file
