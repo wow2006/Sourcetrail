@@ -3,7 +3,6 @@
 #include <boost/date_time.hpp>
 #include <boost/date_time/c_local_time_adjustor.hpp>
 #include <boost/filesystem.hpp>
-#include <system_error>
 
 #include "utilityString.h"
 
@@ -179,10 +178,8 @@ TimeStamp FileSystem::getLastWriteTime(const FilePath& filePath) {
 }
 
 bool FileSystem::remove(const FilePath& path) {
-  boost::system::error_code errorCode;
-  const bool ret = boost::filesystem::remove(path.getPath(), errorCode);
-  path.recheckExists();
-  return ret;
+  std::error_code errorCode;
+  return fs::remove(path.str(), errorCode);
 }
 
 bool FileSystem::rename(const FilePath& fromPath, const FilePath& toPath) {

@@ -130,6 +130,33 @@ using namespace utility::file;    // NOLINT(google-build-using-namespace)
 using FilePaths = std::vector<FilePath>;
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
+TEST_CASE("remove File", "[utility,file]") {
+  SECTION("empty") {
+    REQUIRE_FALSE(FileSystem::remove({}));
+  }
+
+  SECTION("input not exists") {
+    const fs::path file = "1.cpp";
+
+    REQUIRE_FALSE(FileSystem::remove(FilePath{file}));
+  }
+
+  SECTION("goodcase") {
+    std::error_code errorCode;
+    const fs::path srcFile = "1.cpp";
+
+    createFileWithSize(srcFile, 1);
+    ScopedFunctor cleanDirectoryAtExit([&]() {
+      fs::remove(srcFile, errorCode);
+    });
+
+    REQUIRE(FileSystem::remove(FilePath{srcFile}));
+
+    REQUIRE_FALSE(fs::exists(srcFile, errorCode));
+  }
+}
+
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
 TEST_CASE("rename File", "[utility,file]") {
   SECTION("empty") {
     std::error_code errorCode;

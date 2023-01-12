@@ -24,10 +24,20 @@ public:
 
   static TimeStamp getLastWriteTime(const FilePath& filePath);
 
+  /**
+   * @brief Remove a file.
+   *
+   * @param path a file to rename
+   *
+   * @note if the src file is not exist, it will return false.
+   * @note if the src file empty, it will return false.
+   *
+   * @return true if removed succeeded, false otherwise.
+   */
   static bool remove(const FilePath& path);
 
   /**
-   * @brief Remove a file.
+   * @brief Rename a file.
    *
    * @param fromPath a file to rename.
    * @param toPath the destination file.
