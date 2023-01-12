@@ -26,6 +26,19 @@ public:
 
   static bool remove(const FilePath& path);
 
+  /**
+   * @brief Remove a file.
+   *
+   * @param fromPath a file to rename.
+   * @param toPath the destination file.
+   *
+   * @note if the src file is not exist, it will return false.
+   * @note if the dest file exists, it will return false.
+   * @note if the src file empty, it will return false.
+   * @note if the dest directory is invalid, it will return false.
+   *
+   * @return true if the rename succeeded, false otherwise.
+   */
   static bool rename(const FilePath& fromPath, const FilePath& toPath);
 
   /**

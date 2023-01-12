@@ -3,6 +3,7 @@
 #include <boost/date_time.hpp>
 #include <boost/date_time/c_local_time_adjustor.hpp>
 #include <boost/filesystem.hpp>
+#include <system_error>
 
 #include "utilityString.h"
 
@@ -189,9 +190,9 @@ bool FileSystem::rename(const FilePath& fromPath, const FilePath& toPath) {
     return false;
   }
 
-  boost::filesystem::rename(fromPath.getPath(), toPath.getPath());
-  toPath.recheckExists();
-  return true;
+  std::error_code errorCode;
+  fs::rename(fromPath.str(), toPath.str(), errorCode);
+  return errorCode.value() == 0;
 }
 
 bool FileSystem::copyFile(const FilePath& fromPath, const FilePath& toPath) {

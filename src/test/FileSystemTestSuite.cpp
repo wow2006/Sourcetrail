@@ -130,26 +130,24 @@ using namespace utility::file;    // NOLINT(google-build-using-namespace)
 using FilePaths = std::vector<FilePath>;
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
-TEST_CASE("copy File", "[utility,file]") {
+TEST_CASE("rename File", "[utility,file]") {
   SECTION("empty") {
     std::error_code errorCode;
-    const fs::path srcFile  = "1.cpp";
+    const fs::path srcFile = "1.cpp";
 
     createFileWithSize(srcFile, 1);
-    ScopedFunctor cleanDirectoryAtExit([&]() {
-      fs::remove(srcFile,  errorCode);
-    });
+    ScopedFunctor cleanDirectoryAtExit([&]() { fs::remove(srcFile, errorCode); });
 
-    REQUIRE_FALSE(FileSystem::copyFile({}, "2.cpp"_f));
-    REQUIRE_FALSE(FileSystem::copyFile("1.cpp"_f, {}));
+    REQUIRE_FALSE(FileSystem::rename({}, "2.cpp"_f));
+    REQUIRE_FALSE(FileSystem::rename("1.cpp"_f, {}));
   }
 
   SECTION("input not exists") {
     std::error_code errorCode;
-    const fs::path srcFile  = "1.cpp";
+    const fs::path srcFile = "1.cpp";
     const fs::path destFile = "2.cpp";
 
-    REQUIRE_FALSE(FileSystem::copyFile(FilePath{srcFile}, FilePath{destFile}));
+    REQUIRE_FALSE(FileSystem::rename(FilePath {srcFile}, FilePath {destFile}));
 
     REQUIRE_FALSE(fs::exists(srcFile, errorCode));
     REQUIRE_FALSE(fs::exists(destFile, errorCode));
@@ -157,46 +155,118 @@ TEST_CASE("copy File", "[utility,file]") {
 
   SECTION("output exists") {
     std::error_code errorCode;
-    const fs::path srcFile  = "1.cpp";
+    const fs::path srcFile = "1.cpp";
     const fs::path destFile = "2.cpp";
 
-    createFileWithSize(srcFile,  1);
+    createFileWithSize(srcFile, 1);
     createFileWithSize(destFile, 1);
     ScopedFunctor cleanDirectoryAtExit([&]() {
-      fs::remove(srcFile,  errorCode);
+      fs::remove(srcFile, errorCode);
       fs::remove(destFile, errorCode);
     });
 
-    REQUIRE_FALSE(FileSystem::copyFile(FilePath{srcFile}, FilePath{destFile}));
+    REQUIRE_FALSE(FileSystem::rename(FilePath {srcFile}, FilePath {destFile}));
   }
 
   SECTION("invalid output dir") {
     std::error_code errorCode;
-    const fs::path srcFile  = "1.cpp";
+    const fs::path srcFile = "1.cpp";
     const fs::path destFile = "/2.cpp";
 
     createFileWithSize(srcFile, 1);
     ScopedFunctor cleanDirectoryAtExit([&]() {
-      fs::remove(srcFile,  errorCode);
+      fs::remove(srcFile, errorCode);
       fs::remove(destFile, errorCode);
     });
 
-    REQUIRE_FALSE(FileSystem::copyFile(FilePath{srcFile}, FilePath{destFile}));
+    REQUIRE_FALSE(FileSystem::rename(FilePath {srcFile}, FilePath {destFile}));
     REQUIRE_FALSE(fs::exists(destFile, errorCode));
   }
 
   SECTION("goodcase") {
     std::error_code errorCode;
-    const fs::path srcFile  = "1.cpp";
+    const fs::path srcFile = "1.cpp";
     const fs::path destFile = "2.cpp";
 
     createFileWithSize(srcFile, 1);
     ScopedFunctor cleanDirectoryAtExit([&]() {
-      fs::remove(srcFile,  errorCode);
+      fs::remove(srcFile, errorCode);
       fs::remove(destFile, errorCode);
     });
 
-    REQUIRE(FileSystem::copyFile(FilePath{srcFile}, FilePath{destFile}));
+    REQUIRE(FileSystem::rename(FilePath {srcFile}, FilePath {destFile}));
+
+    REQUIRE_FALSE(fs::exists(srcFile, errorCode));
+    REQUIRE(fs::exists(destFile, errorCode));
+  }
+}
+
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+TEST_CASE("copy File", "[utility,file]") {
+  SECTION("empty") {
+    std::error_code errorCode;
+    const fs::path srcFile = "1.cpp";
+
+    createFileWithSize(srcFile, 1);
+    ScopedFunctor cleanDirectoryAtExit([&]() { fs::remove(srcFile, errorCode); });
+
+    REQUIRE_FALSE(FileSystem::copyFile({}, "2.cpp"_f));
+    REQUIRE_FALSE(FileSystem::copyFile("1.cpp"_f, {}));
+  }
+
+  SECTION("input not exists") {
+    std::error_code errorCode;
+    const fs::path srcFile = "1.cpp";
+    const fs::path destFile = "2.cpp";
+
+    REQUIRE_FALSE(FileSystem::copyFile(FilePath {srcFile}, FilePath {destFile}));
+
+    REQUIRE_FALSE(fs::exists(srcFile, errorCode));
+    REQUIRE_FALSE(fs::exists(destFile, errorCode));
+  }
+
+  SECTION("output exists") {
+    std::error_code errorCode;
+    const fs::path srcFile = "1.cpp";
+    const fs::path destFile = "2.cpp";
+
+    createFileWithSize(srcFile, 1);
+    createFileWithSize(destFile, 1);
+    ScopedFunctor cleanDirectoryAtExit([&]() {
+      fs::remove(srcFile, errorCode);
+      fs::remove(destFile, errorCode);
+    });
+
+    REQUIRE_FALSE(FileSystem::copyFile(FilePath {srcFile}, FilePath {destFile}));
+  }
+
+  SECTION("invalid output dir") {
+    std::error_code errorCode;
+    const fs::path srcFile = "1.cpp";
+    const fs::path destFile = "/2.cpp";
+
+    createFileWithSize(srcFile, 1);
+    ScopedFunctor cleanDirectoryAtExit([&]() {
+      fs::remove(srcFile, errorCode);
+      fs::remove(destFile, errorCode);
+    });
+
+    REQUIRE_FALSE(FileSystem::copyFile(FilePath {srcFile}, FilePath {destFile}));
+    REQUIRE_FALSE(fs::exists(destFile, errorCode));
+  }
+
+  SECTION("goodcase") {
+    std::error_code errorCode;
+    const fs::path srcFile = "1.cpp";
+    const fs::path destFile = "2.cpp";
+
+    createFileWithSize(srcFile, 1);
+    ScopedFunctor cleanDirectoryAtExit([&]() {
+      fs::remove(srcFile, errorCode);
+      fs::remove(destFile, errorCode);
+    });
+
+    REQUIRE(FileSystem::copyFile(FilePath {srcFile}, FilePath {destFile}));
 
     REQUIRE(fs::exists(srcFile, errorCode));
     REQUIRE(fs::exists(destFile, errorCode));
@@ -218,9 +288,7 @@ TEST_CASE("create Directory", "[utility,file]") {
     std::error_code errorCode;
     fs::create_directory(directory, errorCode);
 
-    ScopedFunctor cleanDirectoryAtExit([&]() {
-      fs::remove_all(directory, errorCode);
-    });
+    ScopedFunctor cleanDirectoryAtExit([&]() { fs::remove_all(directory, errorCode); });
 
     REQUIRE_FALSE(FileSystem::createDirectory(FilePath {directory}));
   }
