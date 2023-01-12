@@ -28,6 +28,19 @@ public:
 
   static bool rename(const FilePath& fromPath, const FilePath& toPath);
 
+  /**
+   * @brief Copy a file to destination.
+   *
+   * @param fromPath source file to copy.
+   * @param toPath destination file.
+   *
+   * @note if the src file is not exist, it will return false.
+   * @note if the dest file exists, it will return false.
+   * @note if the src file empty, it will return false.
+   * @note if the dest directory is invalid, it will return false.
+   *
+   * @return true if the copy succeeded, false otherwise.
+   */
   static bool copyFile(const FilePath& fromPath, const FilePath& toPath);
 
   /**

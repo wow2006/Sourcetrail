@@ -199,14 +199,13 @@ bool FileSystem::copyFile(const FilePath& fromPath, const FilePath& toPath) {
     return false;
   }
 
-  boost::filesystem::copy_file(fromPath.getPath(), toPath.getPath());
-  toPath.recheckExists();
-  return true;
+  std::error_code errorCode;
+  return fs::copy_file(fromPath.str(), toPath.str(), errorCode);
 }
 
 bool FileSystem::createDirectory(const FilePath& directory) {
   std::error_code errorCode;
-  return std::filesystem::create_directories(directory.str(), errorCode);
+  return fs::create_directories(directory.str(), errorCode);
 }
 
 std::vector<FilePath> FileSystem::getDirectSubDirectories(const FilePath& directory) {
