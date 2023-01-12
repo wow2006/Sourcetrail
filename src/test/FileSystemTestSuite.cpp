@@ -1,17 +1,15 @@
+// catch
 #include "catch.hpp"
-
-#include <algorithm>
-#include <fstream>
-#include <string>
-#include <vector>
-
-#include <range/v3/algorithm/any_of.hpp>
-
+// internal
+#include "FilePath.h"
 #include "FileSystem.h"
 #include "utility.h"
+#include "helper/TestFileUtilities.h"
 
 namespace {
-bool isInFiles(const std::set<utility::file::FilePath>& files, const utility::file::FilePath& filename) {
+
+bool isInFiles(const std::set<utility::file::FilePath>& files,
+               const utility::file::FilePath& filename) {
   return std::end(files) != files.find(filename);
 }
 
@@ -29,11 +27,13 @@ bool isInFileInfos(const std::vector<utility::file::FileInfo>& infos,
         info.path.wstr() == utility::file::FilePath(filename2).getCanonical().wstr();
   });
 }
+
 }    // namespace
 
-TEST_CASE("find cpp files", "[lib]") {
+TEST_CASE("find cpp files", "[utility,file]") {
   std::vector<std::wstring> cppFiles = utility::convert<utility::file::FilePath, std::wstring>(
-      utility::file::FileSystem::getFilePathsFromDirectory(utility::file::FilePath(L"data/FileSystemTestSuite"), {L".cpp"}),
+      utility::file::FileSystem::getFilePathsFromDirectory(
+          utility::file::FilePath(L"data/FileSystemTestSuite"), {L".cpp"}),
       [](const utility::file::FilePath& filePath) { return filePath.wstr(); });
 
   REQUIRE(cppFiles.size() == 4);
@@ -46,9 +46,10 @@ TEST_CASE("find cpp files", "[lib]") {
       utility::containsElement<std::wstring>(cppFiles, L"data/FileSystemTestSuite/src/test.cpp"));
 }
 
-TEST_CASE("find h files", "[lib]") {
+TEST_CASE("find h files", "[utility,file]") {
   std::vector<std::wstring> headerFiles = utility::convert<utility::file::FilePath, std::wstring>(
-      utility::file::FileSystem::getFilePathsFromDirectory(utility::file::FilePath(L"data/FileSystemTestSuite"), {L".h"}),
+      utility::file::FileSystem::getFilePathsFromDirectory(
+          utility::file::FilePath(L"data/FileSystemTestSuite"), {L".h"}),
       [](const utility::file::FilePath& filePath) { return filePath.wstr(); });
 
   REQUIRE(headerFiles.size() == 3);
@@ -60,7 +61,7 @@ TEST_CASE("find h files", "[lib]") {
       utility::containsElement<std::wstring>(headerFiles, L"data/FileSystemTestSuite/src/test.h"));
 }
 
-TEST_CASE("find all source files", "[lib]") {
+TEST_CASE("find all source files", "[utility,file]") {
   std::vector<std::wstring> sourceFiles = utility::convert<utility::file::FilePath, std::wstring>(
       utility::file::FileSystem::getFilePathsFromDirectory(
           utility::file::FilePath(L"data/FileSystemTestSuite"), {L".h", L".hpp", L".cpp"}),
@@ -69,7 +70,7 @@ TEST_CASE("find all source files", "[lib]") {
   REQUIRE(sourceFiles.size() == 8);
 }
 
-TEST_CASE("find file infos", "[lib]") {
+TEST_CASE("find file infos", "[utility,file]") {
 #ifndef _WIN32
   std::vector<utility::file::FilePath> directoryPaths;
   directoryPaths.emplace_back(L"./data/FileSystemTestSuite/src");
@@ -84,7 +85,7 @@ TEST_CASE("find file infos", "[lib]") {
 }
 
 #if 0
-TEST_CASE("find file infos with symlinks", "[lib]") {
+TEST_CASE("find file infos with symlinks", "[utility,file]") {
 #  ifndef _WIN32
   std::vector<utility::file::FilePath> directoryPaths;
   directoryPaths.emplace_back(L"./data/FileSystemTestSuite/src");
@@ -111,13 +112,69 @@ TEST_CASE("find file infos with symlinks", "[lib]") {
 }
 #endif
 
-TEST_CASE("find symlinked directories", "[lib]") {
+TEST_CASE("find symlinked directories", "[utility,file]") {
 #ifndef _WIN32
   std::vector<utility::file::FilePath> directoryPaths;
   directoryPaths.emplace_back("./data/FileSystemTestSuite/src");
 
-  std::set<utility::file::FilePath> dirs = utility::file::FileSystem::getSymLinkedDirectories(directoryPaths);
+  std::set<utility::file::FilePath> dirs = utility::file::FileSystem::getSymLinkedDirectories(
+      directoryPaths);
 
   REQUIRE(dirs.size() == 2);
 #endif
+}
+
+namespace fs = std::filesystem;
+using namespace utility::file;
+using FilePaths = std::vector<FilePath>;
+
+class RecursiveSubDirectoriesFixture {
+public:
+  RecursiveSubDirectoriesFixture() {
+    std::error_code errorCode;
+    for(const auto& dir : mTreePaths) {
+      fs::create_directories(dir.str(), errorCode);
+    }
+  }
+
+  ~RecursiveSubDirectoriesFixture() {
+    std::error_code errorCode;
+    fs::remove_all(mRootPath.str(), errorCode);
+  }
+
+  FilePath mRootPath = "root"_f;
+  FilePaths mTreePaths {
+    "root/dir_0"_f,
+    "root/dir_1/temp_0/a/"_f,
+    "root/dir_2/temp_1/"_f,
+    "root/dir_3"_f,
+  };
+};
+
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+TEST_CASE_METHOD(RecursiveSubDirectoriesFixture, "get Recursive SubDirectories", "[utility,file]") {
+  SECTION("empty") {
+    const auto output = FileSystem::getRecursiveSubDirectories({});
+    REQUIRE(output.empty());
+  }
+
+  SECTION("not exists") {
+    const auto output = FileSystem::getRecursiveSubDirectories("not-exists"_f);
+    REQUIRE(output.empty());
+  }
+
+  SECTION("empty directory") {
+    const auto output = FileSystem::getRecursiveSubDirectories("root/dir_2/temp_1/"_f);
+    REQUIRE(output.empty());
+  }
+
+  SECTION("one directory") {
+    const auto output = FileSystem::getRecursiveSubDirectories("root/dir_1/temp_0/"_f);
+    REQUIRE(output.size() == 1);
+  }
+
+  SECTION("goodcase") {
+    const auto output = FileSystem::getRecursiveSubDirectories("root"_f);
+    REQUIRE(output.size() == 7);
+  }
 }

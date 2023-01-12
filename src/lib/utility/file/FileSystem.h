@@ -36,6 +36,15 @@ public:
 
   static std::vector<FilePath> getDirectSubDirectories(const FilePath& path);
 
+  /**
+   * @brief Get all recursive subDirectories
+   *
+   * @param path Root path
+   *
+   * @note empty input and not exists will return empty list
+   *
+   * @return A list of subDirectories
+   */
   static std::vector<FilePath> getRecursiveSubDirectories(const FilePath& path);
 };
 

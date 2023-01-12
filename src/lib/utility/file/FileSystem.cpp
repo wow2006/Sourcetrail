@@ -48,7 +48,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(const std::vector<FilePa
                                                         const std::vector<std::wstring>& fileExtensions,
                                                         bool followSymLinks) {
   std::set<std::wstring> ext;
-  for(const auto& extension: fileExtensions) {
+  for(const auto& extension : fileExtensions) {
     ext.insert(utility::toLowerCase(extension));
   }
 
@@ -57,7 +57,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(const std::vector<FilePa
 
   std::vector<FileInfo> files;
 
-  for(const FilePath& path: paths) {
+  for(const FilePath& path : paths) {
     if(path.isDirectory()) {
       boost::filesystem::recursive_directory_iterator iterator(
           path.getPath(), boost::filesystem::symlink_option::recurse);
@@ -122,7 +122,7 @@ std::set<FilePath> FileSystem::getSymLinkedDirectories(const FilePath& path) {
 std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePath>& paths) {
   std::set<boost::filesystem::path> symlinkDirs;
 
-  for(const auto& path: paths) {
+  for(const auto& path : paths) {
     if(path.isDirectory()) {
       boost::filesystem::recursive_directory_iterator iterator(
           path.getPath(), boost::filesystem::symlink_option::recurse);
@@ -154,7 +154,7 @@ std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePat
   }
 
   std::set<FilePath> files;
-  for(const auto& dir: symlinkDirs) {
+  for(const auto& dir : symlinkDirs) {
     files.insert(FilePath(dir.wstring()));
   }
   return files;
@@ -235,7 +235,7 @@ std::vector<FilePath> FileSystem::getRecursiveSubDirectories(const FilePath& pat
   std::vector<FilePath> subDirectories;
 
   if(path.exists() && path.isDirectory()) {
-    for(boost::filesystem::recursive_directory_iterator end, dir(path.str()); dir != end; dir++) {
+    for(boost::filesystem::recursive_directory_iterator end, dir(path.str()); dir != end; ++dir) {
       if(boost::filesystem::is_directory(dir->path())) {
         subDirectories.emplace_back(dir->path().wstring());
       }
