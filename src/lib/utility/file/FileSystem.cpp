@@ -204,16 +204,6 @@ bool FileSystem::copyFile(const FilePath& fromPath, const FilePath& toPath) {
   return true;
 }
 
-bool FileSystem::copy_directory(const FilePath& fromPath, const FilePath& toPath) {
-  if(!fromPath.recheckExists() || toPath.recheckExists()) {
-    return false;
-  }
-
-  boost::filesystem::copy_directory(fromPath.getPath(), toPath.getPath());
-  toPath.recheckExists();
-  return true;
-}
-
 bool FileSystem::createDirectory(const FilePath& directory) {
   std::error_code errorCode;
   return std::filesystem::create_directories(directory.str(), errorCode);

@@ -30,8 +30,6 @@ public:
 
   static bool copyFile(const FilePath& fromPath, const FilePath& toPath);
 
-  static bool copy_directory(const FilePath& fromPath, const FilePath& toPath);
-
   /**
    * @brief Create a directory.
    *
