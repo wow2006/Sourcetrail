@@ -17,7 +17,7 @@ FileRegister::FileRegister(const utility::file::FilePath& currentPath,
       }
 
       if(!ret) {
-        for(const utility::file::FilePath& indexedPath: m_indexedPaths) {
+        for(const utility::file::FilePath& indexedPath : m_indexedPaths) {
           if(indexedPath.isDirectory()) {
             if(indexedPath.contains(filePath)) {
               ret = true;

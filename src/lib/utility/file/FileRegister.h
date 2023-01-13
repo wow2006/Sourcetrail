@@ -6,8 +6,18 @@
 
 namespace utility::file {
 
+/**
+ * @brief
+ */
 class FileRegister {
 public:
+  /**
+   * @brief
+   *
+   * @param currentPath
+   * @param indexedPaths
+   * @param excludeFilters
+   */
   FileRegister(const FilePath& currentPath,
                std::set<FilePath> indexedPaths,
                std::set<FilePathFilter> excludeFilters);

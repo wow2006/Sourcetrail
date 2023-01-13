@@ -4,7 +4,7 @@ namespace utility::file {
 
 FilePathFilter::FilePathFilter(std::wstring filterString)
     : m_filterString(std::move(filterString))
-    , m_filterRegex(convertFilterStringToRegex(filterString)) {}
+    , m_filterRegex(convertFilterStringToRegex(m_filterString)) {}
 
 std::wstring FilePathFilter::wstr() const {
   return m_filterString;

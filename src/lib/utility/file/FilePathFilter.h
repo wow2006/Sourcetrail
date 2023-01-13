@@ -4,11 +4,19 @@
 
 namespace utility::file {
 
-class FilePathFilter {
+/**
+ * @brief
+ */
+class FilePathFilter final {
 public:
   template <typename ContainerType>
   static bool areMatching(const ContainerType& filters, const utility::file::FilePath& filePath);
 
+  /**
+   * @brief Create a filter using a refex like pattern.
+   *
+   * @param filterString a regex like file path.
+   */
   explicit FilePathFilter(std::wstring filterString);
 
   [[nodiscard]] std::wstring wstr() const;
