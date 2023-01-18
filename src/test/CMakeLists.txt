@@ -18,6 +18,7 @@ target_link_libraries(test_utilities PUBLIC catch::catch Sourcetrail::lib
 set(test_files
     CommandlineTestSuite
     ConfigManagerTestSuite
+    ComponentFactoryTestSuite
     CxxIncludeProcessingTestSuite
     CxxParserTestSuite
     CxxTypeNameTestSuite
